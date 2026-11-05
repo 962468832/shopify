@@ -678,6 +678,11 @@ body.size-guide-lock{position:fixed;inset-inline:0;width:100%}
 .size-guide__table thead span{font-size:11px;color:#998f89}
 .size-guide__table tbody tr:nth-child(even){background:#faf8f6}
 .size-guide__note{font-size:13px;line-height:1.65;color:#6c625c;margin:24px 0 0}
+.size-guide__how-to{margin-top:34px}
+.size-guide__how-to h3{font-size:19px;margin-bottom:18px}
+.size-guide__how-to p{font-size:14px;line-height:1.65;color:#6c625c;margin:0 0 10px}
+.size-guide__how-to strong{color:var(--ink);font-weight:600}
+.size-guide__how-to img,.size-guide__measurement-image{display:block;width:auto;max-width:100%;height:auto;max-height:440px;object-fit:contain;margin-top:22px;background:#faf8f6}
 .size-guide__measurements{display:grid;gap:14px}
 .size-guide__measurements article{display:flex;gap:16px;padding:20px;border:1px solid var(--line)}
 .size-guide__measurements article>span{font-size:12px;color:#998f89}
