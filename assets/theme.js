@@ -9,6 +9,10 @@
     if (!drawer) return;
     drawer.classList.toggle('is-open', open);
     drawer.setAttribute('aria-hidden', String(!open));
+    if (drawer === cartDrawer) {
+      document.documentElement.classList.toggle('cart-drawer-lock', open);
+      document.body.classList.toggle('cart-drawer-lock', open);
+    }
   };
   const closeAllDrawers = () => {
     setDrawer(cartDrawer, false);

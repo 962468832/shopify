@@ -547,6 +547,14 @@ body{overflow-x:hidden}
 .cart-drawer{overflow:hidden}
 
 /* Upgraded cart drawer and quick shop */
+.cart-drawer.is-open .cart-drawer__panel{overflow:hidden}
+.cart-drawer__body{overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;flex:1 1 auto;min-height:0}
+.cart-items{border-top:1px solid var(--line)}
+.drawer-line:first-child{border-top:0}
+.cart-discount{clear:both;background:#fff;margin-top:0}
+.cart-recommendations{clear:both}
+.cart-summary{clear:both;background:#fff}
+html.cart-drawer-lock,body.cart-drawer-lock{overflow:hidden;height:100%;overscroll-behavior:none}
 .cart-drawer__panel{width:min(490px,100%);box-shadow:-20px 0 60px rgba(0,0,0,.18)}
 .cart-drawer__head{align-items:flex-start;border:0;padding:23px 24px 17px}
 .cart-drawer__head h2{font-size:32px;margin:8px 0 0}
