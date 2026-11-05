@@ -1,0 +1,5 @@
+[
+  {"name":"theme_info","theme_name":"Nuage-inspired","theme_version":"1.0.0","theme_author":"Ly Shopify","theme_support_email":"support@example.com","theme_documentation_url":"https://shopify.dev/docs/storefronts/themes"},
+  {"name":"Colors","settings":[{"type":"color","id":"color_ink","label":"Text","default":"#1d1b1a"},{"type":"color","id":"color_paper","label":"Background","default":"#f8f5f2"},{"type":"color","id":"color_accent","label":"Accent","default":"#f05ba7"},{"type":"color","id":"color_line","label":"Borders","default":"#ded8d3"}]},
+  {"name":"Typography","settings":[{"type":"font_picker","id":"heading_font","label":"Heading font","default":"assistant_n4"},{"type":"font_picker","id":"body_font","label":"Body font","default":"assistant_n4"}]}
+]

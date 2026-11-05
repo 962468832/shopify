@@ -1,0 +1,13 @@
+<section class="page-width auth-page">
+  <div class="auth-card">
+    <p class="eyebrow">My account</p><h1>Activate account</h1>
+    <p class="auth-card__intro">Create your password to finish activating your account.</p>
+    {% form 'activate_customer_password' %}
+      {{ form.errors | default_errors }}
+      <label for="ActivatePassword">Password<input type="password" id="ActivatePassword" name="customer[password]" autocomplete="new-password" required></label>
+      <label for="ActivatePasswordConfirm">Confirm password<input type="password" id="ActivatePasswordConfirm" name="customer[password_confirmation]" autocomplete="new-password" required></label>
+      <div class="form-actions"><button class="button button--dark button--full" type="submit">Activate account</button><button class="button button--light button--full" type="submit" name="decline">Decline invitation</button></div>
+    {% endform %}
+  </div>
+</section>
+{% schema %}{"name":"Activate account","settings":[]}{% endschema %}

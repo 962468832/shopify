@@ -1,0 +1,99 @@
+{% liquid
+  assign desktop_url = section.settings.image_url
+  assign mobile_url = section.settings.mobile_image_url
+  if section.settings.image != blank
+    assign desktop_url = section.settings.image | image_url: width: 2400
+    assign mobile_url = desktop_url
+  endif
+  if section.settings.mobile_image != blank
+    assign mobile_url = section.settings.mobile_image | image_url: width: 1200
+  endif
+  assign desktop_url = desktop_url | default: mobile_url
+%}
+<section class="home-hero" aria-labelledby="hero-{{ section.id }}">
+  {% if desktop_url != blank %}<picture>{% if mobile_url != blank %}<source media="(max-width:767px)" srcset="{{ mobile_url | escape }}">{% endif %}<img src="{{ desktop_url | escape }}" width="1920" height="1000" alt="{{ section.settings.image.alt | default: section.settings.image_alt | escape }}" fetchpriority="high"{% if section.settings.image != blank %} data-native-image="{{ section.settings.image.id }}"{% endif %}></picture>{% elsif request.design_mode %}<div class="home-media-placeholder">请选择首页电脑端和手机端图片</div>{% endif %}
+  <div class="home-hero__content"><h1 id="hero-{{ section.id }}">{{ section.settings.heading | escape }}</h1><p>{{ section.settings.text | escape }}</p><div class="home-hero__buttons">{% if section.settings.primary_label != blank %}<a class="home-pill home-pill--accent" href="{{ section.settings.primary_link | default: routes.all_products_collection_url }}">{{ section.settings.primary_label | escape }}</a>{% endif %}{% if section.settings.secondary_link != blank and section.settings.secondary_label != blank %}<a class="home-pill" href="{{ section.settings.secondary_link }}">{{ section.settings.secondary_label | escape }}</a>{% endif %}</div></div>
+</section>
+{% schema %}
+{
+  "name": "首页主视觉",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "电脑端图片",
+      "info": "从文件库选择或上传。未选择时沿用现有图片。"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_image",
+      "label": "手机端图片",
+      "info": "不选时使用电脑端图片。"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_legacy_media",
+      "label": "显示旧版素材地址",
+      "info": "仅兼容原有内容，日常更换素材请使用上方选择器。",
+      "default": false
+    },
+    {
+      "type": "url",
+      "id": "image_url",
+      "label": "旧版图片地址",
+      "visible_if": "{{ section.settings.show_legacy_media }}"
+    },
+    {
+      "type": "url",
+      "id": "mobile_image_url",
+      "label": "旧版手机图片地址",
+      "visible_if": "{{ section.settings.show_legacy_media }}"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "图片说明",
+      "default": "Nuage comfort underwear campaign"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "标题",
+      "default": "Underwear you can finally forget about."
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "描述",
+      "default": "No digging, no wedgies, no visible lines. Just breathable comfort that moves with your body."
+    },
+    {
+      "type": "text",
+      "id": "primary_label",
+      "label": "主按钮文字",
+      "default": "Shop by Underwear"
+    },
+    {
+      "type": "url",
+      "id": "primary_link",
+      "label": "主按钮链接"
+    },
+    {
+      "type": "text",
+      "id": "secondary_label",
+      "label": "次按钮文字",
+      "default": "Shop Best Sellers"
+    },
+    {
+      "type": "url",
+      "id": "secondary_link",
+      "label": "次按钮链接"
+    }
+  ],
+  "presets": [
+    {
+      "name": "首页主视觉"
+    }
+  ]
+}
+{% endschema %}

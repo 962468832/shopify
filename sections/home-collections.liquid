@@ -1,0 +1,92 @@
+<section class="home-collections home-container" aria-label="{{ section.settings.heading | escape }}">
+  {% for block in section.blocks %}{% assign selected_collection = block.settings.collection %}
+    <article class="home-collection" {{ block.shopify_attributes }}>
+      <a class="home-collection__cover" href="{{ block.settings.link | default: selected_collection.url | default: routes.all_products_collection_url }}">{% render 'home-image', image:block.settings.image, image_url:block.settings.image_url, title:block.settings.heading, width:900, height:1050 %}<div><h2>{{ block.settings.heading | escape }}</h2><p>{{ block.settings.description | escape }}</p>{% if block.settings.button_label != blank %}<span class="home-pill">{{ block.settings.button_label | escape }}</span>{% endif %}</div></a>
+      <div class="home-collection__products">{% if block.settings.products != blank %}{% for product in block.settings.products limit:4 %}{% render 'product-card', product:product, show_color_options:true %}{% endfor %}{% else %}{% for product in selected_collection.products limit:4 %}{% render 'product-card', product:product, show_color_options:true %}{% else %}{% if request.design_mode %}<p class="home-editor-empty">请选择商品或商品集合。</p>{% endif %}{% endfor %}{% endif %}</div>
+    </article>
+  {% endfor %}
+</section>
+{% schema %}
+{
+  "name": "双系列商品展示",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "无障碍区域名称",
+      "default": "Featured collections"
+    }
+  ],
+  "presets": [
+    {
+      "name": "双系列商品展示",
+      "blocks": [
+        {
+          "type": "collection"
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "系列卡片",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "图片",
+          "info": "从文件库选择或上传。未选择时沿用现有图片。"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_legacy_media",
+          "label": "显示旧版素材地址",
+          "info": "仅兼容原有内容，日常更换素材请使用上方选择器。",
+          "default": false
+        },
+        {
+          "type": "url",
+          "id": "image_url",
+          "label": "旧版图片地址",
+          "visible_if": "{{ block.settings.show_legacy_media }}"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "商品集合"
+        },
+        {
+          "type": "product_list",
+          "id": "products",
+          "label": "精选商品（可拖动排序）",
+          "limit": 4
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "标题",
+          "default": "Collection"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "描述"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "按钮文字",
+          "default": "Shop collection"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "链接（留空使用集合）"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 2
+}
+{% endschema %}

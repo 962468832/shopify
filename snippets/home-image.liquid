@@ -1,0 +1,12 @@
+{% liquid
+  assign media_url = image_url
+  if image != blank
+    assign media_url = image | image_url: width: 2000
+  endif
+  assign media_alt = image.alt | default: title
+%}
+{% if media_url != blank %}
+  <img src="{{ media_url | escape }}" width="{{ width | default: 900 }}" height="{{ height | default: 1050 }}" loading="{{ loading | default: 'lazy' }}" alt="{{ media_alt | escape }}"{% if image != blank %} data-native-image="{{ image.id }}"{% endif %}>
+{% elsif request.design_mode %}
+  <div class="home-media-placeholder">请选择或上传图片</div>
+{% endif %}

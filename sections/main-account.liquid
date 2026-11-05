@@ -1,0 +1,16 @@
+<section class="page-width account-page">
+  {% render 'account-sidebar' %}
+  <div class="account-content">
+    <header class="account-content__head">
+      <p class="eyebrow">Overview</p>
+      <h1>Your account</h1>
+      <p>Track orders, update your profile, and manage shipping details.</p>
+    </header>
+    <div class="account-summary-grid">
+      <a class="account-summary-card" href="{{ routes.account_url }}/orders"><span>Orders</span><strong>{{ customer.orders.size }}</strong><small>View order history</small></a>
+      <a class="account-summary-card" href="{{ routes.account_addresses_url }}"><span>Addresses</span><strong>{{ customer.addresses_count }}</strong><small>Manage addresses</small></a>
+      <a class="account-summary-card" href="{{ routes.account_url }}/profile"><span>Profile</span><strong>Details</strong><small>Name and contact information</small></a>
+    </div>
+  </div>
+</section>
+{% schema %}{"name":"Customer account","settings":[]}{% endschema %}

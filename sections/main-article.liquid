@@ -1,0 +1,9 @@
+{% assign word_count = article.content | strip_html | split: ' ' | size %}{% assign reading_minutes = word_count | divided_by: 200 %}{% if reading_minutes < 1 %}{% assign reading_minutes = 1 %}{% endif %}
+<article class="page-width article-page">
+  <header class="article-page__head"><p class="eyebrow">{% if article.tags.first != blank %}{{ article.tags.first }}{% else %}The Journal{% endif %}</p><h1>{{ article.title }}</h1><div class="article-meta">{{ article.published_at | date: '%B %d, %Y' }} · {{ reading_minutes }} min read</div></header>
+  {% if article.image %}<img class="article-page__image" src="{{ article.image | image_url: width: 1800 }}" width="1800" height="1100" alt="{{ article.image.alt | default: article.title | escape }}">{% endif %}
+  <div class="article-page__body rte">{{ article.content }}</div>
+  <nav class="article-page__footer" aria-label="Article navigation"><a href="{{ blog.url }}">← Back to journal</a><span>{% if blog.previous_article %}<a href="{{ blog.previous_article }}">Previous article</a>{% endif %}</span><span>{% if blog.next_article %}<a href="{{ blog.next_article }}">Next article</a>{% endif %}</span></nav>
+  {% assign recommended_collection = collections['2026-nucloud'] %}{% if recommended_collection != blank %}<section class="article-page__recommendations"><h2>Shop the comfort behind the story</h2><div class="product-grid">{% for product in recommended_collection.products limit: 4 %}{% render 'product-card', product: product, show_color_options: true %}{% endfor %}</div></section>{% endif %}
+</article>
+{% schema %}{"name":"Article","settings":[]}{% endschema %}

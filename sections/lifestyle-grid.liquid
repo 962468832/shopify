@@ -1,0 +1,87 @@
+<section class="home-section home-lifestyles"><div class="home-container"><div class="home-heading"><div><p class="home-eyebrow">{{ section.settings.eyebrow | escape }}</p><h2>{{ section.settings.heading | escape }}</h2></div></div><div class="home-lifestyle-grid">
+{% for block in section.blocks %}<a class="home-lifestyle" href="{{ block.settings.link | default: routes.all_products_collection_url }}" {{ block.shopify_attributes }}>{% render 'home-image', image:block.settings.image, image_url:block.settings.image_url, title:block.settings.title, width:600, height:800 %}<div><p class="home-eyebrow">{{ block.settings.label | escape }}</p><h3>{{ block.settings.title | escape }}</h3><p>{{ block.settings.copy | escape }}</p>{% if block.settings.button_label != blank %}<span class="home-text-link">{{ block.settings.button_label | escape }} →</span>{% endif %}</div></a>{% endfor %}
+</div></div></section>
+{% schema %}
+{
+  "name": "生活方式卡片",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "上方小标题",
+      "default": "Shop by Lifestyle"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "标题",
+      "default": "Built for how you actually live."
+    }
+  ],
+  "presets": [
+    {
+      "name": "生活方式卡片",
+      "blocks": [
+        {
+          "type": "lifestyle"
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "lifestyle",
+      "name": "生活方式卡片",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "图片",
+          "info": "从文件库选择或上传。未选择时沿用现有图片。"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_legacy_media",
+          "label": "显示旧版素材地址",
+          "info": "仅兼容原有内容，日常更换素材请使用上方选择器。",
+          "default": false
+        },
+        {
+          "type": "url",
+          "id": "image_url",
+          "label": "旧版图片地址",
+          "visible_if": "{{ block.settings.show_legacy_media }}"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "标签"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "标题",
+          "default": "Lifestyle"
+        },
+        {
+          "type": "textarea",
+          "id": "copy",
+          "label": "描述"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "按钮文字",
+          "default": "Explore"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "链接"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4
+}
+{% endschema %}

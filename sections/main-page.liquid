@@ -1,0 +1,16 @@
+<section class="page-width page-content">
+  <header class="page-content__head">
+    <p class="eyebrow">{{ page.title }}</p>
+    <h1>{{ page.title }}</h1>
+  </header>
+  <div class="page-content__body rte">
+    {% if page.handle == 'faq' %}
+      {% render 'faq-content' %}
+    {% elsif page.content != blank %}
+      {{ page.content }}
+    {% else %}
+      <p>We are updating this page. Please email <a href="mailto:info@nuagewears.com">info@nuagewears.com</a> if you need help.</p>
+    {% endif %}
+  </div>
+</section>
+{% schema %}{"name":"Page content","settings":[],"presets":[{"name":"Page content"}]}{% endschema %}

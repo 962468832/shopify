@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="canonical" href="{{ canonical_url }}">
+    <title>{% if page_title %}{{ page_title }} | {% endif %}{{ shop.name }}</title>
+    {{ content_for_header }}
+    {{ 'theme.css' | asset_url | stylesheet_tag }}
+    {% if request.page_type == 'index' %}{{ 'home.css' | asset_url | stylesheet_tag }}{% endif %}
+    {% style %}:root{--ink:{{ settings.color_ink | default: '#1d1b1a' }};--paper:{{ settings.color_paper | default: '#f8f5f2' }};--accent:{{ settings.color_accent | default: '#f05ba7' }};--line:{{ settings.color_line | default: '#ded8d3' }};}{% endstyle %}
+  </head>
+  <body class="template-{{ template.name }}">
+    <a class="skip-link" href="#MainContent">Skip to content</a>
+    {% section 'announcement-bar' %}
+    {% section 'header' %}
+    <main id="MainContent" role="main">{{ content_for_layout }}</main>
+    {% section 'footer' %}
+    <div class="cart-feedback" data-cart-feedback hidden><p role="status" aria-live="polite" aria-atomic="true" data-cart-feedback-message></p><a href="{{ routes.cart_url }}">View bag →</a><button type="button" data-cart-feedback-close aria-label="Dismiss notification">×</button></div>
+    <div id="cart-drawer" class="cart-drawer" aria-hidden="true"><div class="cart-drawer__backdrop" data-cart-close></div><aside class="cart-drawer__panel" role="dialog" aria-modal="true" aria-label="Cart"><div class="cart-drawer__head"><h2>Your bag</h2><button class="icon-button" data-cart-close aria-label="Close cart">&times;</button></div><div class="cart-drawer__body" data-cart-drawer-body><p class="empty-state">Your bag is empty.</p></div><div class="cart-drawer__foot"><div class="cart-total"><span>Subtotal (<span data-cart-count>{{ cart.item_count }}</span> items)</span><strong data-cart-total>{{ cart.total_price | money }}</strong></div><a class="button button--dark button--full" data-cart-checkout href="{{ routes.checkout_url }}">Buy now</a></div></aside></div>
+    <div id="wishlist-drawer" class="cart-drawer wishlist-drawer" aria-hidden="true"><div class="cart-drawer__backdrop" data-wishlist-close></div><aside class="cart-drawer__panel" role="dialog" aria-modal="true" aria-label="Wishlist"><div class="cart-drawer__head"><h2>Wishlist</h2><button class="icon-button" data-wishlist-close aria-label="Close wishlist">&times;</button></div><div class="cart-drawer__body" data-wishlist-body><p class="empty-state">Save pieces here while you browse.</p></div></aside></div>
+    <script>window.ShopifyRoutes={cartAdd:'{{ routes.cart_add_url }}',cartChange:'{{ routes.cart_change_url }}',cartJson:'{{ routes.cart_url }}.js',cartUrl:'{{ routes.cart_url }}',checkoutUrl:'{{ routes.checkout_url }}',allProductsUrl:'{{ routes.all_products_collection_url }}'};</script>
+    {% if template.name == 'customers' and template.suffix == 'addresses' %}<script src="{{ 'shopify_common.js' | shopify_asset_url }}" defer></script>{% endif %}
+    <script src="{{ 'theme.js' | asset_url }}" defer></script>
+    {% if template.name == 'customers' %}<script src="{{ 'customer.js' | asset_url }}" defer></script>{% endif %}
+    {% if request.page_type == 'index' %}<script src="{{ 'home.js' | asset_url }}" defer></script>{% endif %}
+    {% if request.page_type == 'product' %}<script src="{{ 'product.js' | asset_url }}" defer></script>{% endif %}
+  </body>
+</html>

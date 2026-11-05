@@ -1,0 +1,118 @@
+<section id="home-journal-{{ section.id }}" class="home-section home-journal"><div class="home-container"><div class="home-heading"><div><p class="home-eyebrow">{{ section.settings.eyebrow | escape }}</p><h2>{{ section.settings.heading | escape }}</h2></div>{% if section.settings.link_label != blank %}<a class="home-text-link" href="{% if section.settings.link != blank %}{{ section.settings.link }}{% else %}#home-journal-{{ section.id }}{% endif %}">{{ section.settings.link_label | escape }} →</a>{% endif %}</div><div class="home-journal-grid" tabindex="0" role="region" aria-label="{{ section.settings.heading | escape }}">
+{% for block in section.blocks %}<article class="home-journal-card" {{ block.shopify_attributes }}>{% render 'home-image', image:block.settings.image, image_url:block.settings.image_url, title:block.settings.heading, width:600, height:450 %}<small>{{ block.settings.category | escape }}</small><h3>{{ block.settings.heading | escape }}</h3><p>{{ block.settings.summary | escape }}</p>{% if block.settings.content != blank %}<button type="button" class="home-text-link" data-guide-open="guide-{{ section.id }}-{{ block.id }}" aria-haspopup="dialog">{{ block.settings.button_label | escape }} →</button>{% elsif request.design_mode %}<p class="home-editor-empty">填写文章正文后显示阅读按钮。</p>{% endif %}</article>{% endfor %}
+</div></div>
+{% for block in section.blocks %}{% if block.settings.content != blank %}<dialog class="home-guide" id="guide-{{ section.id }}-{{ block.id }}" aria-labelledby="guide-title-{{ section.id }}-{{ block.id }}"><button type="button" class="home-guide__close" data-guide-close aria-label="{{ section.settings.close_label | escape }}">×</button><p class="home-eyebrow">{{ block.settings.category | escape }}</p><h2 id="guide-title-{{ section.id }}-{{ block.id }}">{{ block.settings.heading | escape }}</h2><div>{{ block.settings.content }}</div>{% if block.settings.related_label != blank %}<a class="home-pill" href="{{ block.settings.link | default: routes.all_products_collection_url }}">{{ block.settings.related_label | escape }} →</a>{% endif %}</dialog>{% endif %}{% endfor %}
+</section>
+{% schema %}
+{
+  "name": "文章与穿着指南",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "上方小标题",
+      "default": "The Journal"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "标题",
+      "default": "Fit, comfort & care, decoded"
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "入口文字",
+      "default": "All Articles"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "入口链接（留空定位本模块）"
+    },
+    {
+      "type": "text",
+      "id": "close_label",
+      "label": "关闭面板提示",
+      "default": "Close article"
+    }
+  ],
+  "presets": [
+    {
+      "name": "文章与穿着指南",
+      "blocks": [
+        {
+          "type": "guide"
+        }
+      ]
+    }
+  ],
+  "blocks": [
+    {
+      "type": "guide",
+      "name": "文章卡片",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "图片",
+          "info": "从文件库选择或上传。未选择时沿用现有图片。"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_legacy_media",
+          "label": "显示旧版素材地址",
+          "info": "仅兼容原有内容，日常更换素材请使用上方选择器。",
+          "default": false
+        },
+        {
+          "type": "url",
+          "id": "image_url",
+          "label": "旧版图片地址",
+          "visible_if": "{{ block.settings.show_legacy_media }}"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "标题",
+          "default": "Article"
+        },
+        {
+          "type": "text",
+          "id": "category",
+          "label": "分类",
+          "default": "Fit Guide"
+        },
+        {
+          "type": "textarea",
+          "id": "summary",
+          "label": "摘要"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "文章正文"
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "阅读按钮文字",
+          "default": "Read Article"
+        },
+        {
+          "type": "text",
+          "id": "related_label",
+          "label": "面板按钮文字",
+          "default": "Explore the collection"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "面板按钮链接"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4
+}
+{% endschema %}

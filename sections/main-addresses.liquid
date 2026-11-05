@@ -1,0 +1,87 @@
+<section class="page-width account-page">
+  {% render 'account-sidebar' %}
+  <div class="account-content">
+    <header class="account-content__head account-content__head--row">
+      <div><p class="eyebrow">Addresses</p><h1>Addresses</h1><p>Manage your saved shipping addresses.</p></div>
+      <button class="button button--dark" type="button" data-address-toggle aria-expanded="false">+ Add a new address</button>
+    </header>
+    <div class="account-address-form" data-address-form hidden>
+      <h2>New address</h2>
+      {% form 'customer_address', customer.new_address, aria-labelledBy: 'AddressNewHeading' %}
+        {{ form.errors | default_errors }}
+        <div class="form-grid form-grid--two">
+          <label for="AddressFirstNameNew">First name<input type="text" id="AddressFirstNameNew" name="address[first_name]" value="{{ form.first_name }}" autocomplete="given-name"></label>
+          <label for="AddressLastNameNew">Last name<input type="text" id="AddressLastNameNew" name="address[last_name]" value="{{ form.last_name }}" autocomplete="family-name"></label>
+        </div>
+        <label for="AddressCompanyNew">Company<input type="text" id="AddressCompanyNew" name="address[company]" value="{{ form.company }}" autocomplete="organization"></label>
+        <label for="AddressAddress1New">Address 1<input type="text" id="AddressAddress1New" name="address[address1]" value="{{ form.address1 }}" autocomplete="address-line1" required></label>
+        <label for="AddressAddress2New">Address 2<input type="text" id="AddressAddress2New" name="address[address2]" value="{{ form.address2 }}" autocomplete="address-line2"></label>
+        <div class="form-grid form-grid--two">
+          <label for="AddressCityNew">City<input type="text" id="AddressCityNew" name="address[city]" value="{{ form.city }}" autocomplete="address-level2" required></label>
+          <label for="AddressCountryNew">Country/region<select id="AddressCountryNew" name="address[country]" data-default="{{ form.country }}" autocomplete="country" required>{{ all_country_option_tags }}</select></label>
+        </div>
+        <div class="form-grid form-grid--two" id="AddressProvinceContainerNew" hidden>
+          <label for="AddressProvinceNew">Province<select id="AddressProvinceNew" name="address[province]" data-default="{{ form.province }}" autocomplete="address-level1"></select></label>
+        </div>
+        <div class="form-grid form-grid--two">
+          <label for="AddressZipNew">Postal/ZIP code<input type="text" id="AddressZipNew" name="address[zip]" value="{{ form.zip }}" autocapitalize="characters" autocomplete="postal-code"></label>
+          <label for="AddressPhoneNew">Phone<input type="tel" id="AddressPhoneNew" name="address[phone]" value="{{ form.phone }}" autocomplete="tel"></label>
+        </div>
+        <label class="checkbox-label"><input type="checkbox" name="address[default]" value="1"> Set as default address</label>
+        <div class="form-actions"><button class="button button--dark" type="submit">Save address</button><button class="button button--light" type="button" data-address-toggle>Cancel</button></div>
+      {% endform %}
+    </div>
+    {% if customer.addresses.size > 0 %}
+      <div class="address-grid">
+        {% for address in customer.addresses %}
+          <article class="address-card{% if address.id == customer.default_address.id %} is-default{% endif %}">
+            <div class="address-card__body">
+              {{ address | format_address }}
+            </div>
+            <div class="address-card__actions">
+              <button type="button" data-address-toggle aria-expanded="false">Edit</button>
+              {% form 'customer_address', address %}
+                <input type="hidden" name="_method" value="delete">
+                <button type="submit">Delete</button>
+              {% endform %}
+              {% if address != customer.default_address %}
+                <form method="post" action="{{ routes.account_addresses_url }}/{{ address.id }}/default">
+                  <button type="submit">Set default</button>
+                </form>
+              {% endif %}
+            </div>
+            <div class="account-address-form" data-address-form hidden>
+              <h2>Edit address</h2>
+              {% form 'customer_address', address %}
+                {{ form.errors | default_errors }}
+                <div class="form-grid form-grid--two">
+                  <label for="AddressFirstName{{ forloop.index }}">First name<input type="text" id="AddressFirstName{{ forloop.index }}" name="address[first_name]" value="{{ address.first_name }}" autocomplete="given-name"></label>
+                  <label for="AddressLastName{{ forloop.index }}">Last name<input type="text" id="AddressLastName{{ forloop.index }}" name="address[last_name]" value="{{ address.last_name }}" autocomplete="family-name"></label>
+                </div>
+                <label for="AddressCompany{{ forloop.index }}">Company<input type="text" id="AddressCompany{{ forloop.index }}" name="address[company]" value="{{ address.company }}" autocomplete="organization"></label>
+                <label for="AddressAddress1{{ forloop.index }}">Address 1<input type="text" id="AddressAddress1{{ forloop.index }}" name="address[address1]" value="{{ address.address1 }}" autocomplete="address-line1" required></label>
+                <label for="AddressAddress2{{ forloop.index }}">Address 2<input type="text" id="AddressAddress2{{ forloop.index }}" name="address[address2]" value="{{ address.address2 }}" autocomplete="address-line2"></label>
+                <div class="form-grid form-grid--two">
+                  <label for="AddressCity{{ forloop.index }}">City<input type="text" id="AddressCity{{ forloop.index }}" name="address[city]" value="{{ address.city }}" autocomplete="address-level2" required></label>
+                  <label for="AddressCountry{{ forloop.index }}">Country/region<select id="AddressCountry{{ forloop.index }}" name="address[country]" data-default="{{ address.country }}" autocomplete="country" required>{{ all_country_option_tags }}</select></label>
+                </div>
+                <div class="form-grid form-grid--two" id="AddressProvinceContainer{{ forloop.index }}" hidden>
+                  <label for="AddressProvince{{ forloop.index }}">Province<select id="AddressProvince{{ forloop.index }}" name="address[province]" data-default="{{ address.province }}" autocomplete="address-level1"></select></label>
+                </div>
+                <div class="form-grid form-grid--two">
+                  <label for="AddressZip{{ forloop.index }}">Postal/ZIP code<input type="text" id="AddressZip{{ forloop.index }}" name="address[zip]" value="{{ address.zip }}" autocapitalize="characters" autocomplete="postal-code"></label>
+                  <label for="AddressPhone{{ forloop.index }}">Phone<input type="tel" id="AddressPhone{{ forloop.index }}" name="address[phone]" value="{{ address.phone }}" autocomplete="tel"></label>
+                </div>
+                <label class="checkbox-label"><input type="checkbox" name="address[default]" value="1"{% if address.id == customer.default_address.id %} checked{% endif %}> Set as default address</label>
+                <div class="form-actions"><button class="button button--dark" type="submit">Save changes</button><button class="button button--light" type="button" data-address-toggle>Cancel</button></div>
+              {% endform %}
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty-state account-empty"><p>You have no addresses saved.</p></div>
+    {% endif %}
+  </div>
+</section>
+{% schema %}{"name":"Customer addresses","settings":[]}{% endschema %}

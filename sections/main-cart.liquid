@@ -1,0 +1,25 @@
+<section class="page-width cart-page">
+  <div class="collection-head"><p class="eyebrow">Your bag</p><h1>Ready when you are.</h1></div>
+  {% if cart.item_count == 0 %}
+    <div class="empty-state"><p>Your bag is empty.</p><a class="button button--dark" href="{{ routes.all_products_collection_url }}">Shop now</a></div>
+  {% else %}
+    <form action="{{ routes.cart_url }}" method="post" class="cart-form">
+      <div class="cart-lines">
+        {% for item in cart.items %}
+          <article class="cart-line">
+            <a href="{{ item.url }}"><img src="{{ item.image | image_url: width: 240 }}" width="240" height="320" alt="{{ item.image.alt | escape }}"></a>
+            <div><a href="{{ item.url }}"><h2>{{ item.product.title }}</h2></a><p>{{ item.variant.title }}</p><p>{{ item.final_line_price | money }}</p><label>Qty <input type="number" min="0" name="updates[]" value="{{ item.quantity }}"></label></div>
+            <a class="text-link" href="{{ item.url_to_remove }}">Remove</a>
+          </article>
+        {% endfor %}
+      </div>
+      <aside class="cart-summary">
+        <div><span>Subtotal ({{ cart.item_count }} items)</span><strong>{{ cart.total_price | money }}</strong></div>
+        <p>Taxes and shipping calculated at checkout.</p>
+        <button class="button button--dark button--full" name="checkout" type="submit">Buy now</button>
+        {% if additional_checkout_buttons %}<div class="additional-checkout-buttons">{{ content_for_additional_checkout_buttons }}</div>{% endif %}
+        <button class="text-link" name="update" type="submit">Update bag</button>
+      </aside>
+    </form>
+  {% endif %}
+</section>

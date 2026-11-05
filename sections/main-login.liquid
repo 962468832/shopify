@@ -1,0 +1,27 @@
+<section class="page-width auth-page">
+  <div class="auth-card">
+    <p class="eyebrow">My account</p>
+    <h1>Sign in</h1>
+    <p class="auth-card__intro">Access your orders, addresses, and saved details.</p>
+    {% form 'customer_login', novalidate: 'novalidate' %}
+      {{ form.errors | default_errors }}
+      <label for="CustomerEmail">Email<input type="email" id="CustomerEmail" name="customer[email]" autocomplete="email" required></label>
+      <label for="CustomerPassword">Password<input type="password" id="CustomerPassword" name="customer[password]" autocomplete="current-password" required></label>
+      <button class="button button--dark button--full" type="submit">Sign in</button>
+      <div class="auth-card__links"><a href="{{ routes.account_register_url }}">Create account</a><button type="button" data-toggle-recover>Forgot password?</button></div>
+    {% endform %}
+  </div>
+  <div class="auth-card" data-recover-form hidden>
+    <p class="eyebrow">Reset password</p>
+    <h1>We can help.</h1>
+    <p class="auth-card__intro">Enter the email connected to your account and we will send a reset link.</p>
+    {% form 'recover_customer_password' %}
+      {{ form.errors | default_errors }}
+      {% if form.posted_successfully? %}<p class="form-success">Reset instructions have been sent.</p>{% endif %}
+      <label for="RecoverEmail">Email<input type="email" id="RecoverEmail" name="email" autocomplete="email" required></label>
+      <button class="button button--dark button--full" type="submit">Send reset link</button>
+      <div class="auth-card__links"><button type="button" data-toggle-login>Back to sign in</button></div>
+    {% endform %}
+  </div>
+</section>
+{% schema %}{"name":"Customer login","settings":[]}{% endschema %}

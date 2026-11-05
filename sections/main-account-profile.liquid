@@ -1,0 +1,19 @@
+<section class="page-width account-page">
+  {% render 'account-sidebar' %}
+  <div class="account-content">
+    <header class="account-content__head">
+      <p class="eyebrow">Profile</p>
+      <h1>Profile</h1>
+      <p>Your name and contact details.</p>
+    </header>
+    <div class="account-panel account-profile">
+      <dl class="summary-list">
+        <div><dt>Name</dt><dd>{{ customer.name }}</dd></div>
+        <div><dt>Email</dt><dd>{{ customer.email }}</dd></div>
+        <div><dt>Default address</dt><dd>{% if customer.default_address %}{{ customer.default_address | format_address }}{% else %}No default address saved.{% endif %}</dd></div>
+      </dl>
+      <a class="button button--dark" href="{{ routes.account_addresses_url }}">Manage addresses</a>
+    </div>
+  </div>
+</section>
+{% schema %}{"name":"Customer profile","settings":[]}{% endschema %}

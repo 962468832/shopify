@@ -1,0 +1,81 @@
+<section class="home-film" aria-labelledby="film-{{ section.id }}">
+  {% render 'home-video', video: section.settings.video, video_url: section.settings.video_url, poster: section.settings.poster, poster_url: section.settings.poster_url, title: section.settings.heading %}
+  <div class="home-film__copy"><p class="home-eyebrow">{{ section.settings.eyebrow | escape }}</p><h2 id="film-{{ section.id }}">{{ section.settings.heading | escape }}</h2><p class="home-film__tagline">{{ section.settings.tagline | escape }}</p><p class="home-film__description">{{ section.settings.description | escape }}</p>{% if section.settings.button_label != blank %}<a class="home-pill" href="{{ section.settings.link | default: routes.all_products_collection_url }}">{{ section.settings.button_label | escape }}</a>{% endif %}</div>
+</section>
+{% schema %}
+{
+  "name": "系列视频横幅",
+  "settings": [
+    {
+      "type": "video",
+      "id": "video",
+      "label": "视频",
+      "info": "从文件库选择或直接上传视频。未选择时沿用现有视频。"
+    },
+    {
+      "type": "image_picker",
+      "id": "poster",
+      "label": "视频封面",
+      "info": "不选封面时，使用所选视频的默认封面。"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_legacy_media",
+      "label": "显示旧版素材地址",
+      "info": "仅兼容原有内容，日常更换素材请使用上方选择器。",
+      "default": false
+    },
+    {
+      "type": "url",
+      "id": "video_url",
+      "label": "旧版视频地址",
+      "visible_if": "{{ section.settings.show_legacy_media }}"
+    },
+    {
+      "type": "url",
+      "id": "poster_url",
+      "label": "旧版封面地址",
+      "visible_if": "{{ section.settings.show_legacy_media }}"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "上方小标题",
+      "default": "Featured Collection"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "标题",
+      "default": "The NuCloud Collection"
+    },
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "副标题",
+      "default": "Our softest fabric, reimagined"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "描述"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "按钮文字",
+      "default": "Shop NuCloud"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "链接"
+    }
+  ],
+  "presets": [
+    {
+      "name": "系列视频横幅"
+    }
+  ]
+}
+{% endschema %}

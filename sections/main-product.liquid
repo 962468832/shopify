@@ -1,0 +1,48 @@
+{% assign current_variant = product.selected_or_first_available_variant %}
+{% assign main_image = current_variant.featured_image | default: product.featured_image %}
+<section class="page-width product-detail" data-product-detail data-currency="{{ cart.currency.iso_code }}">
+  <nav class="product-breadcrumb" aria-label="Breadcrumb"><a href="{{ routes.root_url }}">Home</a><span>/</span><a href="{{ routes.all_products_collection_url }}">Shop</a><span>/</span><span>{{ product.title }}</span></nav>
+  <div class="product-page">
+    <div class="product-gallery">
+      <div class="product-gallery__thumbs" aria-label="Product images">
+        {% for image in product.images %}<button type="button" data-product-thumb data-src="{{ image | image_url: width: 1400 }}" data-image-id="{{ image.id }}" data-alt="{{ image.alt | default: product.title | escape }}" aria-label="View image {{ forloop.index }}" aria-pressed="{% if image.id == main_image.id %}true{% else %}false{% endif %}"><img src="{{ image | image_url: width: 180 }}" width="180" height="240" alt="{{ image.alt | default: product.title | escape }}" loading="lazy"></button>{% endfor %}
+      </div>
+      <div class="product-gallery__main">{% if main_image %}<img data-product-main src="{{ main_image | image_url: width: 1400 }}" width="1400" height="1867" alt="{{ main_image.alt | default: product.title | escape }}" fetchpriority="high">{% endif %}</div>
+    </div>
+    <div class="product-info">
+      <p class="eyebrow">{{ product.vendor }} essentials</p>
+      <h1>{{ product.title }}</h1>
+      <div class="product-price"><span data-product-price>{{ current_variant.price | money }}</span><s data-product-compare{% unless current_variant.compare_at_price > current_variant.price %} hidden{% endunless %}>{{ current_variant.compare_at_price | money }}</s></div>
+      {% form 'product', product, data-product-form: '' %}
+        {% unless product.has_only_default_variant %}<div class="variant-options">
+          {% for option in product.options_with_values %}
+            {% assign option_index = forloop.index0 %}{% assign option_name = option.name | downcase %}
+            <fieldset class="product-option{% if option_name == 'color' or option_name == 'colour' %} product-option--color{% endif %}" data-option-group data-option-index="{{ option_index }}" data-option-name="{{ option.name | escape }}">
+              <legend>Select {{ option.name }} <span data-option-label>{{ current_variant.options[option_index] }}</span></legend>
+              <div class="product-option__values">
+                {% for value in option.values %}
+                  {% assign option_value = value.name | default: value %}
+                  {% assign option_image = false %}
+                  {% if option_name == 'color' or option_name == 'colour' %}{% for variant in product.variants %}{% if variant.options[option_index] == option_value and variant.featured_image %}{% assign option_image = variant.featured_image %}{% break %}{% endif %}{% endfor %}{% endif %}
+                  <label class="product-option__choice{% if option_image %} product-option__choice--image{% endif %}">
+                    <input type="radio" name="options[{{ option.name | escape }}]" value="{{ option_value | escape }}" data-product-option{% if current_variant.options[option_index] == option_value %} checked{% endif %}>
+                    <span class="product-option__tile">{% if option_image %}<img src="{{ option_image | image_url: width: 180 }}" width="90" height="120" alt="{{ option_value | escape }}" loading="lazy">{% endif %}<span>{{ option_value }}</span></span>
+                  </label>
+                {% endfor %}
+              </div>
+            </fieldset>
+          {% endfor %}
+        </div>{% endunless %}
+        <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
+        <div class="product-purchase"><label class="quantity-label">Quantity<span class="product-quantity"><button type="button" data-product-quantity="-1" aria-label="Decrease quantity">−</button><input class="quantity-input" type="number" name="quantity" min="1" value="1" aria-label="Quantity"><button type="button" data-product-quantity="1" aria-label="Increase quantity">+</button></span></label><button class="button button--dark button--full" type="submit" data-product-submit{% unless current_variant.available %} disabled{% endunless %}>{% if current_variant.available %}Add to bag{% else %}Sold out{% endif %}</button></div>
+        {% if product.available %}
+          <div class="product-payment-buttons"><button class="button button--danger button--full" type="button" data-product-buy-now>Buy now</button></div>
+        {% endif %}
+        <p class="product-availability" data-product-availability role="status" aria-live="polite"></p>
+      {% endform %}
+      <div class="product-promise"><span>✓</span><p>Soft, breathable comfort with easy returns and free shipping over $75.</p></div>
+    </div>
+  </div>
+  <section class="product-details" aria-labelledby="product-details-title"><p class="eyebrow">Made for everyday comfort</p><h2 id="product-details-title">Product details</h2><div class="product-description rte">{{ product.description }}</div></section>
+  <script type="application/json" data-product-json>{{ product | json }}</script>
+</section>

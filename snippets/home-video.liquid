@@ -1,0 +1,30 @@
+{% liquid
+  assign source_url = video_url
+  assign cover_url = poster_url
+  if video != blank
+    assign source_url = blank
+    for source in video.sources
+      if source.format == 'mp4'
+        assign source_url = source.url
+        if source.height == 720 or source.width == 720
+          break
+        endif
+      endif
+    endfor
+    assign cover_url = video.preview_image | image_url: width: 1600
+  endif
+  if poster != blank
+    assign cover_url = poster | image_url: width: 1600
+  endif
+%}
+<div class="home-video"{% if source_url != blank %} data-home-video data-video-mode="{{ mode | default: 'auto' }}"{% endif %}{% if video != blank %} data-native-video="{{ video.id }}"{% endif %}>
+  {% if source_url != blank %}
+    <video muted loop playsinline preload="none"{% if cover_url != blank %} poster="{{ cover_url | escape }}"{% endif %} data-src="{{ source_url | escape }}" aria-label="{{ title | escape }}"></video>
+    <button class="home-video__toggle" type="button" data-video-toggle aria-label="Play {{ title | escape }}" aria-pressed="false"><span aria-hidden="true">▶</span></button>
+  {% elsif cover_url != blank %}
+    <img src="{{ cover_url | escape }}" alt="{{ title | escape }}" width="900" height="1200" loading="lazy">
+    {% if request.design_mode %}<span class="home-media-notice">请选择或上传视频</span>{% endif %}
+  {% elsif request.design_mode %}
+    <div class="home-media-placeholder">请选择或上传视频，可另外设置封面</div>
+  {% endif %}
+</div>

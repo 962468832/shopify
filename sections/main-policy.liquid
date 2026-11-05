@@ -1,0 +1,5 @@
+{% if request.path contains 'privacy-policy' %}{% assign policy = shop.privacy_policy %}{% elsif request.path contains 'terms-of-service' %}{% assign policy = shop.terms_of_service %}{% elsif request.path contains 'refund' %}{% assign policy = shop.refund_policy %}{% elsif request.path contains 'shipping' %}{% assign policy = shop.shipping_policy %}{% endif %}
+<section class="page-width page-content">
+  <header class="page-content__head"><p class="eyebrow">Policies</p><h1>{{ policy.title | default: page_title }}</h1></header>
+  <div class="page-content__body rte">{{ policy.body | default: '<p>Please review the store policies before placing an order. Questions can be sent to <a href="mailto:info@nuagewears.com">info@nuagewears.com</a>.</p>' }}</div>
+</section>

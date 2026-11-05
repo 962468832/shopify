@@ -1,0 +1,69 @@
+{% assign selected_collection = section.settings.collection %}
+<section class="home-section home-products{% if section.settings.hide_heading %} home-products--compact{% endif %}" data-home-carousel>
+  <div class="home-container">{% unless section.settings.hide_heading %}<div class="home-heading"><div><h2>{{ section.settings.heading | escape }}</h2><p>{{ section.settings.description | escape }}</p></div>{% if section.settings.link_label != blank %}<a class="home-text-link" href="{{ section.settings.link | default: selected_collection.url | default: routes.all_products_collection_url }}">{{ section.settings.link_label | escape }} →</a>{% endif %}</div>{% endunless %}
+    <div class="home-rail home-product-rail" data-home-rail tabindex="0" role="region" aria-label="{{ section.settings.heading | default: 'Collection products' | escape }}">
+      {% if section.settings.products != blank %}{% for product in section.settings.products limit:section.settings.limit %}{% render 'product-card', product:product, show_color_options:true %}{% endfor %}{% else %}{% for product in selected_collection.products limit:section.settings.limit %}{% render 'product-card', product:product, show_color_options:true %}{% else %}{% if request.design_mode %}<p class="home-editor-empty">请选择商品，或选择一个有商品的集合。</p>{% endif %}{% endfor %}{% endif %}
+    </div>{% render 'home-rail-controls', label:section.settings.heading %}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "商品横向轮播",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "标题",
+      "default": "New Arrivals"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "描述",
+      "default": "The latest in effortless comfort."
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_heading",
+      "label": "隐藏标题",
+      "default": false
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "商品集合"
+    },
+    {
+      "type": "product_list",
+      "id": "products",
+      "label": "精选商品（可拖动排序）",
+      "limit": 12
+    },
+    {
+      "type": "range",
+      "id": "limit",
+      "label": "显示商品数量",
+      "min": 4,
+      "max": 12,
+      "step": 1,
+      "default": 6
+    },
+    {
+      "type": "text",
+      "id": "link_label",
+      "label": "入口文字",
+      "default": "Shop All"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "入口链接（留空使用集合）"
+    }
+  ],
+  "presets": [
+    {
+      "name": "商品横向轮播"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,17 @@
+<aside class="account-sidebar">
+  {% assign orders_url = routes.account_url | append: '/orders' %}
+  {% assign profile_url = routes.account_url | append: '/profile' %}
+  <div class="account-sidebar__identity">
+    <p class="eyebrow">Account</p>
+    <h2>Welcome, {{ customer.first_name | default: 'friend' }}{{ customer.last_name }}</h2>
+    <p>{{ customer.email }}</p>
+    <a class="button button--dark button--full" href="{{ routes.account_logout_url }}">Sign out</a>
+  </div>
+  <nav class="account-sidebar__nav" aria-label="Account navigation">
+    <a href="{{ routes.account_url }}"{% if request.path == routes.account_url %} aria-current="page"{% endif %}>Overview</a>
+    <a href="{{ orders_url }}"{% if request.path == orders_url %} aria-current="page"{% endif %}>Orders</a>
+    <a href="{{ profile_url }}"{% if request.path == profile_url %} aria-current="page"{% endif %}>Profile</a>
+    <a href="{{ routes.account_addresses_url }}"{% if request.path == routes.account_addresses_url %} aria-current="page"{% endif %}>Addresses</a>
+    <a href="{{ routes.account_url }}/rewards">The Cirrus Circle</a>
+  </nav>
+</aside>

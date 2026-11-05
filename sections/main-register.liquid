@@ -1,0 +1,17 @@
+<section class="page-width auth-page">
+  <div class="auth-card">
+    <p class="eyebrow">My account</p>
+    <h1>Create account</h1>
+    <p class="auth-card__intro">Track orders and check out faster next time.</p>
+    {% form 'create_customer', novalidate: 'novalidate' %}
+      {{ form.errors | default_errors }}
+      <label for="RegisterFirstName">First name<input type="text" id="RegisterFirstName" name="customer[first_name]" autocomplete="given-name"></label>
+      <label for="RegisterLastName">Last name<input type="text" id="RegisterLastName" name="customer[last_name]" autocomplete="family-name"></label>
+      <label for="RegisterEmail">Email<input type="email" id="RegisterEmail" name="customer[email]" autocomplete="email" required></label>
+      <label for="RegisterPassword">Password<input type="password" id="RegisterPassword" name="customer[password]" autocomplete="new-password" required></label>
+      <button class="button button--dark button--full" type="submit">Create account</button>
+      <div class="auth-card__links"><a href="{{ routes.account_login_url }}">Already have an account?</a></div>
+    {% endform %}
+  </div>
+</section>
+{% schema %}{"name":"Create account","settings":[]}{% endschema %}

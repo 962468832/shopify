@@ -1,0 +1,42 @@
+<section class="page-width account-page">
+  {% render 'account-sidebar' %}
+  <div class="account-content">
+    <header class="account-content__head">
+      <p class="eyebrow">Order {{ order.name }}</p>
+      <h1>Order details</h1>
+      <p>Placed {{ order.created_at | date: '%B %-d, %Y' }}</p>
+    </header>
+    <div class="order-detail-grid">
+      <div class="account-panel">
+        <h2>Items</h2>
+        {% for line_item in order.line_items %}
+          <article class="order-line">
+            <a href="{{ line_item.url }}">{{ line_item.title }}</a>
+            <p>{{ line_item.variant.title }}</p>
+            <span>{{ line_item.quantity }} × {{ line_item.final_price | money }}</span>
+            <strong>{{ line_item.final_line_price | money }}</strong>
+          </article>
+        {% endfor %}
+      </div>
+      <div class="order-detail-side">
+        <div class="account-panel">
+          <h2>Summary</h2>
+          <dl class="summary-list">
+            <div><dt>Subtotal</dt><dd>{{ order.line_items_subtotal_price | money }}</dd></div>
+            {% for shipping_method in order.shipping_methods %}<div><dt>Shipping ({{ shipping_method.title }})</dt><dd>{{ shipping_method.price | money }}</dd></div>{% endfor %}
+            {% for tax_line in order.tax_lines %}<div><dt>{{ tax_line.title }} {{ tax_line.rate | times: 100 }}%</dt><dd>{{ tax_line.price | money }}</dd></div>{% endfor %}
+            <div class="summary-total"><dt>Total</dt><dd>{{ order.total_price | money }}</dd></div>
+          </dl>
+        </div>
+        <div class="account-panel">
+          <h2>Status</h2>
+          <dl class="summary-list">
+            <div><dt>Payment</dt><dd>{{ order.financial_status_label }}</dd></div>
+            <div><dt>Fulfillment</dt><dd>{{ order.fulfillment_status_label }}</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% schema %}{"name":"Customer order","settings":[]}{% endschema %}

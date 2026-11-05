@@ -1,0 +1,10 @@
+{% assign featured_handles = 'undies-2026,bras-2026,apparel2026,accessories-2026,sale-2026,2026-nucloud,2026-nuair,nufit,2026-nuforme,nubloom' | split: ',' %}
+<section class="page-width list-collections-page">
+  <header class="list-collections-page__head"><p class="eyebrow">Explore Nuage</p><h1>Shop by collection</h1><p>Find the collection made for the way you want to feel, fit, and move every day.</p></header>
+  <div class="list-collections-grid">
+    {% assign rendered = 0 %}
+    {% for handle in featured_handles %}{% assign collection = collections[handle] %}{% if collection != blank %}{% assign rendered = rendered | plus: 1 %}{% assign collection_image = collection.image | default: collection.products.first.featured_image %}<a class="list-collections-card" href="{{ collection.url }}">{% if collection_image %}<img src="{{ collection_image | image_url: width: 900 }}" width="900" height="1125" alt="{{ collection.title | escape }}" loading="lazy">{% else %}<span class="list-collections-card__placeholder" aria-hidden="true"></span>{% endif %}<div class="list-collections-card__copy"><h2>{{ collection.title }}</h2><p>{{ collection.products_count }} products</p></div></a>{% endif %}{% endfor %}
+    {% if rendered == 0 %}<p class="empty-state">Collections are being updated. <a href="{{ routes.all_products_collection_url }}">Shop all products</a></p>{% endif %}
+  </div>
+</section>
+{% schema %}{"name":"Collection list","settings":[]}{% endschema %}
