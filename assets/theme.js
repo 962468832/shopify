@@ -283,9 +283,10 @@
   }
 
   function variantImage(product, variant) {
-    const image = variant?.featured_image || product.featured_image;
+    const image = variant?.featured_image || product.featured_image || product.images?.[0];
+    if (!image) return '';
     if (typeof image === 'string') return image;
-    return image?.url || '';
+    return image.src || image.url || image.originalSrc || image.original_src || '';
   }
 
   function optionButton(product, option, value, index) {

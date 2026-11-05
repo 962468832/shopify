@@ -620,7 +620,7 @@ html.cart-drawer-lock,body.cart-drawer-lock{overflow:hidden;height:100%;overscro
 .quick-shop-modal__head{display:flex;justify-content:space-between;align-items:center;padding:17px 20px 0}
 .quick-shop-modal__body{overflow:auto;padding:8px 20px 22px}
 .quick-shop-product{display:grid;grid-template-columns:minmax(0,.88fr) minmax(330px,1fr);gap:32px}
-.quick-shop-product__media img{width:100%;aspect-ratio:3/4;object-fit:cover;background:#eee1dc}
+.quick-shop-product__media img{display:block;width:100%;aspect-ratio:3/4;object-fit:cover;background:#eee1dc}
 .quick-shop-product__info{display:grid;align-content:start;gap:16px}
 .quick-shop-product__vendor{margin:0;font-size:10px;text-transform:uppercase;letter-spacing:.13em;color:#786e67}
 .quick-shop-product__info h2{font-family:'Playfair Display',serif;font-size:clamp(28px,3.3vw,40px);font-weight:400;line-height:1.08;margin:0}
