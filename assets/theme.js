@@ -412,9 +412,12 @@
   });
   const sizeGuide = qs('#fit-size-guide');
   let sizeGuideTrigger = null;
+  let sizeGuideScrollY = 0;
   function openSizeGuide(trigger) {
     if (!sizeGuide) return;
     sizeGuideTrigger = trigger || document.activeElement;
+    sizeGuideScrollY = window.scrollY;
+    if (!document.body.classList.contains('cart-drawer-lock') && !document.body.classList.contains('quick-shop-lock')) document.body.style.top = `-${sizeGuideScrollY}px`;
     sizeGuide.classList.add('is-open');
     sizeGuide.setAttribute('aria-hidden', 'false');
     document.documentElement.classList.add('size-guide-lock');
@@ -427,6 +430,10 @@
     sizeGuide.setAttribute('aria-hidden', 'true');
     document.documentElement.classList.remove('size-guide-lock');
     document.body.classList.remove('size-guide-lock');
+    if (!document.body.classList.contains('cart-drawer-lock') && !document.body.classList.contains('quick-shop-lock')) {
+      document.body.style.removeProperty('top');
+      window.scrollTo(0, sizeGuideScrollY);
+    }
     sizeGuideTrigger?.focus();
     sizeGuideTrigger = null;
   }
@@ -591,5 +598,5 @@
   qsa('[data-filter-close]').forEach((button) => button.addEventListener('click', closeFilters));
   filters?.addEventListener('click', (event) => { if (event.target === filters && window.matchMedia('(max-width: 900px)').matches) closeFilters(); });
   qs('.collection-filter-form')?.addEventListener('change', (event) => { if (event.target.matches('select[name="sort_by"]')) event.currentTarget.requestSubmit(); });
-  document.addEventListener('keydown', (event) => { if (event.key === 'Escape') { closeAllDrawers(); closeFilters(); setMenuOpen(false); qsa('[data-nav-mega]').forEach((item) => { item.classList.remove('is-open'); qs('.nav-mega__trigger', item)?.setAttribute('aria-expanded', 'false'); }); } });
+  document.addEventListener('keydown', (event) => { if (event.key === 'Escape' && !sizeGuide?.classList.contains('is-open')) { closeAllDrawers(); closeFilters(); setMenuOpen(false); qsa('[data-nav-mega]').forEach((item) => { item.classList.remove('is-open'); qs('.nav-mega__trigger', item)?.setAttribute('aria-expanded', 'false'); }); } });
 })();
