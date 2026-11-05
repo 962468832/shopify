@@ -18,7 +18,7 @@
           {% for option in product.options_with_values %}
             {% assign option_index = forloop.index0 %}{% assign option_name = option.name | downcase %}
             <fieldset class="product-option{% if option_name == 'color' or option_name == 'colour' %} product-option--color{% endif %}" data-option-group data-option-index="{{ option_index }}" data-option-name="{{ option.name | escape }}">
-              <legend>Select {{ option.name }} <span data-option-label>{{ current_variant.options[option_index] }}</span></legend>
+              <legend><span>Select {{ option.name }} <span data-option-label>{{ current_variant.options[option_index] }}</span></span>{% if option_name contains 'size' %}<button class="size-guide-trigger" type="button" data-size-guide-open aria-haspopup="dialog"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m14.5 4.5 5 5L8 21H3v-5Z"></path><path d="m13 6 5 5M11 8l2 2M8 11l2 2M5 14l2 2"></path></svg>Fit &amp; Size Guide</button>{% endif %}</legend>
               <div class="product-option__values">
                 {% for value in option.values %}
                   {% assign option_value = value.name | default: value %}

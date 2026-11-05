@@ -1,0 +1,67 @@
+<div id="fit-size-guide" class="size-guide" aria-hidden="true">
+  <div class="size-guide__backdrop" data-size-guide-close></div>
+  <section class="size-guide__panel" role="dialog" aria-modal="true" aria-labelledby="SizeGuideTitle" tabindex="-1">
+    <header class="size-guide__head">
+      <h2 id="SizeGuideTitle">
+        <svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m14.5 4.5 5 5L8 21H3v-5Z"></path><path d="m13 6 5 5"></path><path d="m11 8 2 2"></path><path d="m8 11 2 2"></path><path d="m5 14 2 2"></path></svg>
+        Fit &amp; Size Guide
+      </h2>
+      <button class="icon-button" type="button" data-size-guide-close aria-label="Close size guide">&times;</button>
+    </header>
+    <div class="size-guide__tabs" role="tablist" aria-label="Size guide sections">
+      <button id="SizeChartTab" type="button" role="tab" aria-selected="true" aria-controls="SizeChartPanel" data-size-guide-tab="chart">Size Chart</button>
+      <button id="FitGuideTab" type="button" role="tab" aria-selected="false" aria-controls="FitGuidePanel" tabindex="-1" data-size-guide-tab="fit">Fit Guide</button>
+      <button id="FitHelpTab" type="button" role="tab" aria-selected="false" aria-controls="FitHelpPanel" tabindex="-1" data-size-guide-tab="help">Problem / Fit Help</button>
+    </div>
+    <div class="size-guide__body">
+      <section id="SizeChartPanel" role="tabpanel" aria-labelledby="SizeChartTab" data-size-guide-panel="chart">
+        <div class="size-guide__chart-head">
+          <h3>Underwear Size Chart</h3>
+          <div class="size-guide__units" role="group" aria-label="Measurement unit">
+            <button type="button" data-size-guide-unit="in" aria-pressed="true">Inches</button>
+            <button type="button" data-size-guide-unit="cm" aria-pressed="false">Centimeters</button>
+          </div>
+        </div>
+        <div class="size-guide__table-scroll">
+          <table class="size-guide__table">
+            <thead><tr><th scope="col">Size</th><th scope="col">Waist <span data-size-guide-unit-label>(in)</span></th><th scope="col">Hip <span data-size-guide-unit-label>(in)</span></th><th scope="col">US Size</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">XS</th><td><span data-size-in="24 - 26" data-size-cm="61 - 66">24 - 26</span></td><td><span data-size-in="35 - 36" data-size-cm="89 - 91">35 - 36</span></td><td>0-2</td></tr>
+              <tr><th scope="row">S</th><td><span data-size-in="26 - 28" data-size-cm="66 - 71">26 - 28</span></td><td><span data-size-in="37 - 38" data-size-cm="94 - 97">37 - 38</span></td><td>4-6</td></tr>
+              <tr><th scope="row">M</th><td><span data-size-in="29 - 31" data-size-cm="74 - 79">29 - 31</span></td><td><span data-size-in="39 - 40" data-size-cm="99 - 102">39 - 40</span></td><td>8-10</td></tr>
+              <tr><th scope="row">L</th><td><span data-size-in="32 - 34" data-size-cm="81 - 86">32 - 34</span></td><td><span data-size-in="41 - 43" data-size-cm="104 - 109">41 - 43</span></td><td>12-14</td></tr>
+              <tr><th scope="row">XL</th><td><span data-size-in="35 - 38" data-size-cm="89 - 97">35 - 38</span></td><td><span data-size-in="44 - 47" data-size-cm="112 - 119">44 - 47</span></td><td>16</td></tr>
+              <tr><th scope="row">2XL</th><td><span data-size-in="38 - 42" data-size-cm="97 - 107">38 - 42</span></td><td><span data-size-in="48 - 51" data-size-cm="122 - 130">48 - 51</span></td><td>18-20</td></tr>
+              <tr><th scope="row">3XL</th><td><span data-size-in="43 - 45" data-size-cm="109 - 114">43 - 45</span></td><td><span data-size-in="52 - 54" data-size-cm="132 - 137">52 - 54</span></td><td>22-24</td></tr>
+              <tr><th scope="row">4XL</th><td><span data-size-in="46 - 48" data-size-cm="117 - 122">46 - 48</span></td><td><span data-size-in="55 - 57" data-size-cm="140 - 145">55 - 57</span></td><td>24-26</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="size-guide__note">Body measurements in inches or centimeters. If you are between sizes, use the Fit Guide to choose your preferred feel.</p>
+      </section>
+      <section id="FitGuidePanel" role="tabpanel" aria-labelledby="FitGuideTab" data-size-guide-panel="fit" hidden>
+        <h3>How to Measure</h3>
+        <div class="size-guide__measurements">
+          <article><span>01</span><div><h4>Waist</h4><p>Measure around the narrowest part of your natural waistline, keeping the tape level and snug but not tight.</p></div></article>
+          <article><span>02</span><div><h4>Hip</h4><p>Measure around the fullest part of your hips and seat, with your feet together and the tape level.</p></div></article>
+        </div>
+        <h3 class="size-guide__subheading">Choose Your Fit</h3>
+        <div class="size-guide__fit-options">
+          <article><h4>True fit</h4><p>For your everyday fit, choose the size that matches your hip measurement in the chart.</p></article>
+          <article><h4>Closer fit</h4><p>For a closer, smoothing feel under fitted clothing, choose the smaller size when you are between sizes.</p></article>
+          <article><h4>Relaxed fit</h4><p>For an airier, more relaxed feel, choose the larger size when you are between sizes.</p></article>
+        </div>
+      </section>
+      <section id="FitHelpPanel" role="tabpanel" aria-labelledby="FitHelpTab" data-size-guide-panel="help" hidden>
+        <h3>Solve It by Fit</h3>
+        <div class="size-guide__help-list">
+          <details open><summary>Rolling waistband</summary><p>Choose a high-rise style in your true size for a band that stays put through movement.</p></details>
+          <details><summary>Riding up</summary><p>Choose your true size and a cut with enough seat coverage. Riding up often means the current cut is too small.</p></details>
+          <details><summary>Waistband digging</summary><p>Size up or choose a softer waistband. A digging band usually means the band is too small.</p></details>
+          <details><summary>Visible lines</summary><p>Choose your true size in a raw-cut style so the edges sit flat. Avoid sizing down, which can press the edges into the skin.</p></details>
+        </div>
+        <p class="size-guide__note">Between sizes? Choose the smaller size for a closer fit or the larger size for a more relaxed feel.</p>
+      </section>
+    </div>
+  </section>
+</div>

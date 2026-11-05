@@ -103,6 +103,7 @@
           <div class="drawer-line__controls">
             <div class="drawer-quantity"><button type="button" data-cart-quantity="-1" aria-label="Decrease quantity">−</button><span>${item.quantity}</span><button type="button" data-cart-quantity="1" aria-label="Increase quantity">+</button></div>
             <button class="drawer-edit" type="button" data-cart-edit>Edit</button>
+            ${item.options_with_values?.some((option) => /size/i.test(option.name)) ? '<button class="drawer-size-guide" type="button" data-size-guide-open>Size guide</button>' : ''}
             <button class="drawer-remove" type="button" data-remove-line>Remove</button>
           </div>
         </div>
@@ -321,7 +322,7 @@
           <h2 id="QuickShopTitle">${escapeHtml(product.title)}</h2>
           <div class="quick-shop-product__price"><strong>${formatMoney(price)}</strong>${compare > price ? `<s>${formatMoney(compare)}</s><span>Save ${savings}%</span>` : ''}</div>
           ${product.options.length ? product.options.map((name, index) => `
-            <fieldset class="quick-option-group"><legend>Select ${escapeHtml(name)}</legend><div>${product.variants.map((variant) => variant.options[index]).filter((value, index, values) => value && values.indexOf(value) === index).map((value) => optionButton(product, name, value, index)).join('')}</div></fieldset>
+            <fieldset class="quick-option-group"><legend><span>Select ${escapeHtml(name)}</span>${/size/i.test(name) ? '<button class="size-guide-trigger" type="button" data-size-guide-open aria-haspopup="dialog"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m14.5 4.5 5 5L8 21H3v-5Z"></path><path d="m13 6 5 5M11 8l2 2M8 11l2 2M5 14l2 2"></path></svg>Fit &amp; Size Guide</button>' : ''}</legend><div>${product.variants.map((variant) => variant.options[index]).filter((value, index, values) => value && values.indexOf(value) === index).map((value) => optionButton(product, name, value, index)).join('')}</div></fieldset>
           `).join('') : ''}
           <label class="quick-quantity">Qty<span><button type="button" data-quick-quantity="-1" aria-label="Decrease quantity">−</button><input type="number" min="1" value="${quantity}" data-quick-quantity-input aria-label="Quantity"><button type="button" data-quick-quantity="1" aria-label="Increase quantity">+</button></span></label>
           <div class="quick-shop-product__actions"><button class="button button--dark" type="button" data-quick-submit${variant?.available ? '' : ' disabled'}>${lineKey ? 'Update bag' : variant?.available ? 'Add to bag' : 'Sold out'}</button><button class="button button--danger" type="button" data-quick-buy${variant?.available ? '' : ' disabled'}>Buy now</button></div>
@@ -408,6 +409,65 @@
   quickShopBody?.addEventListener('input', (event) => {
     if (!event.target.matches('[data-quick-quantity-input]') || !quickShopState) return;
     quickShopState.quantity = Math.max(1, Number(event.target.value || 1));
+  });
+  const sizeGuide = qs('#fit-size-guide');
+  let sizeGuideTrigger = null;
+  function openSizeGuide(trigger) {
+    if (!sizeGuide) return;
+    sizeGuideTrigger = trigger || document.activeElement;
+    sizeGuide.classList.add('is-open');
+    sizeGuide.setAttribute('aria-hidden', 'false');
+    document.documentElement.classList.add('size-guide-lock');
+    document.body.classList.add('size-guide-lock');
+    qs('.size-guide__panel', sizeGuide)?.focus();
+  }
+  function closeSizeGuide() {
+    if (!sizeGuide?.classList.contains('is-open')) return;
+    sizeGuide.classList.remove('is-open');
+    sizeGuide.setAttribute('aria-hidden', 'true');
+    document.documentElement.classList.remove('size-guide-lock');
+    document.body.classList.remove('size-guide-lock');
+    sizeGuideTrigger?.focus();
+    sizeGuideTrigger = null;
+  }
+  function selectSizeGuideTab(name) {
+    qsa('[data-size-guide-tab]', sizeGuide).forEach((tab) => {
+      const selected = tab.dataset.sizeGuideTab === name;
+      tab.setAttribute('aria-selected', String(selected));
+      tab.tabIndex = selected ? 0 : -1;
+    });
+    qsa('[data-size-guide-panel]', sizeGuide).forEach((panel) => { panel.hidden = panel.dataset.sizeGuidePanel !== name; });
+  }
+  document.addEventListener('click', (event) => {
+    const trigger = event.target.closest('[data-size-guide-open]');
+    if (trigger) { event.preventDefault(); openSizeGuide(trigger); return; }
+    if (event.target.closest('[data-size-guide-close]')) { closeSizeGuide(); return; }
+    const tab = event.target.closest('[data-size-guide-tab]');
+    if (tab) { selectSizeGuideTab(tab.dataset.sizeGuideTab); return; }
+    const unit = event.target.closest('[data-size-guide-unit]');
+    if (!unit) return;
+    const measurement = unit.dataset.sizeGuideUnit;
+    qsa('[data-size-guide-unit]', sizeGuide).forEach((button) => button.setAttribute('aria-pressed', String(button === unit)));
+    qsa('[data-size-guide-unit-label]', sizeGuide).forEach((label) => { label.textContent = `(${measurement})`; });
+    qsa('[data-size-in]', sizeGuide).forEach((value) => { value.textContent = value.dataset[measurement === 'cm' ? 'sizeCm' : 'sizeIn']; });
+  });
+  sizeGuide?.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); closeSizeGuide(); return; }
+    if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+      const tab = event.target.closest('[data-size-guide-tab]');
+      if (!tab) return;
+      event.preventDefault();
+      const tabs = qsa('[data-size-guide-tab]', sizeGuide);
+      const next = tabs[(tabs.indexOf(tab) + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length];
+      selectSizeGuideTab(next.dataset.sizeGuideTab);
+      next.focus();
+    }
+    if (event.key !== 'Tab') return;
+    const focusable = qsa('button:not([disabled]), summary, a[href], input, [tabindex="0"]', sizeGuide).filter((element) => !element.closest('[hidden]'));
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && (document.activeElement === first || document.activeElement === qs('.size-guide__panel', sizeGuide))) { event.preventDefault(); last?.focus(); }
+    if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
   });
   qsa('[data-product-form]').forEach((form) => form.addEventListener('submit', (event) => { event.preventDefault(); addToCart(qs('[data-variant-id]', form).value, Number(qs('[name="quantity"]', form).value || 1), qs('button[type="submit"]', form)); }));
   const syncCart = () => { cartQueue.then(refreshCart).catch(() => {}); };
