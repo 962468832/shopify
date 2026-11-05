@@ -17,9 +17,50 @@
     <main id="MainContent" role="main">{{ content_for_layout }}</main>
     {% section 'footer' %}
     <div class="cart-feedback" data-cart-feedback hidden><p role="status" aria-live="polite" aria-atomic="true" data-cart-feedback-message></p><a href="{{ routes.cart_url }}">View bag →</a><button type="button" data-cart-feedback-close aria-label="Dismiss notification">×</button></div>
-    <div id="cart-drawer" class="cart-drawer" aria-hidden="true"><div class="cart-drawer__backdrop" data-cart-close></div><aside class="cart-drawer__panel" role="dialog" aria-modal="true" aria-label="Cart"><div class="cart-drawer__head"><h2>Your bag</h2><button class="icon-button" data-cart-close aria-label="Close cart">&times;</button></div><div class="cart-drawer__body" data-cart-drawer-body><p class="empty-state">Your bag is empty.</p></div><div class="cart-drawer__foot"><div class="cart-total"><span>Subtotal (<span data-cart-count>{{ cart.item_count }}</span> items)</span><strong data-cart-total>{{ cart.total_price | money }}</strong></div><a class="button button--dark button--full" data-cart-checkout href="{{ routes.checkout_url }}">Buy now</a></div></aside></div>
+    <div id="cart-drawer" class="cart-drawer" aria-hidden="true">
+      <div class="cart-drawer__backdrop" data-cart-close></div>
+      <aside class="cart-drawer__panel" role="dialog" aria-modal="true" aria-label="Shopping bag">
+        <header class="cart-drawer__head">
+          <div><p class="eyebrow">Your bag</p><h2>Shopping bag</h2></div>
+          <div class="cart-drawer__head-actions"><a class="text-link" href="{{ routes.cart_url }}">View cart</a><button class="icon-button" type="button" data-cart-close aria-label="Close cart">&times;</button></div>
+        </header>
+        <div class="cart-drawer__body" data-cart-drawer-body>
+          <div class="cart-progress" data-cart-progress hidden>
+            <div class="cart-progress__label"><span data-cart-progress-label>Unlock free shipping</span><strong data-cart-progress-remaining></strong></div>
+            <div class="cart-progress__track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span data-cart-progress-bar></span></div>
+          </div>
+          <div class="cart-items" data-cart-items><p class="empty-state">Your bag is empty.</p></div>
+          <form class="cart-discount" data-cart-discount>
+            <label for="CartDiscountCode">Discount code</label>
+            <div><input id="CartDiscountCode" type="text" name="code" autocomplete="off" placeholder="Enter code"><button class="button button--dark" type="submit">Apply</button></div>
+            <p data-cart-discount-message role="status"></p>
+          </form>
+          <section class="cart-recommendations" data-cart-recommendations aria-labelledby="CartRecommendationsTitle" hidden>
+            <header><h3 id="CartRecommendationsTitle">You may also like</h3><span>Best-selling pairings</span></header>
+            <div class="cart-recommendations__grid" data-cart-recommendation-items></div>
+          </section>
+          <section class="cart-summary" data-cart-summary>
+            <div><span>Subtotal</span><strong data-cart-subtotal>{{ cart.items_subtotal_price | money }}</strong></div>
+            <div data-cart-discount-row hidden><span>Discount</span><strong data-cart-discount-total>–{{ cart.total_discount | money }}</strong></div>
+            <div><span>Total</span><strong data-cart-total>{{ cart.total_price | money }}</strong></div>
+            <p>Taxes and shipping calculated at checkout.</p>
+          </section>
+        </div>
+        <footer class="cart-drawer__foot">
+          <a class="button button--dark button--full" data-cart-checkout href="{{ routes.checkout_url }}">Checkout</a>
+          <button class="text-link" type="button" data-cart-close>Continue shopping</button>
+        </footer>
+      </aside>
+    </div>
+    <div id="quick-shop" class="quick-shop-modal" aria-hidden="true">
+      <div class="quick-shop-modal__backdrop" data-quick-close></div>
+      <section class="quick-shop-modal__panel" role="dialog" aria-modal="true" aria-labelledby="QuickShopTitle">
+        <header class="quick-shop-modal__head"><p class="eyebrow">Quick shop</p><button class="icon-button" type="button" data-quick-close aria-label="Close quick shop">&times;</button></header>
+        <div class="quick-shop-modal__body" data-quick-shop-body><p class="empty-state">Loading product options…</p></div>
+      </section>
+    </div>
     <div id="wishlist-drawer" class="cart-drawer wishlist-drawer" aria-hidden="true"><div class="cart-drawer__backdrop" data-wishlist-close></div><aside class="cart-drawer__panel" role="dialog" aria-modal="true" aria-label="Wishlist"><div class="cart-drawer__head"><h2>Wishlist</h2><button class="icon-button" data-wishlist-close aria-label="Close wishlist">&times;</button></div><div class="cart-drawer__body" data-wishlist-body><p class="empty-state">Save pieces here while you browse.</p></div></aside></div>
-    <script>window.ShopifyRoutes={cartAdd:'{{ routes.cart_add_url }}',cartChange:'{{ routes.cart_change_url }}',cartJson:'{{ routes.cart_url }}.js',cartUrl:'{{ routes.cart_url }}',checkoutUrl:'{{ routes.checkout_url }}',allProductsUrl:'{{ routes.all_products_collection_url }}'};</script>
+    <script>window.ShopifyRoutes={cartAdd:'{{ routes.cart_add_url }}',cartChange:'{{ routes.cart_change_url }}',cartJson:'{{ routes.cart_url }}.js',cartUrl:'{{ routes.cart_url }}',checkoutUrl:'{{ routes.checkout_url }}',allProductsUrl:'{{ routes.all_products_collection_url }}',rootUrl:'{{ routes.root_url }}'};window.NuageThemeSettings={cartProgressThreshold:{{ settings.cart_progress_threshold | default: 75 }},cartProgressLabel:{{ settings.cart_progress_label | json | default: 'Unlock free shipping' }},cartProgressCompleteLabel:{{ settings.cart_progress_complete_label | json | default: 'Free shipping unlocked' }}};</script>
     {% if template.name == 'customers' and template.suffix == 'addresses' %}<script src="{{ 'shopify_common.js' | shopify_asset_url }}" defer></script>{% endif %}
     <script src="{{ 'theme.js' | asset_url }}" defer></script>
     {% if template.name == 'customers' %}<script src="{{ 'customer.js' | asset_url }}" defer></script>{% endif %}
