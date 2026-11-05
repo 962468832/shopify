@@ -562,6 +562,7 @@ html.cart-drawer-lock,body.cart-drawer-lock{overflow:hidden;height:100%;overscro
 .cart-drawer__head-actions .icon-button{font-size:25px}
 .cart-drawer__body{display:flex;flex-direction:column;padding:0 24px}
 .cart-progress{margin:0 0 18px;padding:15px;border:1px solid var(--line);background:#fff}
+.cart-progress,.cart-items,.cart-discount,.cart-recommendations,.cart-summary{flex:0 0 auto;min-height:0}
 .cart-progress__label{display:flex;justify-content:space-between;gap:12px;align-items:center;font-size:12px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:11px}
 .cart-progress__label strong{font-size:12px;color:#6c625c}
 .cart-progress__track{height:5px;background:#eee8e3;overflow:hidden}
