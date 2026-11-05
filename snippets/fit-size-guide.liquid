@@ -46,18 +46,33 @@
         <p class="size-guide__note">Body measurements in inches or centimeters. If you are between sizes, use the Fit Guide to choose your preferred feel.</p>
       </section>
       <section id="FitGuidePanel" role="tabpanel" aria-labelledby="FitGuideTab" data-size-guide-panel="fit" hidden>
-        <h3>How to Measure</h3>
-        <div class="size-guide__measurements">
-          <article><span>01</span><div><h4>Waist</h4><p>Measure around the narrowest part of your natural waistline, keeping the tape level and snug but not tight.</p></div></article>
-          <article><span>02</span><div><h4>Hip</h4><p>Measure around the fullest part of your hips and seat, with your feet together and the tape level.</p></div></article>
+        <div class="size-guide__finder-head">
+          <h3>Find Your Size</h3>
+          <div class="size-guide__units" role="group" aria-label="Fit guide measurement unit">
+            <button type="button" data-size-guide-fit-unit="in" aria-pressed="true">In</button>
+            <button type="button" data-size-guide-fit-unit="cm" aria-pressed="false">cm</button>
+          </div>
         </div>
-        <img class="size-guide__measurement-image" src="{{ 'size-guide-measurement.jpg' | asset_url }}" width="500" height="509" alt="Illustration showing where to measure the waist and hips" loading="lazy">
-        <h3 class="size-guide__subheading">Choose Your Fit</h3>
-        <div class="size-guide__fit-options">
-          <article><h4>True fit</h4><p>For your everyday fit, choose the size that matches your hip measurement in the chart.</p></article>
-          <article><h4>Closer fit</h4><p>For a closer, smoothing feel under fitted clothing, choose the smaller size when you are between sizes.</p></article>
-          <article><h4>Relaxed fit</h4><p>For an airier, more relaxed feel, choose the larger size when you are between sizes.</p></article>
+        <p class="size-guide__finder-intro">Enter your hip measurement and choose how you like your fit. We'll suggest a size you can apply to your selection.</p>
+        <label class="size-guide__measurement-label" for="SizeGuideHip">Hip <span data-size-guide-fit-unit-label>(in)</span></label>
+        <input class="size-guide__measurement-input" id="SizeGuideHip" type="number" inputmode="decimal" min="1" step="0.1" placeholder="e.g. 38" data-size-guide-measurement>
+        <fieldset class="size-guide__preferences">
+          <legend>Fit Preference</legend>
+          <div>
+            <label><input type="radio" name="size-guide-fit" value="-1" data-size-guide-preference><span>Smoothing<small>Closer, smoothing feel</small></span></label>
+            <label><input type="radio" name="size-guide-fit" value="0" data-size-guide-preference checked><span>True fit<small>Your everyday fit</small></span></label>
+            <label><input type="radio" name="size-guide-fit" value="1" data-size-guide-preference><span>Relaxed<small>A little more room</small></span></label>
+          </div>
+        </fieldset>
+        <div class="size-guide__suggestion" data-size-guide-result>
+          <p>Suggested size</p>
+          <strong data-size-guide-suggestion>—</strong>
+          <p class="size-guide__suggestion-status" data-size-guide-suggestion-status aria-live="polite">Enter your hip measurement to find your size.</p>
+          <button class="button button--dark button--full" type="button" data-size-guide-apply disabled>Apply Size Suggestion</button>
         </div>
+        <details class="size-guide__measurement-help"><summary>How to measure your hips</summary><p>Measure around the fullest part of your hips and butt, with your feet together and the tape level.</p><img class="size-guide__measurement-image" src="{{ 'size-guide-measurement.jpg' | asset_url }}" width="500" height="509" alt="Illustration showing where to measure the waist and hips" loading="lazy"></details>
+        <h3 class="size-guide__subheading">Between Sizes?</h3>
+        <ul class="size-guide__between"><li>For a closer, smoothing fit, choose the smaller size.</li><li>For an airier, more relaxed feel, choose the larger size.</li></ul>
       </section>
       <section id="FitHelpPanel" role="tabpanel" aria-labelledby="FitHelpTab" data-size-guide-panel="help" hidden>
         <h3>Solve It by Fit</h3>

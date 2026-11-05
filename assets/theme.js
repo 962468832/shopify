@@ -413,6 +413,70 @@
   const sizeGuide = qs('#fit-size-guide');
   let sizeGuideTrigger = null;
   let sizeGuideScrollY = 0;
+  const sizeGuideRanges = [
+    { size: 'XS', in: [35, 36], cm: [89, 91] },
+    { size: 'S', in: [37, 38], cm: [94, 97] },
+    { size: 'M', in: [39, 40], cm: [99, 102] },
+    { size: 'L', in: [41, 43], cm: [104, 109] },
+    { size: 'XL', in: [44, 47], cm: [112, 119] },
+    { size: '2XL', in: [48, 51], cm: [122, 130] },
+    { size: '3XL', in: [52, 54], cm: [132, 137] },
+    { size: '4XL', in: [55, 57], cm: [140, 145] }
+  ];
+  const sizeAliases = { XS: ['XS'], S: ['S'], M: ['M'], L: ['L'], XL: ['XL'], '2XL': ['2XL', 'XXL'], '3XL': ['3XL', 'XXXL'], '4XL': ['4XL', 'XXXXL'] };
+  let sizeGuideUnit = 'in';
+  let sizeGuidePreference = 0;
+  let sizeGuideSuggestion = null;
+  function sizeGuideProduct() {
+    if (quickShopState?.product) return quickShopState.product;
+    const data = qs('[data-product-json]');
+    if (!data) return null;
+    try { return JSON.parse(data.textContent); } catch { return null; }
+  }
+  function sizeGuideAvailableSizes(product) {
+    if (!product) return [];
+    const index = product.options.findIndex((option) => /size/i.test(typeof option === 'string' ? option : option.name));
+    if (index < 0) return [];
+    return [...new Set(product.variants.filter((variant) => variant.available).map((variant) => variant.options[index]))];
+  }
+  function updateSizeGuideSuggestion() {
+    const measurement = Number(qs('[data-size-guide-measurement]', sizeGuide)?.value);
+    const available = sizeGuideAvailableSizes(sizeGuideProduct());
+    let closest = -1;
+    let distance = Infinity;
+    if (measurement > 0) sizeGuideRanges.forEach((range, index) => {
+      const [min, max] = range[sizeGuideUnit];
+      const gap = measurement < min ? min - measurement : measurement > max ? measurement - max : 0;
+      if (gap < distance) { distance = gap; closest = index; }
+    });
+    const range = sizeGuideRanges[Math.max(0, Math.min(sizeGuideRanges.length - 1, closest + sizeGuidePreference))];
+    const suggested = closest >= 0 && range && (sizeAliases[range.size] || [range.size]).find((size) => available.includes(size));
+    sizeGuideSuggestion = suggested || null;
+    const output = qs('[data-size-guide-suggestion]', sizeGuide);
+    const status = qs('[data-size-guide-suggestion-status]', sizeGuide);
+    const apply = qs('[data-size-guide-apply]', sizeGuide);
+    if (output) output.textContent = sizeGuideSuggestion || '—';
+    if (status) status.textContent = !measurement ? 'Enter your hip measurement to find your size.' : sizeGuideSuggestion ? (sizeGuideUnit === 'cm' ? `Based on ${measurement} cm hips.` : `Based on ${measurement} in hips.`) : 'This size is unavailable for the selected product. Please choose another option.';
+    if (apply) apply.disabled = !sizeGuideSuggestion;
+  }
+  function applySizeGuideSuggestion() {
+    if (!sizeGuideSuggestion) return;
+    const product = sizeGuideProduct();
+    const index = product?.options.findIndex((option) => /size/i.test(typeof option === 'string' ? option : option.name));
+    if (index == null || index < 0) return;
+    if (quickShopState?.product === product) {
+      quickShopState.selected[index] = sizeGuideSuggestion;
+      renderQuickShopSelection();
+    } else {
+      const group = qs(`[data-option-group][data-option-index="${index}"]`);
+      const input = qsa('[data-product-option]', group).find((option) => option.value === sizeGuideSuggestion && !option.disabled);
+      if (!input) return;
+      input.checked = true;
+      input.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+    closeSizeGuide();
+    if (quickShopState?.product === product) qs(`[data-quick-option="${index}"][data-value="${sizeGuideSuggestion}"]`, quickShopBody)?.focus({ preventScroll: true });
+  }
   function openSizeGuide(trigger) {
     if (!sizeGuide || sizeGuide.classList.contains('is-open')) return;
     sizeGuideTrigger = trigger || document.activeElement;
@@ -422,6 +486,7 @@
     sizeGuide.setAttribute('aria-hidden', 'false');
     document.documentElement.classList.add('size-guide-lock');
     document.body.classList.add('size-guide-lock');
+    updateSizeGuideSuggestion();
     qs('.size-guide__panel', sizeGuide)?.focus({ preventScroll: true });
   }
   function closeSizeGuide() {
@@ -449,6 +514,20 @@
     if (event.target.closest('[data-size-guide-close]')) { closeSizeGuide(); return; }
     const tab = event.target.closest('[data-size-guide-tab]');
     if (tab) { selectSizeGuideTab(tab.dataset.sizeGuideTab); return; }
+    const fitUnit = event.target.closest('[data-size-guide-fit-unit]');
+    if (fitUnit) {
+      const nextUnit = fitUnit.dataset.sizeGuideFitUnit;
+      const input = qs('[data-size-guide-measurement]', sizeGuide);
+      if (input?.value && nextUnit !== sizeGuideUnit) input.value = (Math.round(Number(input.value) * (nextUnit === 'cm' ? 2.54 : 1 / 2.54) * 100) / 100).toString();
+      sizeGuideUnit = nextUnit;
+      qsa('[data-size-guide-fit-unit]', sizeGuide).forEach((button) => button.setAttribute('aria-pressed', String(button === fitUnit)));
+      const label = qs('[data-size-guide-fit-unit-label]', sizeGuide);
+      if (label) label.textContent = `(${sizeGuideUnit})`;
+      if (input) input.placeholder = sizeGuideUnit === 'cm' ? 'e.g. 96.52' : 'e.g. 38';
+      updateSizeGuideSuggestion();
+      return;
+    }
+    if (event.target.closest('[data-size-guide-apply]')) { applySizeGuideSuggestion(); return; }
     const unit = event.target.closest('[data-size-guide-unit]');
     if (!unit) return;
     const measurement = unit.dataset.sizeGuideUnit;
@@ -456,6 +535,8 @@
     qsa('[data-size-guide-unit-label]', sizeGuide).forEach((label) => { label.textContent = `(${measurement})`; });
     qsa('[data-size-in]', sizeGuide).forEach((value) => { value.textContent = value.dataset[measurement === 'cm' ? 'sizeCm' : 'sizeIn']; });
   });
+  sizeGuide?.addEventListener('input', (event) => { if (event.target.matches('[data-size-guide-measurement]')) updateSizeGuideSuggestion(); });
+  sizeGuide?.addEventListener('change', (event) => { if (event.target.matches('[data-size-guide-preference]')) { sizeGuidePreference = Number(event.target.value); updateSizeGuideSuggestion(); } });
   sizeGuide?.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); closeSizeGuide(); return; }
     if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
