@@ -414,15 +414,15 @@
   let sizeGuideTrigger = null;
   let sizeGuideScrollY = 0;
   function openSizeGuide(trigger) {
-    if (!sizeGuide) return;
+    if (!sizeGuide || sizeGuide.classList.contains('is-open')) return;
     sizeGuideTrigger = trigger || document.activeElement;
     sizeGuideScrollY = window.scrollY;
-    if (!document.body.classList.contains('cart-drawer-lock') && !document.body.classList.contains('quick-shop-lock')) document.body.style.top = `-${sizeGuideScrollY}px`;
+    document.body.style.top = `-${sizeGuideScrollY}px`;
     sizeGuide.classList.add('is-open');
     sizeGuide.setAttribute('aria-hidden', 'false');
     document.documentElement.classList.add('size-guide-lock');
     document.body.classList.add('size-guide-lock');
-    qs('.size-guide__panel', sizeGuide)?.focus();
+    qs('.size-guide__panel', sizeGuide)?.focus({ preventScroll: true });
   }
   function closeSizeGuide() {
     if (!sizeGuide?.classList.contains('is-open')) return;
@@ -430,11 +430,9 @@
     sizeGuide.setAttribute('aria-hidden', 'true');
     document.documentElement.classList.remove('size-guide-lock');
     document.body.classList.remove('size-guide-lock');
-    if (!document.body.classList.contains('cart-drawer-lock') && !document.body.classList.contains('quick-shop-lock')) {
-      document.body.style.removeProperty('top');
-      window.scrollTo(0, sizeGuideScrollY);
-    }
-    sizeGuideTrigger?.focus();
+    document.body.style.removeProperty('top');
+    window.scrollTo({ top: sizeGuideScrollY, left: 0, behavior: 'instant' });
+    sizeGuideTrigger?.focus({ preventScroll: true });
     sizeGuideTrigger = null;
   }
   function selectSizeGuideTab(name) {
