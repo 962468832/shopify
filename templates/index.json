@@ -1,118 +1,122 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
       "type": "hero",
       "settings": {
-        "heading": "Underwear you can finally forget about.",
-        "text": "No digging, no wedgies, no visible lines. Just breathable comfort that moves with your body.",
+        "image": "shopify://shop_images/7fc14e403815c9e12f458bb5bd5bfa3b.png",
+        "mobile_image": "shopify://shop_images/4c871390ea9594ffaa7f54b41268864d.png",
+        "show_legacy_media": false,
         "image_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/2_c3dc3a66-fab0-48c8-8ecb-b49981dc3d72.png?v=1792995907",
         "mobile_image_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/7beb3b7e19d634d364f4b4ba4353117d.png?v=1792995907",
+        "image_alt": "Nuage comfort underwear campaign",
+        "heading": "Underwear you can finally forget about.",
+        "text": "No digging, no wedgies, no visible lines. Just breathable comfort that moves with your body.",
         "primary_label": "Shop by Underwear",
         "primary_link": "/collections/all",
         "secondary_label": "Shop Best Sellers",
-        "secondary_link": "/collections/best-sellers-2026",
-        "image": "shopify://shop_images/2_c3dc3a66-fab0-48c8-8ecb-b49981dc3d72.png",
-        "mobile_image": "shopify://shop_images/7beb3b7e19d634d364f4b4ba4353117d.png",
-        "show_legacy_media": false,
-        "image_alt": "Nuage comfort underwear campaign"
+        "secondary_link": "/collections/best-sellers-2026"
       }
     },
     "scenario": {
       "type": "scenario-grid",
-      "settings": {
-        "eyebrow": "Shop by Scenario",
-        "heading": "What's your biggest challenge?",
-        "link_label": "All Scenarios"
-      },
       "blocks": {
         "item0": {
           "type": "scenario",
           "settings": {
-            "kicker": "Seamless Collection",
-            "title": "No Visible Lines",
-            "copy": "Seamless, laser-cut edges that vanish under leggings, silk and everything in between.",
-            "link": "/collections/no-vpls",
-            "video_url": "https://cdn.shopify.com/videos/c/vp/4c7726eb58e5416d9c65e7d9bfc4e0c7/4c7726eb58e5416d9c65e7d9bfc4e0c7.HD-720p-3.0Mbps-98885385.mp4",
-            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/work.png?v=1792995931",
             "video": "shopify://files/videos/home-3b8d12a29ed54ca2babdf132e1491dc1.mp4",
             "poster": "shopify://shop_images/work.png",
             "show_legacy_media": false,
-            "button_label": "Shop the Solution"
+            "video_url": "https://cdn.shopify.com/videos/c/vp/4c7726eb58e5416d9c65e7d9bfc4e0c7/4c7726eb58e5416d9c65e7d9bfc4e0c7.HD-720p-3.0Mbps-98885385.mp4",
+            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/work.png?v=1792995931",
+            "kicker": "Seamless Collection",
+            "title": "No Visible Lines",
+            "copy": "Seamless, laser-cut edges that vanish under leggings, silk and everything in between.",
+            "button_label": "Shop the Solution",
+            "link": "/collections/no-vpls"
           }
         },
         "item1": {
           "type": "scenario",
           "settings": {
-            "kicker": "Everyday Briefs",
-            "title": "No Wedgies",
-            "copy": "Stay-put cuts that never ride up, no matter how much you move.",
-            "link": "/collections/no-wedgies",
-            "video_url": "https://cdn.shopify.com/videos/c/vp/0597eabbe7264da792fcf418afa1c077/0597eabbe7264da792fcf418afa1c077.HD-720p-3.0Mbps-98885397.mp4",
-            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/everyday.png?v=1792995947",
             "video": "shopify://files/videos/home-56e1a4a2e054482295c52adfe043b1a3.mp4",
             "poster": "shopify://shop_images/everyday.png",
             "show_legacy_media": false,
-            "button_label": "Shop the Solution"
+            "video_url": "https://cdn.shopify.com/videos/c/vp/0597eabbe7264da792fcf418afa1c077/0597eabbe7264da792fcf418afa1c077.HD-720p-3.0Mbps-98885397.mp4",
+            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/everyday.png?v=1792995947",
+            "kicker": "Everyday Briefs",
+            "title": "No Wedgies",
+            "copy": "Stay-put cuts that never ride up, no matter how much you move.",
+            "button_label": "Shop the Solution",
+            "link": "/collections/no-wedgies"
           }
         },
         "item2": {
           "type": "scenario",
           "settings": {
-            "kicker": "Shield Briefs",
-            "title": "Anti Camel-Toe",
-            "copy": "A smoothing front shield keeps a clean line under skirts and dresses.",
-            "link": "/collections/anticamel-toe",
-            "video_url": "https://cdn.shopify.com/videos/c/vp/b25918b25a4d4f3f88e4cb79728968b7/b25918b25a4d4f3f88e4cb79728968b7.HD-720p-3.0Mbps-98885411.mp4",
-            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/everyday.png?v=1792995947",
             "video": "shopify://files/videos/home-3e6fe1050733484088bcbeeb98277489.mp4",
             "poster": "shopify://shop_images/everyday.png",
             "show_legacy_media": false,
-            "button_label": "Shop the Solution"
+            "video_url": "https://cdn.shopify.com/videos/c/vp/b25918b25a4d4f3f88e4cb79728968b7/b25918b25a4d4f3f88e4cb79728968b7.HD-720p-3.0Mbps-98885411.mp4",
+            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/everyday.png?v=1792995947",
+            "kicker": "Shield Briefs",
+            "title": "Anti Camel-Toe",
+            "copy": "A smoothing front shield keeps a clean line under skirts and dresses.",
+            "button_label": "Shop the Solution",
+            "link": "/collections/anticamel-toe"
           }
         },
         "item3": {
           "type": "scenario",
           "settings": {
-            "kicker": "NuAir Mesh",
-            "title": "Breathable All Day",
-            "copy": "Airy mesh panels keep you cool and dry from the desk to the gym.",
-            "link": "/collections/breathable-all-day",
-            "video_url": "https://cdn.shopify.com/videos/c/vp/fda955631b6d4775b0143ed89e25546e/fda955631b6d4775b0143ed89e25546e.HD-720p-4.5Mbps-98885420.mp4",
-            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/active.png?v=1792995965",
             "video": "shopify://files/videos/home-c2bad840b15e451b8f23e368648ce000.mp4",
             "poster": "shopify://shop_images/active.png",
             "show_legacy_media": false,
-            "button_label": "Shop the Solution"
+            "video_url": "https://cdn.shopify.com/videos/c/vp/fda955631b6d4775b0143ed89e25546e/fda955631b6d4775b0143ed89e25546e.HD-720p-4.5Mbps-98885420.mp4",
+            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/active.png?v=1792995965",
+            "kicker": "NuAir Mesh",
+            "title": "Breathable All Day",
+            "copy": "Airy mesh panels keep you cool and dry from the desk to the gym.",
+            "button_label": "Shop the Solution",
+            "link": "/collections/breathable-all-day"
           }
         },
         "item4": {
           "type": "scenario",
           "settings": {
-            "kicker": "High-Rise Collection",
-            "title": "No Digging",
-            "copy": "Soft high-rise waistbands that smooth and support instead of pinch.",
-            "link": "/collections/no-digging",
-            "video_url": "https://cdn.shopify.com/videos/c/vp/eee6d60c52434508ac404706991f9997/eee6d60c52434508ac404706991f9997.HD-720p-3.0Mbps-98885425.mp4",
-            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/travel.png?v=1792995971",
             "video": "shopify://files/videos/home-a920729606d346b582109ef8c92c44aa.mp4",
             "poster": "shopify://shop_images/travel.png",
             "show_legacy_media": false,
-            "button_label": "Shop the Solution"
+            "video_url": "https://cdn.shopify.com/videos/c/vp/eee6d60c52434508ac404706991f9997/eee6d60c52434508ac404706991f9997.HD-720p-3.0Mbps-98885425.mp4",
+            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/travel.png?v=1792995971",
+            "kicker": "High-Rise Collection",
+            "title": "No Digging",
+            "copy": "Soft high-rise waistbands that smooth and support instead of pinch.",
+            "button_label": "Shop the Solution",
+            "link": "/collections/no-digging"
           }
         },
         "item5": {
           "type": "scenario",
           "settings": {
-            "kicker": "NuFit Perfect Fit",
-            "title": "No Rolling",
-            "copy": "Bonded bands that hold their place through every mile and every move.",
-            "link": "/collections/no-rolling",
-            "video_url": "https://cdn.shopify.com/videos/c/vp/d1db27f5638b44598d49588f5fbf88ae/d1db27f5638b44598d49588f5fbf88ae.HD-720p-3.0Mbps-98885457.mp4",
-            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/work.png?v=1792995931",
             "video": "shopify://files/videos/home-29c1baf6fae84039a31b9c641f0da121.mp4",
             "poster": "shopify://shop_images/work.png",
             "show_legacy_media": false,
-            "button_label": "Shop the Solution"
+            "video_url": "https://cdn.shopify.com/videos/c/vp/d1db27f5638b44598d49588f5fbf88ae/d1db27f5638b44598d49588f5fbf88ae.HD-720p-3.0Mbps-98885457.mp4",
+            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/work.png?v=1792995931",
+            "kicker": "NuFit Perfect Fit",
+            "title": "No Rolling",
+            "copy": "Bonded bands that hold their place through every mile and every move.",
+            "button_label": "Shop the Solution",
+            "link": "/collections/no-rolling"
           }
         }
       },
@@ -123,13 +127,20 @@
         "item3",
         "item4",
         "item5"
-      ]
+      ],
+      "settings": {
+        "eyebrow": "Shop by Scenario",
+        "heading": "What's your biggest challenge?",
+        "link_label": "All Scenarios",
+        "link": ""
+      }
     },
     "new": {
       "type": "product-carousel",
       "settings": {
         "heading": "New Arrivals",
         "description": "The latest in effortless comfort.",
+        "hide_heading": false,
         "collection": "new-arrivals-2026",
         "products": [
           "nuair-mesh-pivot",
@@ -140,30 +151,31 @@
           "nuair-mesh-flexshield-thong-5-pack"
         ],
         "limit": 6,
-        "hide_heading": false,
-        "link_label": "Shop All"
+        "link_label": "Shop All",
+        "link": ""
       }
     },
     "film": {
       "type": "home-video-banner",
       "settings": {
+        "video": "shopify://files/videos/home-6f14c62d65594a8f9cd5bcd634677504.mp4",
+        "poster": "shopify://shop_images/banner.png",
+        "show_legacy_media": false,
+        "video_url": "https://cdn.shopify.com/videos/c/vp/92e6c1feae734434b45eab1c560b7a41/92e6c1feae734434b45eab1c560b7a41.HD-720p-4.5Mbps-98885466.mp4",
+        "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/banner.png?v=1792995981",
         "eyebrow": "Featured Collection",
         "heading": "The NuCloud Collection",
         "tagline": "Our softest fabric, reimagined",
         "description": "Cloud-soft modal that feels like nothing at all - the everyday essentials you'll reach for on repeat, morning to night.",
-        "video_url": "https://cdn.shopify.com/videos/c/vp/92e6c1feae734434b45eab1c560b7a41/92e6c1feae734434b45eab1c560b7a41.HD-720p-4.5Mbps-98885466.mp4",
-        "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/banner.png?v=1792995981",
-        "link": "/collections/2026-nucloud",
         "button_label": "Shop NuCloud",
-        "video": "shopify://files/videos/home-6f14c62d65594a8f9cd5bcd634677504.mp4",
-        "poster": "shopify://shop_images/banner.png",
-        "show_legacy_media": false
+        "link": "/collections/2026-nucloud"
       }
     },
     "cloud": {
       "type": "product-carousel",
       "settings": {
         "heading": "NuCloud collection",
+        "description": "The latest in effortless comfort.",
         "hide_heading": true,
         "collection": "2026-nucloud",
         "products": [
@@ -175,67 +187,63 @@
           "nucloud-original-high-rise-5-pack"
         ],
         "limit": 6,
-        "description": "The latest in effortless comfort.",
-        "link_label": "Shop All"
+        "link_label": "Shop All",
+        "link": ""
       }
     },
     "lifestyle": {
       "type": "lifestyle-grid",
-      "settings": {
-        "eyebrow": "Shop by Lifestyle",
-        "heading": "Built for how you actually live."
-      },
       "blocks": {
         "item0": {
           "type": "lifestyle",
           "settings": {
+            "image": "shopify://shop_images/work.png",
+            "show_legacy_media": false,
+            "image_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/work.png?v=1792995931",
             "label": "Work",
             "title": "Desk to dinner",
             "copy": "Invisible lines under tailored everything.",
-            "link": "/collections/desk-to-dinner",
-            "image_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/work.png?v=1792995931",
-            "image": "shopify://shop_images/work.png",
-            "show_legacy_media": false,
-            "button_label": "Explore"
+            "button_label": "Explore",
+            "link": "/collections/desk-to-dinner"
           }
         },
         "item1": {
           "type": "lifestyle",
           "settings": {
+            "image": "shopify://shop_images/travel.png",
+            "show_legacy_media": false,
+            "image_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/travel.png?v=1792995971",
             "label": "Travel",
             "title": "Long-haul ease",
             "copy": "Breathable comfort, flight after flight.",
-            "link": "/collections/long-haulease",
-            "image_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/travel.png?v=1792995971",
-            "image": "shopify://shop_images/travel.png",
-            "show_legacy_media": false,
-            "button_label": "Explore"
+            "button_label": "Explore",
+            "link": "/collections/long-haulease"
           }
         },
         "item2": {
           "type": "lifestyle",
           "settings": {
+            "image": "shopify://shop_images/active.png",
+            "show_legacy_media": false,
+            "image_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/active.png?v=1792995965",
             "label": "Active",
             "title": "Made to move",
             "copy": "Stay-put bands through every mile.",
-            "link": "/collections/made-to-move",
-            "image_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/active.png?v=1792995965",
-            "image": "shopify://shop_images/active.png",
-            "show_legacy_media": false,
-            "button_label": "Explore"
+            "button_label": "Explore",
+            "link": "/collections/made-to-move"
           }
         },
         "item3": {
           "type": "lifestyle",
           "settings": {
+            "image": "shopify://shop_images/everyday.png",
+            "show_legacy_media": false,
+            "image_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/everyday.png?v=1792995947",
             "label": "Everyday",
             "title": "Off-duty soft",
             "copy": "The barely-there basics you reach for daily.",
-            "link": "/collections/off-duty-soft",
-            "image_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/everyday.png?v=1792995947",
-            "image": "shopify://shop_images/everyday.png",
-            "show_legacy_media": false,
-            "button_label": "Explore"
+            "button_label": "Explore",
+            "link": "/collections/off-duty-soft"
           }
         }
       },
@@ -244,17 +252,21 @@
         "item1",
         "item2",
         "item3"
-      ]
+      ],
+      "settings": {
+        "eyebrow": "Shop by Lifestyle",
+        "heading": "Built for how you actually live."
+      }
     },
     "collections": {
       "type": "home-collections",
-      "settings": {
-        "heading": "Featured collections"
-      },
       "blocks": {
         "item0": {
           "type": "collection",
           "settings": {
+            "image": "shopify://shop_images/1_763bf3bd-c2eb-43a0-b7ab-892c79908c2d.jpg",
+            "show_legacy_media": false,
+            "image_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/1_763bf3bd-c2eb-43a0-b7ab-892c79908c2d.jpg?v=1792996015",
             "collection": "2026-nucloud",
             "products": [
               "nucloud-original-low-rise",
@@ -265,14 +277,15 @@
             "heading": "NuCloud Collection",
             "description": "Cloud-soft essentials made to disappear under everything.",
             "button_label": "Shop NuCloud",
-            "image_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/1_763bf3bd-c2eb-43a0-b7ab-892c79908c2d.jpg?v=1792996015",
-            "image": "shopify://shop_images/1_763bf3bd-c2eb-43a0-b7ab-892c79908c2d.jpg",
-            "show_legacy_media": false
+            "link": ""
           }
         },
         "item1": {
           "type": "collection",
           "settings": {
+            "image": "shopify://shop_images/Untitled_design_38_1fbb0b2c-56f2-4c22-83d0-0c7c03db2d1a.jpg",
+            "show_legacy_media": false,
+            "image_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/Untitled_design_38_1fbb0b2c-56f2-4c22-83d0-0c7c03db2d1a.jpg?v=1792996016",
             "collection": "2026-nuair",
             "products": [
               "nuair-mesh-flex",
@@ -283,143 +296,139 @@
             "heading": "NuAir Collection",
             "description": "Breathable, featherlight layers designed for all-day movement.",
             "button_label": "Shop NuAir",
-            "image_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/Untitled_design_38_1fbb0b2c-56f2-4c22-83d0-0c7c03db2d1a.jpg?v=1792996016",
-            "image": "shopify://shop_images/Untitled_design_38_1fbb0b2c-56f2-4c22-83d0-0c7c03db2d1a.jpg",
-            "show_legacy_media": false
+            "link": ""
           }
         }
       },
       "block_order": [
         "item0",
         "item1"
-      ]
+      ],
+      "settings": {
+        "heading": "Featured collections"
+      }
     },
     "community": {
       "type": "community-strip",
-      "settings": {
-        "eyebrow": "Real People, Real Comfort",
-        "heading": "From the Community",
-        "hint": "Scroll or drag to browse · hover to play"
-      },
       "blocks": {
         "item0": {
           "type": "story",
           "settings": {
-            "title": "Everyday Comfort",
-            "link": "/products/nucloud-original-high-rise",
-            "video_url": "https://cdn.shopify.com/videos/c/vp/119544d823414e17ba3df4cc4201ef86/119544d823414e17ba3df4cc4201ef86.HD-720p-1.6Mbps-98885472.mp4",
-            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/preview_images/119544d823414e17ba3df4cc4201ef86.thumbnail.0000000000.jpg?v=1792996011",
             "video": "shopify://files/videos/home-ff079ad0b44b4f09a99be73cb6bedea1.mp4",
             "show_legacy_media": false,
-            "button_label": "Shop the look"
+            "video_url": "https://cdn.shopify.com/videos/c/vp/119544d823414e17ba3df4cc4201ef86/119544d823414e17ba3df4cc4201ef86.HD-720p-1.6Mbps-98885472.mp4",
+            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/preview_images/119544d823414e17ba3df4cc4201ef86.thumbnail.0000000000.jpg?v=1792996011",
+            "title": "Everyday Comfort",
+            "button_label": "Shop the look",
+            "link": "/products/nucloud-original-high-rise"
           }
         },
         "item1": {
           "type": "story",
           "settings": {
-            "title": "No-Dig High Rise",
-            "link": "/products/nucloud-thong",
-            "video_url": "https://cdn.shopify.com/videos/c/vp/82bfce96942347e0bbeb544987ed7da2/82bfce96942347e0bbeb544987ed7da2.HD-720p-1.6Mbps-98885475.mp4",
-            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/preview_images/82bfce96942347e0bbeb544987ed7da2.thumbnail.0000000000.jpg?v=1792996006",
             "video": "shopify://files/videos/home-7220d6eded1e4172962ae57a33b2bfd0.mp4",
             "show_legacy_media": false,
-            "button_label": "Shop the look"
+            "video_url": "https://cdn.shopify.com/videos/c/vp/82bfce96942347e0bbeb544987ed7da2/82bfce96942347e0bbeb544987ed7da2.HD-720p-1.6Mbps-98885475.mp4",
+            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/preview_images/82bfce96942347e0bbeb544987ed7da2.thumbnail.0000000000.jpg?v=1792996006",
+            "title": "No-Dig High Rise",
+            "button_label": "Shop the look",
+            "link": "/products/nucloud-thong"
           }
         },
         "item2": {
           "type": "story",
           "settings": {
-            "title": "No Visible Lines",
-            "link": "/products/nucloud-original-mid-rise",
-            "video_url": "https://cdn.shopify.com/videos/c/vp/bfcdc44bd4c942aabafceef68bc13fba/bfcdc44bd4c942aabafceef68bc13fba.HD-720p-1.6Mbps-98885478.mp4",
-            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/preview_images/bfcdc44bd4c942aabafceef68bc13fba.thumbnail.0000000000.jpg?v=1792996020",
             "video": "shopify://files/videos/home-f89b09424ca94346a269b01bab27d499.mp4",
             "show_legacy_media": false,
-            "button_label": "Shop the look"
+            "video_url": "https://cdn.shopify.com/videos/c/vp/bfcdc44bd4c942aabafceef68bc13fba/bfcdc44bd4c942aabafceef68bc13fba.HD-720p-1.6Mbps-98885478.mp4",
+            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/preview_images/bfcdc44bd4c942aabafceef68bc13fba.thumbnail.0000000000.jpg?v=1792996020",
+            "title": "No Visible Lines",
+            "button_label": "Shop the look",
+            "link": "/products/nucloud-original-mid-rise"
           }
         },
         "item3": {
           "type": "story",
           "settings": {
-            "title": "Invisible Under Skirts",
-            "link": "/products/nucloud-original-low-rise",
-            "video_url": "https://cdn.shopify.com/videos/c/vp/4bd5485d33aa48dd80f56fb6f35b3177/4bd5485d33aa48dd80f56fb6f35b3177.HD-720p-1.6Mbps-98885481.mp4",
-            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/preview_images/4bd5485d33aa48dd80f56fb6f35b3177.thumbnail.0000000000.jpg?v=1792996024",
             "video": "shopify://files/videos/home-b2e90b0de6fb4a0a9611f6ff2528b5d7.mp4",
             "show_legacy_media": false,
-            "button_label": "Shop the look"
+            "video_url": "https://cdn.shopify.com/videos/c/vp/4bd5485d33aa48dd80f56fb6f35b3177/4bd5485d33aa48dd80f56fb6f35b3177.HD-720p-1.6Mbps-98885481.mp4",
+            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/preview_images/4bd5485d33aa48dd80f56fb6f35b3177.thumbnail.0000000000.jpg?v=1792996024",
+            "title": "Invisible Under Skirts",
+            "button_label": "Shop the look",
+            "link": "/products/nucloud-original-low-rise"
           }
         },
         "item4": {
           "type": "story",
           "settings": {
-            "title": "Real Rider Review",
-            "link": "/products/nuair-mesh-flex",
-            "video_url": "https://cdn.shopify.com/videos/c/vp/06f4c5d9c4094a028fe7efd66f482679/06f4c5d9c4094a028fe7efd66f482679.HD-720p-1.6Mbps-98885483.mp4",
-            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/preview_images/06f4c5d9c4094a028fe7efd66f482679.thumbnail.0000000000.jpg?v=1792996034",
             "video": "shopify://files/videos/home-b61d2e0b339244deb1968d3f823cb6c4.mp4",
             "show_legacy_media": false,
-            "button_label": "Shop the look"
+            "video_url": "https://cdn.shopify.com/videos/c/vp/06f4c5d9c4094a028fe7efd66f482679/06f4c5d9c4094a028fe7efd66f482679.HD-720p-1.6Mbps-98885483.mp4",
+            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/preview_images/06f4c5d9c4094a028fe7efd66f482679.thumbnail.0000000000.jpg?v=1792996034",
+            "title": "Real Rider Review",
+            "button_label": "Shop the look",
+            "link": "/products/nuair-mesh-flex"
           }
         },
         "item5": {
           "type": "story",
           "settings": {
-            "title": "Made to Move",
-            "link": "/products/nuair-mesh-pivot",
-            "video_url": "https://cdn.shopify.com/videos/c/vp/b06b877bb2634dfc93dddb4cc8864fd1/b06b877bb2634dfc93dddb4cc8864fd1.HD-720p-1.6Mbps-98885484.mp4",
-            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/preview_images/b06b877bb2634dfc93dddb4cc8864fd1.thumbnail.0000000000.jpg?v=1792996029",
             "video": "shopify://files/videos/home-7fa3807e1b71405d89747af19aa31bd9.mp4",
             "show_legacy_media": false,
-            "button_label": "Shop the look"
+            "video_url": "https://cdn.shopify.com/videos/c/vp/b06b877bb2634dfc93dddb4cc8864fd1/b06b877bb2634dfc93dddb4cc8864fd1.HD-720p-1.6Mbps-98885484.mp4",
+            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/preview_images/b06b877bb2634dfc93dddb4cc8864fd1.thumbnail.0000000000.jpg?v=1792996029",
+            "title": "Made to Move",
+            "button_label": "Shop the look",
+            "link": "/products/nuair-mesh-pivot"
           }
         },
         "item6": {
           "type": "story",
           "settings": {
-            "title": "The Collection",
-            "link": "/collections/2026-nushield",
-            "video_url": "https://cdn.shopify.com/videos/c/vp/780d31f890e64d4dbf81953afa46cac6/780d31f890e64d4dbf81953afa46cac6.HD-720p-1.6Mbps-98885515.mp4",
-            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/preview_images/780d31f890e64d4dbf81953afa46cac6.thumbnail.0000000000.jpg?v=1792996030",
             "video": "shopify://files/videos/home-ae89793906fa481780013a68b6ec96a6.mp4",
             "show_legacy_media": false,
-            "button_label": "Shop the look"
+            "video_url": "https://cdn.shopify.com/videos/c/vp/780d31f890e64d4dbf81953afa46cac6/780d31f890e64d4dbf81953afa46cac6.HD-720p-1.6Mbps-98885515.mp4",
+            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/preview_images/780d31f890e64d4dbf81953afa46cac6.thumbnail.0000000000.jpg?v=1792996030",
+            "title": "The Collection",
+            "button_label": "Shop the look",
+            "link": "/collections/2026-nushield"
           }
         },
         "item7": {
           "type": "story",
           "settings": {
-            "title": "As Seen on IG",
-            "link": "/products/nuair-mesh-flex",
-            "video_url": "https://cdn.shopify.com/videos/c/vp/1c3dce290e6543509965331f56f601fe/1c3dce290e6543509965331f56f601fe.HD-720p-1.6Mbps-98885517.mp4",
-            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/preview_images/1c3dce290e6543509965331f56f601fe.thumbnail.0000000000.jpg?v=1792996032",
             "video": "shopify://files/videos/home-de379a3ad3564915b55bd7d2fb553982.mp4",
             "show_legacy_media": false,
-            "button_label": "Shop the look"
+            "video_url": "https://cdn.shopify.com/videos/c/vp/1c3dce290e6543509965331f56f601fe/1c3dce290e6543509965331f56f601fe.HD-720p-1.6Mbps-98885517.mp4",
+            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/preview_images/1c3dce290e6543509965331f56f601fe.thumbnail.0000000000.jpg?v=1792996032",
+            "title": "As Seen on IG",
+            "button_label": "Shop the look",
+            "link": "/products/nuair-mesh-flex"
           }
         },
         "item8": {
           "type": "story",
           "settings": {
-            "title": "Behind the Seams",
-            "link": "/products/nucloud-original-low-rise",
-            "video_url": "https://cdn.shopify.com/videos/c/vp/071dbd5796a5468fa1e86f30e6b88fc8/071dbd5796a5468fa1e86f30e6b88fc8.HD-720p-1.6Mbps-98885529.mp4",
-            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/preview_images/071dbd5796a5468fa1e86f30e6b88fc8.thumbnail.0000000000.jpg?v=1792996053",
             "video": "shopify://files/videos/home-55c3475e25c24e9d94d38a84ab2d0cb1.mp4",
             "show_legacy_media": false,
-            "button_label": "Shop the look"
+            "video_url": "https://cdn.shopify.com/videos/c/vp/071dbd5796a5468fa1e86f30e6b88fc8/071dbd5796a5468fa1e86f30e6b88fc8.HD-720p-1.6Mbps-98885529.mp4",
+            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/preview_images/071dbd5796a5468fa1e86f30e6b88fc8.thumbnail.0000000000.jpg?v=1792996053",
+            "title": "Behind the Seams",
+            "button_label": "Shop the look",
+            "link": "/products/nucloud-original-low-rise"
           }
         },
         "item9": {
           "type": "story",
           "settings": {
-            "title": "Fan Favorite",
-            "link": "/products/nucloud-original-mid-rise",
-            "video_url": "https://cdn.shopify.com/videos/c/vp/6beecac53678413fa6fd7af713e5a6ee/6beecac53678413fa6fd7af713e5a6ee.HD-720p-1.6Mbps-98885530.mp4",
-            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/preview_images/6beecac53678413fa6fd7af713e5a6ee.thumbnail.0000000000.jpg?v=1792996039",
             "video": "shopify://files/videos/home-721c700702aa4fa3b133d448bc44807a.mp4",
             "show_legacy_media": false,
-            "button_label": "Shop the look"
+            "video_url": "https://cdn.shopify.com/videos/c/vp/6beecac53678413fa6fd7af713e5a6ee/6beecac53678413fa6fd7af713e5a6ee.HD-720p-1.6Mbps-98885530.mp4",
+            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/preview_images/6beecac53678413fa6fd7af713e5a6ee.thumbnail.0000000000.jpg?v=1792996039",
+            "title": "Fan Favorite",
+            "button_label": "Shop the look",
+            "link": "/products/nucloud-original-mid-rise"
           }
         }
       },
@@ -434,75 +443,74 @@
         "item7",
         "item8",
         "item9"
-      ]
+      ],
+      "settings": {
+        "eyebrow": "Real People, Real Comfort",
+        "heading": "From the Community",
+        "hint": "Scroll or drag to browse · hover to play"
+      }
     },
     "journal": {
       "type": "journal",
-      "settings": {
-        "eyebrow": "The Journal",
-        "heading": "Fit, comfort & care, decoded",
-        "link_label": "All Articles",
-        "close_label": "Close article"
-      },
       "blocks": {
         "item0": {
           "type": "guide",
           "settings": {
-            "heading": "2026 Ultimate Guide to Choosing Best Invisible Undies for Office Pants",
+            "image": "shopify://shop_images/MAD09999_088a7299-8065-43c1-8a94-905237bda6b0.jpg",
+            "show_legacy_media": false,
             "image_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/MAD09999_088a7299-8065-43c1-8a94-905237bda6b0.jpg?v=1792996184",
+            "heading": "2026 Ultimate Guide to Choosing Best Invisible Undies for Office Pants",
             "category": "Fit Guide",
             "summary": "Choose smooth edges and a fit that stays comfortable through a full day at your desk.",
             "content": "<p>Start with the trousers you wear most. Fine or close-fitting fabrics can make raised seams and tight elastic more noticeable. Look for a smooth edge, then choose the amount of coverage you find comfortable.</p><p>Try a NuCloud Mid-Rise Brief for everyday coverage or a Hipster Bikini for a lower waist. Use the product size chart and check the fit while sitting and walking. A waistband should lie comfortably without digging in.</p>",
-            "link": "/collections/2026-nucloud",
-            "image": "shopify://shop_images/MAD09999_088a7299-8065-43c1-8a94-905237bda6b0.jpg",
-            "show_legacy_media": false,
             "button_label": "Read Article",
-            "related_label": "Explore the collection"
+            "related_label": "Explore the collection",
+            "link": "/collections/2026-nucloud"
           }
         },
         "item1": {
           "type": "guide",
           "settings": {
-            "heading": "The Ultimate 2026 Guide: Which Seamless Underwear Works Best for Both Office and Casual Wear?",
+            "image": "shopify://shop_images/DSC03621_9569b931-58ba-43f7-bccd-f5f568fdaa09.jpg",
+            "show_legacy_media": false,
             "image_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/DSC03621_9569b931-58ba-43f7-bccd-f5f568fdaa09.jpg?v=1792996185",
+            "heading": "The Ultimate 2026 Guide: Which Seamless Underwear Works Best for Both Office and Casual Wear?",
             "category": "Everyday Comfort",
             "summary": "Build an easy rotation of seamless shapes for work, weekends and everything between.",
             "content": "<p>Choose underwear around your clothes and the coverage you prefer. Mid-rise briefs suit an everyday rotation, hipsters sit lower on the hip, and thongs offer less rear coverage.</p><p>Compare the actual size and color options on each product page. Start with a single pair when trying a new style, then choose a multipack once you know the fit works for you.</p>",
-            "link": "/collections/no-vpls",
-            "image": "shopify://shop_images/DSC03621_9569b931-58ba-43f7-bccd-f5f568fdaa09.jpg",
-            "show_legacy_media": false,
             "button_label": "Read Article",
-            "related_label": "Explore the collection"
+            "related_label": "Explore the collection",
+            "link": "/collections/no-vpls"
           }
         },
         "item2": {
           "type": "guide",
           "settings": {
-            "heading": "Top 3 Breathable Underwers for Active Women: What to Look For",
+            "image": "shopify://shop_images/31_d85337ae-7014-430f-9a44-1c149a6580fc.jpg",
+            "show_legacy_media": false,
             "image_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/31_d85337ae-7014-430f-9a44-1c149a6580fc.jpg?v=1792996185",
+            "heading": "Top 3 Breathable Underwers for Active Women: What to Look For",
             "category": "Fabric & Movement",
             "summary": "Explore mesh styles and practical fit checks for days spent on the move.",
             "content": "<p>For active days, consider fabric, coverage and a waistband that stays comfortable as you move. NuAir includes Mesh Flex Brief, Pivot+ and FlexShield Thong options, each with its own size and color choices.</p><p>Check the fit through a few everyday movements before choosing a bundle. Follow the care instructions supplied with your garment and change into clean, dry underwear after exercise.</p>",
-            "link": "/collections/2026-nuair",
-            "image": "shopify://shop_images/31_d85337ae-7014-430f-9a44-1c149a6580fc.jpg",
-            "show_legacy_media": false,
             "button_label": "Read Article",
-            "related_label": "Explore the collection"
+            "related_label": "Explore the collection",
+            "link": "/collections/2026-nuair"
           }
         },
         "item3": {
           "type": "guide",
           "settings": {
-            "heading": "4 Best Anti–Camel Toe Underwears for Long Hours: Comfort Checklist",
+            "image": "shopify://shop_images/8_c83aaf35-fafb-4e5a-b976-b3c80ac564a5.jpg",
+            "show_legacy_media": false,
             "image_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/8_c83aaf35-fafb-4e5a-b976-b3c80ac564a5.jpg?v=1792996186",
+            "heading": "4 Best Anti–Camel Toe Underwears for Long Hours: Comfort Checklist",
             "category": "Style Guide",
             "summary": "Find the coverage and shield style that suits your daily outfits.",
             "content": "<p>NuShield and FlexShield styles offer different cuts and coverage. Compare briefs and thongs with the outfits you wear, and use the product description to understand the construction of the pair you choose.</p><p>Check the fit while standing, sitting and walking. The gusset should feel comfortable and edges should lie flat. If you are trying a new cut, choose a single pair before committing to a multipack.</p>",
-            "link": "/collections/anticamel-toe",
-            "image": "shopify://shop_images/8_c83aaf35-fafb-4e5a-b976-b3c80ac564a5.jpg",
-            "show_legacy_media": false,
             "button_label": "Read Article",
-            "related_label": "Explore the collection"
+            "related_label": "Explore the collection",
+            "link": "/collections/anticamel-toe"
           }
         }
       },
@@ -511,7 +519,14 @@
         "item1",
         "item2",
         "item3"
-      ]
+      ],
+      "settings": {
+        "eyebrow": "The Journal",
+        "heading": "Fit, comfort & care, decoded",
+        "link_label": "All Articles",
+        "link": "",
+        "close_label": "Close article"
+      }
     }
   },
   "order": [
