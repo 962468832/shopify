@@ -556,6 +556,14 @@
     if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
   });
   qsa('[data-product-form]').forEach((form) => form.addEventListener('submit', (event) => { event.preventDefault(); addToCart(qs('[data-variant-id]', form).value, Number(qs('[name="quantity"]', form).value || 1), qs('button[type="submit"]', form)); }));
+  qsa('[data-cart-page-quantity]').forEach((button) => button.addEventListener('click', () => {
+    const input = qs('input', button.parentElement);
+    const form = button.closest('form');
+    const update = qs('[name="update"]', form);
+    if (!input || !form || !update) return;
+    input.value = Math.max(0, (Number(input.value) || 0) + Number(button.dataset.cartPageQuantity));
+    form.requestSubmit(update);
+  }));
   const syncCart = () => { cartQueue.then(refreshCart).catch(() => {}); };
   syncCart();
   window.addEventListener('pageshow', (event) => { if (event.persisted) syncCart(); });

@@ -1,24 +1,43 @@
 <section class="page-width cart-page">
-  <div class="collection-head"><p class="eyebrow">Your bag</p><h1>Ready when you are.</h1></div>
+  <header class="cart-page__header">
+    <div><p class="eyebrow">Your shopping bag</p><h1>Your Bag <span>({{ cart.item_count }})</span></h1></div>
+    <a class="text-link" href="{{ routes.all_products_collection_url }}">Continue shopping <span aria-hidden="true">→</span></a>
+  </header>
   {% if cart.item_count == 0 %}
-    <div class="empty-state"><p>Your bag is empty.</p><a class="button button--dark" href="{{ routes.all_products_collection_url }}">Shop now</a></div>
+    <div class="cart-page__empty"><h2>Your bag is empty</h2><p>Find your next everyday favorite.</p><a class="button button--dark" href="{{ routes.all_products_collection_url }}">Shop all products</a></div>
   {% else %}
-    <form action="{{ routes.cart_url }}" method="post" class="cart-form">
-      <div class="cart-lines">
+    <form action="{{ routes.cart_url }}" method="post" class="cart-page__form">
+      <div class="cart-page__items">
+        <div class="cart-page__column-labels" aria-hidden="true"><span>Product</span><span>Total</span></div>
         {% for item in cart.items %}
-          <article class="cart-line">
-            <a href="{{ item.url }}"><img src="{{ item.image | image_url: width: 240 }}" width="240" height="320" alt="{{ item.image.alt | escape }}"></a>
-            <div><a href="{{ item.url }}"><h2>{{ item.product.title }}</h2></a><p>{{ item.variant.title }}</p><p>{{ item.final_line_price | money }}</p><label>Qty <input type="number" min="0" name="updates[]" value="{{ item.quantity }}"></label></div>
-            <a class="text-link" href="{{ item.url_to_remove }}">Remove</a>
+          <article class="cart-page__line">
+            <a class="cart-page__line-image" href="{{ item.url }}">{% if item.image %}<img src="{{ item.image | image_url: width: 360 }}" width="180" height="240" alt="{{ item.image.alt | default: item.product.title | escape }}" loading="lazy">{% endif %}</a>
+            <div class="cart-page__line-info">
+              <p class="cart-page__vendor">{{ item.vendor }}</p>
+              <h2><a href="{{ item.url }}">{{ item.product.title }}</a></h2>
+              {% unless item.product.has_only_default_variant %}<p class="cart-page__variant">{{ item.variant.title }}</p>{% endunless %}
+              <p class="cart-page__unit-price">{{ item.final_price | money }}{% if item.original_price > item.final_price %} <s>{{ item.original_price | money }}</s>{% endif %}</p>
+              <div class="cart-page__line-actions">
+                <div class="cart-page__quantity" aria-label="Quantity for {{ item.product.title | escape }}"><button type="button" data-cart-page-quantity="-1" aria-label="Decrease quantity for {{ item.product.title | escape }}">−</button><input type="number" min="0" name="updates[]" value="{{ item.quantity }}" aria-label="Quantity for {{ item.product.title | escape }}"><button type="button" data-cart-page-quantity="1" aria-label="Increase quantity for {{ item.product.title | escape }}">+</button></div>
+                <a class="cart-page__remove" href="{{ item.url_to_remove }}">Remove</a>
+              </div>
+            </div>
+            <div class="cart-page__line-total"><strong>{{ item.final_line_price | money }}</strong>{% if item.original_line_price > item.final_line_price %}<s>{{ item.original_line_price | money }}</s>{% endif %}</div>
           </article>
         {% endfor %}
+        <button class="text-link cart-page__update" name="update" type="submit">Update bag</button>
       </div>
-      <aside class="cart-summary">
-        <div><span>Subtotal ({{ cart.item_count }} items)</span><strong>{{ cart.total_price | money }}</strong></div>
-        <p>Taxes and shipping calculated at checkout.</p>
-        <button class="button button--dark button--full" name="checkout" type="submit">Buy now</button>
+      <aside class="cart-page__summary">
+        <h2>Order Summary</h2>
+        <div class="cart-page__summary-row"><span>Subtotal ({{ cart.item_count }} items)</span><strong>{{ cart.items_subtotal_price | money }}</strong></div>
+        {% if cart.total_discount > 0 %}<div class="cart-page__summary-row cart-page__discount"><span>Discount</span><strong>−{{ cart.total_discount | money }}</strong></div>{% endif %}
+        <div class="cart-page__summary-row cart-page__shipping"><span>Shipping</span><span>Calculated at checkout</span></div>
+        <div class="cart-page__summary-row cart-page__total"><span>Total</span><strong>{{ cart.total_price | money }}</strong></div>
+        <p class="cart-page__tax-note">Taxes and shipping calculated at checkout.</p>
+        <button class="button button--dark button--full" name="checkout" type="submit">Checkout</button>
         {% if additional_checkout_buttons %}<div class="additional-checkout-buttons">{{ content_for_additional_checkout_buttons }}</div>{% endif %}
-        <button class="text-link" name="update" type="submit">Update bag</button>
+        <p class="cart-page__secure"><span aria-hidden="true">✓</span> Secure checkout</p>
+        <a class="cart-page__continue" href="{{ routes.all_products_collection_url }}">Continue shopping</a>
       </aside>
     </form>
   {% endif %}
