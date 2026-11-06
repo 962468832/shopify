@@ -18,7 +18,8 @@
       <h1>{{ product.title }}</h1>
       <div class="product-price"><span data-product-price>{{ current_variant.price | money }}</span><s data-product-compare{% unless discount_percent > 0 %} hidden{% endunless %}>{{ current_variant.compare_at_price | money }}</s><span class="product-price__save" data-product-savings{% unless discount_percent > 0 %} hidden{% endunless %}>Save <span data-product-savings-value>{{ discount_percent }}</span>%</span></div>
       {% form 'product', product, data-product-form: '', data-product-installments: '' %}
-        <div class="product-installments">{{ form | payment_terms }}</div>
+        {% capture payment_terms %}{{ form | payment_terms }}{% endcapture %}
+        <div class="product-installments"{% if payment_terms == blank %} hidden{% endif %}>{{ payment_terms }}</div>
         {% unless product.has_only_default_variant %}<div class="variant-options">
           {% for option in product.options_with_values %}
             {% assign option_index = forloop.index0 %}{% assign option_name = option.name | downcase %}

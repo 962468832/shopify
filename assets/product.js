@@ -65,13 +65,16 @@
       const refreshInstallments = async () => {
         if (!productForm || id.value !== String(variant.id)) return;
         const params = new URLSearchParams(new FormData(productForm));
-        params.set('section_id', 'main-product');
+        params.set('section_id', 'main');
         try {
           const response = await fetch(`${window.location.pathname}?${params}`, { headers: { Accept: 'text/html' } });
           if (!response.ok || id.value !== String(variant.id)) return;
           const html = new DOMParser().parseFromString(await response.text(), 'text/html');
           const terms = html.querySelector('.product-installments');
-          if (terms && id.value === String(variant.id)) root.querySelector('.product-installments').replaceWith(terms);
+          const currentTerms = root.querySelector('.product-installments');
+          if (terms && currentTerms && id.value === String(variant.id)) {
+            currentTerms.replaceWith(terms);
+          }
         } catch { /* The selected variant and purchase flow still work without refreshed terms. */ }
       };
       refreshInstallments();
