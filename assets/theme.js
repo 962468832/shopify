@@ -86,14 +86,58 @@
     return { label: quickShopSettings.cartProgressLabel || 'Unlock free shipping', remaining: `${formatMoney(progressThreshold - subtotal)} away`, percent };
   }
 
-  function renderCartItems(cart) {
+  function fallbackCartLinePricing(item) {
+    const originalLinePrice = Number(item.original_line_price || (Number(item.price || 0) * Number(item.quantity || 0)));
+    const finalLinePrice = Number(item.final_line_price || originalLinePrice);
+    return {
+      referenceLinePrice: originalLinePrice,
+      merchandiseSavings: 0,
+      savePercent: 0,
+      finalLinePrice
+    };
+  }
+
+  async function getCartPricing(cart) {
+    const lines = new Map();
+    if (!cart.items.length) return { lines, merchandiseSavings: 0, totalDiscount: Number(cart.total_discount || 0) };
+    const handles = [...new Set(cart.items.map((item) => item.handle).filter(Boolean))];
+    const products = await Promise.allSettled(handles.map((handle) => fetchProduct(handle)));
+    const productsByHandle = new Map();
+    products.forEach((result, index) => {
+      if (result.status === 'fulfilled') productsByHandle.set(handles[index], result.value);
+    });
+    let merchandiseSavings = 0;
+    cart.items.forEach((item) => {
+      const fallback = fallbackCartLinePricing(item);
+      const product = productsByHandle.get(item.handle);
+      const variant = product?.variants?.find((candidate) => String(candidate.id) === String(item.variant_id));
+      const compareAtPrice = Number(variant?.compare_at_price || 0);
+      const originalLinePrice = fallback.referenceLinePrice;
+      const compareAtLinePrice = compareAtPrice * Number(item.quantity || 0);
+      const referenceLinePrice = Math.max(originalLinePrice, compareAtLinePrice);
+      const lineMerchandiseSavings = Math.max(0, referenceLinePrice - originalLinePrice);
+      merchandiseSavings += lineMerchandiseSavings;
+      lines.set(item.key, {
+        referenceLinePrice,
+        merchandiseSavings: lineMerchandiseSavings,
+        savePercent: referenceLinePrice > 0 ? Math.round((lineMerchandiseSavings / referenceLinePrice) * 100) : 0,
+        finalLinePrice: fallback.finalLinePrice
+      });
+    });
+    return { lines, merchandiseSavings, totalDiscount: merchandiseSavings + Number(cart.total_discount || 0) };
+  }
+
+  function renderCartItems(cart, pricing = { lines: new Map() }) {
     const items = qs('[data-cart-items]');
     if (!items) return '';
     if (!cart.items.length) {
       items.innerHTML = '<p class="empty-state">Your bag is empty.</p>';
       return '';
     }
-    items.innerHTML = cart.items.map((item) => `
+    items.innerHTML = cart.items.map((item) => {
+      const linePricing = pricing.lines.get(item.key) || fallbackCartLinePricing(item);
+      const showReferencePrice = linePricing.referenceLinePrice > linePricing.finalLinePrice;
+      return `
       <article class="drawer-line" data-cart-line="${escapeHtml(item.key)}" data-product-handle="${escapeHtml(item.handle)}" data-product-id="${item.product_id}" data-variant-id="${item.variant_id}" data-quantity="${item.quantity}">
         <a class="drawer-line__media" href="${escapeHtml(item.url)}"><img src="${escapeHtml(item.image || '')}" alt="${escapeHtml(item.product_title)}"></a>
         <div class="drawer-line__details">
@@ -107,21 +151,23 @@
             <button class="drawer-remove" type="button" data-remove-line>Remove</button>
           </div>
         </div>
-        <div class="drawer-line__price"><strong>${formatMoney(item.final_line_price)}</strong>${item.original_line_price > item.final_line_price ? `<s>${formatMoney(item.original_line_price)}</s>` : ''}</div>
+        <div class="drawer-line__price"><strong>${formatMoney(item.final_line_price)}</strong>${showReferencePrice ? `<s>${formatMoney(linePricing.referenceLinePrice)}</s>` : ''}${linePricing.savePercent ? `<span class="cart-price__save">Save ${linePricing.savePercent}%</span>` : ''}</div>
       </article>
-    `).join('');
+    `;
+    }).join('');
     return items.innerHTML;
   }
 
-  function updateCartSummary(cart) {
+  function updateCartSummary(cart, pricing = { totalDiscount: Number(cart.total_discount || 0) }) {
     const subtotal = qs('[data-cart-subtotal]');
     if (subtotal) subtotal.textContent = formatMoney(cart.items_subtotal_price);
     const total = qs('[data-cart-total]');
     if (total) total.textContent = formatMoney(cart.total_price);
     const discountRow = qs('[data-cart-discount-row]');
     const discountTotal = qs('[data-cart-discount-total]');
-    if (discountRow) discountRow.hidden = !cart.total_discount;
-    if (discountTotal && cart.total_discount) discountTotal.textContent = `–${formatMoney(cart.total_discount)}`;
+    const totalDiscount = Number(pricing.totalDiscount || 0);
+    if (discountRow) discountRow.hidden = !totalDiscount;
+    if (discountTotal) discountTotal.textContent = `–${formatMoney(totalDiscount)}`;
     const summary = qs('[data-cart-summary]');
     if (summary) summary.classList.toggle('is-empty', !cart.items.length);
     const discount = qs('[data-cart-discount]');
@@ -188,20 +234,20 @@
     }
   }
 
-  function refreshCart() {
+  async function refreshCart() {
     const revision = ++cartRevision;
     const routes = window.ShopifyRoutes || {};
-    return cartRequest(routes.cartJson || '/cart.js').then((cart) => {
-      if (revision !== cartRevision) return cart;
-      qsa('[data-cart-count]').forEach((element) => { element.textContent = cart.item_count; });
-      qsa('[data-cart-open]').forEach((element) => { element.setAttribute('aria-label', `Cart (${cart.item_count} items)`); });
-      renderCartItems(cart);
-      updateCartSummary(cart);
-      updateCartProgress(cart);
-      const firstItem = cart.items.find((item) => item.product_id);
-      loadRecommendations(firstItem?.product_id);
-      return cart;
-    });
+    const cart = await cartRequest(routes.cartJson || '/cart.js');
+    const pricing = await getCartPricing(cart);
+    if (revision !== cartRevision) return cart;
+    qsa('[data-cart-count]').forEach((element) => { element.textContent = cart.item_count; });
+    qsa('[data-cart-open]').forEach((element) => { element.setAttribute('aria-label', `Cart (${cart.item_count} items)`); });
+    renderCartItems(cart, pricing);
+    updateCartSummary(cart, pricing);
+    updateCartProgress(cart);
+    const firstItem = cart.items.find((item) => item.product_id);
+    loadRecommendations(firstItem?.product_id);
+    return cart;
   }
   const openCart = async () => {
     setDrawer(cartDrawer, true);

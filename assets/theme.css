@@ -582,6 +582,7 @@ html.cart-drawer-lock,body.cart-drawer-lock{overflow:hidden;height:100%;overscro
 .drawer-edit:hover,.drawer-remove:hover{color:var(--ink)}
 .drawer-line__price{display:grid;gap:4px;justify-items:end;font-size:13px}
 .drawer-line__price s{color:#998f89;font-size:11px}
+.cart-price__save{display:inline-block;color:#b31f3b;font-size:10px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
 .cart-discount{padding:17px 0 15px;border-bottom:1px solid var(--line)}
 .cart-discount label{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.11em;color:#786e67;margin-bottom:8px}
 .cart-discount div{display:grid;grid-template-columns:minmax(0,1fr) 88px;gap:8px}
@@ -759,6 +760,7 @@ body.size-guide-lock{position:fixed;inset-inline:0;width:100%}
 .cart-page__variant{font-size:12px;line-height:1.55;color:#6c625c;margin:0 0 9px}
 .cart-page__unit-price{font-size:13px;color:#6c625c;margin:0}
 .cart-page__unit-price s{font-size:11px;color:#998f89;margin-left:5px}
+.cart-page__unit-price .cart-price__save{margin-left:5px}
 .cart-page__line-actions{display:flex;align-items:center;gap:18px;margin-top:auto;padding-top:20px}
 .cart-page__quantity{display:flex;align-items:center;border:1px solid var(--line);background:#fff}
 .cart-page__quantity button{width:34px;height:35px;border:0;background:none;font-size:17px;cursor:pointer}
