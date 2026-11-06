@@ -23,6 +23,16 @@
   const productForm = root.querySelector('[data-product-installments]');
   const currency = root.dataset.currency || 'USD';
   const formatMoney = (cents) => new Intl.NumberFormat(document.documentElement.lang || 'en', { style: 'currency', currency }).format(cents / 100);
+  function syncPrice(variant) {
+    const compare = root.querySelector('[data-product-compare]');
+    const savings = root.querySelector('[data-product-savings]');
+    const hasSavings = variant.compare_at_price > variant.price;
+    root.querySelector('[data-product-price]').textContent = formatMoney(variant.price);
+    compare.hidden = !hasSavings;
+    compare.textContent = hasSavings ? formatMoney(variant.compare_at_price) : '';
+    savings.hidden = !hasSavings;
+    savings.textContent = hasSavings ? `Save ${Math.round(((variant.compare_at_price - variant.price) / variant.compare_at_price) * 100)}%` : '';
+  }
   const selectedValues = () => groups.map((group) => group.querySelector('input:checked')?.value);
   function syncInstallmentsVisibility(element = root.querySelector('.product-installments')) {
     if (!element) return;
@@ -52,14 +62,7 @@
       });
       id.value = variant.id;
       id.disabled = false;
-      root.querySelector('[data-product-price]').textContent = formatMoney(variant.price);
-      const compare = root.querySelector('[data-product-compare]');
-      compare.hidden = !(variant.compare_at_price > variant.price);
-      compare.textContent = compare.hidden ? '' : formatMoney(variant.compare_at_price);
-      const savings = root.querySelector('[data-product-savings]');
-      const hasSavings = variant.compare_at_price > variant.price;
-      savings.hidden = !hasSavings;
-      root.querySelector('[data-product-savings-value]').textContent = hasSavings ? Math.round(((variant.compare_at_price - variant.price) / variant.compare_at_price) * 100) : '';
+      syncPrice(variant);
       if (variant.featured_image) showImage(variant.featured_image.src, variant.featured_image.id, variant.featured_image.alt);
       if (updateUrl) {
         const url = new URL(window.location.href);

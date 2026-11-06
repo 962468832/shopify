@@ -16,7 +16,7 @@
     <div class="product-info">
       <p class="eyebrow">{{ product.vendor }} essentials</p>
       <h1>{{ product.title }}</h1>
-      <div class="product-price"><span data-product-price>{{ current_variant.price | money }}</span><s data-product-compare{% unless discount_percent > 0 %} hidden{% endunless %}>{{ current_variant.compare_at_price | money }}</s><span class="product-price__save" data-product-savings{% unless discount_percent > 0 %} hidden{% endunless %}>Save <span data-product-savings-value>{{ discount_percent }}</span>%</span></div>
+      <div class="product-price"><span data-product-price>{{ current_variant.price | money }}</span>{% if discount_percent > 0 %}<s data-product-compare>{{ current_variant.compare_at_price | money }}</s><span class="product-price__save" data-product-savings>Save <span data-product-savings-value>{{ discount_percent }}</span>%</span>{% else %}<s data-product-compare hidden></s><span class="product-price__save" data-product-savings hidden></span>{% endif %}</div>
       {% form 'product', product, data-product-form: '', data-product-installments: '' %}
         {% capture payment_terms %}{{ form | payment_terms }}{% endcapture %}
         <div class="product-installments"{% if payment_terms == blank %} hidden{% endif %}>{{ payment_terms }}</div>

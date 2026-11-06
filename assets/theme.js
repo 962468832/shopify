@@ -357,7 +357,7 @@
     const variant = resolveVariant(product.variants, selected, changedIndex);
     if (variant) quickShopState.selected = [...variant.options];
     const image = variantImage(product, variant);
-    const compare = variant?.compare_at_price || product.compare_at_price || 0;
+    const compare = variant?.compare_at_price ?? (variant ? 0 : product.compare_at_price ?? 0);
     const price = variant?.price ?? product.price;
     const savings = compare > price ? Math.round(((compare - price) / compare) * 100) : 0;
     quickShopBody.innerHTML = `
@@ -366,7 +366,7 @@
         <div class="quick-shop-product__info">
           <p class="quick-shop-product__vendor">${escapeHtml(product.vendor || 'Nuage')}</p>
           <h2 id="QuickShopTitle">${escapeHtml(product.title)}</h2>
-          <div class="quick-shop-product__price"><strong>${formatMoney(price)}</strong>${compare > price ? `<s>${formatMoney(compare)}</s><span>Save ${savings}%</span>` : ''}</div>
+          <div class="quick-shop-product__price"><strong>${formatMoney(price)}</strong>${savings ? `<s>${formatMoney(compare)}</s><span class="product-price__save">Save ${savings}%</span>` : ''}</div>
           ${product.options.length ? product.options.map((option, index) => { const name = typeof option === 'string' ? option : option.name; return `
             <fieldset class="quick-option-group"><legend><span>Select ${escapeHtml(name)}</span>${/size/i.test(name) ? '<button class="size-guide-trigger" type="button" data-size-guide-open aria-haspopup="dialog"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m14.5 4.5 5 5L8 21H3v-5Z"></path><path d="m13 6 5 5M11 8l2 2M8 11l2 2M5 14l2 2"></path></svg>Fit &amp; Size Guide</button>' : ''}</legend><div>${product.variants.map((variant) => variant.options[index]).filter((value, index, values) => value && values.indexOf(value) === index).map((value) => optionButton(product, name, value, index)).join('')}</div></fieldset>
           `; }).join('') : ''}
