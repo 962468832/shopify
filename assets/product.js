@@ -24,6 +24,11 @@
   const currency = root.dataset.currency || 'USD';
   const formatMoney = (cents) => new Intl.NumberFormat(document.documentElement.lang || 'en', { style: 'currency', currency }).format(cents / 100);
   const selectedValues = () => groups.map((group) => group.querySelector('input:checked')?.value);
+  function syncInstallmentsVisibility(element = root.querySelector('.product-installments')) {
+    if (!element) return;
+    element.hidden = !element.textContent.trim();
+  }
+  syncInstallmentsVisibility();
   function showImage(src, imageId, alt) {
     if (!mainImage || !src) return;
     mainImage.src = src;
@@ -74,6 +79,7 @@
           const currentTerms = root.querySelector('.product-installments');
           if (terms && currentTerms && id.value === String(variant.id)) {
             currentTerms.replaceWith(terms);
+            syncInstallmentsVisibility(terms);
           }
         } catch { /* The selected variant and purchase flow still work without refreshed terms. */ }
       };
