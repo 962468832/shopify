@@ -69,10 +69,9 @@
       }
       const refreshInstallments = async () => {
         if (!productForm || id.value !== String(variant.id)) return;
-        const params = new URLSearchParams(new FormData(productForm));
-        params.set('section_id', 'main');
+        const params = new URLSearchParams({ variant: String(variant.id) });
         try {
-          const response = await fetch(`${window.location.pathname}?${params}`, { headers: { Accept: 'text/html' } });
+          const response = await fetch(`${window.location.pathname}?${params.toString()}`, { headers: { Accept: 'text/html' } });
           if (!response.ok || id.value !== String(variant.id)) return;
           const html = new DOMParser().parseFromString(await response.text(), 'text/html');
           const terms = html.querySelector('.product-installments');
