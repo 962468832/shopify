@@ -149,7 +149,8 @@
     }
   });
 
-  const gallery = [...root.querySelectorAll('[data-product-gallery-open]')];
+  const gallery = [...root.querySelectorAll('.product-photo-gallery__card')];
+  const mainGalleryOpener = root.querySelector('.product-gallery__main [data-product-gallery-open]');
   const rail = root.querySelector('[data-product-gallery-rail]');
   const lightbox = root.querySelector('[data-product-lightbox]');
   const lightboxImage = root.querySelector('[data-product-lightbox-image]');
@@ -168,13 +169,16 @@
     lightbox.close();
     document.body.style.overflow = previousBodyOverflow;
   }
-  gallery.forEach((item, index) => item.addEventListener('click', () => {
+  function openGalleryItem(item, fallbackIndex = 0) {
     if (!lightbox) return;
-    renderLightbox(index);
+    const index = gallery.findIndex((card) => card.dataset.imageId === item?.dataset.imageId);
+    renderLightbox(index >= 0 ? index : fallbackIndex);
     previousBodyOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     lightbox.showModal();
-  }));
+  }
+  gallery.forEach((item, index) => item.addEventListener('click', () => openGalleryItem(item, index)));
+  mainGalleryOpener?.addEventListener('click', () => openGalleryItem(mainGalleryOpener));
   root.querySelector('[data-product-lightbox-close]')?.addEventListener('click', closeLightbox);
   root.querySelectorAll('[data-product-lightbox-nav]').forEach((button) => button.addEventListener('click', () => renderLightbox(lightboxIndex + Number(button.dataset.productLightboxNav))));
   lightbox?.addEventListener('click', (event) => { if (event.target === lightbox) closeLightbox(); });
