@@ -1,7 +1,11 @@
 (function () {
   const qs = (selector, context = document) => context.querySelector(selector);
   const qsa = (selector, context = document) => [...context.querySelectorAll(selector)];
-  const money = (cents) => window.Shopify && Shopify.formatMoney ? Shopify.formatMoney(cents) : (Number(cents) / 100).toFixed(2);
+  const money = (cents) => {
+    if (window.Shopify && Shopify.formatMoney) return Shopify.formatMoney(cents);
+    const currency = document.querySelector('[data-product-detail]')?.dataset.currency || 'USD';
+    return new Intl.NumberFormat(currency === 'USD' ? 'en-US' : undefined, { style: 'currency', currency }).format(Number(cents || 0) / 100);
+  };
   const escapeHtml = (value) => String(value || '').replace(/[&<>'"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
 
   const cartDrawer = qs('#cart-drawer');
@@ -233,6 +237,53 @@
       section.hidden = true;
     }
   }
+
+  function productRecommendationCard(product) {
+    const image = product.featured_image || product.images?.[0] || '';
+    const price = Number(product.price || 0);
+    const compareAtPrice = Number(product.compare_at_price || 0);
+    const savePercent = compareAtPrice > price ? Math.round(((compareAtPrice - price) / compareAtPrice) * 100) : 0;
+    const colorOption = (product.options_with_values || []).find((option) => /color|colour/i.test(option.name));
+    const colorValues = colorOption?.values || [];
+    const colorMarkup = colorValues.length ? `<div class="product-card__colors" aria-label="${colorValues.length} color options">${colorValues.slice(0, 5).map((value) => `<span class="color-dot" data-color="${escapeHtml(String(value).toLowerCase().replace(/\s+/g, '-'))}" title="${escapeHtml(value)}"></span>`).join('')}${colorValues.length > 5 ? `<span class="color-more">+${colorValues.length - 5}</span>` : ''}<span class="color-count">${colorValues.length} colors</span></div>` : '';
+    return `
+      <article class="product-card">
+        <div class="product-card__media">
+          ${savePercent ? '<span class="badge">Bundle &amp; save</span>' : ''}
+          <a href="${escapeHtml(product.url || `/products/${product.handle}`)}">${image ? `<img class="product-card__image product-card__image--primary" src="${escapeHtml(image)}" alt="${escapeHtml(product.title)}" loading="lazy">` : '<div class="media-placeholder"></div>'}</a>
+          <button class="wishlist-card" type="button" data-wishlist data-wishlist-handle="${escapeHtml(product.handle)}" data-wishlist-url="${escapeHtml(product.url || `/products/${product.handle}`)}" data-wishlist-title="${escapeHtml(product.title)}" data-wishlist-image="${escapeHtml(image)}" data-wishlist-price="${escapeHtml(formatMoney(price))}" aria-label="Add ${escapeHtml(product.title)} to wishlist"><span aria-hidden="true">♡</span></button>
+          <button class="quick-shop" type="button" data-quick-open data-product-handle="${escapeHtml(product.handle)}"${product.available === false ? ' disabled' : ''}>Quick shop</button>
+        </div>
+        <div class="product-card__meta"><a class="product-card__vendor" href="${escapeHtml(product.url || `/products/${product.handle}`)}">${escapeHtml(product.vendor || 'Nuage')}</a><a class="product-card__title" href="${escapeHtml(product.url || `/products/${product.handle}`)}">${escapeHtml(product.title)}</a>${product.type ? `<p class="product-card__subtitle">${escapeHtml(product.type)}</p>` : ''}${colorMarkup}<div class="product-card__price">${formatMoney(price)}${savePercent ? `<s>${formatMoney(compareAtPrice)}</s><span class="product-card__save">Save ${savePercent}%</span>` : ''}</div></div>
+      </article>
+    `;
+  }
+
+  async function loadProductRecommendations() {
+    const section = qs('[data-product-recommendations]');
+    const grid = qs('[data-product-recommendation-items]');
+    if (!section || !grid) return;
+    const productId = section.dataset.productId;
+    if (!productId) return;
+    try {
+      if (!recommendationCache.has(productId)) {
+        const root = (window.ShopifyRoutes.rootUrl || '').replace(/\/$/, '');
+        const response = await fetch(`${root}/recommendations/products.json?product_id=${encodeURIComponent(productId)}&limit=8`, { cache: 'no-store' });
+        if (!response.ok) throw new Error('Recommendations unavailable');
+        const data = await response.json();
+        recommendationCache.set(productId, data.products || []);
+      }
+      const products = recommendationCache.get(productId).filter((product) => String(product.id) !== String(productId) && product.available !== false).slice(0, 4);
+      if (!products.length) { section.hidden = true; return; }
+      grid.innerHTML = products.map(productRecommendationCard).join('');
+      section.hidden = false;
+      updateWishlist();
+    } catch (error) {
+      section.hidden = true;
+    }
+  }
+
+  loadProductRecommendations();
 
   async function refreshCart() {
     const revision = ++cartRevision;

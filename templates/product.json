@@ -1,1 +1,1 @@
-{"sections":{"main":{"type":"main-product","settings":{}}},"order":["main"]}
+{"sections":{"main":{"type":"main-product","settings":{}},"reviews":{"type":"product-reviews","settings":{}},"recommendations":{"type":"product-recommendations","settings":{}}},"order":["main","reviews","recommendations"]}
