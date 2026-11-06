@@ -1,5 +1,9 @@
 {% assign current_variant = product.selected_or_first_available_variant %}
 {% assign main_image = current_variant.featured_image | default: product.featured_image %}
+{% assign discount_percent = 0 %}
+{% if current_variant.compare_at_price > current_variant.price %}
+  {% assign discount_percent = current_variant.compare_at_price | minus: current_variant.price | times: 100.0 | divided_by: current_variant.compare_at_price | round %}
+{% endif %}
 <section class="page-width product-detail" data-product-detail data-currency="{{ cart.currency.iso_code }}">
   <nav class="product-breadcrumb" aria-label="Breadcrumb"><a href="{{ routes.root_url }}">Home</a><span>/</span><a href="{{ routes.all_products_collection_url }}">Shop</a><span>/</span><span>{{ product.title }}</span></nav>
   <div class="product-page">
@@ -7,13 +11,14 @@
       <div class="product-gallery__thumbs" aria-label="Product images">
         {% for image in product.images %}<button type="button" data-product-thumb data-src="{{ image | image_url: width: 1400 }}" data-image-id="{{ image.id }}" data-alt="{{ image.alt | default: product.title | escape }}" aria-label="View image {{ forloop.index }}" aria-pressed="{% if image.id == main_image.id %}true{% else %}false{% endif %}"><img src="{{ image | image_url: width: 180 }}" width="180" height="240" alt="{{ image.alt | default: product.title | escape }}" loading="lazy"></button>{% endfor %}
       </div>
-      <div class="product-gallery__main">{% if main_image %}<img data-product-main src="{{ main_image | image_url: width: 1400 }}" width="1400" height="1867" alt="{{ main_image.alt | default: product.title | escape }}" fetchpriority="high">{% endif %}</div>
+      <div class="product-gallery__main">{% if main_image %}<button type="button" data-product-gallery-open data-src="{{ main_image | image_url: width: 2200 }}" data-image-id="{{ main_image.id }}" data-alt="{{ main_image.alt | default: product.title | escape }}" aria-label="Enlarge product image"><img data-product-main src="{{ main_image | image_url: width: 1400 }}" width="{{ main_image.width }}" height="{{ main_image.height }}" alt="{{ main_image.alt | default: product.title | escape }}" fetchpriority="high"><span class="product-gallery__zoom" aria-hidden="true"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m16 16 5 5M10.5 7.5v6M7.5 10.5h6"></path></svg></span></button>{% endif %}</div>
     </div>
     <div class="product-info">
       <p class="eyebrow">{{ product.vendor }} essentials</p>
       <h1>{{ product.title }}</h1>
-      <div class="product-price"><span data-product-price>{{ current_variant.price | money }}</span><s data-product-compare{% unless current_variant.compare_at_price > current_variant.price %} hidden{% endunless %}>{{ current_variant.compare_at_price | money }}</s></div>
-      {% form 'product', product, data-product-form: '' %}
+      <div class="product-price"><span data-product-price>{{ current_variant.price | money }}</span><s data-product-compare{% unless discount_percent > 0 %} hidden{% endunless %}>{{ current_variant.compare_at_price | money }}</s><span class="product-price__save" data-product-savings{% unless discount_percent > 0 %} hidden{% endunless %}>Save <span data-product-savings-value>{{ discount_percent }}</span>%</span></div>
+      {% form 'product', product, data-product-form: '', data-product-installments: '' %}
+        <div class="product-installments">{{ form | payment_terms }}</div>
         {% unless product.has_only_default_variant %}<div class="variant-options">
           {% for option in product.options_with_values %}
             {% assign option_index = forloop.index0 %}{% assign option_name = option.name | downcase %}
@@ -44,5 +49,20 @@
     </div>
   </div>
   <section class="product-details" aria-labelledby="product-details-title"><p class="eyebrow">Made for everyday comfort</p><h2 id="product-details-title">Product details</h2><div class="product-description rte">{{ product.description }}</div></section>
+  {% if product.images.size > 0 %}
+    <section class="product-photo-gallery" aria-labelledby="ProductPhotoGalleryTitle">
+      <header class="product-photo-gallery__header"><div><p class="eyebrow">A closer look</p><h2 id="ProductPhotoGalleryTitle">Product gallery</h2></div><div class="product-photo-gallery__controls"><span>{{ product.images.size }} photos</span><button type="button" data-product-gallery-scroll="-1" aria-label="Previous product images" disabled><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m15 5-7 7 7 7"></path></svg></button><button type="button" data-product-gallery-scroll="1" aria-label="Next product images"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg></button></div></header>
+      <div class="product-photo-gallery__rail" data-product-gallery-rail tabindex="0" aria-label="Scrollable product images">
+        {% for image in product.images %}<button class="product-photo-gallery__card" type="button" data-product-gallery-open data-src="{{ image | image_url: width: 2200 }}" data-image-id="{{ image.id }}" data-alt="{{ image.alt | default: product.title | escape }}" aria-label="Enlarge image {{ forloop.index }} of {{ product.images.size }}"><img src="{{ image | image_url: width: 720 }}" width="720" height="900" alt="{{ image.alt | default: product.title | escape }}" loading="lazy"><span>View {{ forloop.index | prepend: '0' }}</span></button>{% endfor %}
+      </div>
+      <p class="product-photo-gallery__hint">Scroll to explore · Select an image to enlarge</p>
+    </section>
+  {% endif %}
   <script type="application/json" data-product-json>{{ product | json }}</script>
+  <dialog class="product-lightbox" data-product-lightbox aria-labelledby="ProductLightboxTitle">
+    <div class="product-lightbox__panel">
+      <header><div><h2 id="ProductLightboxTitle">{{ product.title }}</h2><span data-product-lightbox-count></span></div><button class="icon-button" type="button" data-product-lightbox-close aria-label="Close enlarged image">&times;</button></header>
+      <div class="product-lightbox__stage"><button type="button" data-product-lightbox-nav="-1" aria-label="Previous image"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m15 5-7 7 7 7"></path></svg></button><img data-product-lightbox-image src="{{ main_image | image_url: width: 2200 }}" width="{{ main_image.width }}" height="{{ main_image.height }}" alt="{{ main_image.alt | default: product.title | escape }}"><button type="button" data-product-lightbox-nav="1" aria-label="Next image"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg></button></div>
+    </div>
+  </dialog>
 </section>
