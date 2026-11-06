@@ -7,6 +7,7 @@
     return new Intl.NumberFormat(currency === 'USD' ? 'en-US' : undefined, { style: 'currency', currency }).format(Number(cents || 0) / 100);
   };
   const escapeHtml = (value) => String(value || '').replace(/[&<>'"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
+  const mediaUrl = (value) => String(value || '').replace(/^\/\//, 'https://');
 
   const cartDrawer = qs('#cart-drawer');
   const setDrawer = (drawer, open) => {
@@ -198,9 +199,10 @@
   }
 
   function recommendationCard(product) {
+    const image = mediaUrl(product.featured_image || product.images?.[0] || '');
     return `
       <article class="cart-recommendation" data-product-handle="${escapeHtml(product.handle)}">
-        <a href="${escapeHtml(product.url)}"><img src="${escapeHtml(product.featured_image || '')}" alt="${escapeHtml(product.title)}"></a>
+        <a href="${escapeHtml(product.url)}"><img src="${escapeHtml(image)}" alt="${escapeHtml(product.title)}"></a>
         <div><p>${escapeHtml(product.vendor || 'Nuage')}</p><h4><a href="${escapeHtml(product.url)}">${escapeHtml(product.title)}</a></h4><strong>${formatMoney(product.price)}</strong>${product.compare_at_price > product.price ? `<s>${formatMoney(product.compare_at_price)}</s>` : ''}</div>
         <button type="button" data-quick-open data-product-handle="${escapeHtml(product.handle)}">Add</button>
       </article>
@@ -239,7 +241,7 @@
   }
 
   function productRecommendationCard(product) {
-    const image = product.featured_image || product.images?.[0] || '';
+    const image = mediaUrl(product.featured_image || product.images?.[0] || '');
     const price = Number(product.price || 0);
     const compareAtPrice = Number(product.compare_at_price || 0);
     const savePercent = compareAtPrice > price ? Math.round(((compareAtPrice - price) / compareAtPrice) * 100) : 0;
