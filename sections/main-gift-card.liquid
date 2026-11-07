@@ -1,0 +1,21 @@
+<section class="page-width gift-card-page">
+  <div class="gift-card-page__inner">
+    <p class="eyebrow">{{ shop.name }}</p>
+    <h1>{{ gift_card.initial_value | money }}</h1>
+    {% if gift_card.enabled %}
+      <p>This gift card is ready to use at checkout.</p>
+      <p class="gift-card-page__code"><strong>{{ gift_card.code | format_code }}</strong></p>
+      {% if gift_card.expired %}<p class="form-error">This gift card has expired.</p>{% elsif gift_card.expired == false and gift_card.balance != gift_card.initial_value %}<p>Remaining balance: {{ gift_card.balance | money }}</p>{% endif %}
+      {% if gift_card.pass_url %}<a class="button button--dark" href="{{ gift_card.pass_url }}">Add to Apple Wallet</a>{% endif %}
+    {% else %}
+      <p>This gift card has been disabled. Please contact support if you need help.</p>
+    {% endif %}
+    <a class="text-link" href="{{ routes.root_url }}">Continue shopping <span aria-hidden="true">→</span></a>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Gift card",
+  "settings": []
+}
+{% endschema %}

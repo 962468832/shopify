@@ -14,6 +14,8 @@
             <a href="{{ line_item.url }}">{{ line_item.title }}</a>
             <p>{{ line_item.variant.title }}</p>
             <span>{{ line_item.quantity }} × {{ line_item.final_price | money }}</span>
+            {% for discount_allocation in line_item.line_level_discount_allocations %}<small>{{ discount_allocation.discount_application.title | escape }} (−{{ discount_allocation.amount | money }})</small>{% endfor %}
+            {% if line_item.fulfillment.tracking_url %}<a href="{{ line_item.fulfillment.tracking_url }}" target="_blank" rel="noopener">Track shipment{% if line_item.fulfillment.tracking_company %} ({{ line_item.fulfillment.tracking_company }}){% endif %}</a>{% endif %}
             <strong>{{ line_item.final_line_price | money }}</strong>
           </article>
         {% endfor %}
@@ -23,11 +25,24 @@
           <h2>Summary</h2>
           <dl class="summary-list">
             <div><dt>Subtotal</dt><dd>{{ order.line_items_subtotal_price | money }}</dd></div>
+            {% for discount_application in order.cart_level_discount_applications %}<div><dt>Discount ({{ discount_application.title | escape }})</dt><dd>−{{ discount_application.total_allocated_amount | money }}</dd></div>{% endfor %}
             {% for shipping_method in order.shipping_methods %}<div><dt>Shipping ({{ shipping_method.title }})</dt><dd>{{ shipping_method.price | money }}</dd></div>{% endfor %}
             {% for tax_line in order.tax_lines %}<div><dt>{{ tax_line.title }} {{ tax_line.rate | times: 100 }}%</dt><dd>{{ tax_line.price | money }}</dd></div>{% endfor %}
             <div class="summary-total"><dt>Total</dt><dd>{{ order.total_price | money }}</dd></div>
           </dl>
         </div>
+        {% if order.shipping_address %}
+          <div class="account-panel">
+            <h2>Shipping address</h2>
+            {{ order.shipping_address | format_address }}
+          </div>
+        {% endif %}
+        {% if order.billing_address %}
+          <div class="account-panel">
+            <h2>Billing address</h2>
+            {{ order.billing_address | format_address }}
+          </div>
+        {% endif %}
         <div class="account-panel">
           <h2>Status</h2>
           <dl class="summary-list">

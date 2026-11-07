@@ -4,11 +4,34 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="canonical" href="{{ canonical_url }}">
-    <title>{% if page_title %}{{ page_title }} | {% endif %}{{ shop.name }}</title>
+    <title>{% liquid
+      assign title_parts = page_title
+      if current_tags
+        assign title_tags = current_tags | join: ', '
+        assign title_parts = title_parts | append: ' – ' | append: title_tags
+      endif
+      if current_page != 1
+        assign title_parts = title_parts | append: ' – Page ' | append: current_page
+      endif
+      if request.page_type == 'index' or page_title == blank
+        echo shop.name
+      elsif title_parts contains shop.name
+        echo title_parts
+      else
+        echo title_parts | append: ' | ' | append: shop.name
+      endif
+    %}</title>
+    {% assign meta_description = page_description | default: shop.description | default: shop.name %}
+    <meta name="description" content="{{ meta_description | strip_html | escape }}">
+    {% render 'meta-tags' %}
     {{ content_for_header }}
     {{ 'theme.css' | asset_url | stylesheet_tag }}
-    {% if request.page_type == 'index' %}{{ 'home.css' | asset_url | stylesheet_tag }}{% endif %}
-    {% style %}:root{--ink:{{ settings.color_ink | default: '#1d1b1a' }};--paper:{{ settings.color_paper | default: '#f8f5f2' }};--accent:{{ settings.color_accent | default: '#f05ba7' }};--line:{{ settings.color_line | default: '#ded8d3' }};}{% endstyle %}
+    {{ 'home.css' | asset_url | stylesheet_tag }}
+    {% style %}
+      {{ settings.heading_font | font_face: font_display: 'swap' }}
+      {{ settings.body_font | font_face: font_display: 'swap' }}
+      :root{--ink:{{ settings.color_ink | default: '#1d1b1a' }};--paper:{{ settings.color_paper | default: '#f8f5f2' }};--accent:{{ settings.color_accent | default: '#f05ba7' }};--line:{{ settings.color_line | default: '#ded8d3' }};--heading-font:{{ settings.heading_font.family | default: 'Playfair Display' | json }};--body-font:{{ settings.body_font.family | default: 'DM Sans' | json }};}
+    {% endstyle %}
   </head>
   <body class="template-{{ template.name }}">
     <a class="skip-link" href="#MainContent">Skip to content</a>
@@ -36,18 +59,20 @@
             <p data-cart-discount-message role="status"></p>
           </form>
           <section class="cart-recommendations" data-cart-recommendations aria-labelledby="CartRecommendationsTitle" hidden>
-            <header><h3 id="CartRecommendationsTitle">You may also like</h3><span>Best-selling pairings</span></header>
+            <header><h3 id="CartRecommendationsTitle">You may also like</h3></header>
             <div class="cart-recommendations__grid" data-cart-recommendation-items></div>
           </section>
           <section class="cart-summary" data-cart-summary>
             <div><span>Subtotal</span><strong data-cart-subtotal>{{ cart.items_subtotal_price | money }}</strong></div>
-            <div data-cart-discount-row hidden><span>Discount</span><strong data-cart-discount-total>–{{ cart.total_discount | money }}</strong></div>
+            <div class="cart-summary__savings" data-cart-savings-row hidden><span>You save</span><strong data-cart-savings-total></strong></div>
+            {%- assign cart_level_discount = 0 -%}{%- for discount_application in cart.cart_level_discount_applications -%}{%- assign cart_level_discount = cart_level_discount | plus: discount_application.total_allocated_amount -%}{%- endfor -%}
+            <div data-cart-discount-row{% if cart_level_discount == 0 %} hidden{% endif %}><span>Discount</span><strong data-cart-discount-total>–{{ cart_level_discount | money }}</strong></div>
             <div><span>Total</span><strong data-cart-total>{{ cart.total_price | money }}</strong></div>
             <p>Taxes and shipping calculated at checkout.</p>
           </section>
         </div>
         <footer class="cart-drawer__foot">
-          <a class="button button--dark button--full" data-cart-checkout href="{{ routes.checkout_url }}">Checkout</a>
+          <a class="button button--dark button--full" data-cart-checkout href="{{ routes.cart_url }}/checkout">Checkout</a>
           <button class="text-link" type="button" data-cart-close>Continue shopping</button>
         </footer>
       </aside>
@@ -61,11 +86,11 @@
     </div>
     {% render 'fit-size-guide' %}
     <div id="wishlist-drawer" class="cart-drawer wishlist-drawer" aria-hidden="true"><div class="cart-drawer__backdrop" data-wishlist-close></div><aside class="cart-drawer__panel" role="dialog" aria-modal="true" aria-label="Wishlist"><div class="cart-drawer__head"><h2>Wishlist</h2><button class="icon-button" data-wishlist-close aria-label="Close wishlist">&times;</button></div><div class="cart-drawer__body" data-wishlist-body><p class="empty-state">Save pieces here while you browse.</p></div></aside></div>
-    <script>window.ShopifyRoutes={cartAdd:'{{ routes.cart_add_url }}',cartChange:'{{ routes.cart_change_url }}',cartJson:'{{ routes.cart_url }}.js',cartUrl:'{{ routes.cart_url }}',checkoutUrl:'{{ routes.checkout_url }}',allProductsUrl:'{{ routes.all_products_collection_url }}',rootUrl:'{{ routes.root_url }}'};window.NuageThemeSettings={cartProgressThreshold:{{ settings.cart_progress_threshold | default: 75 }},cartProgressLabel:{{ settings.cart_progress_label | json | default: 'Unlock free shipping' }},cartProgressCompleteLabel:{{ settings.cart_progress_complete_label | json | default: 'Free shipping unlocked' }}};</script>
-    {% if template.name == 'customers' and template.suffix == 'addresses' %}<script src="{{ 'shopify_common.js' | shopify_asset_url }}" defer></script>{% endif %}
+    <script>window.ShopifyRoutes={cartAdd:'{{ routes.cart_add_url }}',cartChange:'{{ routes.cart_change_url }}',cartUpdate:'{{ routes.cart_update_url }}',cartJson:'{{ routes.cart_url }}.js',cartUrl:'{{ routes.cart_url }}',checkoutUrl:'{{ routes.cart_url }}/checkout',allProductsUrl:'{{ routes.all_products_collection_url }}',predictiveSearchUrl:'{{ routes.predictive_search_url }}',rootUrl:'{{ routes.root_url }}'};window.NuageMoney={format:{{ shop.money_format | json }},currency:{{ cart.currency.iso_code | json }},baseCurrency:{{ shop.currency | json }},locale:{{ request.locale.iso_code | json }},rate:Number({{ cart.currency.rate | default: 1 | json }}) || 1};window.NuageThemeSettings={cartProgressThreshold:{{ settings.cart_progress_threshold | default: 0 | json }},cartProgressLabel:{{ settings.cart_progress_label | default: 'Unlock free shipping' | json }},cartProgressCompleteLabel:{{ settings.cart_progress_complete_label | default: 'Free shipping unlocked' | json }},cookiePreferencesUrl:{{ settings.cookie_preferences_url | default: '/policies/privacy-policy' | json }}};window.NuageCopy={cartAdded:{{ 'cart.added' | t | json }},cartError:{{ 'cart.error' | t | json }},discountApplied:{{ 'cart.discount_applied' | t | json }},discountInvalid:{{ 'cart.discount_invalid' | t | json }}};</script>
+    {% if request.page_type == 'customers/addresses' %}<script src="{{ 'shopify_common.js' | shopify_asset_url }}" defer></script>{% endif %}
     <script src="{{ 'theme.js' | asset_url }}" defer></script>
-    {% if template.name == 'customers' %}<script src="{{ 'customer.js' | asset_url }}" defer></script>{% endif %}
-    {% if request.page_type == 'index' %}<script src="{{ 'home.js' | asset_url }}" defer></script>{% endif %}
+    {% if request.page_type contains 'customers/' %}<script src="{{ 'customer.js' | asset_url }}" defer></script>{% endif %}
+    <script src="{{ 'home.js' | asset_url }}" defer></script>
     {% if request.page_type == 'product' %}<script src="{{ 'product.js' | asset_url }}" defer></script>{% endif %}
   </body>
 </html>

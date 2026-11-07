@@ -7,10 +7,43 @@
       <p>Track orders, update your profile, and manage shipping details.</p>
     </header>
     <div class="account-summary-grid">
-      <a class="account-summary-card" href="{{ routes.account_url }}/orders"><span>Orders</span><strong>{{ customer.orders.size }}</strong><small>View order history</small></a>
+      <a class="account-summary-card" href="#AccountOrders"><span>Orders</span><strong>{{ customer.orders_count }}</strong><small>View order history</small></a>
       <a class="account-summary-card" href="{{ routes.account_addresses_url }}"><span>Addresses</span><strong>{{ customer.addresses_count }}</strong><small>Manage addresses</small></a>
-      <a class="account-summary-card" href="{{ routes.account_url }}/profile"><span>Profile</span><strong>Details</strong><small>Name and contact information</small></a>
+      <a class="account-summary-card" href="#AccountProfile"><span>Profile</span><strong>Details</strong><small>Name and contact information</small></a>
     </div>
+    <section id="AccountOrders" class="account-section" aria-labelledby="AccountOrdersTitle">
+      <h2 id="AccountOrdersTitle">Order history</h2>
+      {% paginate customer.orders by 12 %}
+        {% if customer.orders.size > 0 %}
+          <div class="account-table account-table--orders" role="table">
+            <div role="row"><span role="columnheader">Order</span><span role="columnheader">Date</span><span role="columnheader">Payment</span><span role="columnheader">Fulfillment</span><span role="columnheader">Total</span></div>
+            {% for order in customer.orders %}
+              <a href="{{ order.customer_url }}" role="row">
+                <span role="cell"><strong>{{ order.name }}</strong><small>{{ order.created_at | date: '%b %-d, %Y' }}</small></span>
+                <span role="cell">{{ order.created_at | date: '%b %-d, %Y' }}</span>
+                <span role="cell">{{ order.financial_status_label }}</span>
+                <span role="cell">{{ order.fulfillment_status_label }}</span>
+                <span role="cell"><strong>{{ order.total_price | money }}</strong><small>View details</small></span>
+              </a>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="empty-state account-empty"><p>You haven't placed any orders yet.</p><a class="button button--dark" href="{{ routes.all_products_collection_url }}">Start shopping</a></div>
+        {% endif %}
+        {% if paginate.pages > 1 %}<div class="account-pagination">{{ paginate | default_pagination }}</div>{% endif %}
+      {% endpaginate %}
+    </section>
+    <section id="AccountProfile" class="account-section" aria-labelledby="AccountProfileTitle">
+      <h2 id="AccountProfileTitle">Profile</h2>
+      <div class="account-panel account-profile">
+        <dl class="summary-list">
+          <div><dt>Name</dt><dd>{{ customer.name }}</dd></div>
+          <div><dt>Email</dt><dd>{{ customer.email }}</dd></div>
+          <div><dt>Default address</dt><dd>{% if customer.default_address %}{{ customer.default_address | format_address }}{% else %}No default address saved.{% endif %}</dd></div>
+        </dl>
+        <a class="button button--dark" href="{{ routes.account_addresses_url }}">Manage addresses</a>
+      </div>
+    </section>
   </div>
 </section>
 {% schema %}{"name":"Customer account","settings":[]}{% endschema %}

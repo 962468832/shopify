@@ -1,1 +1,31 @@
-<div class="announcement" data-announcement><button class="announcement__arrow" data-announcement-prev aria-label="Previous announcement">&lsaquo;</button><p data-announcement-text>🎁 FREE laundry bag with orders $100+</p><button class="announcement__arrow" data-announcement-next aria-label="Next announcement">&rsaquo;</button><button class="announcement__close" data-announcement-close aria-label="Dismiss announcement">&times;</button></div><script type="application/json" data-announcements>["🎁 FREE laundry bag with orders $100+","Free shipping on orders over $75","New season, softer than ever","Join the Cirrus Circle for rewards"]</script>
+{%- assign shipping_threshold = settings.cart_progress_threshold | times: 100 | money_without_trailing_zeros -%}
+{%- assign first_announcement = section.blocks | first -%}
+{%- assign default_announcement = '🎁 FREE Laundry Bag with Orders $100+' -%}
+{%- assign announcement_text = first_announcement.settings.text -%}
+{%- if announcement_text == blank or announcement_text == 'New season, softer than ever' -%}{%- assign announcement_text = default_announcement -%}{%- endif -%}
+<div class="announcement" data-announcement>
+  <button class="announcement__arrow" data-announcement-prev aria-label="Previous announcement">&lsaquo;</button>
+  <p data-announcement-text>{{ announcement_text | replace: '[threshold]', shipping_threshold | escape }}</p>
+  <button class="announcement__arrow" data-announcement-next aria-label="Next announcement">&rsaquo;</button>
+  <button class="announcement__close" data-announcement-close aria-label="Dismiss announcement">&times;</button>
+</div>
+<script type="application/json" data-announcements>[{%- for block in section.blocks -%}{{ block.settings.text | replace: '[threshold]', shipping_threshold | json }},{%- endfor -%}{{ default_announcement | json }},{{ 'BLACK FRIDAY STARTS EARLY FOR VIPs · Unlock Early Access, Exclusive Discounts & More.' | json }},{{ 'Free shipping on orders over [threshold]' | replace: '[threshold]', shipping_threshold | json }}]</script>
+{% schema %}
+{
+  "name": "Announcement bar",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "message",
+      "name": "Message",
+      "settings": [
+        {"type": "text", "id": "text", "label": "Message", "default": "🎁 Free laundry bag with orders $100+"}
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {"name": "Announcement bar", "blocks": [{"type": "message"}, {"type": "message", "settings": {"text": "Free shipping on orders over [threshold]"}}, {"type": "message", "settings": {"text": "New season, softer than ever"}}]}
+  ]
+}
+{% endschema %}

@@ -12,18 +12,20 @@
     "hero": {
       "type": "hero",
       "settings": {
-        "image": "shopify://shop_images/7fc14e403815c9e12f458bb5bd5bfa3b.png",
-        "mobile_image": "shopify://shop_images/4c871390ea9594ffaa7f54b41268864d.png",
+        "image": "",
+        "mobile_image": "",
         "show_legacy_media": false,
-        "image_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/2_c3dc3a66-fab0-48c8-8ecb-b49981dc3d72.png?v=1792995907",
-        "mobile_image_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/7beb3b7e19d634d364f4b4ba4353117d.png?v=1792995907",
-        "image_alt": "Nuage comfort underwear campaign",
-        "heading": "Underwear you can finally forget about.",
-        "text": "No digging, no wedgies, no visible lines. Just breathable comfort that moves with your body.",
+        "image_url": "https://cdn.shopify.com/s/files/1/0800/1427/8952/files/PC_Banner.png?v=1793328444",
+        "mobile_image_url": "https://cdn.shopify.com/s/files/1/0800/1427/8952/files/Mobile_Banner.png?v=1793328444",
+        "image_alt": "Nuage comfort underwear campaign banner",
+        "heading": "BLACK FRIDAY STARTS EARLY FOR VIPs",
+        "text": "Unlock Early Access, Exclusive Discounts & More.",
         "primary_label": "Shop by Underwear",
         "primary_link": "/collections/all",
-        "secondary_label": "Shop Best Sellers",
-        "secondary_link": "/collections/best-sellers-2026"
+        "secondary_label": "Shop by Bra",
+        "secondary_link": "/collections/bra-bralette",
+        "tertiary_label": "Shop by Scenario",
+        "tertiary_link": "/collections/all"
       }
     },
     "scenario": {
@@ -165,8 +167,8 @@
         "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/banner.png?v=1792995981",
         "eyebrow": "Featured Collection",
         "heading": "The NuCloud Collection",
-        "tagline": "Our softest fabric, reimagined",
-        "description": "Cloud-soft modal that feels like nothing at all - the everyday essentials you'll reach for on repeat, morning to night.",
+        "tagline": "Thong results. Without the thong.",
+        "description": "Ultra-thin. Invisible edges. Full coverage. Experience everyday comfort that feels like wearing nothing at all.",
         "button_label": "Shop NuCloud",
         "link": "/collections/2026-nucloud"
       }

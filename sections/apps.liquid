@@ -1,0 +1,30 @@
+{%- if section.settings.include_margins -%}<div class="page-width section-apps">{%- endif -%}
+{%- for block in section.blocks -%}
+  {% render block %}
+{%- endfor -%}
+{%- if section.settings.include_margins -%}</div>{%- endif -%}
+{% schema %}
+{
+  "name": "Apps",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "include_margins",
+      "default": true,
+      "label": "Make section margins the same as theme"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Apps"
+    }
+  ]
+}
+{% endschema %}

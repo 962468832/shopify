@@ -1,12 +1,23 @@
 {% liquid
   assign media_url = image_url
+  assign media_srcset = blank
   if image != blank
-    assign media_url = image | image_url: width: 2000
+    assign media_url = image | image_url: width: 1200
+    capture media_srcset
+      echo image | image_url: width: 480
+      echo ' 480w, '
+      echo image | image_url: width: 720
+      echo ' 720w, '
+      echo image | image_url: width: 1200
+      echo ' 1200w, '
+      echo image | image_url: width: 1600
+      echo ' 1600w'
+    endcapture
   endif
   assign media_alt = image.alt | default: title
 %}
 {% if media_url != blank %}
-  <img src="{{ media_url | escape }}" width="{{ width | default: 900 }}" height="{{ height | default: 1050 }}" loading="{{ loading | default: 'lazy' }}" alt="{{ media_alt | escape }}"{% if image != blank %} data-native-image="{{ image.id }}"{% endif %}>
+  <img src="{{ media_url | escape }}"{% if media_srcset != blank %} srcset="{{ media_srcset | escape }}" sizes="(max-width: 750px) 86vw, (max-width: 1200px) 42vw, 25vw"{% endif %} width="{{ width | default: 900 }}" height="{{ height | default: 1050 }}" loading="{{ loading | default: 'lazy' }}" decoding="async" alt="{{ media_alt | escape }}"{% if image != blank %} data-native-image="{{ image.id }}"{% endif %}>
 {% elsif request.design_mode %}
   <div class="home-media-placeholder">请选择或上传图片</div>
 {% endif %}

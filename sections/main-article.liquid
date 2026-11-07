@@ -3,7 +3,38 @@
   <header class="article-page__head"><p class="eyebrow">{% if article.tags.first != blank %}{{ article.tags.first }}{% else %}The Journal{% endif %}</p><h1>{{ article.title }}</h1><div class="article-meta">{{ article.published_at | date: '%B %d, %Y' }} · {{ reading_minutes }} min read</div></header>
   {% if article.image %}<img class="article-page__image" src="{{ article.image | image_url: width: 1800 }}" width="1800" height="1100" alt="{{ article.image.alt | default: article.title | escape }}">{% endif %}
   <div class="article-page__body rte">{{ article.content }}</div>
-  <nav class="article-page__footer" aria-label="Article navigation"><a href="{{ blog.url }}">← Back to journal</a><span>{% if blog.previous_article %}<a href="{{ blog.previous_article }}">Previous article</a>{% endif %}</span><span>{% if blog.next_article %}<a href="{{ blog.next_article }}">Next article</a>{% endif %}</span></nav>
-  {% assign recommended_collection = collections['2026-nucloud'] %}{% if recommended_collection != blank %}<section class="article-page__recommendations"><h2>Shop the comfort behind the story</h2><div class="product-grid">{% for product in recommended_collection.products limit: 4 %}{% render 'product-card', product: product, show_color_options: true %}{% endfor %}</div></section>{% endif %}
+  <nav class="article-page__footer" aria-label="Article navigation"><a href="{{ blog.url }}">← Back to journal</a><span>{% if blog.previous_article %}<a href="{{ blog.previous_article.url }}">Previous article</a>{% endif %}</span><span>{% if blog.next_article %}<a href="{{ blog.next_article.url }}">Next article</a>{% endif %}</span></nav>
+  {% if blog.comments_enabled? %}
+    <section class="article-comments" aria-labelledby="ArticleCommentsTitle">
+      <h2 id="ArticleCommentsTitle">{{ article.comments_count }} {% if article.comments_count == 1 %}comment{% else %}comments{% endif %}</h2>
+      {% paginate article.comments by 20 %}
+        {% for comment in article.comments %}
+          <article class="article-comment" id="{{ comment.id }}">
+            <div class="rte">{{ comment.content }}</div>
+            <p class="article-meta">{{ comment.author }} · {{ comment.created_at | date: '%B %d, %Y' }}</p>
+          </article>
+        {% endfor %}
+        {% if paginate.pages > 1 %}<nav class="pagination" aria-label="Comments pagination">{% if paginate.previous %}<a href="{{ paginate.previous.url }}">← Previous</a>{% endif %}<span>Page {{ paginate.current_page }} of {{ paginate.pages }}</span>{% if paginate.next %}<a href="{{ paginate.next.url }}">Next →</a>{% endif %}</nav>{% endif %}
+      {% endpaginate %}
+      <div class="contact-page__form">
+        {% form 'new_comment', article %}
+          <h3>Leave a comment</h3>
+          {% if form.posted_successfully? %}
+            <p class="form-success" role="status">{% if blog.moderated? %}Your comment was posted and will appear after approval.{% else %}Your comment was posted.{% endif %}</p>
+          {% elsif form.errors %}
+            <div class="errors" role="alert">{{ form.errors | default_errors }}</div>
+          {% endif %}
+          <div class="form-grid form-grid--two">
+            <label for="CommentAuthor">Name<input id="CommentAuthor" type="text" name="comment[author]" value="{{ form.author }}" autocomplete="name" required></label>
+            <label for="CommentEmail">Email<input id="CommentEmail" type="email" name="comment[email]" value="{{ form.email }}" autocomplete="email" required></label>
+          </div>
+          <label for="CommentBody">Message<textarea id="CommentBody" name="comment[body]" rows="5" required>{{ form.body }}</textarea></label>
+          {% if blog.moderated? %}<p><small>Comments are moderated before they appear.</small></p>{% endif %}
+          <button class="button button--dark" type="submit">Post comment</button>
+        {% endform %}
+      </div>
+    </section>
+  {% endif %}
+  {% assign recommended_collection = section.settings.collection | default: collections['2026-nucloud'] %}{% if recommended_collection != blank %}<section class="article-page__recommendations"><h2>Shop the comfort behind the story</h2><div class="product-grid">{% for product in recommended_collection.products limit: 4 %}{% render 'product-card', product: product, show_color_options: true %}{% endfor %}</div></section>{% endif %}
 </article>
-{% schema %}{"name":"Article","settings":[]}{% endschema %}
+{% schema %}{"name":"Article","settings":[{"type":"collection","id":"collection","label":"Recommended collection"}]}{% endschema %}

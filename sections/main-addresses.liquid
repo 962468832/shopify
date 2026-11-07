@@ -6,8 +6,8 @@
       <button class="button button--dark" type="button" data-address-toggle aria-expanded="false">+ Add a new address</button>
     </header>
     <div class="account-address-form" data-address-form hidden>
-      <h2>New address</h2>
-      {% form 'customer_address', customer.new_address, aria-labelledBy: 'AddressNewHeading' %}
+      <h2 id="AddressNewHeading">New address</h2>
+      {% form 'customer_address', customer.new_address, aria-labelledby: 'AddressNewHeading' %}
         {{ form.errors | default_errors }}
         <div class="form-grid form-grid--two">
           <label for="AddressFirstNameNew">First name<input type="text" id="AddressFirstNameNew" name="address[first_name]" value="{{ form.first_name }}" autocomplete="given-name"></label>
@@ -44,10 +44,15 @@
                 <input type="hidden" name="_method" value="delete">
                 <button type="submit">Delete</button>
               {% endform %}
-              {% if address != customer.default_address %}
-                <form method="post" action="{{ routes.account_addresses_url }}/{{ address.id }}/default">
+              {% if address.id != customer.default_address.id %}
+              {% form 'customer_address', address %}
+                {%- assign address_fields = 'first_name,last_name,company,address1,address2,city,country,province,zip,phone' | split: ',' -%}
+                {%- for field in address_fields -%}
+                    <input type="hidden" name="address[{{ field }}]" value="{{ address[field] | escape }}">
+                  {%- endfor -%}
+                  <input type="hidden" name="address[default]" value="1">
                   <button type="submit">Set default</button>
-                </form>
+                {% endform %}
               {% endif %}
             </div>
             <div class="account-address-form" data-address-form hidden>

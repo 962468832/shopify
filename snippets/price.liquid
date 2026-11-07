@@ -1,0 +1,18 @@
+{%- liquid
+  assign price_variant = variant | default: product.selected_or_first_available_variant | default: product.variants.first
+  assign current_price = price_variant.price | default: product.price
+  assign compare_at_price = price_variant.compare_at_price | default: 0
+  assign has_discount = false
+  assign discount_percent = 0
+  if compare_at_price > current_price
+    assign has_discount = true
+    assign discount_percent = compare_at_price | minus: current_price | times: 100.0 | divided_by: compare_at_price | round
+  endif
+-%}
+<span class="price{% if has_discount %} price--sale{% endif %}">
+  <span class="price__current">{{ current_price | money }}</span>
+  {%- if has_discount -%}
+    <s class="price__compare">{{ compare_at_price | money }}</s>
+    <span class="price__save">Save {{ discount_percent }}%</span>
+  {%- endif -%}
+</span>

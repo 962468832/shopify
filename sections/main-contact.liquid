@@ -1,0 +1,33 @@
+<section class="page-width page-content contact-page">
+  <header class="page-content__head">
+    <p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>
+    <h1>{{ page.title }}</h1>
+  </header>
+  {% if page.content != blank %}<div class="page-content__body rte">{{ page.content }}</div>{% endif %}
+  <div class="contact-page__form">
+    {% form 'contact', id: 'ContactForm' %}
+      {% if form.posted_successfully? %}
+        <p class="form-success" role="status" tabindex="-1" autofocus>Thanks for reaching out. We'll get back to you as soon as possible.</p>
+      {% elsif form.errors %}
+        <div class="errors" role="alert">{{ form.errors | default_errors }}</div>
+      {% endif %}
+      <div class="form-grid form-grid--two">
+        <label for="ContactForm-name">Name<input id="ContactForm-name" type="text" name="contact[name]" autocomplete="name" value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"></label>
+        <label for="ContactForm-email">Email <span aria-hidden="true">*</span><input id="ContactForm-email" type="email" name="contact[email]" autocomplete="email" spellcheck="false" autocapitalize="off" required value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"></label>
+      </div>
+      <label for="ContactForm-phone">Phone<input id="ContactForm-phone" type="tel" name="contact[phone]" autocomplete="tel" pattern="[0-9\-\+\s\(\)]*" value="{{ form.phone }}"></label>
+      <label for="ContactForm-order">Order number<input id="ContactForm-order" type="text" name="contact[order_number]" value="{{ form.order_number }}"></label>
+      <label for="ContactForm-body">Message <span aria-hidden="true">*</span><textarea id="ContactForm-body" name="contact[body]" rows="6" required>{{ form.body }}</textarea></label>
+      <button class="button button--dark" type="submit">Send message</button>
+    {% endform %}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Contact form",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Customer care" }
+  ],
+  "presets": [{ "name": "Contact form" }]
+}
+{% endschema %}

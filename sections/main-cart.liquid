@@ -13,7 +13,6 @@
         {% assign cart_merchandise_discount = cart_merchandise_discount | plus: item_compare_line_price | minus: item.original_line_price %}
       {% endif %}
     {% endfor %}
-    {% assign cart_display_discount = cart_merchandise_discount | plus: cart.total_discount %}
     <form action="{{ routes.cart_url }}" method="post" class="cart-page__form">
       <div class="cart-page__items">
         <div class="cart-page__column-labels" aria-hidden="true"><span>Product</span><span>Total</span></div>
@@ -27,11 +26,14 @@
               {% assign item_compare_line_price = item.variant.compare_at_price | times: item.quantity %}
               {% assign item_reference_line_price = item.original_line_price %}
               {% if item_compare_line_price > item_reference_line_price %}{% assign item_reference_line_price = item_compare_line_price %}{% endif %}
+              {% assign item_reference_unit_price = item.original_price %}
+              {% if item.variant.compare_at_price > item_reference_unit_price %}{% assign item_reference_unit_price = item.variant.compare_at_price %}{% endif %}
               {% assign item_save_percent = 0 %}
               {% if item_compare_line_price > item.original_line_price %}{% assign item_save_percent = item_compare_line_price | minus: item.original_line_price | times: 100.0 | divided_by: item_compare_line_price | round %}{% endif %}
-              <p class="cart-page__unit-price">{{ item.final_price | money }}{% if item_reference_line_price > item.final_line_price %} <s>{{ item_reference_line_price | money }}</s>{% endif %}{% if item_save_percent > 0 %} <span class="cart-price__save">Save {{ item_save_percent }}%</span>{% endif %}</p>
+              <p class="cart-page__unit-price">{{ item.final_price | money }}{% if item_reference_unit_price > item.final_price %} <s>{{ item_reference_unit_price | money }}</s>{% endif %}{% if item_save_percent > 0 %} <span class="cart-price__save">Save {{ item_save_percent }}%</span>{% endif %}</p>
+              {% for discount_allocation in item.line_level_discount_allocations %}<p class="cart-page__line-discount">{{ discount_allocation.discount_application.title | escape }} (−{{ discount_allocation.amount | money }})</p>{% endfor %}
               <div class="cart-page__line-actions">
-                <div class="cart-page__quantity" aria-label="Quantity for {{ item.product.title | escape }}"><button type="button" data-cart-page-quantity="-1" aria-label="Decrease quantity for {{ item.product.title | escape }}">−</button><input type="number" min="0" name="updates[]" value="{{ item.quantity }}" aria-label="Quantity for {{ item.product.title | escape }}"><button type="button" data-cart-page-quantity="1" aria-label="Increase quantity for {{ item.product.title | escape }}">+</button></div>
+                <div class="cart-page__quantity" role="group" aria-label="Quantity for {{ item.product.title | escape }}"><button type="button" data-cart-page-quantity="-1" aria-label="Decrease quantity for {{ item.product.title | escape }}">−</button><input type="number" min="0" name="updates[]" value="{{ item.quantity }}" aria-label="Quantity for {{ item.product.title | escape }}"><button type="button" data-cart-page-quantity="1" aria-label="Increase quantity for {{ item.product.title | escape }}">+</button></div>
                 <a class="cart-page__remove" href="{{ item.url_to_remove }}">Remove</a>
               </div>
             </div>
@@ -43,9 +45,10 @@
       <aside class="cart-page__summary">
         <h2>Order Summary</h2>
         <div class="cart-page__summary-row"><span>Subtotal ({{ cart.item_count }} items)</span><strong>{{ cart.items_subtotal_price | money }}</strong></div>
-        {% if cart_display_discount > 0 %}<div class="cart-page__summary-row cart-page__discount"><span>Discount</span><strong>−{{ cart_display_discount | money }}</strong></div>{% endif %}
+        {% for discount_application in cart.cart_level_discount_applications %}<div class="cart-page__summary-row cart-page__discount"><span>{{ discount_application.title | escape }}</span><strong>−{{ discount_application.total_allocated_amount | money }}</strong></div>{% endfor %}
         <div class="cart-page__summary-row cart-page__shipping"><span>Shipping</span><span>Calculated at checkout</span></div>
         <div class="cart-page__summary-row cart-page__total"><span>Total</span><strong>{{ cart.total_price | money }}</strong></div>
+        {% if cart_merchandise_discount > 0 %}<p class="cart-page__savings">You save {{ cart_merchandise_discount | money }} on sale items.</p>{% endif %}
         <p class="cart-page__tax-note">Taxes and shipping calculated at checkout.</p>
         <button class="button button--dark button--full" name="checkout" type="submit">Checkout</button>
         {% if additional_checkout_buttons %}<div class="additional-checkout-buttons">{{ content_for_additional_checkout_buttons }}</div>{% endif %}

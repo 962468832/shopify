@@ -22,7 +22,7 @@
   const availability = root.querySelector('[data-product-availability]');
   const productForm = root.querySelector('[data-product-installments]');
   const currency = root.dataset.currency || 'USD';
-  const formatMoney = (cents) => new Intl.NumberFormat(document.documentElement.lang || 'en', { style: 'currency', currency }).format(cents / 100);
+  const formatMoney = (cents) => (window.NuageFormatMoney ? window.NuageFormatMoney(cents) : new Intl.NumberFormat(undefined, { style: 'currency', currency }).format(cents / 100));
   const pricing = window.NuagePricing || {
     details(source) {
       const price = Number(source?.price || 0);
@@ -71,7 +71,11 @@
       id.value = variant.id;
       id.disabled = false;
       syncPrice(variant);
-      if (variant.featured_image) showImage(variant.featured_image.src, variant.featured_image.id, variant.featured_image.alt);
+      if (variant.featured_image) {
+        const imageUrl = new URL(String(variant.featured_image.src).replace(/^\/\//, 'https://'), window.location.href);
+        imageUrl.searchParams.set('width', '1400');
+        showImage(imageUrl.toString(), variant.featured_image.id, variant.featured_image.alt);
+      }
       if (updateUrl) {
         const url = new URL(window.location.href);
         url.searchParams.set('variant', variant.id);
@@ -98,8 +102,7 @@
       id.value = '';
       id.disabled = true;
     }
-    submit.disabled = !variant?.available;
-    submit.textContent = variant ? (variant.available ? 'Add to bag' : 'Sold out') : 'Unavailable';
+    syncSubmit(variant);
     if (paymentButton) paymentButton.disabled = !variant?.available;
     availability.textContent = variant?.available ? '' : (variant ? 'This option is currently sold out.' : 'This combination is not available. Please choose another option.');
     const current = selectedValues();
@@ -112,6 +115,13 @@
       });
     });
   }
+  function syncSubmit(variant = data.variants.find((candidate) => String(candidate.id) === id.value)) {
+    if (submit.getAttribute('aria-busy') === 'true') return;
+    const available = Boolean(variant?.available) && !id.disabled;
+    submit.disabled = !available;
+    submit.textContent = variant ? (available ? 'Add to bag' : 'Sold out') : 'Unavailable';
+  }
+  document.addEventListener('nuage:cart-add-finished', (event) => { if (event.detail?.button === submit) syncSubmit(); });
   groups.forEach((group, index) => group.addEventListener('change', () => syncVariant(index)));
   async function refreshProductData() {
     const latestUrl = new URL(window.location.href);
@@ -132,6 +142,8 @@
         if (input) input.checked = true;
       }
     });
+    const requestedVariant = data.variants.find((candidate) => String(candidate.id) === params.get('variant'));
+    if (requestedVariant) groups.forEach((group, index) => group.querySelectorAll('input').forEach((input) => { input.checked = input.value === requestedVariant.options[index]; }));
     syncVariant(null, false);
     try {
       await refreshProductData();
@@ -153,27 +165,14 @@
   }));
   paymentButton?.addEventListener('click', async () => {
     if (paymentButton.disabled || id.disabled || !id.value) return;
-    const label = paymentButton.textContent;
+    const routes = window.ShopifyRoutes || {};
+    const form = id.form;
+    const item = window.NuageCart?.productFormItem ? window.NuageCart.productFormItem(form) : { id: Number(id.value), quantity: Math.max(1, Number(quantity?.value || 1)) };
+    const added = window.NuageCart?.addToCart ? await window.NuageCart.addToCart(item, item.quantity, paymentButton, { openDrawer: false }) : false;
+    if (!added) return;
     paymentButton.disabled = true;
     paymentButton.textContent = 'Loading…';
-    try {
-      const routes = window.ShopifyRoutes || {};
-      const endpoint = (routes.cartAdd || '/cart/add.js').replace(/\.js$/, '') + '.js';
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ items: [{ id: Number(id.value), quantity: Math.max(1, Number(quantity?.value || 1)) }] })
-      });
-      if (!response.ok) {
-        const error = await response.json().catch(() => ({}));
-        throw new Error(error.description || error.message || 'Unable to start checkout. Please try again.');
-      }
-      window.location.href = routes.cartUrl || '/cart';
-    } catch (error) {
-      availability.textContent = error.message;
-      paymentButton.disabled = false;
-      paymentButton.textContent = label;
-    }
+    window.location.href = routes.checkoutUrl || '/checkout';
   });
 
   const gallery = [...root.querySelectorAll('.product-photo-gallery__card')];

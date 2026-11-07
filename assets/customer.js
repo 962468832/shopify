@@ -14,11 +14,27 @@ document.addEventListener('click', (event) => {
     return;
   }
 
-  const isRecover = toggle.matches('[data-toggle-recover]');
+  showRecover(toggle.matches('[data-toggle-recover]'));
+});
+
+function showRecover(isRecover) {
   const recoverForm = document.querySelector('[data-recover-form]');
-  const signInForm = document.querySelector('.auth-card:not([data-recover-form])');
+  const signInForm = document.querySelector('[data-login-form]');
+  if (!recoverForm || !signInForm) return;
   recoverForm.hidden = !isRecover;
   signInForm.hidden = isRecover;
+  (isRecover ? recoverForm : signInForm).querySelector('input:not([type="hidden"])')?.focus({ preventScroll: true });
+}
+
+// Shopify re-renders the login page after a recover post; reopen the recover card so its message is visible.
+if (window.location.hash === '#recover' || document.querySelector('[data-recover-posted]')) showRecover(true);
+
+// Keep address forms open when Shopify returns validation errors.
+document.querySelectorAll('[data-address-form]').forEach((form) => {
+  if (!form.querySelector('.errors')) return;
+  form.hidden = false;
+  const card = form.closest('.address-card');
+  (card || document).querySelector('[data-address-toggle]')?.setAttribute('aria-expanded', 'true');
 });
 
 if (window.Shopify && window.Shopify.CountryProvinceSelector) {
