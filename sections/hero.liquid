@@ -22,7 +22,7 @@
 %}
 <section class="home-hero" aria-labelledby="hero-{{ section.id }}">
   {% if desktop_url != blank %}<picture>{% if mobile_url != blank %}<source media="(max-width:767px)" srcset="{{ mobile_url | escape }}">{% endif %}<img src="{{ desktop_url | escape }}"{% if desktop_srcset != blank %} srcset="{{ desktop_srcset | escape }}" sizes="100vw"{% endif %} width="1920" height="1000" alt="{{ section.settings.image.alt | default: section.settings.image_alt | escape }}" loading="eager" fetchpriority="high" decoding="async"{% if section.settings.image != blank %} data-native-image="{{ section.settings.image.id }}"{% endif %}></picture>{% elsif request.design_mode %}<div class="home-media-placeholder">请选择首页电脑端和手机端图片</div>{% endif %}
-  <div class="home-hero__content"><h1 id="hero-{{ section.id }}">{{ section.settings.heading | escape }}</h1><p>{{ section.settings.text | escape }}</p><div class="home-hero__buttons">{% if section.settings.primary_label != blank %}<a class="home-pill home-pill--accent" href="{{ section.settings.primary_link | default: routes.all_products_collection_url }}">{{ section.settings.primary_label | escape }}</a>{% endif %}{% if section.settings.secondary_link != blank and section.settings.secondary_label != blank %}<a class="home-pill" href="{{ section.settings.secondary_link }}">{{ section.settings.secondary_label | escape }}</a>{% endif %}{% if section.settings.tertiary_link != blank and section.settings.tertiary_label != blank %}<a class="home-pill home-pill--ghost" href="{{ section.settings.tertiary_link }}">{{ section.settings.tertiary_label | escape }}</a>{% endif %}</div></div>
+  <div class="home-hero__content"><h1 id="hero-{{ section.id }}">{{ section.settings.heading | escape }}</h1><p>{{ section.settings.text | escape }}</p><div class="home-hero__buttons">{% if section.settings.primary_label != blank %}<a class="home-pill home-pill--accent" href="{{ section.settings.primary_link | default: routes.all_products_collection_url }}">{{ section.settings.primary_label | escape }}</a>{% endif %}{% if section.settings.tertiary_link != blank and section.settings.tertiary_label != blank %}<a class="home-pill home-pill--ghost" href="{{ section.settings.tertiary_link }}">{{ section.settings.tertiary_label | escape }}</a>{% endif %}</div></div>
 </section>
 {% schema %}
 {
@@ -87,17 +87,6 @@
       "type": "url",
       "id": "primary_link",
       "label": "主按钮链接"
-    },
-    {
-      "type": "text",
-      "id": "secondary_label",
-      "label": "次按钮文字",
-      "default": "Shop Best Sellers"
-    },
-    {
-      "type": "url",
-      "id": "secondary_link",
-      "label": "次按钮链接"
     },
     {
       "type": "text",

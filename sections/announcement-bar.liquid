@@ -1,19 +1,31 @@
 {%- assign shipping_threshold = settings.cart_progress_threshold | times: 100 | money_without_trailing_zeros -%}
-{%- assign first_announcement = section.blocks | first -%}
-{%- assign default_announcement = '🎁 FREE Laundry Bag with Orders $100+' -%}
-{%- assign announcement_text = first_announcement.settings.text -%}
-{%- if announcement_text == blank or announcement_text == 'New season, softer than ever' -%}{%- assign announcement_text = default_announcement -%}{%- endif -%}
+{%- assign default_announcement = section.settings.default_message -%}
+{%- assign promo_announcement = section.settings.promo_message -%}
+{%- assign shipping_announcement = section.settings.shipping_message -%}
+{%- assign announcement_text = blank -%}
+{%- for block in section.blocks -%}
+  {%- if block.settings.text != blank -%}
+    {%- assign announcement_text = block.settings.text -%}
+    {%- break -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- assign announcement_text = announcement_text | default: default_announcement -%}
 <div class="announcement" data-announcement>
   <button class="announcement__arrow" data-announcement-prev aria-label="Previous announcement">&lsaquo;</button>
   <p data-announcement-text>{{ announcement_text | replace: '[threshold]', shipping_threshold | escape }}</p>
   <button class="announcement__arrow" data-announcement-next aria-label="Next announcement">&rsaquo;</button>
   <button class="announcement__close" data-announcement-close aria-label="Dismiss announcement">&times;</button>
 </div>
-<script type="application/json" data-announcements>[{%- for block in section.blocks -%}{{ block.settings.text | replace: '[threshold]', shipping_threshold | json }},{%- endfor -%}{{ default_announcement | json }},{{ 'BLACK FRIDAY STARTS EARLY FOR VIPs · Unlock Early Access, Exclusive Discounts & More.' | json }},{{ 'Free shipping on orders over [threshold]' | replace: '[threshold]', shipping_threshold | json }}]</script>
+{%- assign announcement_count = 0 -%}
+<script type="application/json" data-announcements>[{%- for block in section.blocks -%}{%- assign block_message = block.settings.text | replace: '[threshold]', shipping_threshold -%}{%- if block_message != blank -%}{% if announcement_count > 0 %},{% endif %}{{ block_message | json }}{%- assign announcement_count = announcement_count | plus: 1 -%}{%- endif -%}{%- endfor -%}{%- assign configured_messages = default_announcement | append: '|||' | append: promo_announcement | append: '|||' | append: shipping_announcement | split: '|||' -%}{%- for message in configured_messages -%}{%- assign configured_message = message | replace: '[threshold]', shipping_threshold -%}{%- if configured_message != blank -%}{% if announcement_count > 0 %},{% endif %}{{ configured_message | json }}{%- assign announcement_count = announcement_count | plus: 1 -%}{%- endif -%}{%- endfor -%}]</script>
 {% schema %}
 {
   "name": "Announcement bar",
-  "settings": [],
+  "settings": [
+    {"type": "text", "id": "default_message", "label": "Default announcement", "default": "🎁 FREE Laundry Bag with Orders $100+"},
+    {"type": "text", "id": "promo_message", "label": "Promotion announcement", "default": "BLACK FRIDAY STARTS EARLY FOR VIPs · Unlock Early Access, Exclusive Discounts & More."},
+    {"type": "text", "id": "shipping_message", "label": "Shipping announcement", "default": "Free shipping on orders over [threshold]", "info": "Use [threshold] to insert your cart progress threshold."}
+  ],
   "blocks": [
     {
       "type": "message",
