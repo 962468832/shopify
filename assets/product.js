@@ -12,7 +12,7 @@
   }
   const root = document.querySelector('[data-product-detail]');
   if (!root) return;
-  const data = JSON.parse(root.querySelector('[data-product-json]').textContent);
+  let data = JSON.parse(root.querySelector('[data-product-json]').textContent);
   const groups = [...root.querySelectorAll('[data-option-group]')];
   const mainImage = root.querySelector('[data-product-main]');
   const thumbs = [...root.querySelectorAll('[data-product-thumb]')];
@@ -23,15 +23,23 @@
   const productForm = root.querySelector('[data-product-installments]');
   const currency = root.dataset.currency || 'USD';
   const formatMoney = (cents) => new Intl.NumberFormat(document.documentElement.lang || 'en', { style: 'currency', currency }).format(cents / 100);
+  const pricing = window.NuagePricing || {
+    details(source) {
+      const price = Number(source?.price || 0);
+      const compareAtPrice = Number(source?.compare_at_price || 0);
+      const hasDiscount = compareAtPrice > price;
+      return { price, compareAtPrice: hasDiscount ? compareAtPrice : 0, hasDiscount, discountPercent: hasDiscount ? Math.round(((compareAtPrice - price) / compareAtPrice) * 100) : 0 };
+    }
+  };
   function syncPrice(variant) {
     const compare = root.querySelector('[data-product-compare]');
     const savings = root.querySelector('[data-product-savings]');
-    const hasSavings = variant.compare_at_price > variant.price;
-    root.querySelector('[data-product-price]').textContent = formatMoney(variant.price);
-    compare.hidden = !hasSavings;
-    compare.textContent = hasSavings ? formatMoney(variant.compare_at_price) : '';
-    savings.hidden = !hasSavings;
-    savings.textContent = hasSavings ? `Save ${Math.round(((variant.compare_at_price - variant.price) / variant.compare_at_price) * 100)}%` : '';
+    const variantPricing = pricing.details(variant);
+    root.querySelector('[data-product-price]').textContent = formatMoney(variantPricing.price);
+    compare.hidden = !variantPricing.hasDiscount;
+    compare.textContent = variantPricing.hasDiscount ? formatMoney(variantPricing.compareAtPrice) : '';
+    savings.hidden = !variantPricing.hasDiscount;
+    savings.textContent = variantPricing.hasDiscount ? `Save ${variantPricing.discountPercent}%` : '';
   }
   const selectedValues = () => groups.map((group) => group.querySelector('input:checked')?.value);
   function syncInstallmentsVisibility(element = root.querySelector('.product-installments')) {
@@ -105,15 +113,32 @@
     });
   }
   groups.forEach((group, index) => group.addEventListener('change', () => syncVariant(index)));
-  const params = new URL(window.location.href).searchParams;
-  groups.forEach((group) => {
-    const requested = params.get(group.dataset.optionName);
-    if (requested) {
-      const input = [...group.querySelectorAll('input')].find((radio) => radio.value === requested);
-      if (input) input.checked = true;
-    }
-  });
-  syncVariant(null, false);
+  async function refreshProductData() {
+    const latestUrl = new URL(window.location.href);
+    latestUrl.pathname = `${latestUrl.pathname.replace(/\/$/, '')}.js`;
+    latestUrl.search = '';
+    latestUrl.searchParams.set('_', String(Date.now()));
+    const response = await fetch(latestUrl.toString(), { cache: 'no-store', headers: { Accept: 'application/json' } });
+    if (!response.ok) throw new Error('Latest product data unavailable');
+    const latest = await response.json();
+    if (latest?.id && String(latest.id) === String(data.id) && latest.variants?.length) data = latest;
+  }
+  async function initializeProduct() {
+    const params = new URL(window.location.href).searchParams;
+    groups.forEach((group) => {
+      const requested = params.get(group.dataset.optionName);
+      if (requested) {
+        const input = [...group.querySelectorAll('input')].find((radio) => radio.value === requested);
+        if (input) input.checked = true;
+      }
+    });
+    syncVariant(null, false);
+    try {
+      await refreshProductData();
+      syncVariant(null, false);
+    } catch { /* Embedded Liquid data remains the fallback when the fresh product endpoint is unavailable. */ }
+  }
+  initializeProduct();
   window.addEventListener('popstate', () => {
     const url = new URL(window.location.href);
     const variant = data.variants.find((candidate) => String(candidate.id) === url.searchParams.get('variant'));

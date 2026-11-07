@@ -8,6 +8,21 @@
   };
   const escapeHtml = (value) => String(value || '').replace(/[&<>'"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
   const mediaUrl = (value) => String(value || '').replace(/^\/\//, 'https://');
+  const pricing = window.NuagePricing || {
+    details(source) {
+      const price = Number(source?.price || 0);
+      const compareAtPrice = Number(source?.compare_at_price || 0);
+      const hasDiscount = compareAtPrice > price;
+      return { price, compareAtPrice: hasDiscount ? compareAtPrice : 0, hasDiscount, discountPercent: hasDiscount ? Math.round(((compareAtPrice - price) / compareAtPrice) * 100) : 0 };
+    },
+    variant(product, variantId) {
+      return product?.variants?.find((candidate) => String(candidate.id) === String(variantId)) || product?.variants?.find((candidate) => candidate.available) || product?.variants?.[0] || product;
+    },
+    product(product, variantId) {
+      return this.details(this.variant(product, variantId));
+    }
+  };
+  window.NuagePricing = pricing;
 
   const cartDrawer = qs('#cart-drawer');
   const setDrawer = (drawer, open) => {
@@ -69,7 +84,6 @@
   const quickShopBody = qs('[data-quick-shop-body]');
   const quickShopSettings = window.NuageThemeSettings || {};
   const progressThreshold = Number(quickShopSettings.cartProgressThreshold || 75) * 100;
-  const productCache = new Map();
   const recommendationCache = new Map();
 
   function formatMoney(cents) {
@@ -116,9 +130,9 @@
       const fallback = fallbackCartLinePricing(item);
       const product = productsByHandle.get(item.handle);
       const variant = product?.variants?.find((candidate) => String(candidate.id) === String(item.variant_id));
-      const compareAtPrice = Number(variant?.compare_at_price || 0);
+      const variantPricing = pricing.details(variant || item);
       const originalLinePrice = fallback.referenceLinePrice;
-      const compareAtLinePrice = compareAtPrice * Number(item.quantity || 0);
+      const compareAtLinePrice = variantPricing.hasDiscount ? variantPricing.compareAtPrice * Number(item.quantity || 0) : 0;
       const referenceLinePrice = Math.max(originalLinePrice, compareAtLinePrice);
       const lineMerchandiseSavings = Math.max(0, referenceLinePrice - originalLinePrice);
       merchandiseSavings += lineMerchandiseSavings;
@@ -200,10 +214,11 @@
 
   function recommendationCard(product) {
     const image = mediaUrl(product.featured_image || product.images?.[0] || '');
+    const productPricing = pricing.product(product);
     return `
       <article class="cart-recommendation" data-product-handle="${escapeHtml(product.handle)}">
         <a href="${escapeHtml(product.url)}"><img src="${escapeHtml(image)}" alt="${escapeHtml(product.title)}"></a>
-        <div><p>${escapeHtml(product.vendor || 'Nuage')}</p><h4><a href="${escapeHtml(product.url)}">${escapeHtml(product.title)}</a></h4><strong>${formatMoney(product.price)}</strong>${product.compare_at_price > product.price ? `<s>${formatMoney(product.compare_at_price)}</s>` : ''}</div>
+        <div><p>${escapeHtml(product.vendor || 'Nuage')}</p><h4><a href="${escapeHtml(product.url)}">${escapeHtml(product.title)}</a></h4><strong>${formatMoney(productPricing.price)}</strong>${productPricing.hasDiscount ? `<s>${formatMoney(productPricing.compareAtPrice)}</s>` : ''}</div>
         <button type="button" data-quick-open data-product-handle="${escapeHtml(product.handle)}">Add</button>
       </article>
     `;
@@ -242,9 +257,10 @@
 
   function productRecommendationCard(product) {
     const image = mediaUrl(product.featured_image || product.images?.[0] || '');
-    const price = Number(product.price || 0);
-    const compareAtPrice = Number(product.compare_at_price || 0);
-    const savePercent = compareAtPrice > price ? Math.round(((compareAtPrice - price) / compareAtPrice) * 100) : 0;
+    const productPricing = pricing.product(product);
+    const price = productPricing.price;
+    const compareAtPrice = productPricing.compareAtPrice;
+    const savePercent = productPricing.discountPercent;
     const colorOption = (product.options_with_values || []).find((option) => /color|colour/i.test(option.name));
     const colorValues = colorOption?.values || [];
     const colorMarkup = colorValues.length ? `<div class="product-card__colors" aria-label="${colorValues.length} color options">${colorValues.slice(0, 5).map((value) => `<span class="color-dot" data-color="${escapeHtml(String(value).toLowerCase().replace(/\s+/g, '-'))}" title="${escapeHtml(value)}"></span>`).join('')}${colorValues.length > 5 ? `<span class="color-more">+${colorValues.length - 5}</span>` : ''}<span class="color-count">${colorValues.length} colors</span></div>` : '';
@@ -373,12 +389,10 @@
   }
 
   async function fetchProduct(handle) {
-    if (productCache.has(handle)) return productCache.get(handle);
     const root = (window.ShopifyRoutes.rootUrl || '').replace(/\/$/, '');
-    const response = await fetch(`${root}/products/${encodeURIComponent(handle)}.js`, { cache: 'no-store' });
+    const response = await fetch(`${root}/products/${encodeURIComponent(handle)}.js?_=${Date.now()}`, { cache: 'no-store' });
     if (!response.ok) throw new Error('This product is no longer available.');
     const product = await response.json();
-    productCache.set(handle, product);
     return product;
   }
 
@@ -410,9 +424,10 @@
     const variant = resolveVariant(product.variants, selected, changedIndex);
     if (variant) quickShopState.selected = [...variant.options];
     const image = variantImage(product, variant);
-    const compare = variant?.compare_at_price ?? (variant ? 0 : product.compare_at_price ?? 0);
-    const price = variant?.price ?? product.price;
-    const savings = compare > price ? Math.round(((compare - price) / compare) * 100) : 0;
+    const selectedPricing = pricing.details(variant || product);
+    const compare = selectedPricing.compareAtPrice;
+    const price = selectedPricing.price;
+    const savings = selectedPricing.discountPercent;
     quickShopBody.innerHTML = `
       <div class="quick-shop-product">
         <div class="quick-shop-product__media">${image ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(product.title)}">` : '<span class="media-placeholder"></span>'}</div>
