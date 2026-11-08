@@ -12,8 +12,8 @@
     "hero": {
       "type": "hero",
       "settings": {
-        "image": "",
-        "mobile_image": "",
+        "image": "shopify://shop_images/7fc14e403815c9e12f458bb5bd5bfa3b.png",
+        "mobile_image": "shopify://shop_images/4c871390ea9594ffaa7f54b41268864d.png",
         "show_legacy_media": false,
         "image_url": "https://cdn.shopify.com/s/files/1/0800/1427/8952/files/PC_Banner.png?v=1793328444",
         "mobile_image_url": "https://cdn.shopify.com/s/files/1/0800/1427/8952/files/Mobile_Banner.png?v=1793328444",
