@@ -71,15 +71,18 @@
               <a href="{{ collections['lift-shape'].url | default: bra_collection.url | default: routes.all_products_collection_url }}">Lift &amp; Shape</a>
             </div>
           </div>
-          {% assign bra_featured = all_products['nucloud-bra'] %}
-          {% assign wireless_bra = all_products['wireless-soft-stay-put-bra-pull-over'] %}
-          <a class="mega-menu__tile mega-menu__tile--image" href="{{ bra_featured.url | default: bra_collection.url | default: routes.all_products_collection_url }}">
-            {% if bra_featured.featured_image %}<img src="{{ bra_featured.featured_image | image_url: width: 500 }}" width="340" height="410" alt="{{ bra_featured.title | escape }}" loading="lazy">{% endif %}
-            <span>{{ bra_featured.title | default: 'NuCloud Bra' }}<small>{{ bra_featured.price | money }} <span aria-hidden="true">↗</span></small></span>
+          {% assign bra_second_product = bra_collection.products[1] %}
+          {% assign bra_featured = all_products['nucloud-bra'] | default: bra_collection.products.first %}
+          {% assign wireless_bra = all_products['wireless-soft-stay-put-bra-pull-over'] | default: bra_second_product | default: bra_collection.products.first %}
+          {% assign bra_featured_image = section.settings.menu_bra_featured_image | default: bra_featured.featured_image | default: collections['2026-nucloud'].image | default: collections['2026-nucloud'].products.first.featured_image %}
+          {% assign wireless_bra_image = section.settings.menu_wireless_bra_image | default: wireless_bra.featured_image | default: collections['2026-nuair'].image | default: collections['2026-nuair'].products.first.featured_image %}
+          <a class="mega-menu__tile{% if bra_featured_image != blank %} mega-menu__tile--image{% endif %}" href="{{ bra_featured.url | default: bra_collection.url | default: routes.all_products_collection_url }}">
+            {% if bra_featured_image != blank %}<img src="{{ bra_featured_image | image_url: width: 500 }}" width="340" height="410" alt="{{ bra_featured.title | default: 'NuCloud Bra' | escape }}" loading="lazy">{% endif %}
+            <span>{{ bra_featured.title | default: 'NuCloud Bra' }}<small>{% if bra_featured.price != blank %}{{ bra_featured.price | money }} {% endif %}<span aria-hidden="true">↗</span></small></span>
           </a>
-          <a class="mega-menu__tile mega-menu__tile--image" href="{{ wireless_bra.url | default: bra_collection.url | default: routes.all_products_collection_url }}">
-            {% if wireless_bra.featured_image %}<img src="{{ wireless_bra.featured_image | image_url: width: 500 }}" width="340" height="410" alt="{{ wireless_bra.title | escape }}" loading="lazy">{% endif %}
-            <span>{{ wireless_bra.title | default: 'Wireless Soft Stay-Put Bra' }}<small>{{ wireless_bra.price | money }} <span aria-hidden="true">↗</span></small></span>
+          <a class="mega-menu__tile{% if wireless_bra_image != blank %} mega-menu__tile--image{% endif %}" href="{{ wireless_bra.url | default: bra_collection.url | default: routes.all_products_collection_url }}">
+            {% if wireless_bra_image != blank %}<img src="{{ wireless_bra_image | image_url: width: 500 }}" width="340" height="410" alt="{{ wireless_bra.title | default: 'Wireless Soft Stay-Put Bra' | escape }}" loading="lazy">{% endif %}
+            <span>{{ wireless_bra.title | default: 'Wireless Soft Stay-Put Bra' }}<small>{% if wireless_bra.price != blank %}{{ wireless_bra.price | money }} {% endif %}<span aria-hidden="true">↗</span></small></span>
           </a>
         </div>
       </div>
@@ -97,5 +100,5 @@
   <div class="search-panel" data-search-panel aria-hidden="true"><form action="{{ routes.search_url }}" method="get" role="search" data-search-form><label for="SearchInput">Search products</label><input id="SearchInput" name="q" type="search" placeholder="Search products..." autocomplete="off" data-predictive-search-input><input type="hidden" name="type" value="product,article,page"><button class="button button--dark" type="submit">Search</button></form><div class="predictive-results" data-predictive-results aria-live="polite"></div></div>
 </header>
 {% schema %}
-{"name":"Header","settings":[{"type":"checkbox","id":"use_storefront_menu","label":"Use Shopify menu instead of Nuage navigation","default":false},{"type":"link_list","id":"menu","label":"Shopify menu (optional)"},{"type":"header","content":"Underwear 浮动菜单"},{"type":"image_picker","id":"menu_nucloud_image","label":"NuCloud 卡片图片","info":"留空时保留当前系列图片。"},{"type":"image_picker","id":"menu_nuair_image","label":"NuAir 卡片图片","info":"留空时保留当前系列图片。"}]}
+{"name":"Header","settings":[{"type":"checkbox","id":"use_storefront_menu","label":"Use Shopify menu instead of Nuage navigation","default":false},{"type":"link_list","id":"menu","label":"Shopify menu (optional)"},{"type":"header","content":"Underwear 浮动菜单"},{"type":"image_picker","id":"menu_nucloud_image","label":"NuCloud 卡片图片","info":"留空时保留当前系列图片。"},{"type":"image_picker","id":"menu_nuair_image","label":"NuAir 卡片图片","info":"留空时保留当前系列图片。"},{"type":"header","content":"Bra & Bralettes 卡片"},{"type":"image_picker","id":"menu_bra_featured_image","label":"NuCloud Bra 卡片图片","info":"留空时使用现有系列图片。"},{"type":"image_picker","id":"menu_wireless_bra_image","label":"Wireless Bra 卡片图片","info":"留空时使用现有系列图片。"}]}
 {% endschema %}
