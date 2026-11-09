@@ -82,7 +82,8 @@
   qsa('#cart-drawer, #wishlist-drawer, #quick-shop').forEach((drawer) => drawer.addEventListener('keydown', (event) => trapFocus(qs('[role="dialog"]', drawer) || drawer, event)));
   const closeAllDrawers = () => {
     setDrawer(cartDrawer, false);
-    setDrawer(qs('#wishlist-drawer'), false);
+    if (typeof closeWishlist === 'function') closeWishlist();
+    else setDrawer(qs('#wishlist-drawer'), false);
     closeQuickShop();
   };
 
@@ -313,6 +314,8 @@
     const price = productPricing.price;
     const compareAtPrice = productPricing.compareAtPrice;
     const savePercent = productPricing.discountPercent;
+    const variant = product.variants?.find((candidate) => candidate.available) || product.variants?.[0] || product;
+    const variantTitle = variant?.title && variant.title !== 'Default Title' ? variant.title : '';
     const colorOption = (product.options_with_values || []).find((option) => /color|colour/i.test(option.name));
     const colorValues = colorOption?.values || [];
     const colorMarkup = colorValues.length ? `<div class="product-card__colors" aria-label="${colorValues.length} color options">${colorValues.slice(0, 5).map((value) => `<span class="color-dot" data-color="${escapeHtml(String(value).toLowerCase().replace(/\s+/g, '-'))}" title="${escapeHtml(value)}"></span>`).join('')}${colorValues.length > 5 ? `<span class="color-more">+${colorValues.length - 5}</span>` : ''}<span class="color-count">${colorValues.length} colors</span></div>` : '';
@@ -321,7 +324,7 @@
         <div class="product-card__media">
           ${savePercent ? '<span class="badge">Sale</span>' : ''}
           <a href="${escapeHtml(product.url || `/products/${product.handle}`)}">${image ? `<img class="product-card__image product-card__image--primary" src="${escapeHtml(image)}" alt="${escapeHtml(product.title)}" loading="lazy">${secondaryImage ? `<img class="product-card__image product-card__image--secondary" src="${escapeHtml(secondaryImage)}" alt="${escapeHtml(product.title)}" loading="lazy">` : ''}` : '<div class="media-placeholder"></div>'}</a>
-          <button class="wishlist-card" type="button" data-wishlist data-wishlist-handle="${escapeHtml(product.handle)}" data-wishlist-url="${escapeHtml(product.url || `/products/${product.handle}`)}" data-wishlist-title="${escapeHtml(product.title)}" data-wishlist-image="${escapeHtml(image)}" data-wishlist-price="${escapeHtml(formatMoney(price))}" aria-label="Add ${escapeHtml(product.title)} to wishlist"><span aria-hidden="true">♡</span></button>
+          <button class="wishlist-card" type="button" data-wishlist data-wishlist-handle="${escapeHtml(product.handle)}" data-wishlist-url="${escapeHtml(product.url || `/products/${product.handle}`)}" data-wishlist-title="${escapeHtml(product.title)}" data-wishlist-image="${escapeHtml(image)}" data-wishlist-price="${escapeHtml(formatMoney(price))}" data-wishlist-compare-price="${escapeHtml(compareAtPrice ? formatMoney(compareAtPrice) : '')}" data-wishlist-variant-id="${escapeHtml(variant?.id || '')}" data-wishlist-variant-title="${escapeHtml(variantTitle)}" aria-label="Add ${escapeHtml(product.title)} to favorites"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M7.5 3A5.5 5.5 0 0 0 2 8.5c0 1.085.136 1.99.527 2.851.386.849.984 1.574 1.766 2.356L10.586 20a2 2 0 0 0 2.828 0l6.293-6.293c.782-.782 1.38-1.507 1.766-2.356.391-.86.527-1.766.527-2.851A5.5 5.5 0 0 0 16.5 3c-1.805 0-3.265.776-4.221 1.807L12 5.086l-.279-.28C10.765 3.777 9.305 3 7.5 3Z"></path></svg></button>
           <button class="quick-shop" type="button" data-quick-open data-product-handle="${escapeHtml(product.handle)}"${product.available === false ? ' disabled' : ''}>Quick shop</button>
         </div>
         <div class="product-card__meta"><a class="product-card__vendor" href="${escapeHtml(product.url || `/products/${product.handle}`)}">${escapeHtml(product.vendor || 'Nuage')}</a><a class="product-card__title" href="${escapeHtml(product.url || `/products/${product.handle}`)}">${escapeHtml(product.title)}</a>${product.type ? `<p class="product-card__subtitle">${escapeHtml(product.type)}</p>` : ''}${colorMarkup}<div class="product-card__price">${formatMoney(price)}${savePercent ? `<s>${formatMoney(compareAtPrice)}</s><span class="product-card__save">Save ${savePercent}%</span>` : ''}</div></div>
@@ -519,7 +522,8 @@
   async function openQuickShop(handle, options = {}) {
     if (!quickShopModal || !quickShopBody) return;
     setDrawer(cartDrawer, false);
-    setDrawer(qs('#wishlist-drawer'), false);
+    if (typeof closeWishlist === 'function') closeWishlist();
+    else setDrawer(qs('#wishlist-drawer'), false);
     if (!quickShopModal.classList.contains('is-open')) focusReturn.set(quickShopModal, document.activeElement);
     quickShopModal.classList.add('is-open');
     quickShopModal.setAttribute('aria-hidden', 'false');
@@ -916,27 +920,66 @@
   }
 
   const wishlistKey = 'nuage-wishlist';
-  const readWishlist = () => { try { return JSON.parse(localStorage.getItem(wishlistKey) || '[]'); } catch (error) { return []; } };
-  const writeWishlist = (items) => { localStorage.setItem(wishlistKey, JSON.stringify(items)); updateWishlist(); };
+  const wishlistHeartSvg = () => '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M7.5 3A5.5 5.5 0 0 0 2 8.5c0 1.085.136 1.99.527 2.851.386.849.984 1.574 1.766 2.356L10.586 20a2 2 0 0 0 2.828 0l6.293-6.293c.782-.782 1.38-1.507 1.766-2.356.391-.86.527-1.766.527-2.851A5.5 5.5 0 0 0 16.5 3c-1.805 0-3.265.776-4.221 1.807L12 5.086l-.279-.28C10.765 3.777 9.305 3 7.5 3Z"></path></svg>';
+  const normalizeWishlistItem = (item) => ({ handle: String(item?.handle || ''), url: item?.url || (item?.handle ? `/products/${item.handle}` : ''), title: item?.title || item?.handle || 'Favorite item', image: item?.image || '', price: item?.price || '', comparePrice: item?.comparePrice || '', variantId: item?.variantId || '', variantTitle: item?.variantTitle || '', rating: item?.rating || '', ratingCount: item?.ratingCount || '' });
+  const readWishlist = () => { try { const items = JSON.parse(localStorage.getItem(wishlistKey) || '[]'); return Array.isArray(items) ? items.map(normalizeWishlistItem).filter((item) => item.handle) : []; } catch (error) { return []; } };
+  const writeWishlist = (items) => { try { localStorage.setItem(wishlistKey, JSON.stringify(items.map(normalizeWishlistItem))); } catch (error) { /* Storage can be unavailable in private mode. */ } updateWishlist(); };
+  const wishlistItemMarkup = (item) => `<article class="wishlist-item" data-wishlist-item="${escapeHtml(item.handle)}"><div class="wishlist-item__media">${item.image ? `<a href="${escapeHtml(item.url)}"><img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}" loading="lazy"></a>` : `<a href="${escapeHtml(item.url)}" class="media-placeholder" aria-label="${escapeHtml(item.title)}"></a>`}<button class="wishlist-item__heart wishlist-card" type="button" data-wishlist data-wishlist-handle="${escapeHtml(item.handle)}" data-wishlist-url="${escapeHtml(item.url)}" data-wishlist-title="${escapeHtml(item.title)}" data-wishlist-image="${escapeHtml(item.image)}" data-wishlist-price="${escapeHtml(item.price)}" data-wishlist-compare-price="${escapeHtml(item.comparePrice)}" data-wishlist-variant-id="${escapeHtml(item.variantId)}" data-wishlist-variant-title="${escapeHtml(item.variantTitle)}" data-wishlist-rating="${escapeHtml(item.rating)}" data-wishlist-rating-count="${escapeHtml(item.ratingCount)}" aria-label="Remove ${escapeHtml(item.title)} from favorites">${wishlistHeartSvg()}</button></div><div class="wishlist-item__details"><a class="wishlist-item__title" href="${escapeHtml(item.url)}">${escapeHtml(item.title)}</a>${item.rating ? `<p class="wishlist-item__rating"><span aria-hidden="true">★★★★★</span> <b>${escapeHtml(item.rating)}</b>${item.ratingCount ? ` <span>(${escapeHtml(item.ratingCount)})</span>` : ''}</p>` : ''}<p class="wishlist-item__price"><strong>${escapeHtml(item.price)}</strong>${item.comparePrice ? ` <s>${escapeHtml(item.comparePrice)}</s>` : ''}</p>${item.variantTitle ? `<p class="wishlist-item__variant">${escapeHtml(item.variantTitle)}</p>` : ''}<button class="wishlist-item__add" type="button" data-wishlist-add data-wishlist-handle="${escapeHtml(item.handle)}" data-wishlist-variant-id="${escapeHtml(item.variantId)}">Add to cart</button></div></article>`;
   function updateWishlist() {
     const items = readWishlist();
     qsa('[data-wishlist-count]').forEach((element) => { element.textContent = items.length; });
-    qsa('[data-wishlist]').forEach((button) => { const saved = items.some((item) => item.handle === button.dataset.wishlistHandle); button.classList.toggle('is-saved', saved); button.setAttribute('aria-label', `${saved ? 'Remove' : 'Add'} ${button.dataset.wishlistTitle} ${saved ? 'from' : 'to'} wishlist`); });
+    qsa('[data-wishlist]').forEach((button) => { const saved = items.some((item) => item.handle === button.dataset.wishlistHandle); button.classList.toggle('is-saved', saved); button.setAttribute('aria-label', `${saved ? 'Remove' : 'Add'} ${button.dataset.wishlistTitle || 'item'} ${saved ? 'from' : 'to'} favorites`); });
     const body = qs('[data-wishlist-body]');
-    if (body) body.innerHTML = items.length ? items.map((item) => `<article class="wishlist-line"><a href="${escapeHtml(item.url)}">${item.image ? `<img src="${escapeHtml(item.image)}" alt="">` : ''}<span>${escapeHtml(item.title)}<small>${escapeHtml(item.price)}</small></span></a><button type="button" data-wishlist-remove="${escapeHtml(item.handle)}" aria-label="Remove ${escapeHtml(item.title)}">×</button></article>`).join('') : '<p class="empty-state">Save pieces here while you browse.</p>';
+    if (body) body.innerHTML = `<button class="wishlist-drawer__share" type="button" data-wishlist-share>Share list</button>${items.length ? items.map(wishlistItemMarkup).join('') : '<p class="empty-state">Keep pieces here while you browse.</p>'}`;
+  }
+  const openWishlist = () => { updateWishlist(); setDrawer(qs('#wishlist-drawer'), true); qs('[data-wishlist-open]')?.classList.add('is-hidden'); };
+  const closeWishlist = () => { setDrawer(qs('#wishlist-drawer'), false); qs('[data-wishlist-open]')?.classList.remove('is-hidden'); };
+  async function shareWishlist() {
+    const items = readWishlist();
+    if (!items.length) return;
+    const url = new URL(window.location.href);
+    url.searchParams.set('favorites', items.map((item) => item.handle).join(','));
+    const shareData = { title: 'Favorite items', text: 'My favorite items', url: url.toString() };
+    try { if (navigator.share) await navigator.share(shareData); else throw new Error('share unavailable'); }
+    catch (error) {
+      if (error?.name === 'AbortError') return;
+      try { await navigator.clipboard.writeText(url.toString()); showCartFeedback('Favorite list link copied.'); }
+      catch (copyError) { const input = document.createElement('textarea'); input.value = url.toString(); document.body.appendChild(input); input.select(); document.execCommand('copy'); input.remove(); showCartFeedback('Favorite list link copied.'); }
+    }
+  }
+  async function addWishlistItem(button) {
+    const item = readWishlist().find((candidate) => candidate.handle === button.dataset.wishlistHandle);
+    if (!item) return;
+    const label = button.textContent || 'Add to cart';
+    button.disabled = true;
+    button.textContent = 'Adding…';
+    try {
+      let variantId = button.dataset.wishlistVariantId || item.variantId;
+      if (!variantId) { const product = await fetchProduct(item.handle); variantId = (product.variants || []).find((variant) => variant.available)?.id || product.variants?.[0]?.id; }
+      if (!variantId) throw new Error('This item is currently unavailable.');
+      const added = await addToCart({ id: Number(variantId), quantity: 1 }, 1, button, { openDrawer: false });
+      if (added !== false) { button.textContent = 'Added to cart'; window.setTimeout(() => { if (document.contains(button)) { button.disabled = false; button.textContent = label || 'Add to cart'; } }, 1400); }
+      else button.textContent = label || 'Add to cart';
+    } catch (error) { showCartFeedback(error.message, true); button.disabled = false; button.textContent = label || 'Add to cart'; }
   }
   document.addEventListener('click', (event) => {
     const button = event.target.closest('[data-wishlist]');
-    if (!button) return;
-    const items = readWishlist();
-    const index = items.findIndex((item) => item.handle === button.dataset.wishlistHandle);
-    if (index >= 0) items.splice(index, 1);
-    else items.push({ handle: button.dataset.wishlistHandle, url: button.dataset.wishlistUrl, title: button.dataset.wishlistTitle, image: button.dataset.wishlistImage, price: button.dataset.wishlistPrice });
-    writeWishlist(items);
+    if (button) {
+      event.preventDefault();
+      const items = readWishlist();
+      const index = items.findIndex((item) => item.handle === button.dataset.wishlistHandle);
+      if (index >= 0) items.splice(index, 1);
+      else items.push(normalizeWishlistItem({ handle: button.dataset.wishlistHandle, url: button.dataset.wishlistUrl, title: button.dataset.wishlistTitle, image: button.dataset.wishlistImage, price: button.dataset.wishlistPrice, comparePrice: button.dataset.wishlistComparePrice, variantId: button.dataset.wishlistVariantId, variantTitle: button.dataset.wishlistVariantTitle, rating: button.dataset.wishlistRating, ratingCount: button.dataset.wishlistRatingCount }));
+      writeWishlist(items);
+      return;
+    }
+    const addButton = event.target.closest('[data-wishlist-add]');
+    if (addButton) { event.preventDefault(); addWishlistItem(addButton); return; }
+    const shareButton = event.target.closest('[data-wishlist-share]');
+    if (shareButton) { event.preventDefault(); shareWishlist(); return; }
+    if (event.target.closest('[data-wishlist-open]')) { event.preventDefault(); openWishlist(); return; }
+    if (event.target.closest('[data-wishlist-close]')) { event.preventDefault(); closeWishlist(); }
   });
-  qs('[data-wishlist-body]')?.addEventListener('click', (event) => { const remove = event.target.closest('[data-wishlist-remove]'); if (!remove) return; writeWishlist(readWishlist().filter((item) => item.handle !== remove.dataset.wishlistRemove)); });
-  qs('[data-wishlist-open]')?.addEventListener('click', () => { updateWishlist(); setDrawer(qs('#wishlist-drawer'), true); });
-  qsa('[data-wishlist-close]').forEach((button) => button.addEventListener('click', () => setDrawer(qs('#wishlist-drawer'), false)));
   updateWishlist();
 
   document.addEventListener('click', (event) => {
