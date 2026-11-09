@@ -188,7 +188,7 @@
 .cart-feedback.is-error{border-color:#ca9b95;border-left-color:#a23a30}
 button[aria-busy="true"]{cursor:wait;opacity:.7}
 .product-card__media .product-card__image--secondary{position:absolute;inset:0;opacity:0}
-.product-card:hover .product-card__image--primary{opacity:0}
+.product-card--has-secondary:hover .product-card__image--primary{opacity:0}
 .product-card:hover .product-card__image--secondary{opacity:1;transform:scale(1.03)}
 .product-card__rating{display:inline-flex;align-items:center;gap:4px;margin-top:7px;color:#6c625c;font-size:11px;line-height:1.2;text-decoration:none}
 .product-card__rating span:first-child{color:#b17c2b;letter-spacing:.08em;font-size:10px}

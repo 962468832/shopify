@@ -26,7 +26,8 @@
   };
   window.NuageFormatMoney = money;
   const escapeHtml = (value) => String(value || '').replace(/[&<>'"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
-  const mediaUrl = (value) => String(value || '').replace(/^\/\//, 'https://');
+  const mediaSource = (value) => typeof value === 'string' ? value : value?.src || value?.url || value?.originalSrc || value?.original_src || '';
+  const mediaUrl = (value) => String(mediaSource(value)).replace(/^\/\//, 'https://');
   const pricing = window.NuagePricing || {
     details(source) {
       const price = Number(source?.price || 0);
@@ -307,6 +308,7 @@
 
   function productRecommendationCard(product) {
     const image = mediaUrl(product.featured_image || product.images?.[0] || '');
+    const secondaryImage = mediaUrl(product.images?.[1] || '');
     const productPricing = pricing.product(product);
     const price = productPricing.price;
     const compareAtPrice = productPricing.compareAtPrice;
@@ -315,10 +317,10 @@
     const colorValues = colorOption?.values || [];
     const colorMarkup = colorValues.length ? `<div class="product-card__colors" aria-label="${colorValues.length} color options">${colorValues.slice(0, 5).map((value) => `<span class="color-dot" data-color="${escapeHtml(String(value).toLowerCase().replace(/\s+/g, '-'))}" title="${escapeHtml(value)}"></span>`).join('')}${colorValues.length > 5 ? `<span class="color-more">+${colorValues.length - 5}</span>` : ''}<span class="color-count">${colorValues.length} colors</span></div>` : '';
     return `
-      <article class="product-card">
+      <article class="product-card${secondaryImage ? ' product-card--has-secondary' : ''}">
         <div class="product-card__media">
           ${savePercent ? '<span class="badge">Sale</span>' : ''}
-          <a href="${escapeHtml(product.url || `/products/${product.handle}`)}">${image ? `<img class="product-card__image product-card__image--primary" src="${escapeHtml(image)}" alt="${escapeHtml(product.title)}" loading="lazy">` : '<div class="media-placeholder"></div>'}</a>
+          <a href="${escapeHtml(product.url || `/products/${product.handle}`)}">${image ? `<img class="product-card__image product-card__image--primary" src="${escapeHtml(image)}" alt="${escapeHtml(product.title)}" loading="lazy">${secondaryImage ? `<img class="product-card__image product-card__image--secondary" src="${escapeHtml(secondaryImage)}" alt="${escapeHtml(product.title)}" loading="lazy">` : ''}` : '<div class="media-placeholder"></div>'}</a>
           <button class="wishlist-card" type="button" data-wishlist data-wishlist-handle="${escapeHtml(product.handle)}" data-wishlist-url="${escapeHtml(product.url || `/products/${product.handle}`)}" data-wishlist-title="${escapeHtml(product.title)}" data-wishlist-image="${escapeHtml(image)}" data-wishlist-price="${escapeHtml(formatMoney(price))}" aria-label="Add ${escapeHtml(product.title)} to wishlist"><span aria-hidden="true">♡</span></button>
           <button class="quick-shop" type="button" data-quick-open data-product-handle="${escapeHtml(product.handle)}"${product.available === false ? ' disabled' : ''}>Quick shop</button>
         </div>

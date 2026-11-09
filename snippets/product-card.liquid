@@ -1,4 +1,4 @@
-<article class="product-card">
+<article class="product-card{% if product.images[1] %} product-card--has-secondary{% endif %}">
   {% assign card_variant = product.selected_or_first_available_variant | default: product.variants.first %}
   {% assign card_price = card_variant.price | default: product.price %}
   {% assign card_compare_at_price = card_variant.compare_at_price | default: 0 %}
