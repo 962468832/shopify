@@ -67,9 +67,11 @@
     if (previous && document.contains(previous)) previous.focus({ preventScroll: true });
   };
   const cartDrawer = qs('#cart-drawer');
+  let lockedScrollY = 0;
   const setDrawer = (drawer, open) => {
     if (!drawer) return;
     const wasOpen = drawer.classList.contains('is-open');
+    if (open && !wasOpen && drawer.matches('.cart-drawer')) lockedScrollY = window.scrollY;
     drawer.classList.toggle('is-open', open);
     drawer.setAttribute('aria-hidden', String(!open));
     if (drawer.matches('.cart-drawer')) {
@@ -77,7 +79,10 @@
       document.body.classList.toggle('cart-drawer-lock', open);
     }
     if (open && !wasOpen) openFocus(qs('[role="dialog"]', drawer));
-    if (!open && wasOpen) closeFocus(qs('[role="dialog"]', drawer));
+    if (!open && wasOpen) {
+      closeFocus(qs('[role="dialog"]', drawer));
+      if (drawer.matches('.cart-drawer')) window.requestAnimationFrame(() => window.scrollTo(0, lockedScrollY));
+    }
   };
   qsa('#cart-drawer, #wishlist-drawer, #quick-shop').forEach((drawer) => drawer.addEventListener('keydown', (event) => trapFocus(qs('[role="dialog"]', drawer) || drawer, event)));
   const closeAllDrawers = () => {
