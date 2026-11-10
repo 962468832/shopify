@@ -999,7 +999,7 @@ body.size-guide-lock{position:fixed;inset-inline:0;width:100%}
 .wishlist-launcher svg{width:24px;height:24px;fill:currentColor;stroke:currentColor;stroke-width:1.2;stroke-linejoin:round}
 .wishlist-launcher span{position:absolute;right:-3px;top:-3px;min-width:19px;height:19px;padding:0 4px;border-radius:99px;background:#8d1629;color:#fff;font-size:10px;line-height:19px;text-align:center;font-weight:600}
 .wishlist-drawer{z-index:35}
-.wishlist-drawer .cart-drawer__backdrop{z-index:0;background:rgba(20,18,17,.22)}
+.wishlist-drawer .cart-drawer__backdrop{z-index:0;background:transparent;opacity:1}
 .wishlist-drawer__panel{width:min(400px,100%);background:#fff!important;box-shadow:-14px 0 38px rgba(0,0,0,.18)}
 .wishlist-drawer__panel{z-index:1}
 .wishlist-drawer__head{display:grid;grid-template-columns:44px minmax(0,1fr) 44px;align-items:center;padding:18px 18px 16px;border-bottom:1px solid var(--line)}
