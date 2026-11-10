@@ -4,6 +4,8 @@
 {% if current_variant.compare_at_price > current_variant.price %}
   {% assign discount_percent = current_variant.compare_at_price | minus: current_variant.price | times: 100.0 | divided_by: current_variant.compare_at_price | round %}
 {% endif %}
+{% assign rating_value = product.metafields.reviews.rating.value.rating | default: product.metafields.reviews.rating.value | default: product.metafields.reviews.rating %}
+{% assign rating_count = product.metafields.reviews.rating_count.value | default: product.metafields.reviews.rating_count %}
 <section class="page-width product-detail" data-product-detail data-currency="{{ cart.currency.iso_code }}">
   <nav class="product-breadcrumb" aria-label="Breadcrumb"><a href="{{ routes.root_url }}">Home</a><span>/</span><a href="{{ routes.all_products_collection_url }}">Shop</a><span>/</span><span>{{ product.title }}</span></nav>
   <div class="product-page">
@@ -21,7 +23,7 @@
       {% form 'product', product, data-product-form: '', data-product-installments: '' %}
         {% capture payment_terms %}{{ form | payment_terms }}{% endcapture %}
         <div class="product-installments"{% if payment_terms == blank %} hidden{% endif %}>{{ payment_terms }}</div>
-        {% unless product.has_only_default_variant %}<div class="variant-options">
+        {% unless product.has_only_default_variant %}<div class="variant-options" data-product-options-target>
           {% for option in product.options_with_values %}
             {% assign option_index = forloop.index0 %}{% assign option_name = option.name | downcase %}
             <fieldset class="product-option{% if option_name == 'color' or option_name == 'colour' %} product-option--color{% endif %}" data-option-group data-option-index="{{ option_index }}" data-option-name="{{ option.name | escape }}">
@@ -43,7 +45,7 @@
           <span id="SoldOutHint-{{ section.id }}" class="visually-hidden">Sold out</span>
         </div>{% endunless %}
         <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
-        <div class="product-purchase"><div class="quantity-label"><label for="Quantity-{{ section.id }}">Quantity</label><span class="product-quantity" role="group" aria-label="Quantity"><button type="button" data-product-quantity="-1" aria-label="Decrease quantity">−</button><input class="quantity-input" id="Quantity-{{ section.id }}" type="number" name="quantity" min="1" value="1"><button type="button" data-product-quantity="1" aria-label="Increase quantity">+</button></span></div><button class="button button--dark button--full" type="submit" data-product-submit{% unless current_variant.available %} disabled{% endunless %}>{% if current_variant.available %}Add to bag{% else %}Sold out{% endif %}</button></div>
+        <div class="product-purchase" data-product-purchase><div class="quantity-label"><label for="Quantity-{{ section.id }}">Quantity</label><span class="product-quantity" role="group" aria-label="Quantity"><button type="button" data-product-quantity="-1" aria-label="Decrease quantity">−</button><input class="quantity-input" id="Quantity-{{ section.id }}" type="number" name="quantity" min="1" value="1"><button type="button" data-product-quantity="1" aria-label="Increase quantity">+</button></span></div><button class="button button--dark button--full" type="submit" data-product-submit{% unless current_variant.available %} disabled{% endunless %}>{% if current_variant.available %}Add to bag{% else %}Sold out{% endif %}</button></div>
         {% if product.available %}
           <div class="product-payment-buttons"><button class="button button--danger button--full" type="button" data-product-buy-now>Buy now</button></div>
         {% endif %}
@@ -52,6 +54,20 @@
       <div class="product-promise"><span>✓</span><p>Soft, breathable comfort with easy returns{% if settings.cart_progress_threshold > 0 %} and free shipping over {{ settings.cart_progress_threshold | times: 100 | times: cart.currency.rate | money_without_trailing_zeros }}{% endif %}.</p></div>
     </div>
   </div>
+  <aside class="product-sticky-atc" data-product-sticky-atc aria-hidden="true" aria-label="Product purchase options">
+    <div class="product-sticky-atc__inner">
+      <div class="product-sticky-atc__product">
+        <div class="product-sticky-atc__media">{% if main_image %}<img data-product-sticky-image src="{{ main_image | image_url: width: 180 }}" width="90" height="112" alt="{{ main_image.alt | default: product.title | escape }}">{% endif %}</div>
+        <div class="product-sticky-atc__details">
+          <strong class="product-sticky-atc__title">{{ product.title }}</strong>
+          <span class="product-sticky-atc__variant" data-product-sticky-variant>{% unless current_variant.title == 'Default Title' %}{{ current_variant.title }}{% endunless %}</span>
+          <span class="product-sticky-atc__rating{% unless rating_value != blank %} is-empty{% endunless %}" data-product-sticky-rating{% unless rating_value != blank %} hidden{% endunless %}><span aria-hidden="true">★★★★★</span> <b>{{ rating_value }}</b>{% if rating_count != blank %}<small>({{ rating_count }})</small>{% endif %}</span>
+          <span class="product-sticky-atc__price"><strong data-product-sticky-price>{{ current_variant.price | money }}</strong><s data-product-sticky-compare{% unless discount_percent > 0 %} hidden{% endunless %}>{% if discount_percent > 0 %}{{ current_variant.compare_at_price | money }}{% endif %}</s><em data-product-sticky-savings{% unless discount_percent > 0 %} hidden{% endunless %}>{% if discount_percent > 0 %}Save {{ discount_percent }}%{% endif %}</em></span>
+        </div>
+      </div>
+      <button class="button button--dark product-sticky-atc__button" type="button" data-product-sticky-button aria-label="Return to product options">Add to bag</button>
+    </div>
+  </aside>
   <section class="product-details" aria-labelledby="product-details-title"><p class="eyebrow">Made for everyday comfort</p><h2 id="product-details-title">Product details</h2><div class="product-description rte">{{ product.description }}</div></section>
   {% if product.images.size > 0 %}
     <section class="product-photo-gallery" aria-labelledby="ProductPhotoGalleryTitle">

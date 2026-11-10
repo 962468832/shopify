@@ -21,6 +21,15 @@
   const paymentButton = root.querySelector('[data-product-buy-now]');
   const availability = root.querySelector('[data-product-availability]');
   const productForm = root.querySelector('[data-product-installments]');
+  const sticky = root.querySelector('[data-product-sticky-atc]');
+  const stickyImage = root.querySelector('[data-product-sticky-image]');
+  const stickyVariant = root.querySelector('[data-product-sticky-variant]');
+  const stickyPrice = root.querySelector('[data-product-sticky-price]');
+  const stickyCompare = root.querySelector('[data-product-sticky-compare]');
+  const stickySavings = root.querySelector('[data-product-sticky-savings]');
+  const stickyButton = root.querySelector('[data-product-sticky-button]');
+  const purchaseBlock = root.querySelector('[data-product-purchase]');
+  const optionsTarget = root.querySelector('[data-product-options-target]');
   const currency = root.dataset.currency || 'USD';
   const formatMoney = (cents) => (window.NuageFormatMoney ? window.NuageFormatMoney(cents) : new Intl.NumberFormat(undefined, { style: 'currency', currency }).format(cents / 100));
   const pricing = window.NuagePricing || {
@@ -40,6 +49,38 @@
     compare.textContent = variantPricing.hasDiscount ? formatMoney(variantPricing.compareAtPrice) : '';
     savings.hidden = !variantPricing.hasDiscount;
     savings.textContent = variantPricing.hasDiscount ? `Save ${variantPricing.discountPercent}%` : '';
+  }
+  function getVariantLabel(variant) {
+    if (!variant || variant.title === 'Default Title') return '';
+    return variant.title || (variant.options || []).filter(Boolean).join(' / ');
+  }
+  function getVariantImage(variant) {
+    const source = variant?.featured_image?.src || data.featured_image?.src || data.images?.[0]?.src;
+    if (!source) return '';
+    const imageUrl = new URL(String(source).replace(/^\/\//, 'https://'), window.location.href);
+    imageUrl.searchParams.set('width', '180');
+    return imageUrl.toString();
+  }
+  function syncSticky(variant) {
+    if (!sticky) return;
+    const variantPricing = pricing.details(variant || data);
+    if (stickyImage) {
+      const imageUrl = getVariantImage(variant);
+      if (imageUrl) {
+        stickyImage.src = imageUrl;
+        stickyImage.alt = variant?.featured_image?.alt || data.title || '';
+      }
+    }
+    if (stickyVariant) stickyVariant.textContent = getVariantLabel(variant);
+    if (stickyPrice) stickyPrice.textContent = formatMoney(variantPricing.price);
+    if (stickyCompare) {
+      stickyCompare.hidden = !variantPricing.hasDiscount;
+      stickyCompare.textContent = variantPricing.hasDiscount ? formatMoney(variantPricing.compareAtPrice) : '';
+    }
+    if (stickySavings) {
+      stickySavings.hidden = !variantPricing.hasDiscount;
+      stickySavings.textContent = variantPricing.hasDiscount ? `Save ${variantPricing.discountPercent}%` : '';
+    }
   }
   const selectedValues = () => groups.map((group) => group.querySelector('input:checked')?.value);
   function syncInstallmentsVisibility(element = root.querySelector('.product-installments')) {
@@ -71,6 +112,7 @@
       id.value = variant.id;
       id.disabled = false;
       syncPrice(variant);
+      syncSticky(variant);
       if (variant.featured_image) {
         const imageUrl = new URL(String(variant.featured_image.src).replace(/^\/\//, 'https://'), window.location.href);
         imageUrl.searchParams.set('width', '1400');
@@ -101,6 +143,7 @@
     } else {
       id.value = '';
       id.disabled = true;
+      syncSticky(null);
     }
     syncSubmit(variant);
     if (paymentButton) paymentButton.disabled = !variant?.available;
@@ -123,6 +166,34 @@
   }
   document.addEventListener('nuage:cart-add-finished', (event) => { if (event.detail?.button === submit) syncSubmit(); });
   groups.forEach((group, index) => group.addEventListener('change', () => syncVariant(index)));
+  function focusProductOption() {
+    const sizeGroup = groups.find((group) => /size/i.test(group.dataset.optionName || ''));
+    return sizeGroup?.querySelector('[data-product-option]:not(:disabled)') || submit;
+  }
+  stickyButton?.addEventListener('click', () => {
+    const target = optionsTarget || purchaseBlock;
+    if (!target) return;
+    const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    target.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'center' });
+    window.setTimeout(() => focusProductOption()?.focus({ preventScroll: true }), reducedMotion ? 0 : 450);
+  });
+  function setStickyVisible(visible) {
+    if (!sticky) return;
+    sticky.classList.toggle('is-visible', visible);
+    sticky.setAttribute('aria-hidden', String(!visible));
+    document.body.classList.toggle('product-sticky-active', visible);
+  }
+  if (sticky && purchaseBlock && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(([entry]) => setStickyVisible(!entry.isIntersecting), { threshold: 0.05, rootMargin: '-80px 0px 0px' });
+    observer.observe(purchaseBlock);
+  } else if (sticky && purchaseBlock) {
+    const updateStickyVisibility = () => {
+      const rect = purchaseBlock.getBoundingClientRect();
+      setStickyVisible(rect.bottom < 80 || rect.top > window.innerHeight);
+    };
+    window.addEventListener('scroll', updateStickyVisibility, { passive: true });
+    updateStickyVisibility();
+  }
   async function refreshProductData() {
     const latestUrl = new URL(window.location.href);
     latestUrl.pathname = `${latestUrl.pathname.replace(/\/$/, '')}.js`;
