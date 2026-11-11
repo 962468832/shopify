@@ -1,1 +1,49 @@
-{"sections":{"main":{"type":"main-product","settings":{}},"reviews":{"type":"product-reviews","settings":{}},"recommendations":{"type":"product-recommendations","settings":{}}},"order":["main","reviews","recommendations"]}
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {}
+    },
+    "reviews": {
+      "type": "product-reviews",
+      "blocks": {
+        "judge_me_reviews_review_widget_nrAEnD": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "review_data": "sample_data",
+            "max_width": 1200,
+            "show_shop_reviews": false,
+            "empty_state": "empty_widget"
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_nrAEnD"
+      ],
+      "settings": {
+        "heading": "What customers are saying",
+        "description": "Independent reviews will appear here once a reviews app is connected."
+      }
+    },
+    "recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "heading": "You may also like"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "reviews",
+    "recommendations"
+  ]
+}
