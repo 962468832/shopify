@@ -2,7 +2,19 @@
 <section id="product-scene" class="product-scene" data-product-scene aria-labelledby="product-scene-title">
   <div class="product-scene__media" aria-hidden="true">
     {% for block in section.blocks %}
-      {% assign scene_image = block.settings.image | default: fallback_image %}
+      {% assign scene_image = block.settings.image %}
+      {% assign scene_asset_name = blank %}
+      {% assign scene_label = block.settings.label | downcase %}
+      {% case scene_label %}
+        {% when 'everyday' %}
+          {% assign scene_asset_name = 'product-scene-everyday.png' %}
+        {% when 'travel' %}
+          {% assign scene_asset_name = 'product-scene-travel.png' %}
+        {% when 'movement' %}
+          {% assign scene_asset_name = 'product-scene-movement.png' %}
+        {% when 'vacation' %}
+          {% assign scene_asset_name = 'product-scene-vacation.png' %}
+      {% endcase %}
       {% if scene_image %}
         <img
           class="product-scene__image{% if forloop.first %} is-active{% endif %}"
@@ -12,6 +24,28 @@
           width="{{ scene_image.width }}"
           height="{{ scene_image.height }}"
           alt="{{ block.settings.image_alt | escape }}"
+          loading="lazy"
+          {% unless forloop.first %}aria-hidden="true"{% endunless %}
+        >
+      {% elsif scene_asset_name != blank %}
+        <img
+          class="product-scene__image{% if forloop.first %} is-active{% endif %}"
+          data-product-scene-image
+          data-scene-index="{{ forloop.index0 }}"
+          src="{{ scene_asset_name | asset_url }}"
+          alt="{{ block.settings.image_alt | default: block.settings.label | escape }}"
+          loading="lazy"
+          {% unless forloop.first %}aria-hidden="true"{% endunless %}
+        >
+      {% elsif fallback_image %}
+        <img
+          class="product-scene__image{% if forloop.first %} is-active{% endif %}"
+          data-product-scene-image
+          data-scene-index="{{ forloop.index0 }}"
+          src="{{ fallback_image | image_url: width: 2400 }}"
+          width="{{ fallback_image.width }}"
+          height="{{ fallback_image.height }}"
+          alt="{{ block.settings.image_alt | default: product.title | escape }}"
           loading="lazy"
           {% unless forloop.first %}aria-hidden="true"{% endunless %}
         >
