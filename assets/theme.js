@@ -787,7 +787,7 @@
   window.addEventListener('pageshow', (event) => { if (event.persisted) syncCart(); });
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') syncCart(); });
 
-  const mobileQuery = window.matchMedia('(max-width: 900px)');
+  const mobileQuery = window.matchMedia('(max-width: 1000px)');
   const getHeader = () => qs('[data-header]');
   const getMenuToggle = () => qs('[data-menu-toggle]');
   const getNav = () => qs('[data-mobile-nav]');
@@ -999,7 +999,7 @@
   const filters = qs('[data-filters]');
   const closeFilters = () => { filters?.classList.remove('is-open'); filterToggle?.setAttribute('aria-expanded', 'false'); };
   filterToggle?.addEventListener('click', () => {
-    if (window.matchMedia('(max-width: 900px)').matches) {
+    if (window.matchMedia('(max-width: 1000px)').matches) {
       const open = filters.classList.toggle('is-open');
       filterToggle.setAttribute('aria-expanded', String(open));
     } else {
@@ -1008,7 +1008,7 @@
     }
   });
   qsa('[data-filter-close]').forEach((button) => button.addEventListener('click', closeFilters));
-  filters?.addEventListener('click', (event) => { if (event.target === filters && window.matchMedia('(max-width: 900px)').matches) closeFilters(); });
+  filters?.addEventListener('click', (event) => { if (event.target === filters && window.matchMedia('(max-width: 1000px)').matches) closeFilters(); });
   qs('.collection-filter-form')?.addEventListener('change', (event) => { if (event.target.matches('select[name="sort_by"]')) event.currentTarget.requestSubmit(); });
   document.addEventListener('keydown', (event) => {
     if (event.key !== 'Escape' || sizeGuide?.classList.contains('is-open')) return;
