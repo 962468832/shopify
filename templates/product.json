@@ -39,11 +39,52 @@
       "settings": {
         "heading": "You may also like"
       }
+    },
+    "product_scene": {
+      "type": "product-scene",
+      "blocks": {
+        "scene_everyday": {
+          "type": "scene",
+          "settings": {
+            "label": "Everyday"
+          }
+        },
+        "scene_travel": {
+          "type": "scene",
+          "settings": {
+            "label": "Travel"
+          }
+        },
+        "scene_movement": {
+          "type": "scene",
+          "settings": {
+            "label": "Movement"
+          }
+        },
+        "scene_vacation": {
+          "type": "scene",
+          "settings": {
+            "label": "Vacation"
+          }
+        }
+      },
+      "block_order": [
+        "scene_everyday",
+        "scene_travel",
+        "scene_movement",
+        "scene_vacation"
+      ],
+      "settings": {
+        "eyebrow": "Designed for real life",
+        "heading": "Cloud-soft comfort that moves with you. No digging. No visible lines.",
+        "scene_heading": "Perfect for"
+      }
     }
   },
   "order": [
     "main",
     "reviews",
-    "recommendations"
+    "recommendations",
+    "product_scene"
   ]
 }

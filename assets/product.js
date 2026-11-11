@@ -194,6 +194,27 @@
     window.addEventListener('scroll', updateStickyVisibility, { passive: true });
     updateStickyVisibility();
   }
+  const scene = root.parentElement?.querySelector('[data-product-scene]') || document.querySelector('[data-product-scene]');
+  const sceneTabs = scene ? [...scene.querySelectorAll('[data-product-scene-tab]')] : [];
+  const sceneImages = scene ? [...scene.querySelectorAll('[data-product-scene-image]')] : [];
+  const sceneStatus = scene?.querySelector('[data-product-scene-status]');
+  function setScene(index) {
+    if (!sceneTabs.length) return;
+    const nextIndex = Math.max(0, Math.min(Number(index) || 0, sceneTabs.length - 1));
+    sceneTabs.forEach((tab, tabIndex) => {
+      const active = tabIndex === nextIndex;
+      tab.classList.toggle('is-active', active);
+      tab.setAttribute('aria-pressed', String(active));
+    });
+    sceneImages.forEach((image) => {
+      const active = Number(image.dataset.sceneIndex) === nextIndex;
+      image.classList.toggle('is-active', active);
+      image.setAttribute('aria-hidden', String(!active));
+    });
+    if (sceneStatus) sceneStatus.textContent = sceneTabs[nextIndex].textContent.trim();
+  }
+  sceneTabs.forEach((tab) => tab.addEventListener('click', () => setScene(tab.dataset.sceneIndex)));
+  if (sceneTabs.length) setScene(0);
   async function refreshProductData() {
     const latestUrl = new URL(window.location.href);
     latestUrl.pathname = `${latestUrl.pathname.replace(/\/$/, '')}.js`;

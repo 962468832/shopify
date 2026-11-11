@@ -1,0 +1,115 @@
+{% assign fallback_image = product.featured_image %}
+<section id="product-scene" class="product-scene" data-product-scene aria-labelledby="product-scene-title">
+  <div class="product-scene__media" aria-hidden="true">
+    {% for block in section.blocks %}
+      {% assign scene_image = block.settings.image | default: fallback_image %}
+      {% if scene_image %}
+        <img
+          class="product-scene__image{% if forloop.first %} is-active{% endif %}"
+          data-product-scene-image
+          data-scene-index="{{ forloop.index0 }}"
+          src="{{ scene_image | image_url: width: 2400 }}"
+          width="{{ scene_image.width }}"
+          height="{{ scene_image.height }}"
+          alt="{{ block.settings.image_alt | escape }}"
+          loading="lazy"
+          {% unless forloop.first %}aria-hidden="true"{% endunless %}
+        >
+      {% endif %}
+    {% endfor %}
+    <span class="product-scene__veil"></span>
+    <span class="product-scene__gradient"></span>
+  </div>
+
+  <div class="product-scene__content page-width">
+    <div class="product-scene__copy">
+      <p class="product-scene__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      <h2 id="product-scene-title">{{ section.settings.heading | escape }}</h2>
+    </div>
+
+    <div class="product-scene__nav">
+      <p class="product-scene__label">{{ section.settings.scene_heading | escape }}</p>
+      <ul class="product-scene__list" aria-label="{{ section.settings.scene_heading | escape }}">
+        {% for block in section.blocks %}
+          <li {{ block.shopify_attributes }}>
+            <button
+              type="button"
+              class="product-scene__tab{% if forloop.first %} is-active{% endif %}"
+              data-product-scene-tab
+              data-scene-index="{{ forloop.index0 }}"
+              aria-controls="product-scene"
+              aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
+            >
+              <span class="product-scene__line" aria-hidden="true"></span>
+              <span>{{ block.settings.label | escape }}</span>
+            </button>
+          </li>
+        {% endfor %}
+      </ul>
+      <p class="visually-hidden" data-product-scene-status aria-live="polite">{% if section.blocks.first %}{{ section.blocks.first.settings.label | escape }}{% endif %}</p>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product scene",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Designed for real life"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Cloud-soft comfort that moves with you. No digging. No visible lines."
+    },
+    {
+      "type": "text",
+      "id": "scene_heading",
+      "label": "Scene heading",
+      "default": "Perfect for"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "scene",
+      "name": "Scene",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Everyday"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Background image"
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Image alt text",
+          "default": ""
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product scene",
+      "blocks": [
+        { "type": "scene", "settings": { "label": "Everyday" } },
+        { "type": "scene", "settings": { "label": "Travel" } },
+        { "type": "scene", "settings": { "label": "Movement" } },
+        { "type": "scene", "settings": { "label": "Vacation" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
