@@ -1,47 +1,23 @@
-<section id="product-reviews" class="product-reviews page-width" aria-labelledby="product-reviews-title">
-  <div class="product-reviews__shell">
-    <header class="product-reviews__header">
-      <div>
-        <p class="eyebrow">Reviews</p>
-        <h2 id="product-reviews-title">{{ section.settings.heading | escape }}</h2>
-        <p>{{ section.settings.description | escape }}</p>
-      </div>
-      {% if section.blocks.size > 0 %}
-        <a class="button button--dark" href="#product-review-app">Write a review</a>
-      {% endif %}
-    </header>
-    <div id="product-review-app" class="product-reviews__body">
-      {% if section.blocks.size > 0 %}
+{% if section.blocks.size > 0 or request.design_mode %}
+  <section id="product-reviews" class="product-reviews product-reviews--judge-me page-width" aria-label="Product reviews">
+    {% if section.blocks.size > 0 %}
+      <div id="product-review-app" class="product-reviews__app">
         {% for block in section.blocks %}
           {% render block %}
         {% endfor %}
-      {% else %}
-        <div class="product-reviews__empty">
-          <h3>Add a reviews app block</h3>
-          <p>This section is only visible in the theme editor until a reviews app block is added.</p>
-        </div>
-      {% endif %}
-    </div>
-  </div>
-</section>
+      </div>
+    {% elsif request.design_mode %}
+      <div class="product-reviews__empty">
+        <h2 id="product-reviews-title">Judge.me reviews</h2>
+        <p>Add the Judge.me Reviews Widget app block to this section to display ratings and customer reviews.</p>
+      </div>
+    {% endif %}
+  </section>
+{% endif %}
 
 {% schema %}
 {
   "name": "Product reviews",
-  "settings": [
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Heading",
-      "default": "What customers are saying"
-    },
-    {
-      "type": "textarea",
-      "id": "description",
-      "label": "Description",
-      "default": "Independent reviews will appear here once a reviews app is connected."
-    }
-  ],
   "blocks": [
     {
       "type": "@app"

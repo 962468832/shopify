@@ -18,7 +18,7 @@
     <div class="product-info">
       <p class="eyebrow">{{ product.vendor }} essentials</p>
       <h1>{{ product.title }}</h1>
-      <a class="product-review-anchor" href="#product-reviews">Reviews{% if product.metafields.reviews.rating_count.value > 0 %} ({{ product.metafields.reviews.rating_count.value }}){% endif %}</a>
+      <a class="product-review-anchor" href="#product-reviews" aria-label="Read product reviews">{% if rating_value != blank %}<span class="product-review-anchor__stars" aria-hidden="true">★★★★★</span><span>{{ rating_value }}</span>{% if rating_count != blank %}<span>({{ rating_count }})</span>{% endif %}{% else %}Reviews{% endif %}</a>
       <div class="product-price"><span data-product-price>{{ current_variant.price | money }}</span>{% if discount_percent > 0 %}<s data-product-compare>{{ current_variant.compare_at_price | money }}</s><span class="product-price__save" data-product-savings>Save <span data-product-savings-value>{{ discount_percent }}</span>%</span>{% else %}<s data-product-compare hidden></s><span class="product-price__save" data-product-savings hidden></span>{% endif %}</div>
       {% form 'product', product, data-product-form: '', data-product-installments: '' %}
         {% capture payment_terms %}{{ form | payment_terms }}{% endcapture %}
