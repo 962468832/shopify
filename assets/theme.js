@@ -221,7 +221,7 @@
       <article class="drawer-line" data-cart-line="${escapeHtml(item.key)}" data-product-handle="${escapeHtml(item.handle)}" data-product-id="${item.product_id}" data-variant-id="${item.variant_id}" data-quantity="${item.quantity}">
         <a class="drawer-line__media" href="${escapeHtml(item.url)}"><img src="${escapeHtml(item.image || '')}" alt="${escapeHtml(item.product_title)}"></a>
         <div class="drawer-line__details">
-          <p class="drawer-line__vendor">${escapeHtml(item.vendor || 'Nuage')}</p>
+          <p class="drawer-line__vendor">${escapeHtml(item.vendor || window.NuageShopName || '')}</p>
           <h3><a href="${escapeHtml(item.url)}">${escapeHtml(item.product_title)}</a></h3>
           ${item.variant_title && item.variant_title !== 'Default Title' ? `<p>${escapeHtml(item.variant_title)}</p>` : ''}
           <div class="drawer-line__controls">
@@ -284,7 +284,7 @@
     return `
       <article class="cart-recommendation" data-product-handle="${escapeHtml(product.handle)}">
         <a href="${escapeHtml(product.url)}"><img src="${escapeHtml(image)}" alt="${escapeHtml(product.title)}"></a>
-        <div><p>${escapeHtml(product.vendor || 'Nuage')}</p><h4><a href="${escapeHtml(product.url)}">${escapeHtml(product.title)}</a></h4><strong>${formatMoney(productPricing.price)}</strong>${productPricing.hasDiscount ? `<s>${formatMoney(productPricing.compareAtPrice)}</s><span class="product-card__save">Save ${productPricing.discountPercent}%</span>` : ''}</div>
+        <div><p>${escapeHtml(product.vendor || window.NuageShopName || '')}</p><h4><a href="${escapeHtml(product.url)}">${escapeHtml(product.title)}</a></h4><strong>${formatMoney(productPricing.price)}</strong>${productPricing.hasDiscount ? `<s>${formatMoney(productPricing.compareAtPrice)}</s><span class="product-card__save">Save ${productPricing.discountPercent}%</span>` : ''}</div>
         <button type="button" data-quick-open data-product-handle="${escapeHtml(product.handle)}">Add</button>
       </article>
     `;
@@ -332,7 +332,7 @@
           <button class="wishlist-card" type="button" data-wishlist data-wishlist-handle="${escapeHtml(product.handle)}" data-wishlist-url="${escapeHtml(product.url || `/products/${product.handle}`)}" data-wishlist-title="${escapeHtml(product.title)}" data-wishlist-image="${escapeHtml(image)}" data-wishlist-price="${escapeHtml(formatMoney(price))}" data-wishlist-compare-price="${escapeHtml(compareAtPrice ? formatMoney(compareAtPrice) : '')}" data-wishlist-variant-id="${escapeHtml(variant?.id || '')}" data-wishlist-variant-title="${escapeHtml(variantTitle)}" aria-label="Add ${escapeHtml(product.title)} to favorites"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M7.5 3A5.5 5.5 0 0 0 2 8.5c0 1.085.136 1.99.527 2.851.386.849.984 1.574 1.766 2.356L10.586 20a2 2 0 0 0 2.828 0l6.293-6.293c.782-.782 1.38-1.507 1.766-2.356.391-.86.527-1.766.527-2.851A5.5 5.5 0 0 0 16.5 3c-1.805 0-3.265.776-4.221 1.807L12 5.086l-.279-.28C10.765 3.777 9.305 3 7.5 3Z"></path></svg></button>
           <button class="quick-shop" type="button" data-quick-open data-product-handle="${escapeHtml(product.handle)}"${product.available === false ? ' disabled' : ''}>Quick shop</button>
         </div>
-        <div class="product-card__meta"><a class="product-card__vendor" href="${escapeHtml(product.url || `/products/${product.handle}`)}">${escapeHtml(product.vendor || 'Nuage')}</a><a class="product-card__title" href="${escapeHtml(product.url || `/products/${product.handle}`)}">${escapeHtml(product.title)}</a>${product.type ? `<p class="product-card__subtitle">${escapeHtml(product.type)}</p>` : ''}${colorMarkup}<div class="product-card__price">${formatMoney(price)}${savePercent ? `<s>${formatMoney(compareAtPrice)}</s><span class="product-card__save">Save ${savePercent}%</span>` : ''}</div></div>
+        <div class="product-card__meta"><a class="product-card__vendor" href="${escapeHtml(product.url || `/products/${product.handle}`)}">${escapeHtml(product.vendor || window.NuageShopName || '')}</a><a class="product-card__title" href="${escapeHtml(product.url || `/products/${product.handle}`)}">${escapeHtml(product.title)}</a>${product.type ? `<p class="product-card__subtitle">${escapeHtml(product.type)}</p>` : ''}${colorMarkup}<div class="product-card__price">${formatMoney(price)}${savePercent ? `<s>${formatMoney(compareAtPrice)}</s><span class="product-card__save">Save ${savePercent}%</span>` : ''}</div></div>
       </article>
     `;
   }
@@ -366,7 +366,7 @@
     const cart = await cartRequest(routes.cartJson || '/cart.js');
     const pricing = await getCartPricing(cart);
     if (revision !== cartRevision) return cart;
-    qsa('[data-cart-count]').forEach((element) => { element.textContent = cart.item_count; });
+    qsa('[data-cart-count]').forEach((element) => { element.textContent = cart.item_count; element.hidden = !cart.item_count; });
     qsa('[data-cart-open]').forEach((element) => { element.setAttribute('aria-label', `Cart (${cart.item_count} items)`); });
     renderCartItems(cart, pricing);
     updateCartSummary(cart, pricing);
@@ -510,7 +510,7 @@
       <div class="quick-shop-product">
         <div class="quick-shop-product__media">${image ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(product.title)}">` : '<span class="media-placeholder"></span>'}</div>
         <div class="quick-shop-product__info">
-          <p class="quick-shop-product__vendor">${escapeHtml(product.vendor || 'Nuage')}</p>
+          <p class="quick-shop-product__vendor">${escapeHtml(product.vendor || window.NuageShopName || '')}</p>
           <h2 id="QuickShopTitle">${escapeHtml(product.title)}</h2>
           <div class="quick-shop-product__price"><strong>${formatMoney(price)}</strong>${savings ? `<s>${formatMoney(compare)}</s><span class="product-price__save">Save ${savings}%</span>` : ''}</div>
           ${product.options.length && !(product.variants.length === 1 && /^default title$/i.test(product.variants[0].title || '')) ? product.options.map((option, index) => { const name = typeof option === 'string' ? option : option.name; return `
@@ -787,7 +787,7 @@
   window.addEventListener('pageshow', (event) => { if (event.persisted) syncCart(); });
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') syncCart(); });
 
-  const mobileQuery = window.matchMedia('(max-width: 1000px)');
+  const mobileQuery = window.matchMedia('(max-width: 1200px)');
   const getHeader = () => qs('[data-header]');
   const getMenuToggle = () => qs('[data-menu-toggle]');
   const getNav = () => qs('[data-mobile-nav]');

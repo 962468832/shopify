@@ -33,6 +33,8 @@
           data-product-scene-image
           data-scene-index="{{ forloop.index0 }}"
           src="{{ scene_asset_name | asset_url }}"
+          width="1200"
+          height="1600"
           alt="{{ block.settings.image_alt | default: block.settings.label | escape }}"
           loading="lazy"
           {% unless forloop.first %}aria-hidden="true"{% endunless %}

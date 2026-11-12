@@ -1,0 +1,19 @@
+{%- comment -%}
+  Pielik logo. Params: variant ('dark' | 'light'), class, loading.
+  Uses the logo uploaded in Theme settings → Logo, else the bundled PIELIK wordmark SVG.
+{%- endcomment -%}
+{%- liquid
+  assign logo_loading = loading | default: 'eager'
+  if variant == 'light'
+    assign logo_image = settings.logo_inverse
+    assign logo_fallback = 'pielik-logo-white.svg'
+  else
+    assign logo_image = settings.logo
+    assign logo_fallback = 'pielik-logo-black.svg'
+  endif
+-%}
+{%- if logo_image != blank -%}
+  <img class="{{ class }}" src="{{ logo_image | image_url: width: 640 }}" width="{{ logo_image.width }}" height="{{ logo_image.height }}" alt="{{ shop.name | escape }}" loading="{{ logo_loading }}">
+{%- else -%}
+  <img class="{{ class }}" src="{{ logo_fallback | asset_url }}" width="802" height="126" alt="{{ shop.name | escape }}" loading="{{ logo_loading }}">
+{%- endif -%}

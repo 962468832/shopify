@@ -9,7 +9,7 @@
     {% elsif page.content != blank %}
       {{ page.content }}
     {% else %}
-      <p>We are updating this page. Please email <a href="mailto:info@nuagewears.com">info@nuagewears.com</a> if you need help.</p>
+      <p>We are updating this page. Please email <a href="mailto:{{ shop.email }}">{{ shop.email }}</a> if you need help.</p>
     {% endif %}
   </div>
 </section>

@@ -75,7 +75,7 @@
     "@type": "Organization",
     "name": {{ shop.name | json }},
     "url": {{ request.origin | append: routes.root_url | json }},
-    "logo": {{ 'new-black-logo.png' | asset_url | prepend: 'https:' | json }}
+    "logo": {% if settings.logo != blank %}{{ settings.logo | image_url: width: 600 | prepend: 'https:' | json }}{% else %}{{ 'pielik-logo-black.svg' | asset_url | prepend: 'https:' | json }}{% endif %}
   }
 </script>
 <script type="application/ld+json">
