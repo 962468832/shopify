@@ -24,6 +24,7 @@
     {% assign meta_description = page_description | default: shop.description | default: shop.name %}
     <meta name="description" content="{{ meta_description | strip_html | escape }}">
     {% render 'meta-tags' %}
+    {% render 'favicon' %}
     {{ content_for_header }}
     {{ 'theme.css' | asset_url | stylesheet_tag }}
     {{ 'home.css' | asset_url | stylesheet_tag }}

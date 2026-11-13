@@ -2,7 +2,8 @@
   {"name":"theme_info","theme_name":"Pielik","theme_version":"1.1.0","theme_author":"Pielik","theme_documentation_url":"https://shopify.dev/docs/storefronts/themes","theme_support_url":"https://pielik.com/pages/contact"},
   {"name":"Logo","settings":[
     {"type":"image_picker","id":"logo","label":"Logo（深色，用于浅色背景）","info":"留空时使用主题自带的 PIELIK 文字商标。建议上传透明背景的 PNG 或 SVG。"},
-    {"type":"image_picker","id":"logo_inverse","label":"Logo（浅色，用于首页大图上方）","info":"留空时使用主题自带的白色 PIELIK 文字商标。"}
+    {"type":"image_picker","id":"logo_inverse","label":"Logo（浅色，用于首页大图上方）","info":"留空时使用主题自带的白色 PIELIK 文字商标。"},
+    {"type":"image_picker","id":"favicon","label":"网站图标（浏览器标签栏）","info":"建议上传 180×180 以上的正方形 PNG。留空时使用主题自带的 p 图标。"}
   ]},
   {"name":"Colors","settings":[{"type":"color","id":"color_ink","label":"Text","default":"#1d1b1a"},{"type":"color","id":"color_paper","label":"Background","default":"#f8f5f2"},{"type":"color","id":"color_accent","label":"Accent","default":"#f05ba7"},{"type":"color","id":"color_line","label":"Borders","default":"#ded8d3"}]},
   {"name":"Cart drawer","settings":[{"type":"number","id":"cart_progress_threshold","label":"Free shipping threshold","info":"填 0 表示不显示具体差额。","default":0},{"type":"text","id":"cart_progress_label","label":"Progress label","default":"Unlock free shipping"},{"type":"text","id":"cart_progress_complete_label","label":"Completed progress label","default":"Free shipping unlocked"}]},
