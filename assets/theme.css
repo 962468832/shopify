@@ -1167,3 +1167,7 @@ body.product-sticky-active .product-recommendations{padding-bottom:calc(170px + 
 @media(max-width:1200px){
   .site-nav--right .cart-trigger sup{top:4px;right:2px}
 }
+
+/* Product gallery: generated product shots are 2:3 flat lays on a warm backdrop; fill the frame instead of
+   letterboxing them inside the wider gallery box (which showed grey side bars). */
+.product-gallery .product-gallery__main img{object-fit:cover;object-position:center}
