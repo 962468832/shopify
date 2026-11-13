@@ -1140,29 +1140,26 @@ body.product-sticky-active .product-recommendations{padding-bottom:calc(170px + 
 }
 @media(prefers-reduced-motion:reduce){.product-sticky-atc{transition:none}}
 
-/* Pielik horizontal wordmark sizing (replaces the stacked Nuage mark).
-   Widths are derived from the space left between the centred logo and the desktop nav. */
+/* Pielik wordmark sizing (compact lowercase italic mark, ~2:1).
+   The mark is narrow enough to sit between the desktop nav groups at every width. */
 .brand{align-items:center}
 .brand img{max-height:none}
-.site-header--home:not(.is-scrolled) .brand img{width:clamp(140px,calc(92vw - 1160px),300px)}
-.site-header--home.is-scrolled .brand img,.site-header--solid .brand img{width:clamp(108px,9vw,140px);max-height:none}
-.footer-brand,.footer-brand img{width:150px}
+.site-header--home:not(.is-scrolled) .brand img{width:clamp(110px,9.5vw,150px)}
+.site-header--home.is-scrolled .brand img,.site-header--solid .brand img{width:76px;max-height:none}
+.footer-brand,.footer-brand img{width:120px}
 .footer-brand img{height:auto}
-.password-page__logo{width:180px}
-@media(min-width:1201px) and (max-width:1440px){
-  .site-header--home:not(.is-scrolled) .brand img{width:clamp(108px,calc(92vw - 1000px),260px)}
-}
+.password-page__logo{width:150px}
 @media(max-width:1200px){
-  .site-header--home:not(.is-scrolled) .brand img{width:clamp(150px,40vw,220px)}
-  .site-header--home.is-scrolled .brand img,.site-header--solid .brand img{width:104px}
-  .site-header.menu-open .brand-logo--dark{width:104px;max-height:none}
+  .site-header--home:not(.is-scrolled) .brand img{width:120px}
+  .site-header--home.is-scrolled .brand img,.site-header--solid .brand img{width:70px}
+  .site-header.menu-open .brand-logo--dark{width:76px;max-height:none}
 }
 @media(max-width:560px){
-  /* Phones: the icon row leaves ~90px in the centre, so the large home wordmark sits just below it. */
+  /* Phones: the large home mark sits just below the icon row, then tucks into it on scroll. */
   .site-header--home:not(.is-scrolled) .brand{top:58px}
-  .site-header--home:not(.is-scrolled) .brand img{width:clamp(132px,38vw,170px)}
-  .site-header--home.is-scrolled .brand img,.site-header--solid .brand img{width:min(92px,calc(100vw - 290px))}
-  .site-header.menu-open .brand-logo--dark{width:96px}
+  .site-header--home:not(.is-scrolled) .brand img{width:112px}
+  .site-header--home.is-scrolled .brand img,.site-header--solid .brand img{width:min(70px,calc(100vw - 290px))}
+  .site-header.menu-open .brand-logo--dark{width:72px}
 }
 
 /* Cart badge: hide when empty; keep it on the glyph when icon buttons get 44px tap padding. */

@@ -15,5 +15,5 @@
 {%- if logo_image != blank -%}
   <img class="{{ class }}" src="{{ logo_image | image_url: width: 640 }}" width="{{ logo_image.width }}" height="{{ logo_image.height }}" alt="{{ shop.name | escape }}" loading="{{ logo_loading }}">
 {%- else -%}
-  <img class="{{ class }}" src="{{ logo_fallback | asset_url }}" width="802" height="126" alt="{{ shop.name | escape }}" loading="{{ logo_loading }}">
+  <img class="{{ class }}" src="{{ logo_fallback | asset_url }}" width="404" height="201" alt="{{ shop.name | escape }}" loading="{{ logo_loading }}">
 {%- endif -%}
