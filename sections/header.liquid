@@ -22,75 +22,55 @@
           {% endif %}
         {% endfor %}
       {% else %}
+      {%- comment -%} Built-in Pielik navigation. Links to collections that have no products are hidden. {%- endcomment -%}
+      {% liquid
+        assign all_url = routes.all_products_collection_url
+        assign c_best = collections['best-sellers-2026']
+        assign c_new = collections['new-arrivals-2026']
+        assign c_undies = collections['undies-2026']
+        assign c_feather = collections['featherlight-collection']
+        assign c_sculpt = collections['sculpt-lift']
+        assign c_bras = collections['bras-2026']
+        assign sale_collection = collections['sale-2026']
+        assign feather_image = section.settings.menu_nucloud_image | default: c_feather.image | default: c_feather.products.first.featured_image
+        assign sculpt_image = section.settings.menu_nuair_image | default: c_sculpt.image | default: c_sculpt.products.first.featured_image
+        assign style_handles = 'mid-rise-brief,high-rise,thongs' | split: ','
+        assign style_labels = 'Briefs,High-Rise,Thongs' | split: ','
+        assign solution_handles = 'no-vpls,no-wedgies,no-digging,no-rolling,breathable-all-day,anticamel-toe' | split: ','
+        assign solution_labels = 'No Visible Lines,No Wedgies,No Digging,No Rolling,Breathable All Day,Anti Camel-Toe' | split: ','
+      %}
       <div class="nav-mega nav-mega--underwear" data-nav-mega>
-        <a class="nav-mega__trigger" href="{{ routes.all_products_collection_url }}" aria-haspopup="true" aria-expanded="false">Underwear</a>
+        <a class="nav-mega__trigger" href="{{ c_undies.url | default: all_url }}" aria-haspopup="true" aria-expanded="false">Underwear</a>
         <div class="mega-menu mega-menu--underwear" aria-label="Underwear collections">
-          <div class="mega-menu__feature"><p class="eyebrow">Featured Collection</p><a href="{{ collections['best-sellers-2026'].url | default: routes.all_products_collection_url }}">Best Sellers</a><a href="{{ collections['new-arrivals-2026'].url | default: routes.all_products_collection_url }}">New Arrivals</a><a href="{{ collections['seasonal-picks'].url | default: routes.all_products_collection_url }}">Seasonal Picks</a><a href="/pages/engineering-lab">Pielik Engineering Lab</a></div>
-          <div class="mega-menu__mobile-section"><button class="mega-menu__section-trigger" type="button" data-mobile-submenu-toggle aria-expanded="true">Shop by Style <span aria-hidden="true">⌃</span></button><p class="eyebrow mega-menu__desktop-label">Shop by Style</p><div class="mega-menu__mobile-links is-open" data-mobile-submenu><a href="{{ routes.all_products_collection_url }}">Shop All Collection</a><a href="{{ collections['mid-rise-brief'].url | default: routes.all_products_collection_url }}">Brief</a><a href="{{ collections['high-rise-2026'].url | default: collections['high-rise'].url | default: routes.all_products_collection_url }}">High Rise</a><a href="{{ collections['bikini-2026'].url | default: routes.all_products_collection_url }}">Bikini</a><a href="{{ collections['cheeky'].url | default: routes.all_products_collection_url }}">Cheeky</a><a href="{{ collections['hipster'].url | default: routes.all_products_collection_url }}">Hipster</a></div></div>
-          <div class="mega-menu__mobile-section"><button class="mega-menu__section-trigger" type="button" data-mobile-submenu-toggle aria-expanded="false">Shop by Solution <span aria-hidden="true">⌄</span></button><p class="eyebrow mega-menu__desktop-label">Shop by Solution</p><div class="mega-menu__mobile-links" data-mobile-submenu><a href="{{ collections['no-vpls'].url | default: routes.all_products_collection_url }}">No VPLs</a><a href="{{ collections['no-wedgies'].url | default: routes.all_products_collection_url }}">No Wedgies</a><a href="{{ collections['anticamel-toe'].url | default: routes.all_products_collection_url }}">Anti Camel Toe</a><a href="{{ collections['breathable-all-day'].url | default: routes.all_products_collection_url }}">Breathable All Day</a><a href="{{ collections['no-digging'].url | default: routes.all_products_collection_url }}">No Digging</a><a href="{{ collections['no-rolling'].url | default: routes.all_products_collection_url }}">No Rolling</a></div></div>
-          {% liquid
-            assign nucloud_image = section.settings.menu_nucloud_image | default: images['1_763bf3bd-c2eb-43a0-b7ab-892c79908c2d.jpg'] | default: collections['2026-nucloud'].image | default: collections['2026-nucloud'].products.first.featured_image
-            assign nuair_image = section.settings.menu_nuair_image | default: images['Untitled_design_38_1fbb0b2c-56f2-4c22-83d0-0c7c03db2d1a.jpg'] | default: collections['2026-nuair'].image | default: collections['2026-nuair'].products.first.featured_image
-          %}
-          <a class="mega-menu__tile{% if nucloud_image != blank %} mega-menu__tile--image{% endif %}" href="{{ collections['2026-nucloud'].url | default: routes.all_products_collection_url }}">{% if nucloud_image != blank %}<img src="{{ nucloud_image | image_url: width: 500 }}" width="340" height="410" alt="" loading="lazy">{% endif %}<span>NuCloud<small>Explore collection →</small></span></a>
-          <a class="mega-menu__tile mega-menu__tile--air{% if nuair_image != blank %} mega-menu__tile--image{% endif %}" href="{{ collections['2026-nuair'].url | default: routes.all_products_collection_url }}">{% if nuair_image != blank %}<img src="{{ nuair_image | image_url: width: 500 }}" width="340" height="410" alt="" loading="lazy">{% endif %}<span>NuAir<small>Explore collection →</small></span></a>
+          <div class="mega-menu__feature"><p class="eyebrow">Featured Collection</p>{% if c_best.products_count > 0 %}<a href="{{ c_best.url }}">Best Sellers</a>{% endif %}{% if c_new.products_count > 0 %}<a href="{{ c_new.url }}">New Arrivals</a>{% endif %}<a href="{{ all_url }}">Shop All</a></div>
+          <div class="mega-menu__mobile-section"><button class="mega-menu__section-trigger" type="button" data-mobile-submenu-toggle aria-expanded="true">Shop by Style <span aria-hidden="true">⌃</span></button><p class="eyebrow mega-menu__desktop-label">Shop by Style</p><div class="mega-menu__mobile-links is-open" data-mobile-submenu><a href="{{ c_undies.url | default: all_url }}">Shop All Underwear</a>{% for h in style_handles %}{% assign c = collections[h] %}{% if c.products_count > 0 %}<a href="{{ c.url }}">{{ style_labels[forloop.index0] }}</a>{% endif %}{% endfor %}</div></div>
+          <div class="mega-menu__mobile-section"><button class="mega-menu__section-trigger" type="button" data-mobile-submenu-toggle aria-expanded="false">Shop by Solution <span aria-hidden="true">⌄</span></button><p class="eyebrow mega-menu__desktop-label">Shop by Solution</p><div class="mega-menu__mobile-links" data-mobile-submenu>{% for h in solution_handles %}{% assign c = collections[h] %}{% if c.products_count > 0 %}<a href="{{ c.url }}">{{ solution_labels[forloop.index0] }}</a>{% endif %}{% endfor %}</div></div>
+          <a class="mega-menu__tile{% if feather_image != blank %} mega-menu__tile--image{% endif %}" href="{{ c_feather.url | default: all_url }}">{% if feather_image != blank %}<img src="{{ feather_image | image_url: width: 500 }}" width="340" height="410" alt="" loading="lazy">{% endif %}<span>Featherlight<small>Explore collection →</small></span></a>
+          <a class="mega-menu__tile mega-menu__tile--air{% if sculpt_image != blank %} mega-menu__tile--image{% endif %}" href="{{ c_sculpt.url | default: all_url }}">{% if sculpt_image != blank %}<img src="{{ sculpt_image | image_url: width: 500 }}" width="340" height="410" alt="" loading="lazy">{% endif %}<span>Sculpt &amp; Lift<small>Explore collection →</small></span></a>
         </div>
       </div>
-      {% assign bra_collection = collections['bra-bralette'] | default: collections['bras-2026'] %}
+      {% if c_bras.products_count > 0 %}
+      {% liquid
+        assign bra_featured = c_bras.products.first
+        assign bra_pair = all_products['featherlight-seamless-brief'] | default: c_bras.products[1]
+        assign bra_featured_image = section.settings.menu_bra_featured_image | default: bra_featured.featured_image
+        assign bra_pair_image = section.settings.menu_wireless_bra_image | default: bra_pair.featured_image
+      %}
       <div class="nav-mega nav-mega--secondary nav-mega--bra" data-nav-mega>
-        <a class="nav-mega__trigger" href="{{ bra_collection.url | default: routes.all_products_collection_url }}" aria-haspopup="true" aria-expanded="false">Bra &amp; Bralettes</a>
-        <div class="mega-menu mega-menu--bra" aria-label="Bra and bralette collections">
-          <div class="mega-menu__feature">
-            <p class="eyebrow">Featured Collection</p>
-            <a href="{{ collections['best-sellers-2026'].url | default: routes.all_products_collection_url }}">Best Sellers</a>
-            <a href="{{ collections['new-arrivals-2026'].url | default: routes.all_products_collection_url }}">New Arrivals</a>
-            <a href="{{ collections['seasonal-picks'].url | default: routes.all_products_collection_url }}">Seasonal Picks</a>
-            <a href="/pages/engineering-lab">Pielik Engineering Lab</a>
-          </div>
-          <div class="mega-menu__mobile-section">
-            <button class="mega-menu__section-trigger" type="button" data-mobile-submenu-toggle aria-expanded="true">Bra &amp; Bralettes <span aria-hidden="true">⌃</span></button>
-            <p class="eyebrow mega-menu__desktop-label">Bra &amp; Bralettes</p>
-            <div class="mega-menu__mobile-links is-open" data-mobile-submenu>
-              <a href="{{ bra_collection.url | default: routes.all_products_collection_url }}">Shop All Collection</a>
-              <a href="{{ collections['wireless-bras-2026'].url | default: bra_collection.url | default: routes.all_products_collection_url }}">Wireless</a>
-              <a href="{{ collections['push-up-bra'].url | default: bra_collection.url | default: routes.all_products_collection_url }}">Push Up</a>
-              <a href="{{ collections['minimizer-bra'].url | default: bra_collection.url | default: routes.all_products_collection_url }}">Minimizer</a>
-              <a href="{{ collections['sports-bra-2026'].url | default: bra_collection.url | default: routes.all_products_collection_url }}">Sports Bra</a>
-              <a href="{{ collections['barlettes-2026'].url | default: bra_collection.url | default: routes.all_products_collection_url }}">Bralettes</a>
-            </div>
-          </div>
-          <div class="mega-menu__mobile-section">
-            <button class="mega-menu__section-trigger" type="button" data-mobile-submenu-toggle aria-expanded="false">Shop by Scenario <span aria-hidden="true">⌄</span></button>
-            <p class="eyebrow mega-menu__desktop-label">Shop by Scenario</p>
-            <div class="mega-menu__mobile-links" data-mobile-submenu>
-              <a href="{{ bra_collection.url | default: routes.all_products_collection_url }}">All-Day Comfort</a>
-              <a href="{{ collections['wedding-occasion'].url | default: bra_collection.url | default: routes.all_products_collection_url }}">Wedding &amp; Occasion</a>
-              <a href="{{ collections['travel'].url | default: bra_collection.url | default: routes.all_products_collection_url }}">Travel</a>
-              <a href="{{ collections['workout-active'].url | default: bra_collection.url | default: routes.all_products_collection_url }}">Workout &amp; Active</a>
-              <a href="{{ collections['lounge-sleep'].url | default: bra_collection.url | default: routes.all_products_collection_url }}">Lounge &amp; Sleep</a>
-              <a href="{{ collections['lift-shape'].url | default: bra_collection.url | default: routes.all_products_collection_url }}">Lift &amp; Shape</a>
-            </div>
-          </div>
-          {% assign bra_second_product = bra_collection.products[1] %}
-          {% assign bra_featured = all_products['nucloud-bra'] | default: bra_collection.products.first %}
-          {% assign wireless_bra = all_products['wireless-soft-stay-put-bra-pull-over'] | default: bra_second_product | default: bra_collection.products.first %}
-          {% assign bra_featured_image = section.settings.menu_bra_featured_image | default: bra_featured.featured_image | default: collections['2026-nucloud'].image | default: collections['2026-nucloud'].products.first.featured_image %}
-          {% assign wireless_bra_image = section.settings.menu_wireless_bra_image | default: wireless_bra.featured_image | default: collections['2026-nuair'].image | default: collections['2026-nuair'].products.first.featured_image %}
-          <a class="mega-menu__tile{% if bra_featured_image != blank %} mega-menu__tile--image{% endif %}" href="{{ bra_featured.url | default: bra_collection.url | default: routes.all_products_collection_url }}">
-            {% if bra_featured_image != blank %}<img src="{{ bra_featured_image | image_url: width: 500 }}" width="340" height="410" alt="{{ bra_featured.title | default: 'NuCloud Bra' | escape }}" loading="lazy">{% endif %}
-            <span>{{ bra_featured.title | default: 'NuCloud Bra' }}<small>{% if bra_featured.price != blank %}{{ bra_featured.price | money }} {% endif %}<span aria-hidden="true">↗</span></small></span>
-          </a>
-          <a class="mega-menu__tile{% if wireless_bra_image != blank %} mega-menu__tile--image{% endif %}" href="{{ wireless_bra.url | default: bra_collection.url | default: routes.all_products_collection_url }}">
-            {% if wireless_bra_image != blank %}<img src="{{ wireless_bra_image | image_url: width: 500 }}" width="340" height="410" alt="{{ wireless_bra.title | default: 'Wireless Soft Stay-Put Bra' | escape }}" loading="lazy">{% endif %}
-            <span>{{ wireless_bra.title | default: 'Wireless Soft Stay-Put Bra' }}<small>{% if wireless_bra.price != blank %}{{ wireless_bra.price | money }} {% endif %}<span aria-hidden="true">↗</span></small></span>
-          </a>
+        <a class="nav-mega__trigger" href="{{ c_bras.url }}" aria-haspopup="true" aria-expanded="false">Bras</a>
+        <div class="mega-menu mega-menu--bra" aria-label="Bra collections">
+          <div class="mega-menu__feature"><p class="eyebrow">Featured Collection</p>{% if c_best.products_count > 0 %}<a href="{{ c_best.url }}">Best Sellers</a>{% endif %}{% if c_new.products_count > 0 %}<a href="{{ c_new.url }}">New Arrivals</a>{% endif %}</div>
+          <div class="mega-menu__mobile-section"><button class="mega-menu__section-trigger" type="button" data-mobile-submenu-toggle aria-expanded="true">Bras <span aria-hidden="true">⌃</span></button><p class="eyebrow mega-menu__desktop-label">Bras</p><div class="mega-menu__mobile-links is-open" data-mobile-submenu><a href="{{ c_bras.url }}">Shop All Bras</a>{% for product in c_bras.products limit: 4 %}<a href="{{ product.url }}">{{ product.title }}</a>{% endfor %}{% if c_sculpt.products_count > 0 %}<a href="{{ c_sculpt.url }}">Sculpt &amp; Lift</a>{% endif %}</div></div>
+          {% if bra_featured != blank %}<a class="mega-menu__tile{% if bra_featured_image != blank %} mega-menu__tile--image{% endif %}" href="{{ bra_featured.url }}">{% if bra_featured_image != blank %}<img src="{{ bra_featured_image | image_url: width: 500 }}" width="340" height="410" alt="{{ bra_featured.title | escape }}" loading="lazy">{% endif %}<span>{{ bra_featured.title }}<small>{{ bra_featured.price | money }} <span aria-hidden="true">↗</span></small></span></a>{% endif %}
+          {% if bra_pair != blank %}<a class="mega-menu__tile{% if bra_pair_image != blank %} mega-menu__tile--image{% endif %}" href="{{ bra_pair.url }}">{% if bra_pair_image != blank %}<img src="{{ bra_pair_image | image_url: width: 500 }}" width="340" height="410" alt="{{ bra_pair.title | escape }}" loading="lazy">{% endif %}<span>Pair it with {{ bra_pair.title }}<small>{{ bra_pair.price | money }} <span aria-hidden="true">↗</span></small></span></a>{% endif %}
         </div>
       </div>
-      <div class="nav-mega nav-mega--secondary" data-nav-mega><a class="nav-mega__trigger" href="{{ collections['apparel2026'].url | default: routes.all_products_collection_url }}" aria-haspopup="true" aria-expanded="false">Apparel</a><div class="mega-menu mega-menu--secondary" aria-label="Apparel collections"><div class="mega-menu__mobile-section"><button class="mega-menu__section-trigger" type="button" data-mobile-submenu-toggle aria-expanded="false">Shop All Apparel <span aria-hidden="true">⌃</span></button><div class="mega-menu__mobile-links" data-mobile-submenu><a href="{{ collections['apparel2026'].url | default: routes.all_products_collection_url }}">Shop All Apparel</a><a href="{{ collections['apparel2026'].url | default: routes.all_products_collection_url }}?sort_by=best-selling">Best Sellers</a><a href="{{ collections['apparel2026'].url | default: routes.all_products_collection_url }}?sort_by=price-ascending">Lowest Prices</a></div></div></div></div>
-      <a class="nav-mega nav-mega--simple" href="{{ collections['accessories-2026'].url | default: routes.all_products_collection_url }}">Accessories</a>
-      {% assign sale_collection = collections['sale-2026'] %}
-      <div class="nav-mega nav-mega--sale" data-nav-mega><a class="site-nav__sale nav-mega__trigger" href="{{ sale_collection.url | default: routes.all_products_collection_url }}" aria-haspopup="true" aria-expanded="false">Last Chance</a><div class="mega-menu mega-menu--sale" aria-label="Last Chance offers"><div><p class="eyebrow">Last Chance</p><a href="{{ sale_collection.url | default: routes.all_products_collection_url }}">Shop all sale</a><a href="{{ sale_collection.url | default: routes.all_products_collection_url }}?sort_by=price-ascending">Lowest prices</a><a href="{{ sale_collection.url | default: routes.all_products_collection_url }}?sort_by=best-selling">Sale best sellers</a></div><div class="mega-menu__sale-products"><p class="eyebrow">Final markdowns</p>{% if sale_collection != blank %}{% for product in sale_collection.products limit: 4 %}<a class="sale-product-link" href="{{ product.url }}">{% if product.featured_image %}<img src="{{ product.featured_image | image_url: width: 120 }}" width="120" height="150" alt="" loading="lazy">{% endif %}<span>{{ product.title }}<small>{{ product.price | money }}</small></span></a>{% endfor %}{% else %}<a href="{{ routes.all_products_collection_url }}">Explore all products</a>{% endif %}</div></div></div>
-      <div class="mobile-featured-collection"><p class="mobile-featured-collection__title">Featured Collection</p><div class="mobile-featured-collection__grid">{% assign featured_handles = 'best-sellers-2026,new-arrivals-2026' | split: ',' %}{% for featured_handle in featured_handles %}{% assign featured_collection = collections[featured_handle] %}{% if featured_collection != blank %}{% assign featured_image = featured_collection.image | default: featured_collection.products.first.featured_image %}<a href="{{ featured_collection.url }}">{% if featured_image %}<img src="{{ featured_image | image_url: width: 720 }}" width="720" height="540" alt="{{ featured_collection.title | escape }}" loading="lazy">{% endif %}<span>{{ featured_collection.title }}</span></a>{% endif %}{% endfor %}</div><div class="mobile-featured-collection__links"><a href="{{ collections['seasonal-picks'].url | default: routes.all_products_collection_url }}">Seasonal Picks</a><a href="/pages/engineering-lab">Pielik Engineering Lab</a></div></div>
+      {% endif %}
+      {% if c_sculpt.products_count > 0 %}<a class="nav-mega nav-mega--simple" href="{{ c_sculpt.url }}">Shapewear</a>{% endif %}
+      {% if sale_collection.products_count > 0 %}
+      <div class="nav-mega nav-mega--sale" data-nav-mega><a class="site-nav__sale nav-mega__trigger" href="{{ sale_collection.url }}" aria-haspopup="true" aria-expanded="false">Last Chance</a><div class="mega-menu mega-menu--sale" aria-label="Last Chance offers"><div><p class="eyebrow">Last Chance</p><a href="{{ sale_collection.url }}">Shop all sale</a><a href="{{ sale_collection.url }}?sort_by=price-ascending">Lowest prices</a><a href="{{ sale_collection.url }}?sort_by=best-selling">Sale best sellers</a></div><div class="mega-menu__sale-products"><p class="eyebrow">Final markdowns</p>{% for product in sale_collection.products limit: 4 %}<a class="sale-product-link" href="{{ product.url }}">{% if product.featured_image %}<img src="{{ product.featured_image | image_url: width: 120 }}" width="120" height="150" alt="" loading="lazy">{% endif %}<span>{{ product.title }}<small>{{ product.price | money }}</small></span></a>{% endfor %}</div></div></div>
+      {% endif %}
+      <div class="mobile-featured-collection"><p class="mobile-featured-collection__title">Featured Collection</p><div class="mobile-featured-collection__grid">{% assign featured_handles = 'featherlight-collection,sculpt-lift' | split: ',' %}{% for featured_handle in featured_handles %}{% assign featured_collection = collections[featured_handle] %}{% if featured_collection.products_count > 0 %}{% assign featured_image = featured_collection.image | default: featured_collection.products.first.featured_image %}<a href="{{ featured_collection.url }}">{% if featured_image %}<img src="{{ featured_image | image_url: width: 720 }}" width="720" height="540" alt="{{ featured_collection.title | escape }}" loading="lazy">{% endif %}<span>{{ featured_collection.title }}</span></a>{% endif %}{% endfor %}</div><div class="mobile-featured-collection__links">{% if c_best.products_count > 0 %}<a href="{{ c_best.url }}">Best Sellers</a>{% endif %}<a href="{{ all_url }}">Shop All</a></div></div>
       {% endif %}
     </nav>
     <a class="brand" href="{{ routes.root_url }}" aria-label="{{ shop.name }}">{% render 'brand-logo', variant: 'light', class: 'brand-logo brand-logo--light' %}{% render 'brand-logo', variant: 'dark', class: 'brand-logo brand-logo--dark' %}</a>
@@ -100,5 +80,5 @@
   <div class="search-panel" data-search-panel aria-hidden="true"><form action="{{ routes.search_url }}" method="get" role="search" data-search-form><label for="SearchInput">Search products</label><input id="SearchInput" name="q" type="search" placeholder="Search products..." autocomplete="off" data-predictive-search-input><input type="hidden" name="type" value="product,article,page"><button class="button button--dark" type="submit">Search</button></form><div class="predictive-results" data-predictive-results aria-live="polite"></div></div>
 </header>
 {% schema %}
-{"name":"Header","settings":[{"type":"checkbox","id":"use_storefront_menu","label":"Use Shopify menu instead of built-in navigation","default":false},{"type":"link_list","id":"menu","label":"Shopify menu (optional)"},{"type":"header","content":"Underwear 浮动菜单"},{"type":"image_picker","id":"menu_nucloud_image","label":"NuCloud 卡片图片","info":"留空时保留当前系列图片。"},{"type":"image_picker","id":"menu_nuair_image","label":"NuAir 卡片图片","info":"留空时保留当前系列图片。"},{"type":"header","content":"Bra & Bralettes 卡片"},{"type":"image_picker","id":"menu_bra_featured_image","label":"NuCloud Bra 卡片图片","info":"留空时使用现有系列图片。"},{"type":"image_picker","id":"menu_wireless_bra_image","label":"Wireless Bra 卡片图片","info":"留空时使用现有系列图片。"}]}
+{"name":"Header","settings":[{"type":"checkbox","id":"use_storefront_menu","label":"Use Shopify menu instead of built-in navigation","default":false},{"type":"link_list","id":"menu","label":"Shopify menu (optional)"},{"type":"header","content":"Underwear 浮动菜单"},{"type":"image_picker","id":"menu_nucloud_image","label":"Featherlight 卡片图片","info":"留空时保留当前系列图片。"},{"type":"image_picker","id":"menu_nuair_image","label":"Sculpt & Lift 卡片图片","info":"留空时保留当前系列图片。"},{"type":"header","content":"Bras 卡片"},{"type":"image_picker","id":"menu_bra_featured_image","label":"文胸主推卡片图片","info":"留空时使用现有系列图片。"},{"type":"image_picker","id":"menu_wireless_bra_image","label":"搭配推荐卡片图片","info":"留空时使用现有系列图片。"}]}
 {% endschema %}

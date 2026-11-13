@@ -1,5 +1,5 @@
-{% assign category_collection_handles = 'mid-rise-brief,thongs,hipster,high-rise,cheeky' | split: ',' %}
-{% assign category_collection_titles = 'Mid-Rise Brief,Thongs,Hipster,High-Rise,Cheeky' | split: ',' %}
+{% assign category_collection_handles = 'mid-rise-brief,thongs,high-rise,bras-2026,sculpt-lift' | split: ',' %}
+{% assign category_collection_titles = 'Briefs,Thongs,High-Rise,Bras,Shapewear' | split: ',' %}
 {% assign has_active_filter = false %}
 {% for filter in collection.filters %}{% if filter.active_values.size > 0 or filter.min_value.value != blank or filter.max_value.value != blank %}{% assign has_active_filter = true %}{% endif %}{% endfor %}
 {% assign has_non_default_sort = false %}{% if collection.sort_by != blank and collection.sort_by != collection.default_sort_by %}{% assign has_non_default_sort = true %}{% endif %}
@@ -10,7 +10,7 @@
     <div class="collection-categories" aria-labelledby="shop-by-collection">
       <div class="section-heading"><div><p class="eyebrow">Find your fit</p><h2 id="shop-by-collection">Shop by collection</h2><p>Find the collection made for the way you want to feel, fit, and move every day.</p></div></div>
       <div class="category-grid">
-        {% for handle in category_collection_handles %}{% assign category = collections[handle] %}{% if category != blank %}{% assign category_image = category.image | default: category.products.first.featured_image %}<a class="category-card" href="{{ category.url }}">{% if category_image %}<img src="{{ category_image | image_url: width: 640 }}" width="640" height="800" alt="{{ category_collection_titles[forloop.index0] | escape }}" loading="lazy">{% else %}<span class="category-card__placeholder" aria-hidden="true"></span>{% endif %}<span>{{ category_collection_titles[forloop.index0] }}</span></a>{% endif %}{% endfor %}
+        {% for handle in category_collection_handles %}{% assign category = collections[handle] %}{% if category.products_count > 0 %}{% assign category_image = category.image | default: category.products.first.featured_image %}<a class="category-card" href="{{ category.url }}">{% if category_image %}<img src="{{ category_image | image_url: width: 640 }}" width="640" height="800" alt="{{ category_collection_titles[forloop.index0] | escape }}" loading="lazy">{% else %}<span class="category-card__placeholder" aria-hidden="true"></span>{% endif %}<span>{{ category_collection_titles[forloop.index0] }}</span></a>{% endif %}{% endfor %}
       </div>
     </div>
   {% endif %}
@@ -28,11 +28,11 @@
 
     {% if show_grouped %}
       <div class="underwear-groups">
-        {% assign group_labels = 'NuCloud,NuAir,NuFit,NuForme,NuBloom' | split: ',' %}
-        {% assign group_eyebrows = 'Signature seamless comfort,Cooling performance mesh,Shape-specific fit,Gentle sculpting support,Seamless floral lace' | split: ',' %}
-        {% assign group_headings = 'Feel Like You’re Wearing Nothing.,Stay Cool Through Every Move.,Made for Your Shape.,Smooth Your Shape. Keep Your Comfort.,Romance You Can Wear Every Day.' | split: ',' %}
-        {% assign group_descriptions = 'Buttery-soft seamless fabric and raw-cut edges for all-day comfort that stays invisible under everything.,Breathable performance fabric releases heat and sweat to keep you cool and dry wherever the day takes you.,Thoughtfully designed fits deliver personalized stay-put comfort without shifting.,Gentle support smooths your silhouette while staying soft and flexible for everyday wear.,Delicate stretch lace and seamless construction feel effortlessly feminine and comfortable.' | split: ',' %}
-        {% assign group_handles = '2026-nucloud,2026-nuair,nufit,2026-nuforme,nubloom' | split: ',' %}
+        {% assign group_labels = 'Featherlight,Sculpt & Lift' | split: ',' %}
+        {% assign group_eyebrows = 'Laser-cut seamless comfort,Gentle shaping and lift' | split: ',' %}
+        {% assign group_headings = 'Feel Like You’re Wearing Nothing.,Smooth Your Shape. Keep Your Comfort.' | split: ',' %}
+        {% assign group_descriptions = 'Cool ice-silk knit and bonded edges that stay invisible under everything.,Seamless high-rise shaping and wire-free lift that stay soft all day.' | split: ',' %}
+        {% assign group_handles = 'featherlight-collection,sculpt-lift' | split: ',' %}
         {% for group_handle in group_handles %}{% assign group_products = collections[group_handle] %}{% if group_products != blank and group_products.products_count > 0 %}<section class="underwear-group" aria-labelledby="group-{{ group_handle }}"><div class="underwear-group__head"><div><p class="eyebrow">{{ group_eyebrows[forloop.index0] }}</p><h2 id="group-{{ group_handle }}">{{ group_headings[forloop.index0] }}</h2><p>{{ group_descriptions[forloop.index0] }}</p></div><a class="text-link" href="{{ group_products.url }}">Shop {{ group_labels[forloop.index0] }} <span>↗</span></a></div><div class="product-grid underwear-group__grid">{% for product in group_products.products limit: 12 %}{% unless product.product_type == 'Gift Card' or product.handle contains 'gift-card' %}{% render 'product-card', product: product, show_color_options: true %}{% endunless %}{% endfor %}</div></section>{% endif %}{% endfor %}
         {% assign all_underwear = collections['undies-2026'] %}{% assign general_count = 0 %}{% if all_underwear != blank %}{% for product in all_underwear.products %}{% assign group_membership = false %}{% for group_handle in group_handles %}{% assign group_products = collections[group_handle] %}{% if group_products.products contains product %}{% assign group_membership = true %}{% endif %}{% endfor %}{% unless group_membership or product.product_type == 'Gift Card' or product.handle contains 'gift-card' %}{% assign general_count = general_count | plus: 1 %}{% endunless %}{% endfor %}{% endif %}
         {% assign general_rendered = 0 %}{% if general_count > 0 %}<section class="underwear-group underwear-group--general"><div class="underwear-group__head"><div><p class="eyebrow">All underwear</p><h2>More comfort, your way.</h2></div><a class="text-link" href="{{ all_underwear.url }}">Shop all underwear <span>↗</span></a></div><div class="product-grid underwear-group__grid">{% for product in all_underwear.products %}{% assign group_membership = false %}{% for group_handle in group_handles %}{% assign group_products = collections[group_handle] %}{% if group_products.products contains product %}{% assign group_membership = true %}{% endif %}{% endfor %}{% unless group_membership or product.product_type == 'Gift Card' or product.handle contains 'gift-card' %}{% assign general_rendered = general_rendered | plus: 1 %}{% render 'product-card', product: product, show_color_options: true %}{% if general_rendered >= 24 %}{% break %}{% endif %}{% endunless %}{% endfor %}</div></section>{% endif %}
@@ -42,7 +42,7 @@
     {% endif %}
   </div>
 
-  {% assign recommendation_handles = '2026-nucloud,2026-nuair,nufit' | split: ',' %}
+  {% assign recommendation_handles = 'featherlight-collection,sculpt-lift,bras-2026' | split: ',' %}
   <section class="collection-recommendations" aria-labelledby="collection-recommendations-title">
     <div class="collection-recommendations__head"><div><p class="eyebrow">Keep exploring</p><h2 id="collection-recommendations-title">Find your next favorite</h2></div><a class="text-link" href="{{ routes.all_products_collection_url }}">Shop all <span>↗</span></a></div>
     <div class="collection-recommendations__grid">

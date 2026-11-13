@@ -35,6 +35,6 @@
       </div>
     </section>
   {% endif %}
-  {% assign recommended_collection = section.settings.collection | default: collections['2026-nucloud'] %}{% if recommended_collection != blank %}<section class="article-page__recommendations"><h2>Shop the comfort behind the story</h2><div class="product-grid">{% for product in recommended_collection.products limit: 4 %}{% render 'product-card', product: product, show_color_options: true %}{% endfor %}</div></section>{% endif %}
+  {% assign recommended_collection = section.settings.collection | default: collections['featherlight-collection'] %}{% if recommended_collection != blank %}<section class="article-page__recommendations"><h2>Shop the comfort behind the story</h2><div class="product-grid">{% for product in recommended_collection.products limit: 4 %}{% render 'product-card', product: product, show_color_options: true %}{% endfor %}</div></section>{% endif %}
 </article>
 {% schema %}{"name":"Article","settings":[{"type":"collection","id":"collection","label":"Recommended collection"}]}{% endschema %}
