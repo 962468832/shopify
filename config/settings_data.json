@@ -13,12 +13,63 @@
     "color_paper": "#f8f5f2",
     "color_accent": "#f05ba7",
     "color_line": "#ded8d3",
+    "sections": {
+      "announcement-bar": {
+        "type": "announcement-bar",
+        "settings": {
+          "default_message": "🎁 FREE Laundry Bag with Orders $100+",
+          "promo_message": "BLACK FRIDAY STARTS EARLY FOR VIPs · Unlock Early Access, Exclusive Discounts & More.",
+          "shipping_message": "Free shipping on orders over [threshold]"
+        }
+      },
+      "header": {
+        "type": "header",
+        "settings": {
+          "use_storefront_menu": false,
+          "menu": ""
+        }
+      },
+      "footer": {
+        "type": "footer",
+        "settings": {
+          "shop_menu": "",
+          "discover_menu": "",
+          "support_menu": "",
+          "shop_heading": "Shop",
+          "discover_heading": "Discover",
+          "support_heading": "Support"
+        }
+      }
+    },
     "content_for_index": [],
     "blocks": {
       "14060646107696862457": {
         "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
         "disabled": false,
         "settings": {}
+      },
+      "15683396631634586217": {
+        "type": "shopify://apps/inbox/blocks/chat/841fc607-4181-4ad1-842d-e24d7f8bad6b",
+        "disabled": false,
+        "settings": {
+          "greeting_message": "",
+          "show_featured_products": true,
+          "featured_products": [],
+          "background_color": "#f8f5f2",
+          "font_color": "#1d1b1a",
+          "agent_invert_activator_colors": true,
+          "button_color": "#000000",
+          "launcher_style": "button",
+          "button_icon": "chat_bubble",
+          "button_text": "chat_with_us",
+          "button_horizontal_position": "bottom_right",
+          "button_vertical_position": "higher",
+          "agent_inherit_fonts": true,
+          "agent_font": "system_ui_n4",
+          "agent_font_size": 14,
+          "agent_activator_font_size": 16,
+          "agent_border_radius": 16
+        }
       }
     }
   },
