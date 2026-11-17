@@ -960,12 +960,14 @@ body.size-guide-lock{position:fixed;inset-inline:0;width:100%}
   .product-lightbox__stage>img{max-height:calc(100dvh - 105px)}
 }
 @media(min-width:1201px){
-  /* Keep wide desktop menus inside the viewport at tablet-sized desktop widths. */
+  /* Keep wide desktop menus inside the viewport. Anchor them to the header's left padding,
+     not the right edge, so the panel always sits under the nav label and the pointer can
+     travel from the label straight into it. */
   .nav-mega--sale .mega-menu--sale,
   .nav-mega--bra .mega-menu--bra{
     position:fixed;
-    left:auto;
-    right:var(--pad);
+    left:var(--pad);
+    right:auto;
     top:var(--mega-menu-top);
   }
   .nav-mega--secondary .mega-menu--secondary{width:min(420px,calc(100vw - 2 * var(--pad)));grid-template-columns:1fr;left:0;padding:24px}
