@@ -862,15 +862,37 @@
     }
     const currencyPanel = qs('[data-currency-panel]');
     if (currencyPanel?.classList.contains('is-open') && !event.target.closest('[data-currency-panel]')) setPanel(currencyPanel, qs('[data-currency-toggle]'), false);
+    if (!event.target.closest('[data-nav-mega]')) closeMegaMenus();
   });
-  const megaHover = (event, expanded) => {
-    const item = event.target.closest?.('[data-nav-mega]');
-    if (!item || mobileQuery.matches || item.contains(event.relatedTarget)) return;
-    qs('.nav-mega__trigger', item)?.setAttribute('aria-expanded', String(expanded));
+  // Desktop mega menus: hovering the label opens the panel, and the panel stays open while the
+  // pointer travels down into it. The old CSS :hover only covered the 58px-tall label box, so a
+  // diagonal move left the label before reaching the panel and the menu vanished mid-flight.
+  const megaCloseTimers = new WeakMap();
+  const openMega = (item) => {
+    const timer = megaCloseTimers.get(item);
+    if (timer) { clearTimeout(timer); megaCloseTimers.delete(item); }
+    qsa('[data-nav-mega].is-open').forEach((other) => {
+      if (other === item) return;
+      other.classList.remove('is-open');
+      qs('.nav-mega__trigger', other)?.setAttribute('aria-expanded', 'false');
+    });
+    item.classList.add('is-open');
+    qs('.nav-mega__trigger', item)?.setAttribute('aria-expanded', 'true');
   };
-  document.addEventListener('mouseover', (event) => megaHover(event, true));
-  document.addEventListener('mouseout', (event) => megaHover(event, false));
-  document.addEventListener('focusin', (event) => { const item = event.target.closest('[data-nav-mega]'); if (item) qs('.nav-mega__trigger', item)?.setAttribute('aria-expanded', 'true'); });
+  const closeMegaSoon = (item) => {
+    const timer = megaCloseTimers.get(item);
+    if (timer) clearTimeout(timer);
+    megaCloseTimers.set(item, setTimeout(() => {
+      megaCloseTimers.delete(item);
+      item.classList.remove('is-open');
+      qs('.nav-mega__trigger', item)?.setAttribute('aria-expanded', 'false');
+    }, 260));
+  };
+  qsa('[data-nav-mega]').forEach((item) => {
+    item.addEventListener('pointerenter', () => { if (!mobileQuery.matches) openMega(item); });
+    item.addEventListener('pointerleave', () => { if (!mobileQuery.matches) closeMegaSoon(item); });
+  });
+  document.addEventListener('focusin', (event) => { const item = event.target.closest('[data-nav-mega]'); if (item) { if (!mobileQuery.matches) openMega(item); qs('.nav-mega__trigger', item)?.setAttribute('aria-expanded', 'true'); } });
   document.addEventListener('focusout', (event) => {
     const item = event.target.closest('[data-nav-mega]');
     if (item && !item.contains(event.relatedTarget)) { item.classList.remove('is-open'); qs('.nav-mega__trigger', item)?.setAttribute('aria-expanded', 'false'); }

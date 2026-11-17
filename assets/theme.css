@@ -1185,3 +1185,9 @@ body.product-sticky-active .product-recommendations{padding-bottom:calc(170px + 
 /* Product gallery rail: keep whole images visible there as well (infographic cards were cropped to the card box). */
 .product-photo-gallery__card{background:#eee1dc}
 .product-photo-gallery__card img{object-fit:contain}
+
+/* Desktop mega menu: the open state is class-driven (see theme.js) so the pointer can travel
+   diagonally from the label into the panel without the menu closing on the way. */
+@media(min-width:1201px){
+  .nav-mega.is-open>.mega-menu{opacity:1;visibility:visible;pointer-events:auto}
+}
