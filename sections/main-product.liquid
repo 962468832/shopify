@@ -16,7 +16,12 @@
       <div class="product-gallery__main">{% if main_image %}<button type="button" data-product-gallery-open data-src="{{ main_image | image_url: width: 2200 }}" data-image-id="{{ main_image.id }}" data-alt="{{ main_image.alt | default: product.title | escape }}" aria-label="Enlarge product image"><img data-product-main src="{{ main_image | image_url: width: 1400 }}" width="{{ main_image.width }}" height="{{ main_image.height }}" alt="{{ main_image.alt | default: product.title | escape }}" loading="eager" fetchpriority="high"><span class="product-gallery__zoom" aria-hidden="true"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m16 16 5 5M10.5 7.5v6M7.5 10.5h6"></path></svg></span></button>{% endif %}</div>
     </div>
     <div class="product-info">
-      <p class="eyebrow">{{ product.vendor }} essentials</p>
+      {% assign vendor_label = product.vendor | strip %}
+      {% if vendor_label contains 'http' or vendor_label contains 'www.' %}
+        <p class="eyebrow">Pielik essentials</p>
+      {% else %}
+        <p class="eyebrow">{{ vendor_label }} essentials</p>
+      {% endif %}
       <h1>{{ product.title }}</h1>
       <a class="product-review-anchor" href="#product-reviews" aria-label="Read product reviews">{% if rating_value != blank %}<span class="product-review-anchor__stars" aria-hidden="true">★★★★★</span><span>{{ rating_value }}</span>{% if rating_count != blank %}<span>({{ rating_count }})</span>{% endif %}{% else %}Reviews{% endif %}</a>
       <div class="product-price"><span data-product-price>{{ current_variant.price | money }}</span>{% if discount_percent > 0 %}<s data-product-compare>{{ current_variant.compare_at_price | money }}</s><span class="product-price__save" data-product-savings>Save <span data-product-savings-value>{{ discount_percent }}</span>%</span>{% else %}<s data-product-compare hidden></s><span class="product-price__save" data-product-savings hidden></span>{% endif %}</div>
