@@ -1181,3 +1181,7 @@ body.product-sticky-active .product-recommendations{padding-bottom:calc(170px + 
    which pushes the copy and illustration past the mobile viewport. Cap every block at the column width. */
 .product-description>div,.product-description>div *,.product-description table{max-width:100%}
 .product-description img{max-width:100%;height:auto}
+
+/* Product gallery rail: keep whole images visible there as well (infographic cards were cropped to the card box). */
+.product-photo-gallery__card{background:#eee1dc}
+.product-photo-gallery__card img{object-fit:contain}
