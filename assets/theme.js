@@ -995,8 +995,15 @@
     if (++wishlistDockTries > 20 || qs('.wishlist-launcher')?.classList.contains('is-docked')) clearInterval(wishlistDockTimer);
   }, 500);
   dockWishlistLauncher();
-  window.addEventListener('scroll', scheduleWishlistDock, { passive: true });
-  window.addEventListener('resize', scheduleWishlistDock);
+  let wishlistDockSettle = 0;
+  const settleWishlistDock = () => {
+    scheduleWishlistDock();
+    clearTimeout(wishlistDockSettle);
+    wishlistDockSettle = setTimeout(dockWishlistLauncher, 320);
+  };
+  window.addEventListener('scroll', settleWishlistDock, { passive: true });
+  window.addEventListener('resize', settleWishlistDock);
+  window.addEventListener('pageshow', settleWishlistDock);
   async function shareWishlist() {
     const items = readWishlist();
     if (!items.length) return;
