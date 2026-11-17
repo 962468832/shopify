@@ -7,13 +7,13 @@
       {% assign scene_label = block.settings.label | downcase %}
       {% case scene_label %}
         {% when 'everyday' %}
-          {% assign scene_asset_name = 'product-scene-everyday.png' %}
+          {% assign scene_asset_name = 'product-scene-everyday.jpg' %}
         {% when 'travel' %}
-          {% assign scene_asset_name = 'product-scene-travel.png' %}
+          {% assign scene_asset_name = 'product-scene-travel.jpg' %}
         {% when 'movement' %}
-          {% assign scene_asset_name = 'product-scene-movement.png' %}
+          {% assign scene_asset_name = 'product-scene-movement.jpg' %}
         {% when 'vacation' %}
-          {% assign scene_asset_name = 'product-scene-vacation.png' %}
+          {% assign scene_asset_name = 'product-scene-vacation.jpg' %}
       {% endcase %}
       {% if scene_image %}
         <img
