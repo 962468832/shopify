@@ -966,18 +966,41 @@
   // inbox pill so the two read as one bar, and follow the pill when it moves (sticky buy bar,
   // resize, chat re-render).
   let wishlistDockFrame = 0;
+  let wishlistDockLast = null;
+  let wishlistDockMissingSince = 0;
+  let observedChatRoot = null;
+  const wishlistLauncherIdle = (launcher, idle) => {
+    launcher.classList.toggle('is-dock-idle', idle);
+    if (idle) launcher.classList.add('is-docked');
+  };
   const dockWishlistLauncher = () => {
     const launcher = qs('.wishlist-launcher');
     if (!launcher) return;
-    const activator = document.querySelector('shopify-chat')?.shadowRoot?.querySelector('button.activator');
+    const host = document.querySelector('shopify-chat');
+    const activator = host?.shadowRoot?.querySelector('button.activator');
     const box = activator?.getBoundingClientRect();
     if (!activator || !box || box.width < 40 || box.height < 20) {
-      launcher.classList.remove('is-docked');
+      // The inbox swaps its launcher out while the chat panel is open. Hold the last docked
+      // position (hidden) instead of dropping the button back into the corner, then re-dock
+      // as soon as the launcher comes back. If it never comes back, fall back to the corner.
+      if (host && wishlistDockLast) {
+        if (!wishlistDockMissingSince) wishlistDockMissingSince = Date.now();
+        if (Date.now() - wishlistDockMissingSince < 30000) {
+          wishlistLauncherIdle(launcher, true);
+          return;
+        }
+      }
+      wishlistDockMissingSince = 0;
+      wishlistDockLast = null;
+      launcher.classList.remove('is-docked', 'is-dock-idle');
       ['left', 'top', 'right', 'bottom', 'height'].forEach((prop) => launcher.style.removeProperty(prop));
       return;
     }
+    wishlistDockMissingSince = 0;
+    wishlistDockLast = 'docked';
+    launcher.classList.remove('is-dock-idle');
     launcher.classList.add('is-docked');
-    launcher.style.left = `${Math.round(box.left - 52)}px`;
+    launcher.style.left = `${Math.max(8, Math.round(box.left - 52))}px`;
     launcher.style.top = `${Math.round(box.top)}px`;
     launcher.style.height = `${Math.round(box.height)}px`;
     launcher.style.right = 'auto';
@@ -985,16 +1008,24 @@
     activator.style.borderTopLeftRadius = '0';
     activator.style.borderBottomLeftRadius = '0';
   };
+  const observeChatRoot = () => {
+    const root = document.querySelector('shopify-chat')?.shadowRoot;
+    if (!root || root === observedChatRoot) return;
+    observedChatRoot = root;
+    new MutationObserver(() => { if (wishlistDockLast) scheduleWishlistDock(); }).observe(root, { childList: true, subtree: true });
+  };
   const scheduleWishlistDock = () => {
     if (wishlistDockFrame) return;
     wishlistDockFrame = requestAnimationFrame(() => { wishlistDockFrame = 0; dockWishlistLauncher(); });
   };
   let wishlistDockTries = 0;
   const wishlistDockTimer = setInterval(() => {
+    observeChatRoot();
     dockWishlistLauncher();
     if (++wishlistDockTries > 20 || qs('.wishlist-launcher')?.classList.contains('is-docked')) clearInterval(wishlistDockTimer);
   }, 500);
   dockWishlistLauncher();
+  observeChatRoot();
   let wishlistDockSettle = 0;
   const settleWishlistDock = () => {
     scheduleWishlistDock();
@@ -1004,6 +1035,12 @@
   window.addEventListener('scroll', settleWishlistDock, { passive: true });
   window.addEventListener('resize', settleWishlistDock);
   window.addEventListener('pageshow', settleWishlistDock);
+  // Opening/closing the chat rebuilds its launcher; re-measure shortly after any click inside it.
+  document.addEventListener('click', (event) => {
+    const host = document.querySelector('shopify-chat');
+    if (!host || !event.composedPath().includes(host)) return;
+    [300, 900, 1800, 3200].forEach((delay) => setTimeout(dockWishlistLauncher, delay));
+  }, true);
   async function shareWishlist() {
     const items = readWishlist();
     if (!items.length) return;

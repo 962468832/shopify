@@ -1198,3 +1198,4 @@ body.product-sticky-active .product-recommendations{padding-bottom:calc(170px + 
    controls read as one bar instead of stacking in the corner. */
 .wishlist-launcher.is-docked{right:auto;bottom:auto;width:52px;border-radius:26px 0 0 26px;background:rgba(214,56,142,.7);box-shadow:none}
 .wishlist-launcher.is-docked span{right:auto;left:-4px}
+.wishlist-launcher.is-dock-idle{opacity:0;pointer-events:none}
