@@ -1176,3 +1176,8 @@ body.product-sticky-active .product-recommendations{padding-bottom:calc(170px + 
    The frame now follows each image's own aspect ratio, so square or tall infographics stay readable. */
 .product-detail .product-gallery__main,.product-gallery .product-gallery__main{aspect-ratio:auto;height:auto;max-height:none}
 .product-gallery .product-gallery__main img{width:100%;height:auto;object-fit:contain;object-position:center}
+
+/* Product description: imported supplier HTML often carries fixed pixel widths (e.g. width:790px),
+   which pushes the copy and illustration past the mobile viewport. Cap every block at the column width. */
+.product-description>div,.product-description>div *,.product-description table{max-width:100%}
+.product-description img{max-width:100%;height:auto}
