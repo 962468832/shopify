@@ -1171,3 +1171,8 @@ body.product-sticky-active .product-recommendations{padding-bottom:calc(170px + 
 /* Product gallery: generated product shots are 2:3 flat lays on a warm backdrop; fill the frame instead of
    letterboxing them inside the wider gallery box (which showed grey side bars). */
 .product-gallery .product-gallery__main img{object-fit:cover;object-position:center}
+
+/* Product gallery: show the whole photo instead of cover-cropping it inside a fixed frame.
+   The frame now follows each image's own aspect ratio, so square or tall infographics stay readable. */
+.product-detail .product-gallery__main,.product-gallery .product-gallery__main{aspect-ratio:auto;height:auto;max-height:none}
+.product-gallery .product-gallery__main img{width:100%;height:auto;object-fit:contain;object-position:center}
