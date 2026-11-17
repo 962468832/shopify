@@ -991,13 +991,15 @@
       activator.style.borderBottomLeftRadius = '0';
     }
     if (floatBarCollapsed()) {
-      if (activator) activator.style.display = 'none';
+      // Hide the inbox launcher without removing it from layout, so its box can still be
+      // measured to keep the tuck tab at the same height as the bar.
+      if (activator) { activator.style.visibility = 'hidden'; activator.style.pointerEvents = 'none'; }
       launcher.classList.add('is-docked');
       if (toggle) toggle.hidden = true;
       positionFloatTab();
       return;
     }
-    if (activator) activator.style.display = '';
+    if (activator) { activator.style.visibility = ''; activator.style.pointerEvents = ''; }
     if (!live) {
       // The inbox removes its launcher while the chat panel is open, and rebuilds it on close.
       // Hold the docked slot (hidden) for a while, then fall back to the corner.
