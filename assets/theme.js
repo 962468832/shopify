@@ -961,6 +961,42 @@
   }
   const openWishlist = () => { updateWishlist(); setDrawer(qs('#wishlist-drawer'), true); qs('[data-wishlist-open]')?.classList.add('is-hidden'); };
   const closeWishlist = () => { setDrawer(qs('#wishlist-drawer'), false); qs('[data-wishlist-open]')?.classList.remove('is-hidden'); };
+  // The favorites launcher and the Shopify Inbox "Contact" button both live in the bottom-right
+  // corner and used to stack on top of each other. Dock the launcher to the left edge of the
+  // inbox pill so the two read as one bar, and follow the pill when it moves (sticky buy bar,
+  // resize, chat re-render).
+  let wishlistDockFrame = 0;
+  const dockWishlistLauncher = () => {
+    const launcher = qs('.wishlist-launcher');
+    if (!launcher) return;
+    const activator = document.querySelector('shopify-chat')?.shadowRoot?.querySelector('button.activator');
+    const box = activator?.getBoundingClientRect();
+    if (!activator || !box || box.width < 40 || box.height < 20) {
+      launcher.classList.remove('is-docked');
+      ['left', 'top', 'right', 'bottom', 'height'].forEach((prop) => launcher.style.removeProperty(prop));
+      return;
+    }
+    launcher.classList.add('is-docked');
+    launcher.style.left = `${Math.round(box.left - 52)}px`;
+    launcher.style.top = `${Math.round(box.top)}px`;
+    launcher.style.height = `${Math.round(box.height)}px`;
+    launcher.style.right = 'auto';
+    launcher.style.bottom = 'auto';
+    activator.style.borderTopLeftRadius = '0';
+    activator.style.borderBottomLeftRadius = '0';
+  };
+  const scheduleWishlistDock = () => {
+    if (wishlistDockFrame) return;
+    wishlistDockFrame = requestAnimationFrame(() => { wishlistDockFrame = 0; dockWishlistLauncher(); });
+  };
+  let wishlistDockTries = 0;
+  const wishlistDockTimer = setInterval(() => {
+    dockWishlistLauncher();
+    if (++wishlistDockTries > 20 || qs('.wishlist-launcher')?.classList.contains('is-docked')) clearInterval(wishlistDockTimer);
+  }, 500);
+  dockWishlistLauncher();
+  window.addEventListener('scroll', scheduleWishlistDock, { passive: true });
+  window.addEventListener('resize', scheduleWishlistDock);
   async function shareWishlist() {
     const items = readWishlist();
     if (!items.length) return;
