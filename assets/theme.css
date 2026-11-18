@@ -1210,7 +1210,6 @@ html.floatbar-collapsed .float-edge-tab{display:grid}
 /* Floating shortcuts: one fixed capsule in the bottom-right corner. The Shopify Inbox launcher
    is hidden (see theme.js) and our own Contact segment opens it. */
 .float-bar{position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom));z-index:27;display:flex;align-items:center;filter:drop-shadow(0 10px 22px rgba(74,24,48,.2))}
-body:has(.product-sticky-atc.is-visible) .float-bar{bottom:calc(92px + env(safe-area-inset-bottom))}
 .float-bar .float-toggle{position:static;width:26px;height:52px;padding:0;border:0;border-radius:26px 0 0 26px;background:#ef62a9;color:#fff;display:grid;place-items:center;cursor:pointer;font-size:0}
 .float-bar .wishlist-launcher{position:relative;inset:auto;width:52px;height:52px;padding:0;border:0;border-radius:0;background:#ef62a9;color:#fff;box-shadow:none;display:grid;place-items:center;cursor:pointer}
 .float-bar .wishlist-launcher:hover{transform:none}

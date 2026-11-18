@@ -961,17 +961,30 @@
   }
   const openWishlist = () => { updateWishlist(); setDrawer(qs('#wishlist-drawer'), true); qs('[data-wishlist-open]')?.classList.add('is-hidden'); };
   const closeWishlist = () => { setDrawer(qs('#wishlist-drawer'), false); qs('[data-wishlist-open]')?.classList.remove('is-hidden'); };
-  // Floating shortcuts: our own fixed bar in the bottom-right corner. The Shopify Inbox
-  // launcher is app-positioned (it drifts with the sticky buy bar), so keep it hidden and
-  // drive the chat from our own Contact segment instead.
+  // Floating shortcuts: our own fixed capsule in the bottom-right corner. The Shopify Inbox
+  // launcher is app-positioned, so hide it (recursively through its shadow trees) and drive the
+  // chat from our own Contact segment instead.
+  const floatBarElement = qs('[data-float-bar]');
   const floatContactButton = qs('[data-float-contact]');
   const floatEdgeTab = qs('[data-float-tab]');
   let floatChatActivator = null;
-  let floatChatRoot = null;
+  const HIDE_CHAT_CSS = 'button.activator,[part="activator"]{display:none!important}';
+  const hideInShadow = (root, depth) => {
+    if (!root || depth > 4) return;
+    try {
+      if (!root.querySelector('style[data-float-hide]')) {
+        const style = document.createElement('style');
+        style.setAttribute('data-float-hide', '');
+        style.textContent = HIDE_CHAT_CSS;
+        root.appendChild(style);
+      }
+      root.querySelectorAll('*').forEach((node) => { if (node.shadowRoot) hideInShadow(node.shadowRoot, depth + 1); });
+    } catch (error) {}
+  };
   const syncFloatBar = () => {
     const host = document.querySelector('shopify-chat');
-    const root = host?.shadowRoot || null;
-    const activator = root?.querySelector('button.activator') || null;
+    if (host?.shadowRoot) hideInShadow(host.shadowRoot, 0);
+    const activator = host?.shadowRoot?.querySelector('button.activator') || null;
     floatChatActivator = activator;
     if (activator) {
       if (activator.style.getPropertyValue('display') !== 'none') activator.style.setProperty('display', 'none', 'important');
@@ -979,9 +992,12 @@
     } else if (floatContactButton) {
       floatContactButton.hidden = true;
     }
-    if (root && root !== floatChatRoot) {
-      floatChatRoot = root;
-      new MutationObserver(() => { if (floatChatActivator) { floatChatActivator.style.setProperty('display', 'none', 'important'); } }).observe(root, { childList: true, subtree: true });
+    if (floatBarElement) {
+      const sticky = qs('.product-sticky-atc');
+      const rect = sticky?.getBoundingClientRect();
+      const shown = !!(rect && rect.height > 0 && rect.top < window.innerHeight - 4 && rect.bottom > 0);
+      const bottom = `calc(${shown ? Math.round(rect.height) + 12 : 20}px + env(safe-area-inset-bottom))`;
+      if (floatBarElement.style.bottom !== bottom) floatBarElement.style.bottom = bottom;
     }
   };
   const setFloatBarCollapsed = (collapsed) => {
@@ -992,8 +1008,16 @@
   };
   try { if (localStorage.getItem('pielik:float-bar') === '1') document.documentElement.classList.add('floatbar-collapsed'); } catch (error) {}
   syncFloatBar();
+  let floatSyncFrame = 0;
+  const scheduleFloatSync = () => {
+    if (floatSyncFrame) return;
+    floatSyncFrame = requestAnimationFrame(() => { floatSyncFrame = 0; syncFloatBar(); });
+  };
+  window.addEventListener('scroll', scheduleFloatSync, { passive: true });
+  window.addEventListener('resize', scheduleFloatSync);
+  window.addEventListener('pageshow', scheduleFloatSync);
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') syncFloatBar(); });
-  window.addEventListener('pageshow', syncFloatBar);
+  setInterval(() => { if (document.visibilityState === 'visible') syncFloatBar(); }, 1000);
   document.addEventListener('click', (event) => {
     if (event.target.closest('[data-float-toggle]')) { event.preventDefault(); setFloatBarCollapsed(true); return; }
     if (event.target.closest('[data-float-tab]')) { event.preventDefault(); setFloatBarCollapsed(false); return; }
