@@ -4,6 +4,13 @@
   {% assign card_compare_at_price = card_variant.compare_at_price | default: 0 %}
   {% assign rating_value = product.metafields.reviews.rating.value.rating | default: product.metafields.reviews.rating.value | default: product.metafields.reviews.rating %}
   {% assign rating_count = product.metafields.reviews.rating_count.value | default: product.metafields.reviews.rating_count %}
+  {% if rating_value == blank %}
+    {% assign judgeme = product.metafields.judgeme.review_widget_data.value %}
+    {% if judgeme.number_of_reviews > 0 %}
+      {% assign rating_value = judgeme.average_rating %}
+      {% assign rating_count = judgeme.number_of_reviews %}
+    {% endif %}
+  {% endif %}
   {% assign discount_percent = 0 %}
   {% if card_compare_at_price > card_price %}{% assign discount_percent = card_compare_at_price | minus: card_price | times: 100.0 | divided_by: card_compare_at_price | round %}{% endif %}
   {% assign card_vendor = product.vendor | strip %}
