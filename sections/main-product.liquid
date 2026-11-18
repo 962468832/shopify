@@ -31,13 +31,13 @@
         {% unless product.has_only_default_variant %}<div class="variant-options" data-product-options-target>
           {% for option in product.options_with_values %}
             {% assign option_index = forloop.index0 %}{% assign option_name = option.name | downcase %}
-            <fieldset class="product-option{% if option_name == 'color' or option_name == 'colour' %} product-option--color{% endif %}" data-option-group data-option-index="{{ option_index }}" data-option-name="{{ option.name | escape }}">
+            <fieldset class="product-option{% if option_name contains 'color' or option_name contains 'colour' %} product-option--color{% endif %}" data-option-group data-option-index="{{ option_index }}" data-option-name="{{ option.name | escape }}">
               <legend><span>Select {{ option.name }} <span data-option-label>{{ current_variant.options[option_index] }}</span></span>{% if option_name contains 'size' %}<button class="size-guide-trigger" type="button" data-size-guide-open aria-haspopup="dialog"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m14.5 4.5 5 5L8 21H3v-5Z"></path><path d="m13 6 5 5M11 8l2 2M8 11l2 2M5 14l2 2"></path></svg>Fit &amp; Size Guide</button>{% endif %}</legend>
               <div class="product-option__values">
                 {% for value in option.values %}
                   {% assign option_value = value.name | default: value %}
                   {% assign option_image = false %}
-                  {% if option_name == 'color' or option_name == 'colour' %}{% for variant in product.variants %}{% if variant.options[option_index] == option_value and variant.featured_image %}{% assign option_image = variant.featured_image %}{% break %}{% endif %}{% endfor %}{% endif %}
+                  {% if option_name contains 'color' or option_name contains 'colour' %}{% for variant in product.variants %}{% if variant.options[option_index] == option_value and variant.featured_image %}{% assign option_image = variant.featured_image %}{% break %}{% endif %}{% endfor %}{% endif %}
                   <label class="product-option__choice{% if option_image %} product-option__choice--image{% endif %}">
                     {%- assign option_value_available = false -%}{%- for variant in product.variants -%}{%- if variant.options[option_index] == option_value and variant.available -%}{%- assign option_value_available = true -%}{%- break -%}{%- endif -%}{%- endfor -%}
                     <input type="radio" name="options[{{ option.name | escape }}]" value="{{ option_value | escape }}" data-product-option{% if current_variant.options[option_index] == option_value %} checked{% endif %}{% unless option_value_available %} aria-describedby="SoldOutHint-{{ section.id }}"{% endunless %}>
