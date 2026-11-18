@@ -1030,7 +1030,8 @@
       // rebuilds that happen every time the panel is opened, whereas clicking the (removed and
       // recreated) activator node only worked the first time.
       const host = document.querySelector('shopify-chat');
-      const isOpen = host?.getAttribute('view') === 'chat';
+      // The `view` attribute only says which surface is mounted; `open` marks the open panel.
+      const isOpen = !!host?.hasAttribute('open');
       if (host && typeof host.open === 'function') {
         try {
           if (isOpen && typeof host.close === 'function') host.close();
