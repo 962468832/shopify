@@ -1026,13 +1026,23 @@
     if (event.target.closest('[data-float-tab]')) { event.preventDefault(); setFloatBarCollapsed(false); return; }
     if (event.target.closest('[data-float-contact]')) {
       event.preventDefault();
-      syncFloatBar();
+      // Drive the inbox through its own element API: open()/close() survive the shadow-tree
+      // rebuilds that happen every time the panel is opened, whereas clicking the (removed and
+      // recreated) activator node only worked the first time.
+      const host = document.querySelector('shopify-chat');
+      const isOpen = host?.getAttribute('view') === 'chat';
+      if (host && typeof host.open === 'function') {
+        try {
+          if (isOpen && typeof host.close === 'function') host.close();
+          else host.open();
+          return;
+        } catch (error) {}
+      }
       const findChatLauncher = () => {
-        const host = document.querySelector('shopify-chat');
         const search = (root, depth) => {
           if (!root || depth > 4) return null;
           const found = root.querySelector('button.activator,[part="activator"]');
-          if (found) return found;
+          if (found && found.isConnected) return found;
           for (const node of root.querySelectorAll('*')) {
             if (node.shadowRoot) { const inner = search(node.shadowRoot, depth + 1); if (inner) return inner; }
           }
@@ -1040,12 +1050,9 @@
         };
         return host ? search(host.shadowRoot, 0) : null;
       };
-      const launcher = floatChatActivator || findChatLauncher();
+      const launcher = findChatLauncher();
       if (launcher) { launcher.click(); return; }
-      // No launcher: either the chat panel is already open (nothing to do) or the inbox failed
-      // to mount (blocked script, ad blocker). Only the latter falls back to the contact page.
-      const panelOpen = /Ask anything|Track my order/.test(document.body.textContent || '');
-      if (!panelOpen) window.location.href = '/pages/contact';
+      if (!isOpen) window.location.href = '/pages/contact';
     }
   }, true);
   async function shareWishlist() {
