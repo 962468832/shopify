@@ -43,7 +43,8 @@
     "name": {{ product.title | json }},
     "description": {{ product.description | strip_html | strip_newlines | json }},
     "url": {{ structured_product_url | json }},
-    "brand": {"@type": "Brand", "name": {{ product.vendor | default: shop.name | json }}},
+    {% assign meta_brand = product.vendor | strip %}{% if meta_brand contains 'http' or meta_brand contains 'www.' or meta_brand == '我的商店' %}{% assign meta_brand = shop.name %}{% endif %}
+  "brand": {"@type": "Brand", "name": {{ meta_brand | default: shop.name | json }}},
     "image": [{% for image in product.images %}{{ image | image_url: width: 1200 | prepend: 'https:' | json }}{% unless forloop.last %},{% endunless %}{% endfor %}],
     "offers": {
       "@type": "Offer",

@@ -20,7 +20,7 @@
           <article class="cart-page__line">
             <a class="cart-page__line-image" href="{{ item.url }}">{% if item.image %}<img src="{{ item.image | image_url: width: 360 }}" width="180" height="240" alt="{{ item.image.alt | default: item.product.title | escape }}" loading="lazy">{% endif %}</a>
             <div class="cart-page__line-info">
-              <p class="cart-page__vendor">{{ item.vendor }}</p>
+              {% assign item_vendor = item.vendor | strip %}{% if item_vendor contains 'http' or item_vendor contains 'www.' or item_vendor == '我的商店' %}{% assign item_vendor = shop.name %}{% endif %}<p class="cart-page__vendor">{{ item_vendor }}</p>
               <h2><a href="{{ item.url }}">{{ item.product.title }}</a></h2>
               {% unless item.product.has_only_default_variant %}<p class="cart-page__variant">{{ item.variant.title }}</p>{% endunless %}
               {% assign item_compare_line_price = item.variant.compare_at_price | times: item.quantity %}
