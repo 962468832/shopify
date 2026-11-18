@@ -981,7 +981,7 @@
     const toggle = qs('[data-float-toggle]');
     if (!launcher || !toggle) return;
     const h = launcher.getBoundingClientRect();
-    if (floatBarCollapsed() || !h.width || launcher.classList.contains('is-dock-idle')) {
+    if (floatBarCollapsed() || !h.width) {
       toggle.hidden = true;
       return;
     }

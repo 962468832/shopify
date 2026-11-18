@@ -1198,7 +1198,6 @@ body.product-sticky-active .product-recommendations{padding-bottom:calc(170px + 
    controls read as one bar instead of stacking in the corner. */
 .wishlist-launcher.is-docked{right:auto;bottom:auto;width:52px;border-radius:26px 0 0 26px;background:rgba(214,56,142,.7);box-shadow:none}
 .wishlist-launcher.is-docked span{right:auto;left:-4px}
-.wishlist-launcher.is-dock-idle{border-radius:26px}
 
 /* Floating shortcut bar: a small chevron tucks the favorites + contact bar against the screen edge. */
 .float-toggle{position:fixed;z-index:27;width:26px;height:52px;padding:0;border:0;border-radius:26px 0 0 26px;background:rgba(214,56,142,.7);color:#fff;font-size:15px;line-height:1;display:grid;place-items:center;cursor:pointer}
