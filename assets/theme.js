@@ -961,151 +961,47 @@
   }
   const openWishlist = () => { updateWishlist(); setDrawer(qs('#wishlist-drawer'), true); qs('[data-wishlist-open]')?.classList.add('is-hidden'); };
   const closeWishlist = () => { setDrawer(qs('#wishlist-drawer'), false); qs('[data-wishlist-open]')?.classList.remove('is-hidden'); };
-  // The favorites launcher and the Shopify Inbox "Contact" button both live in the bottom-right
-  // corner and used to stack on top of each other. Dock the launcher to the left edge of the
-  // inbox pill so the two read as one bar, and follow the pill when it moves (sticky buy bar,
-  // resize, chat re-render).
-  let wishlistDockFrame = 0;
-  let wishlistDockLast = null;
-  let wishlistDockMissingSince = 0;
-  let observedChatRoot = null;
-  const floatBarCollapsed = () => document.documentElement.classList.contains('floatbar-collapsed');
-  const positionFloatTab = () => {
-    const tab = qs('[data-float-tab]');
-    if (!tab) return;
-    if (!wishlistDockLast) { tab.style.top = `${Math.max(24, window.innerHeight - 180)}px`; return; }
-    tab.style.top = `${Math.round(wishlistDockLast.top + (wishlistDockLast.height - 56) / 2)}px`;
-  };
-  const placeFloatToggle = () => {
-    const launcher = qs('.wishlist-launcher');
-    const toggle = qs('[data-float-toggle]');
-    if (!launcher || !toggle) return;
-    const h = launcher.getBoundingClientRect();
-    if (floatBarCollapsed() || !h.width) {
-      toggle.hidden = true;
-      return;
-    }
-    toggle.hidden = false;
-    const left = `${Math.round(h.left - 26)}px`;
-    const top = `${Math.round(h.top)}px`;
-    const height = `${Math.round(h.height)}px`;
-    if (toggle.style.left !== left) toggle.style.left = left;
-    if (toggle.style.top !== top) toggle.style.top = top;
-    if (toggle.style.height !== height) toggle.style.height = height;
-  };
-  const dockWishlistLauncher = () => {
-    const launcher = qs('.wishlist-launcher');
-    if (!launcher) return;
+  // Floating shortcuts: our own fixed bar in the bottom-right corner. The Shopify Inbox
+  // launcher is app-positioned (it drifts with the sticky buy bar), so keep it hidden and
+  // drive the chat from our own Contact segment instead.
+  const floatContactButton = qs('[data-float-contact]');
+  const floatEdgeTab = qs('[data-float-tab]');
+  let floatChatActivator = null;
+  let floatChatRoot = null;
+  const syncFloatBar = () => {
     const host = document.querySelector('shopify-chat');
-    const activator = host?.shadowRoot?.querySelector('button.activator');
-    const box = activator?.getBoundingClientRect();
-    const live = !!(activator && box && box.width >= 40 && box.height >= 20);
-    if (live) {
-      // Pin the inbox launcher (and therefore the whole bar) to the bottom-right corner so it
-      // never drifts with the app's sticky-bar offsets. Lift it above the mobile buy bar.
-      const sticky = document.body.classList.contains('product-sticky-active');
-      const bottom = sticky ? 'calc(92px + env(safe-area-inset-bottom))' : 'calc(20px + env(safe-area-inset-bottom))';
-      const pin = (prop, value) => { if (activator.style.getPropertyValue(prop) !== value) activator.style.setProperty(prop, value); };
-      pin('position', 'fixed');
-      pin('right', '20px');
-      pin('left', 'auto');
-      pin('top', 'auto');
-      pin('bottom', bottom);
-      const pinned = activator.getBoundingClientRect();
-      wishlistDockLast = { left: Math.max(8, Math.round(pinned.left - 52)), top: Math.round(pinned.top), height: Math.round(pinned.height) };
-      wishlistDockMissingSince = 0;
-      if (activator.style.borderTopLeftRadius !== '0') activator.style.borderTopLeftRadius = '0';
-      if (activator.style.borderBottomLeftRadius !== '0') activator.style.borderBottomLeftRadius = '0';
-      if (activator.style.backgroundColor !== '#ef62a9') activator.style.backgroundColor = '#ef62a9';
+    const root = host?.shadowRoot || null;
+    const activator = root?.querySelector('button.activator') || null;
+    floatChatActivator = activator;
+    if (activator) {
+      if (activator.style.getPropertyValue('display') !== 'none') activator.style.setProperty('display', 'none', 'important');
+      if (floatContactButton) floatContactButton.hidden = false;
+    } else if (floatContactButton) {
+      floatContactButton.hidden = true;
     }
-    if (floatBarCollapsed()) {
-      // Hide the whole inbox host: the launcher is not always the same node inside its shadow
-      // root, so hiding only the activator leaves a stray Contact pill behind.
-      if (host) host.style.display = 'none';
-      if (activator) { activator.style.visibility = 'hidden'; activator.style.pointerEvents = 'none'; }
-      launcher.classList.add('is-docked');
-      placeFloatToggle();
-      positionFloatTab();
-      return;
+    if (root && root !== floatChatRoot) {
+      floatChatRoot = root;
+      new MutationObserver(() => { if (floatChatActivator) { floatChatActivator.style.setProperty('display', 'none', 'important'); } }).observe(root, { childList: true, subtree: true });
     }
-    if (host) host.style.display = '';
-    if (activator) { activator.style.visibility = ''; activator.style.pointerEvents = ''; }
-    if (!live) {
-      // The inbox removes its launcher while the chat panel is open, and rebuilds it on close.
-      // Hold the docked slot (hidden) for a while, then fall back to the corner.
-      if (host && wishlistDockLast && wishlistDockMissingSince !== -1) {
-        if (!wishlistDockMissingSince) wishlistDockMissingSince = Date.now();
-        if (Date.now() - wishlistDockMissingSince < 45000) {
-          launcher.classList.add('is-docked', 'is-dock-idle');
-          placeFloatToggle();
-          return;
-        }
-      }
-      wishlistDockLast = null;
-      wishlistDockMissingSince = -1;
-      launcher.classList.remove('is-docked', 'is-dock-idle');
-      ['left', 'top', 'right', 'bottom', 'height'].forEach((prop) => launcher.style.removeProperty(prop));
-      placeFloatToggle();
-      return;
-    }
-    wishlistDockMissingSince = 0;
-    launcher.classList.remove('is-dock-idle');
-    launcher.classList.add('is-docked');
-    const setProp = (element, prop, value) => { if (element.style[prop] !== value) element.style[prop] = value; };
-    setProp(launcher, 'left', `${wishlistDockLast.left}px`);
-    setProp(launcher, 'top', `${wishlistDockLast.top}px`);
-    setProp(launcher, 'height', `${wishlistDockLast.height}px`);
-    setProp(launcher, 'right', 'auto');
-    setProp(launcher, 'bottom', 'auto');
-    placeFloatToggle();
   };
   const setFloatBarCollapsed = (collapsed) => {
-    if (collapsed) {
-      const h = qs('.wishlist-launcher')?.getBoundingClientRect();
-      if (h && h.width) wishlistDockLast = { left: Math.round(h.left), top: Math.round(h.top), height: Math.round(h.height) };
-    }
     document.documentElement.classList.toggle('floatbar-collapsed', collapsed);
     try { localStorage.setItem('pielik:float-bar', collapsed ? '1' : '0'); } catch (error) {}
     qs('[data-float-toggle]')?.setAttribute('aria-expanded', String(!collapsed));
-    qs('[data-float-tab]')?.setAttribute('aria-hidden', String(!collapsed));
-    dockWishlistLauncher();
+    floatEdgeTab?.setAttribute('aria-hidden', String(!collapsed));
   };
   try { if (localStorage.getItem('pielik:float-bar') === '1') document.documentElement.classList.add('floatbar-collapsed'); } catch (error) {}
-  const observeChatRoot = () => {
-    const root = document.querySelector('shopify-chat')?.shadowRoot;
-    if (!root || root === observedChatRoot) return;
-    observedChatRoot = root;
-    new MutationObserver(() => { if (wishlistDockLast) scheduleWishlistDock(); }).observe(root, { childList: true, subtree: true });
-  };
-  const scheduleWishlistDock = () => {
-    if (wishlistDockFrame) return;
-    wishlistDockFrame = requestAnimationFrame(() => { wishlistDockFrame = 0; dockWishlistLauncher(); });
-  };
-  // The inbox mounts late and rebuilds its launcher on every open/close, so keep a cheap
-  // one-second re-check while the tab is visible instead of trusting a single init pass.
-  setInterval(() => {
-    if (document.visibilityState !== 'visible') return;
-    observeChatRoot();
-    dockWishlistLauncher();
-  }, 1000);
-  dockWishlistLauncher();
-  observeChatRoot();
-  let wishlistDockSettle = 0;
-  const settleWishlistDock = () => {
-    scheduleWishlistDock();
-    clearTimeout(wishlistDockSettle);
-    wishlistDockSettle = setTimeout(dockWishlistLauncher, 320);
-  };
-  window.addEventListener('scroll', settleWishlistDock, { passive: true });
-  window.addEventListener('resize', settleWishlistDock);
-  window.addEventListener('pageshow', settleWishlistDock);
-  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') settleWishlistDock(); });
+  syncFloatBar();
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') syncFloatBar(); });
+  window.addEventListener('pageshow', syncFloatBar);
   document.addEventListener('click', (event) => {
     if (event.target.closest('[data-float-toggle]')) { event.preventDefault(); setFloatBarCollapsed(true); return; }
     if (event.target.closest('[data-float-tab]')) { event.preventDefault(); setFloatBarCollapsed(false); return; }
-    const host = document.querySelector('shopify-chat');
-    if (!host || !event.composedPath().includes(host)) return;
-    [300, 900, 1800, 3200].forEach((delay) => setTimeout(dockWishlistLauncher, delay));
+    if (event.target.closest('[data-float-contact]')) {
+      event.preventDefault();
+      syncFloatBar();
+      floatChatActivator?.click();
+    }
   }, true);
   async function shareWishlist() {
     const items = readWishlist();
