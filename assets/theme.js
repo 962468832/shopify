@@ -986,12 +986,9 @@
     if (host?.shadowRoot) hideInShadow(host.shadowRoot, 0);
     const activator = host?.shadowRoot?.querySelector('button.activator') || null;
     floatChatActivator = activator;
-    if (activator) {
-      if (activator.style.getPropertyValue('display') !== 'none') activator.style.setProperty('display', 'none', 'important');
-      if (floatContactButton) floatContactButton.hidden = false;
-    } else if (floatContactButton) {
-      floatContactButton.hidden = true;
-    }
+    if (activator && activator.style.getPropertyValue('display') !== 'none') activator.style.setProperty('display', 'none', 'important');
+    // Keep our Contact segment in the bar even while the inbox rebuilds its launcher.
+    if (floatContactButton) floatContactButton.hidden = false;
     if (floatBarElement) {
       const sticky = qs('.product-sticky-atc');
       const rect = sticky?.getBoundingClientRect();
@@ -1029,7 +1026,21 @@
     if (event.target.closest('[data-float-contact]')) {
       event.preventDefault();
       syncFloatBar();
-      floatChatActivator?.click();
+      const findChatLauncher = () => {
+        const host = document.querySelector('shopify-chat');
+        const search = (root, depth) => {
+          if (!root || depth > 4) return null;
+          const found = root.querySelector('button.activator,[part="activator"]');
+          if (found) return found;
+          for (const node of root.querySelectorAll('*')) {
+            if (node.shadowRoot) { const inner = search(node.shadowRoot, depth + 1); if (inner) return inner; }
+          }
+          return null;
+        };
+        return host ? search(host.shadowRoot, 0) : null;
+      };
+      const launcher = floatChatActivator || findChatLauncher();
+      if (launcher) launcher.click();
     }
   }, true);
   async function shareWishlist() {
