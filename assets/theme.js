@@ -1026,16 +1026,13 @@
     if (event.target.closest('[data-float-tab]')) { event.preventDefault(); setFloatBarCollapsed(false); return; }
     if (event.target.closest('[data-float-contact]')) {
       event.preventDefault();
-      // Drive the inbox through its own element API: open()/close() survive the shadow-tree
-      // rebuilds that happen every time the panel is opened, whereas clicking the (removed and
-      // recreated) activator node only worked the first time.
+      // shopify-chat exposes `open` as an accessor that reflects its attribute; assigning to it
+      // survives the shadow-tree rebuilds that used to break the second click. Fall back to a
+      // fresh activator click, then to the contact page.
       const host = document.querySelector('shopify-chat');
-      // The `view` attribute only says which surface is mounted; `open` marks the open panel.
-      const isOpen = !!host?.hasAttribute('open');
-      if (host && typeof host.open === 'function') {
+      if (host && 'open' in host) {
         try {
-          if (isOpen && typeof host.close === 'function') host.close();
-          else host.open();
+          host.open = !host.open;
           return;
         } catch (error) {}
       }
@@ -1053,7 +1050,7 @@
       };
       const launcher = findChatLauncher();
       if (launcher) { launcher.click(); return; }
-      if (!isOpen) window.location.href = '/pages/contact';
+      if (!host?.hasAttribute('open')) window.location.href = '/pages/contact';
     }
   }, true);
   async function shareWishlist() {
