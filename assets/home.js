@@ -18,6 +18,9 @@
       wrapper.querySelector('video').pause();
     };
     const load = (video) => {
+      // Posters are deferred until the card is near the viewport: on the homepage the four
+      // scenario posters were ~1MB of PNGs downloaded before anyone scrolled to them.
+      if (!video.poster && video.dataset.poster) video.poster = video.dataset.poster;
       if (!video.getAttribute('src') && video.dataset.src) { video.src = video.dataset.src; video.load(); }
     };
     const play = (wrapper) => {

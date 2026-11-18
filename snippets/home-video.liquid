@@ -11,15 +11,15 @@
         endif
       endif
     endfor
-    assign cover_url = video.preview_image | image_url: width: 1600
+    assign cover_url = video.preview_image | image_url: width: 1000
   endif
   if poster != blank
-    assign cover_url = poster | image_url: width: 1600
+    assign cover_url = poster | image_url: width: 1000
   endif
 %}
 <div class="home-video"{% if source_url != blank %} data-home-video data-video-mode="{{ mode | default: 'auto' }}"{% endif %}{% if video != blank %} data-native-video="{{ video.id }}"{% endif %}>
   {% if source_url != blank %}
-    <video muted loop playsinline preload="none"{% if cover_url != blank %} poster="{{ cover_url | escape }}"{% endif %} data-src="{{ source_url | escape }}" aria-label="{{ title | escape }}"></video>
+    <video muted loop playsinline preload="none"{% if cover_url != blank %} data-poster="{{ cover_url | escape }}"{% endif %} data-src="{{ source_url | escape }}" aria-label="{{ title | escape }}"></video>
     <button class="home-video__toggle" type="button" data-video-toggle aria-label="Play {{ title | escape }}" aria-pressed="false"><span aria-hidden="true">▶</span></button>
   {% elsif cover_url != blank %}
     <img src="{{ cover_url | escape }}" alt="{{ title | escape }}" width="900" height="1200" loading="lazy">
