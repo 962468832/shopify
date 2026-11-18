@@ -1007,14 +1007,16 @@
       activator.style.borderBottomLeftRadius = '0';
     }
     if (floatBarCollapsed()) {
-      // Hide the inbox launcher without removing it from layout, so its box can still be
-      // measured to keep the tuck tab at the same height as the bar.
+      // Hide the whole inbox host: the launcher is not always the same node inside its shadow
+      // root, so hiding only the activator leaves a stray Contact pill behind.
+      if (host) host.style.display = 'none';
       if (activator) { activator.style.visibility = 'hidden'; activator.style.pointerEvents = 'none'; }
       launcher.classList.add('is-docked');
       placeFloatToggle();
       positionFloatTab();
       return;
     }
+    if (host) host.style.display = '';
     if (activator) { activator.style.visibility = ''; activator.style.pointerEvents = ''; }
     if (!live) {
       // The inbox removes its launcher while the chat panel is open, and rebuilds it on close.
