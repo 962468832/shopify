@@ -954,7 +954,7 @@
   const wishlistItemMarkup = (item) => `<article class="wishlist-item" data-wishlist-item="${escapeHtml(item.handle)}"><div class="wishlist-item__media">${item.image ? `<a href="${escapeHtml(item.url)}"><img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}" loading="lazy"></a>` : `<a href="${escapeHtml(item.url)}" class="media-placeholder" aria-label="${escapeHtml(item.title)}"></a>`}<button class="wishlist-item__heart wishlist-card" type="button" data-wishlist data-wishlist-handle="${escapeHtml(item.handle)}" data-wishlist-url="${escapeHtml(item.url)}" data-wishlist-title="${escapeHtml(item.title)}" data-wishlist-image="${escapeHtml(item.image)}" data-wishlist-price="${escapeHtml(item.price)}" data-wishlist-compare-price="${escapeHtml(item.comparePrice)}" data-wishlist-variant-id="${escapeHtml(item.variantId)}" data-wishlist-variant-title="${escapeHtml(item.variantTitle)}" data-wishlist-rating="${escapeHtml(item.rating)}" data-wishlist-rating-count="${escapeHtml(item.ratingCount)}" aria-label="Remove ${escapeHtml(item.title)} from favorites">${wishlistHeartSvg()}</button></div><div class="wishlist-item__details"><a class="wishlist-item__title" href="${escapeHtml(item.url)}">${escapeHtml(item.title)}</a>${item.rating ? `<p class="wishlist-item__rating"><span aria-hidden="true">★★★★★</span> <b>${escapeHtml(item.rating)}</b>${item.ratingCount ? ` <span>(${escapeHtml(item.ratingCount)})</span>` : ''}</p>` : ''}<p class="wishlist-item__price"><strong>${escapeHtml(item.price)}</strong>${item.comparePrice ? ` <s>${escapeHtml(item.comparePrice)}</s>` : ''}</p>${item.variantTitle ? `<p class="wishlist-item__variant">${escapeHtml(item.variantTitle)}</p>` : ''}<button class="wishlist-item__add" type="button" data-wishlist-add data-wishlist-handle="${escapeHtml(item.handle)}" data-wishlist-variant-id="${escapeHtml(item.variantId)}">Add to cart</button></div></article>`;
   function updateWishlist() {
     const items = readWishlist();
-    qsa('[data-wishlist-count]').forEach((element) => { element.textContent = items.length; });
+    qsa('[data-wishlist-count]').forEach((element) => { element.textContent = items.length; element.hidden = items.length === 0; });
     qsa('[data-wishlist]').forEach((button) => { const saved = items.some((item) => item.handle === button.dataset.wishlistHandle); button.classList.toggle('is-saved', saved); button.setAttribute('aria-label', `${saved ? 'Remove' : 'Add'} ${button.dataset.wishlistTitle || 'item'} ${saved ? 'from' : 'to'} favorites`); });
     const body = qs('[data-wishlist-body]');
     if (body) body.innerHTML = `<button class="wishlist-drawer__share" type="button" data-wishlist-share>Share list</button>${items.length ? items.map(wishlistItemMarkup).join('') : '<p class="empty-state">Keep pieces here while you browse.</p>'}`;
@@ -986,10 +986,12 @@
       return;
     }
     toggle.hidden = false;
-    const left = `${Math.round(h.left - 36)}px`;
-    const top = `${Math.round(h.top + (h.height - 28) / 2)}px`;
+    const left = `${Math.round(h.left - 26)}px`;
+    const top = `${Math.round(h.top)}px`;
+    const height = `${Math.round(h.height)}px`;
     if (toggle.style.left !== left) toggle.style.left = left;
     if (toggle.style.top !== top) toggle.style.top = top;
+    if (toggle.style.height !== height) toggle.style.height = height;
   };
   const dockWishlistLauncher = () => {
     const launcher = qs('.wishlist-launcher');
