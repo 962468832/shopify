@@ -25,6 +25,7 @@
           height="{{ scene_image.height }}"
           alt="{{ block.settings.image_alt | escape }}"
           loading="lazy"
+          decoding="async"
           {% unless forloop.first %}aria-hidden="true"{% endunless %}
         >
       {% elsif scene_asset_name != blank %}
@@ -37,6 +38,7 @@
           height="1867"
           alt="{{ block.settings.image_alt | default: block.settings.label | escape }}"
           loading="lazy"
+          decoding="async"
           {% unless forloop.first %}aria-hidden="true"{% endunless %}
         >
       {% elsif fallback_image %}
@@ -49,6 +51,7 @@
           height="{{ fallback_image.height }}"
           alt="{{ block.settings.image_alt | default: product.title | escape }}"
           loading="lazy"
+          decoding="async"
           {% unless forloop.first %}aria-hidden="true"{% endunless %}
         >
       {% endif %}
