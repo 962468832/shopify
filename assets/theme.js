@@ -996,7 +996,12 @@
       const sticky = qs('.product-sticky-atc');
       const rect = sticky?.getBoundingClientRect();
       const shown = !!(rect && rect.height > 0 && rect.top < window.innerHeight - 4 && rect.bottom > 0);
-      const bottom = `calc(${shown ? Math.round(rect.height) + 12 : 20}px + env(safe-area-inset-bottom))`;
+      // The theme editor/preview bar is fixed to the bottom edge; keep the capsule above it.
+      const preview = document.querySelector('#PBarNextFrameWrapper');
+      const previewRect = preview?.getBoundingClientRect();
+      const previewHeight = previewRect && previewRect.height > 0 && previewRect.bottom > window.innerHeight - 4 ? Math.round(previewRect.height) : 0;
+      const offset = 20 + previewHeight + (shown ? Math.round(rect.height) + 12 : 0);
+      const bottom = `calc(${offset}px + env(safe-area-inset-bottom))`;
       if (floatBarElement.style.bottom !== bottom) floatBarElement.style.bottom = bottom;
     }
   };
