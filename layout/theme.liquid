@@ -29,7 +29,13 @@
     <link rel="dns-prefetch" href="https://cdn.shopify.com">
     {{ content_for_header }}
     {{ 'theme.css' | asset_url | stylesheet_tag }}
-    {{ 'home.css' | asset_url | stylesheet_tag }}
+    {%- if template.name == 'index' -%}
+      {{ 'home.css' | asset_url | stylesheet_tag }}
+    {%- else -%}
+      {%- comment -%} home.css only styles the homepage blocks; keep it off the critical path elsewhere. {%- endcomment -%}
+      <link rel="stylesheet" href="{{ 'home.css' | asset_url }}" media="print" onload="this.media='all'">
+      <noscript><link rel="stylesheet" href="{{ 'home.css' | asset_url }}"></noscript>
+    {%- endif -%}
     {% style %}
       {{ settings.heading_font | font_face: font_display: 'swap' }}
       {{ settings.body_font | font_face: font_display: 'swap' }}
