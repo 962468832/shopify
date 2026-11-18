@@ -28,6 +28,14 @@
   const escapeHtml = (value) => String(value || '').replace(/[&<>'"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
   const mediaSource = (value) => typeof value === 'string' ? value : value?.src || value?.url || value?.originalSrc || value?.original_src || '';
   const mediaUrl = (value) => String(mediaSource(value)).replace(/^\/\//, 'https://');
+  // JSON endpoints return full-size image URLs; ask the Shopify CDN for a card-sized copy so the
+  // recommendation rail does not pull 100KB originals for a 300px tile.
+  const sizedMediaUrl = (value, width = 500) => {
+    const url = mediaUrl(value);
+    if (!url) return '';
+    if (!/cdn\.shopify\.com|shopifycdn\.com/.test(url)) return url;
+    return `${url}${url.includes('?') ? '&' : '?'}width=${width}`;
+  };
   const pricing = window.NuagePricing || {
     details(source) {
       const price = Number(source?.price || 0);
@@ -313,8 +321,8 @@
   }
 
   function productRecommendationCard(product) {
-    const image = mediaUrl(product.featured_image || product.images?.[0] || '');
-    const secondaryImage = mediaUrl(product.images?.[1] || '');
+    const image = sizedMediaUrl(product.featured_image || product.images?.[0] || '', 500);
+    const secondaryImage = sizedMediaUrl(product.images?.[1] || '', 500);
     const productPricing = pricing.product(product);
     const price = productPricing.price;
     const compareAtPrice = productPricing.compareAtPrice;

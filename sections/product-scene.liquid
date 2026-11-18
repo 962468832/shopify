@@ -7,13 +7,13 @@
       {% assign scene_label = block.settings.label | downcase %}
       {% case scene_label %}
         {% when 'everyday' %}
-          {% assign scene_asset_name = 'product-scene-everyday.jpg' %}
+          {% assign scene_asset_name = 'product-scene-everyday.webp' %}
         {% when 'travel' %}
-          {% assign scene_asset_name = 'product-scene-travel.jpg' %}
+          {% assign scene_asset_name = 'product-scene-travel.webp' %}
         {% when 'movement' %}
-          {% assign scene_asset_name = 'product-scene-movement.jpg' %}
+          {% assign scene_asset_name = 'product-scene-movement.webp' %}
         {% when 'vacation' %}
-          {% assign scene_asset_name = 'product-scene-vacation.jpg' %}
+          {% assign scene_asset_name = 'product-scene-vacation.webp' %}
       {% endcase %}
       {% if scene_image %}
         <img
@@ -33,8 +33,8 @@
           data-product-scene-image
           data-scene-index="{{ forloop.index0 }}"
           src="{{ scene_asset_name | asset_url }}"
-          width="1200"
-          height="1600"
+          width="1400"
+          height="1867"
           alt="{{ block.settings.image_alt | default: block.settings.label | escape }}"
           loading="lazy"
           {% unless forloop.first %}aria-hidden="true"{% endunless %}
