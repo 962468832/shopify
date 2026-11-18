@@ -1196,7 +1196,7 @@ body.product-sticky-active .product-recommendations{padding-bottom:calc(170px + 
 
 /* Favorites launcher docked onto the Shopify Inbox contact pill (see theme.js) so the two
    controls read as one bar instead of stacking in the corner. */
-.wishlist-launcher.is-docked{right:auto;bottom:auto;width:52px;border-radius:26px 0 0 26px;background:rgba(214,56,142,.7);box-shadow:none}
+.wishlist-launcher.is-docked{right:auto;bottom:auto;width:52px;border-radius:0;background:rgba(214,56,142,.7);box-shadow:none}
 .wishlist-launcher.is-docked span{right:auto;left:-4px}
 
 /* Floating shortcut bar: a small chevron tucks the favorites + contact bar against the screen edge. */
