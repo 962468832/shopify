@@ -1001,10 +1001,21 @@
     const box = activator?.getBoundingClientRect();
     const live = !!(activator && box && box.width >= 40 && box.height >= 20);
     if (live) {
-      wishlistDockLast = { left: Math.max(8, Math.round(box.left - 52)), top: Math.round(box.top), height: Math.round(box.height) };
+      // Pin the inbox launcher (and therefore the whole bar) to the bottom-right corner so it
+      // never drifts with the app's sticky-bar offsets. Lift it above the mobile buy bar.
+      const sticky = document.body.classList.contains('product-sticky-active');
+      const bottom = sticky ? 'calc(92px + env(safe-area-inset-bottom))' : 'calc(20px + env(safe-area-inset-bottom))';
+      const pin = (prop, value) => { if (activator.style.getPropertyValue(prop) !== value) activator.style.setProperty(prop, value); };
+      pin('position', 'fixed');
+      pin('right', '20px');
+      pin('left', 'auto');
+      pin('top', 'auto');
+      pin('bottom', bottom);
+      const pinned = activator.getBoundingClientRect();
+      wishlistDockLast = { left: Math.max(8, Math.round(pinned.left - 52)), top: Math.round(pinned.top), height: Math.round(pinned.height) };
       wishlistDockMissingSince = 0;
-      activator.style.borderTopLeftRadius = '0';
-      activator.style.borderBottomLeftRadius = '0';
+      if (activator.style.borderTopLeftRadius !== '0') activator.style.borderTopLeftRadius = '0';
+      if (activator.style.borderBottomLeftRadius !== '0') activator.style.borderBottomLeftRadius = '0';
       if (activator.style.backgroundColor !== '#ef62a9') activator.style.backgroundColor = '#ef62a9';
     }
     if (floatBarCollapsed()) {
