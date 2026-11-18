@@ -1005,6 +1005,7 @@
       wishlistDockMissingSince = 0;
       activator.style.borderTopLeftRadius = '0';
       activator.style.borderBottomLeftRadius = '0';
+      if (activator.style.backgroundColor !== '#ef62a9') activator.style.backgroundColor = '#ef62a9';
     }
     if (floatBarCollapsed()) {
       // Hide the whole inbox host: the launcher is not always the same node inside its shadow
