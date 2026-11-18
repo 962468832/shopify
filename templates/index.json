@@ -21,7 +21,8 @@
         "primary_label": "Shop by Underwear",
         "primary_link": "/collections/all",
         "tertiary_label": "Shop by Scenario",
-        "tertiary_link": "/collections/all"
+        "tertiary_link": "/collections/all",
+        "asset_file_mobile": "hero-mobile-2026.webp"
       }
     },
     "scenario": {

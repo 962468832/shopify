@@ -25,6 +25,10 @@
     assign mobile_url = desktop_url
     assign desktop_srcset = blank
   endif
+  assign hero_asset_mobile = section.settings.asset_file_mobile | strip
+  if hero_asset_mobile != blank
+    assign mobile_url = hero_asset_mobile | asset_url
+  endif
 %}
 <section class="home-hero" aria-labelledby="hero-{{ section.id }}">
   {% if desktop_url != blank %}<picture>{% if mobile_url != blank %}<source media="(max-width:767px)" srcset="{{ mobile_url | escape }}">{% endif %}<img src="{{ desktop_url | escape }}"{% if desktop_srcset != blank %} srcset="{{ desktop_srcset | escape }}" sizes="100vw"{% endif %} width="1920" height="1000" alt="{{ section.settings.image.alt | default: section.settings.image_alt | escape }}" loading="eager" fetchpriority="high" decoding="async"{% if section.settings.image != blank %} data-native-image="{{ section.settings.image.id }}"{% endif %}></picture>{% elsif request.design_mode %}<div class="home-media-placeholder">请选择首页电脑端和手机端图片</div>{% endif %}
@@ -34,6 +38,12 @@
 {
   "name": "首页主视觉",
   "settings": [
+    {
+      "type": "text",
+      "id": "asset_file_mobile",
+      "label": "主题内手机端图片",
+      "info": "例如 hero-mobile-2026.webp，填写后手机端优先使用该图片"
+    },
     {
       "type": "text",
       "id": "asset_file",
