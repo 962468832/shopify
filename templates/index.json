@@ -15,8 +15,6 @@
         "image": "shopify://shop_images/7fc14e403815c9e12f458bb5bd5bfa3b.png",
         "mobile_image": "shopify://shop_images/4c871390ea9594ffaa7f54b41268864d.png",
         "show_legacy_media": false,
-        "image_url": "https://cdn.shopify.com/s/files/1/0800/1427/8952/files/PC_Banner.png?v=1793328444",
-        "mobile_image_url": "https://cdn.shopify.com/s/files/1/0800/1427/8952/files/Mobile_Banner.png?v=1793328444",
         "image_alt": "Pielik comfort underwear campaign banner",
         "heading": "BLACK FRIDAY STARTS EARLY FOR VIPs",
         "text": "Unlock Early Access, Exclusive Discounts & More.",
@@ -177,7 +175,6 @@
           "settings": {
             "image": "shopify://shop_images/work.png",
             "show_legacy_media": false,
-            "image_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/work.png?v=1792995931",
             "label": "Work",
             "title": "Desk to dinner",
             "copy": "Invisible lines under tailored everything.",
@@ -190,7 +187,6 @@
           "settings": {
             "image": "shopify://shop_images/travel.png",
             "show_legacy_media": false,
-            "image_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/travel.png?v=1792995971",
             "label": "Travel",
             "title": "Long-haul ease",
             "copy": "Breathable comfort, flight after flight.",
@@ -203,7 +199,6 @@
           "settings": {
             "image": "shopify://shop_images/active.png",
             "show_legacy_media": false,
-            "image_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/active.png?v=1792995965",
             "label": "Active",
             "title": "Made to move",
             "copy": "Stay-put bands through every mile.",
@@ -216,7 +211,6 @@
           "settings": {
             "image": "shopify://shop_images/everyday.png",
             "show_legacy_media": false,
-            "image_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/everyday.png?v=1792995947",
             "label": "Everyday",
             "title": "Off-duty soft",
             "copy": "The barely-there basics you reach for daily.",
@@ -243,7 +237,6 @@
           "type": "collection",
           "settings": {
             "show_legacy_media": false,
-            "image_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/11181309521_1947465094.jpg",
             "collection": "featherlight-collection",
             "products": [
               "featherlight-seamless-brief",
@@ -259,7 +252,6 @@
           "type": "collection",
           "settings": {
             "show_legacy_media": false,
-            "image_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/O1CN01vQ1HDX1rXdJFBQxaz__2208072005641-0-cib.jpg",
             "collection": "sculpt-lift",
             "products": [
               "sculpt-high-rise-brief",
@@ -430,7 +422,6 @@
           "settings": {
             "image": "shopify://shop_images/MAD09999_088a7299-8065-43c1-8a94-905237bda6b0.jpg",
             "show_legacy_media": false,
-            "image_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/MAD09999_088a7299-8065-43c1-8a94-905237bda6b0.jpg?v=1792996184",
             "heading": "2026 Ultimate Guide to Choosing Best Invisible Undies for Office Pants",
             "category": "Fit Guide",
             "summary": "Choose smooth edges and a fit that stays comfortable through a full day at your desk.",
@@ -445,7 +436,6 @@
           "settings": {
             "image": "shopify://shop_images/DSC03621_9569b931-58ba-43f7-bccd-f5f568fdaa09.jpg",
             "show_legacy_media": false,
-            "image_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/DSC03621_9569b931-58ba-43f7-bccd-f5f568fdaa09.jpg?v=1792996185",
             "heading": "The Ultimate 2026 Guide: Which Seamless Underwear Works Best for Both Office and Casual Wear?",
             "category": "Everyday Comfort",
             "summary": "Build an easy rotation of seamless shapes for work, weekends and everything between.",
@@ -460,7 +450,6 @@
           "settings": {
             "image": "shopify://shop_images/31_d85337ae-7014-430f-9a44-1c149a6580fc.jpg",
             "show_legacy_media": false,
-            "image_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/31_d85337ae-7014-430f-9a44-1c149a6580fc.jpg?v=1792996185",
             "heading": "Top 3 Breathable Underwers for Active Women: What to Look For",
             "category": "Fabric & Movement",
             "summary": "Explore mesh styles and practical fit checks for days spent on the move.",
