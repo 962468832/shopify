@@ -21,7 +21,8 @@
         "primary_label": "Shop by Underwear",
         "primary_link": "/collections/all",
         "tertiary_label": "Shop by Scenario",
-        "tertiary_link": "/collections/all"
+        "tertiary_link": "/collections/all",
+        "asset_file": "hero-bfcm-2026.webp"
       }
     },
     "scenario": {
@@ -245,7 +246,8 @@
             "heading": "Featherlight Collection",
             "description": "Laser-cut, ice-silk essentials that disappear under everything.",
             "button_label": "Shop Featherlight",
-            "link": ""
+            "link": "",
+            "asset_file": "collection-featherlight.webp"
           }
         },
         "item1": {
@@ -260,7 +262,8 @@
             "heading": "Sculpt & Lift",
             "description": "Gentle shaping and wire-free lift for all-day support.",
             "button_label": "Shop Sculpt & Lift",
-            "link": ""
+            "link": "",
+            "asset_file": "collection-sculpt.webp"
           }
         }
       },

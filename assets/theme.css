@@ -1224,3 +1224,23 @@ html.floatbar-collapsed .float-bar .float-toggle,
 html.floatbar-collapsed .float-bar .wishlist-launcher,
 html.floatbar-collapsed .float-bar .float-contact{display:none}
 html.floatbar-collapsed .float-bar .float-edge-tab{display:grid}
+
+/* Product cards: denser marketplace-style meta block (badge, rating, subtitle, price, colours, code). */
+.product-card .badge{background:#b3122f;color:#fff;border-radius:3px;padding:5px 8px;font-size:9.5px;letter-spacing:.08em;font-weight:600;text-transform:uppercase}
+.product-card .badge--sale{background:#1d1b1a}
+.product-card .quick-shop{left:auto;right:12px;bottom:12px;width:38px;height:38px;padding:0;border:0;border-radius:50%;display:grid;place-items:center;background:#fff;color:#1d1b1a;font-size:22px;line-height:1;opacity:1;transform:none;box-shadow:0 4px 14px rgba(0,0,0,.14)}
+.product-card .quick-shop span[aria-hidden]{transform:translateY(-1px)}
+.product-card .quick-shop:hover{background:#1d1b1a;color:#fff}
+.product-card__meta{display:flex;flex-direction:column;align-items:flex-start;gap:6px;padding:14px 2px 0}
+.product-card__vendor{font-size:10px;letter-spacing:.16em;color:#8a7f78}
+.product-card__title{display:block;font-size:16px;line-height:1.3;font-weight:500;margin:0;color:var(--ink)}
+.product-card__rating{display:inline-flex;align-items:center;gap:6px;margin:0;font-size:12px;color:var(--ink);text-decoration:none}
+.product-card__rating .stars{font-size:11px;letter-spacing:1.5px;color:#1d1b1a}
+.product-card__rating b{font-weight:600}
+.product-card__subtitle{margin:0;font-size:12.5px;line-height:1.35;color:#7b706a}
+.product-card__price{margin:2px 0 0;font-size:16px;font-weight:500}
+.product-card__colors{display:flex;align-items:center;gap:6px;margin:4px 0 0}
+.product-card__colors .color-dot{width:14px;height:14px}
+.product-card__colors .color-more{font-size:11px;color:#7b706a}
+.product-card__promo{margin-top:6px;padding:5px 9px;border-radius:3px;background:#b3122f;color:#fff;font-size:10px;letter-spacing:.06em;text-transform:uppercase;font-weight:600}
+@media(max-width:750px){.product-card__title{font-size:14px}.product-card__price{font-size:15px}.product-card__subtitle{font-size:11.5px}.product-card .quick-shop{width:34px;height:34px;font-size:19px}}
