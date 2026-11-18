@@ -990,14 +990,15 @@
     // Keep our Contact segment in the bar even while the inbox rebuilds its launcher.
     if (floatContactButton) floatContactButton.hidden = false;
     if (floatBarElement) {
+      // Stack above whatever currently occupies the bottom edge: the sticky buy bar and the
+      // theme editor preview bar. Use the highest occupied top edge, not the sum of heights.
+      let occupiedTop = window.innerHeight;
       const sticky = qs('.product-sticky-atc');
-      const rect = sticky?.getBoundingClientRect();
-      const shown = !!(rect && rect.height > 0 && rect.top < window.innerHeight - 4 && rect.bottom > 0);
-      // The theme editor/preview bar is fixed to the bottom edge; keep the capsule above it.
-      const preview = document.querySelector('#PBarNextFrameWrapper');
-      const previewRect = preview?.getBoundingClientRect();
-      const previewHeight = previewRect && previewRect.height > 0 && previewRect.bottom > window.innerHeight - 4 ? Math.round(previewRect.height) : 0;
-      const offset = 20 + previewHeight + (shown ? Math.round(rect.height) + 12 : 0);
+      const stickyRect = sticky?.getBoundingClientRect();
+      if (stickyRect && stickyRect.height > 0 && stickyRect.bottom > window.innerHeight - 4) occupiedTop = Math.min(occupiedTop, stickyRect.top);
+      const previewRect = document.querySelector('#PBarNextFrameWrapper')?.getBoundingClientRect();
+      if (previewRect && previewRect.height > 0 && previewRect.bottom > window.innerHeight - 4) occupiedTop = Math.min(occupiedTop, previewRect.top);
+      const offset = Math.max(20, Math.round(window.innerHeight - occupiedTop) + 12);
       const bottom = `calc(${offset}px + env(safe-area-inset-bottom))`;
       if (floatBarElement.style.bottom !== bottom) floatBarElement.style.bottom = bottom;
     }
