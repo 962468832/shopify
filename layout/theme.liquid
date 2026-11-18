@@ -25,6 +25,8 @@
     <meta name="description" content="{{ meta_description | strip_html | escape }}">
     {% render 'meta-tags' %}
     {% render 'favicon' %}
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.shopify.com">
     {{ content_for_header }}
     {{ 'theme.css' | asset_url | stylesheet_tag }}
     {{ 'home.css' | asset_url | stylesheet_tag }}
