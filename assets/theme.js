@@ -1041,7 +1041,11 @@
         return host ? search(host.shadowRoot, 0) : null;
       };
       const launcher = floatChatActivator || findChatLauncher();
-      if (launcher) launcher.click();
+      if (launcher) { launcher.click(); return; }
+      // No launcher: either the chat panel is already open (nothing to do) or the inbox failed
+      // to mount (blocked script, ad blocker). Only the latter falls back to the contact page.
+      const panelOpen = /Ask anything|Track my order/.test(document.body.textContent || '');
+      if (!panelOpen) window.location.href = '/pages/contact';
     }
   }, true);
   async function shareWishlist() {
