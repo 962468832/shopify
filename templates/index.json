@@ -21,8 +21,7 @@
         "primary_label": "Shop by Underwear",
         "primary_link": "/collections/all",
         "tertiary_label": "Shop by Scenario",
-        "tertiary_link": "/collections/all",
-        "asset_file": "hero-bfcm-2026.webp"
+        "tertiary_link": "/collections/all"
       }
     },
     "scenario": {
