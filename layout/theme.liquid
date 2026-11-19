@@ -43,54 +43,54 @@
     {% endstyle %}
   </head>
   <body class="template-{{ template.name }}">
-    <a class="skip-link" href="#MainContent">Skip to content</a>
+    <a class="skip-link" href="#MainContent">{{ 'general.accessibility.skip_to_content' | t }}</a>
     {% section 'announcement-bar' %}
     {% section 'header' %}
     <main id="MainContent" role="main">{{ content_for_layout }}</main>
     {% section 'footer' %}
-    <div class="cart-feedback" data-cart-feedback hidden><p role="status" aria-live="polite" aria-atomic="true" data-cart-feedback-message></p><a href="{{ routes.cart_url }}">View bag →</a><button type="button" data-cart-feedback-close aria-label="Dismiss notification">×</button></div>
+    <div class="cart-feedback" data-cart-feedback hidden><p role="status" aria-live="polite" aria-atomic="true" data-cart-feedback-message></p><a href="{{ routes.cart_url }}">{{ 'cart.view_bag' | t }} →</a><button type="button" data-cart-feedback-close aria-label="Dismiss notification">×</button></div>
     <div id="cart-drawer" class="cart-drawer" aria-hidden="true">
       <div class="cart-drawer__backdrop" data-cart-close></div>
       <aside class="cart-drawer__panel" role="dialog" aria-modal="true" aria-label="Shopping bag">
         <header class="cart-drawer__head">
-          <div><p class="eyebrow">Your bag</p><h2>Shopping bag</h2></div>
-          <div class="cart-drawer__head-actions"><a class="text-link" href="{{ routes.cart_url }}">View cart</a><button class="icon-button" type="button" data-cart-close aria-label="Close cart">&times;</button></div>
+          <div><p class="eyebrow">{{ 'cart.title' | t }}</p><h2>Shopping bag</h2></div>
+          <div class="cart-drawer__head-actions"><a class="text-link" href="{{ routes.cart_url }}">{{ 'cart.view_cart' | t }}</a><button class="icon-button" type="button" data-cart-close aria-label="Close cart">&times;</button></div>
         </header>
         <div class="cart-drawer__body" data-cart-drawer-body>
           <div class="cart-progress" data-cart-progress hidden>
             <div class="cart-progress__label"><span data-cart-progress-label>Unlock free shipping</span><strong data-cart-progress-remaining></strong></div>
             <div class="cart-progress__track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span data-cart-progress-bar></span></div>
           </div>
-          <div class="cart-items" data-cart-items><p class="empty-state">Your bag is empty.</p></div>
+          <div class="cart-items" data-cart-items><p class="empty-state">{{ 'cart.empty' | t }}.</p></div>
           <form class="cart-discount" data-cart-discount>
             <label for="CartDiscountCode">Discount code</label>
             <div><input id="CartDiscountCode" type="text" name="code" autocomplete="off" placeholder="Enter code"><button class="button button--dark" type="submit">Apply</button></div>
             <p data-cart-discount-message role="status"></p>
           </form>
           <section class="cart-recommendations" data-cart-recommendations aria-labelledby="CartRecommendationsTitle" hidden>
-            <header><h3 id="CartRecommendationsTitle">You may also like</h3></header>
+            <header><h3 id="CartRecommendationsTitle">{{ 'products.recommendations' | t }}</h3></header>
             <div class="cart-recommendations__grid" data-cart-recommendation-items></div>
           </section>
           <section class="cart-summary" data-cart-summary>
-            <div><span>Subtotal</span><strong data-cart-subtotal>{{ cart.items_subtotal_price | money }}</strong></div>
+            <div><span>{{ 'cart.subtotal' | t }}</span><strong data-cart-subtotal>{{ cart.items_subtotal_price | money }}</strong></div>
             <div class="cart-summary__savings" data-cart-savings-row hidden><span>You save</span><strong data-cart-savings-total></strong></div>
             {%- assign cart_level_discount = 0 -%}{%- for discount_application in cart.cart_level_discount_applications -%}{%- assign cart_level_discount = cart_level_discount | plus: discount_application.total_allocated_amount -%}{%- endfor -%}
             <div data-cart-discount-row{% if cart_level_discount == 0 %} hidden{% endif %}><span>Discount</span><strong data-cart-discount-total>–{{ cart_level_discount | money }}</strong></div>
-            <div><span>Total</span><strong data-cart-total>{{ cart.total_price | money }}</strong></div>
-            <p>Taxes and shipping calculated at checkout.</p>
+            <div><span>{{ 'cart.total' | t }}</span><strong data-cart-total>{{ cart.total_price | money }}</strong></div>
+            <p>{{ 'cart.taxes_note' | t }}</p>
           </section>
         </div>
         <footer class="cart-drawer__foot">
-          <a class="button button--dark button--full" data-cart-checkout href="{{ routes.cart_url }}/checkout">Checkout</a>
-          <button class="text-link" type="button" data-cart-close>Continue shopping</button>
+          <a class="button button--dark button--full" data-cart-checkout href="{{ routes.cart_url }}/checkout">{{ 'cart.checkout' | t }}</a>
+          <button class="text-link" type="button" data-cart-close>{{ 'cart.continue' | t }}</button>
         </footer>
       </aside>
     </div>
     <div id="quick-shop" class="quick-shop-modal" aria-hidden="true">
       <div class="quick-shop-modal__backdrop" data-quick-close></div>
       <section class="quick-shop-modal__panel" role="dialog" aria-modal="true" aria-labelledby="QuickShopTitle">
-        <header class="quick-shop-modal__head"><p class="eyebrow">Quick shop</p><button class="icon-button" type="button" data-quick-close aria-label="Close quick shop">&times;</button></header>
-        <div class="quick-shop-modal__body" data-quick-shop-body><p class="empty-state">Loading product options…</p></div>
+        <header class="quick-shop-modal__head"><p class="eyebrow">{{ 'products.card.quick_shop' | t }}</p><button class="icon-button" type="button" data-quick-close aria-label="Close quick shop">&times;</button></header>
+        <div class="quick-shop-modal__body" data-quick-shop-body><p class="empty-state">{{ 'products.loading_options' | t }}</p></div>
       </section>
     </div>
     {% render 'fit-size-guide' %}
@@ -111,10 +111,10 @@
       <aside class="cart-drawer__panel wishlist-drawer__panel" role="dialog" aria-modal="true" aria-labelledby="WishlistDrawerTitle">
         <header class="wishlist-drawer__head">
           <button class="icon-button" type="button" data-wishlist-close aria-label="Go back"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></button>
-          <h2 id="WishlistDrawerTitle">Favorite items</h2>
+          <h2 id="WishlistDrawerTitle">{{ 'favorites.title' | t }}</h2>
           <button class="icon-button" type="button" data-wishlist-close aria-label="Close favorites"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></button>
         </header>
-        <div class="wishlist-drawer__body" data-wishlist-body><button class="wishlist-drawer__share" type="button" data-wishlist-share>Share list</button><p class="empty-state">Keep pieces here while you browse.</p></div>
+        <div class="wishlist-drawer__body" data-wishlist-body><button class="wishlist-drawer__share" type="button" data-wishlist-share>{{ 'favorites.share' | t }}</button><p class="empty-state">{{ 'favorites.empty' | t }}</p></div>
       </aside>
     </div>
     <script>window.NuageShopName={{ shop.name | capitalize | json }};window.ShopifyRoutes={cartAdd:'{{ routes.cart_add_url }}',cartChange:'{{ routes.cart_change_url }}',cartUpdate:'{{ routes.cart_update_url }}',cartJson:'{{ routes.cart_url }}.js',cartUrl:'{{ routes.cart_url }}',checkoutUrl:'{{ routes.cart_url }}/checkout',allProductsUrl:'{{ routes.all_products_collection_url }}',predictiveSearchUrl:'{{ routes.predictive_search_url }}',rootUrl:'{{ routes.root_url }}'};window.NuageMoney={format:{{ shop.money_format | json }},currency:{{ cart.currency.iso_code | json }},baseCurrency:{{ shop.currency | json }},locale:{{ request.locale.iso_code | json }},rate:Number({{ cart.currency.rate | default: 1 | json }}) || 1};window.NuageThemeSettings={cartProgressThreshold:{{ settings.cart_progress_threshold | default: 0 | json }},cartProgressLabel:{{ settings.cart_progress_label | default: 'Unlock free shipping' | json }},cartProgressCompleteLabel:{{ settings.cart_progress_complete_label | default: 'Free shipping unlocked' | json }},cookiePreferencesUrl:{{ settings.cookie_preferences_url | default: '/policies/privacy-policy' | json }}};window.NuageCopy={cartAdded:{{ 'cart.added' | t | json }},cartError:{{ 'cart.error' | t | json }},discountApplied:{{ 'cart.discount_applied' | t | json }},discountInvalid:{{ 'cart.discount_invalid' | t | json }}};</script>

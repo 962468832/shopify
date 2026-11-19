@@ -1,1 +1,81 @@
-{"general":{"accessibility":{"skip_to_content":"Skip to content"}},"products":{"product":{"add_to_cart":"Add to bag","sold_out":"Sold out"}},"cart":{"added":"Added to your bag","error":"Unable to update your bag. Please try again.","discount_applied":"Discount code applied.","discount_invalid":"That discount code is not valid."}}
+{
+  "general": {
+    "accessibility": {
+      "skip_to_content": "Skip to content"
+    },
+    "breadcrumb": {
+      "home": "Home",
+      "shop": "Shop"
+    },
+    "search": {
+      "title": "Search",
+      "placeholder": "Search",
+      "submit": "Search",
+      "no_results": "No results found"
+    },
+    "404": {
+      "title": "Page not found",
+      "text": "The page you are looking for does not exist or has moved.",
+      "home": "Back to home",
+      "continue": "Continue shopping"
+    },
+    "language": "Language"
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to bag",
+      "sold_out": "Sold out",
+      "buy_now": "Buy now",
+      "quantity": "Quantity",
+      "size_guide": "Fit & Size Guide",
+      "select": "Select",
+      "essentials": "Pielik essentials",
+      "details_eyebrow": "Made for everyday comfort",
+      "details": "Product details",
+      "gallery": "Product gallery",
+      "gallery_eyebrow": "A closer look",
+      "reviews": "Reviews",
+      "save": "Save"
+    },
+    "card": {
+      "best_seller": "Best seller",
+      "quick_shop": "Quick shop"
+    },
+    "recommendations": "You may also like",
+    "loading_options": "Loading product options…"
+  },
+  "cart": {
+    "title": "Your bag",
+    "empty": "Your bag is empty",
+    "empty_hint": "Find your next everyday favorite.",
+    "continue": "Continue shopping",
+    "checkout": "Checkout",
+    "subtotal": "Subtotal",
+    "total": "Total",
+    "remove": "Remove",
+    "update": "Update bag",
+    "order_summary": "Order Summary",
+    "shipping": "Shipping",
+    "shipping_note": "Calculated at checkout",
+    "taxes_note": "Taxes and shipping calculated at checkout.",
+    "product": "Product",
+    "shop_all": "Shop all products",
+    "view_bag": "View bag",
+    "view_cart": "View cart",
+    "added": "Added to your bag",
+    "error": "Unable to update your bag. Please try again.",
+    "discount_applied": "Discount code applied.",
+    "discount_invalid": "That discount code is not valid."
+  },
+  "favorites": {
+    "title": "Favorite items",
+    "empty": "Keep pieces here while you browse.",
+    "share": "Share list"
+  },
+  "footer": {
+    "newsletter_heading": "Stay in the loop",
+    "newsletter_text": "Early access to new colors and collections.",
+    "subscribe": "Subscribe",
+    "cookie_preferences": "Cookie Preferences"
+  }
+}

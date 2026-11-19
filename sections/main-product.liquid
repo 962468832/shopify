@@ -7,7 +7,7 @@
 {% assign rating_value = product.metafields.reviews.rating.value.rating | default: product.metafields.reviews.rating.value | default: product.metafields.reviews.rating %}
 {% assign rating_count = product.metafields.reviews.rating_count.value | default: product.metafields.reviews.rating_count %}
 <section class="page-width product-detail" data-product-detail data-currency="{{ cart.currency.iso_code }}">
-  <nav class="product-breadcrumb" aria-label="Breadcrumb"><a href="{{ routes.root_url }}">Home</a><span>/</span><a href="{{ routes.all_products_collection_url }}">Shop</a><span>/</span><span>{{ product.title }}</span></nav>
+  <nav class="product-breadcrumb" aria-label="Breadcrumb"><a href="{{ routes.root_url }}">{{ 'general.breadcrumb.home' | t }}</a><span>/</span><a href="{{ routes.all_products_collection_url }}">{{ 'general.breadcrumb.shop' | t }}</a><span>/</span><span>{{ product.title }}</span></nav>
   <div class="product-page">
     <div class="product-gallery">
       <div class="product-gallery__thumbs" aria-label="Product images">
@@ -18,7 +18,7 @@
     <div class="product-info">
       {% assign vendor_label = product.vendor | strip %}
       {% if vendor_label contains 'http' or vendor_label contains 'www.' %}
-        <p class="eyebrow">Pielik essentials</p>
+        <p class="eyebrow">{{ 'products.product.essentials' | t }}</p>
       {% else %}
         <p class="eyebrow">{{ vendor_label }} essentials</p>
       {% endif %}
@@ -32,7 +32,7 @@
           {% for option in product.options_with_values %}
             {% assign option_index = forloop.index0 %}{% assign option_name = option.name | downcase %}
             <fieldset class="product-option{% if option_name contains 'color' or option_name contains 'colour' %} product-option--color{% endif %}" data-option-group data-option-index="{{ option_index }}" data-option-name="{{ option.name | escape }}">
-              <legend><span>Select {{ option.name }} <span data-option-label>{{ current_variant.options[option_index] }}</span></span>{% if option_name contains 'size' %}<button class="size-guide-trigger" type="button" data-size-guide-open aria-haspopup="dialog"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m14.5 4.5 5 5L8 21H3v-5Z"></path><path d="m13 6 5 5M11 8l2 2M8 11l2 2M5 14l2 2"></path></svg>Fit &amp; Size Guide</button>{% endif %}</legend>
+              <legend><span>{{ 'products.product.select' | t }} {{ option.name }} <span data-option-label>{{ current_variant.options[option_index] }}</span></span>{% if option_name contains 'size' %}<button class="size-guide-trigger" type="button" data-size-guide-open aria-haspopup="dialog"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m14.5 4.5 5 5L8 21H3v-5Z"></path><path d="m13 6 5 5M11 8l2 2M8 11l2 2M5 14l2 2"></path></svg>{{ 'products.product.size_guide' | t }}</button>{% endif %}</legend>
               <div class="product-option__values">
                 {% for value in option.values %}
                   {% assign option_value = value.name | default: value %}
@@ -47,12 +47,12 @@
               </div>
             </fieldset>
           {% endfor %}
-          <span id="SoldOutHint-{{ section.id }}" class="visually-hidden">Sold out</span>
+          <span id="SoldOutHint-{{ section.id }}" class="visually-hidden">{{ 'products.product.sold_out' | t }}</span>
         </div>{% endunless %}
         <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
-        <div class="product-purchase" data-product-purchase><div class="quantity-label"><label for="Quantity-{{ section.id }}">Quantity</label><span class="product-quantity" role="group" aria-label="Quantity"><button type="button" data-product-quantity="-1" aria-label="Decrease quantity">−</button><input class="quantity-input" id="Quantity-{{ section.id }}" type="number" name="quantity" min="1" value="1"><button type="button" data-product-quantity="1" aria-label="Increase quantity">+</button></span></div><button class="button button--dark button--full" type="submit" data-product-submit{% unless current_variant.available %} disabled{% endunless %}>{% if current_variant.available %}Add to bag{% else %}Sold out{% endif %}</button></div>
+        <div class="product-purchase" data-product-purchase><div class="quantity-label"><label for="Quantity-{{ section.id }}">{{ 'products.product.quantity' | t }}</label><span class="product-quantity" role="group" aria-label="Quantity"><button type="button" data-product-quantity="-1" aria-label="Decrease quantity">−</button><input class="quantity-input" id="Quantity-{{ section.id }}" type="number" name="quantity" min="1" value="1"><button type="button" data-product-quantity="1" aria-label="Increase quantity">+</button></span></div><button class="button button--dark button--full" type="submit" data-product-submit{% unless current_variant.available %} disabled{% endunless %}>{% if current_variant.available %}{{ 'products.product.add_to_cart' | t }}{% else %}{{ 'products.product.sold_out' | t }}{% endif %}</button></div>
         {% if product.available %}
-          <div class="product-payment-buttons"><button class="button button--danger button--full" type="button" data-product-buy-now>Buy now</button></div>
+          <div class="product-payment-buttons"><button class="button button--danger button--full" type="button" data-product-buy-now>{{ 'products.product.buy_now' | t }}</button></div>
         {% endif %}
         <p class="product-availability" data-product-availability role="status" aria-live="polite"></p>
       {% endform %}
@@ -70,13 +70,13 @@
           <span class="product-sticky-atc__price"><strong data-product-sticky-price>{{ current_variant.price | money }}</strong><s data-product-sticky-compare{% unless discount_percent > 0 %} hidden{% endunless %}>{% if discount_percent > 0 %}{{ current_variant.compare_at_price | money }}{% endif %}</s><em data-product-sticky-savings{% unless discount_percent > 0 %} hidden{% endunless %}>{% if discount_percent > 0 %}Save {{ discount_percent }}%{% endif %}</em></span>
         </div>
       </div>
-      <button class="button button--dark product-sticky-atc__button" type="button" data-product-sticky-button aria-label="Return to product options">Add to bag</button>
+      <button class="button button--dark product-sticky-atc__button" type="button" data-product-sticky-button aria-label="Return to product options">{{ 'products.product.add_to_cart' | t }}</button>
     </div>
   </aside>
-  <section class="product-details" aria-labelledby="product-details-title"><p class="eyebrow">Made for everyday comfort</p><h2 id="product-details-title">Product details</h2><div class="product-description rte">{{ product.description }}</div></section>
+  <section class="product-details" aria-labelledby="product-details-title"><p class="eyebrow">{{ 'products.product.details_eyebrow' | t }}</p><h2 id="product-details-title">{{ 'products.product.details' | t }}</h2><div class="product-description rte">{{ product.description }}</div></section>
   {% if product.images.size > 0 %}
     <section class="product-photo-gallery" aria-labelledby="ProductPhotoGalleryTitle">
-      <header class="product-photo-gallery__header"><div><p class="eyebrow">A closer look</p><h2 id="ProductPhotoGalleryTitle">Product gallery</h2></div><div class="product-photo-gallery__controls"><span>{{ product.images.size }} photos</span><button type="button" data-product-gallery-scroll="-1" aria-label="Previous product images" disabled><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m15 5-7 7 7 7"></path></svg></button><button type="button" data-product-gallery-scroll="1" aria-label="Next product images"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg></button></div></header>
+      <header class="product-photo-gallery__header"><div><p class="eyebrow">{{ 'products.product.gallery_eyebrow' | t }}</p><h2 id="ProductPhotoGalleryTitle">{{ 'products.product.gallery' | t }}</h2></div><div class="product-photo-gallery__controls"><span>{{ product.images.size }} photos</span><button type="button" data-product-gallery-scroll="-1" aria-label="Previous product images" disabled><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m15 5-7 7 7 7"></path></svg></button><button type="button" data-product-gallery-scroll="1" aria-label="Next product images"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg></button></div></header>
       <div class="product-photo-gallery__rail" data-product-gallery-rail tabindex="0" aria-label="Scrollable product images">
         {% for image in product.images %}<button class="product-photo-gallery__card" type="button" data-product-gallery-open data-src="{{ image | image_url: width: 2200 }}" data-image-id="{{ image.id }}" data-alt="{{ image.alt | default: product.title | escape }}" aria-label="Enlarge image {{ forloop.index }} of {{ product.images.size }}"><img src="{{ image | image_url: width: 500 }}" width="500" height="625" alt="{{ image.alt | default: product.title | escape }}" loading="lazy" decoding="async"><span>View {{ forloop.index | prepend: '0' }}</span></button>{% endfor %}
       </div>

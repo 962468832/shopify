@@ -1,0 +1,81 @@
+{
+  "general": {
+    "accessibility": {
+      "skip_to_content": "跳到主要内容"
+    },
+    "breadcrumb": {
+      "home": "首页",
+      "shop": "全部商品"
+    },
+    "search": {
+      "title": "搜索",
+      "placeholder": "搜索",
+      "submit": "搜索",
+      "no_results": "没有找到相关商品"
+    },
+    "404": {
+      "title": "页面不存在",
+      "text": "你要找的页面不存在或已移动。",
+      "home": "返回首页",
+      "continue": "继续购物"
+    },
+    "language": "语言"
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "加入购物袋",
+      "sold_out": "已售罄",
+      "buy_now": "立即购买",
+      "quantity": "数量",
+      "size_guide": "尺码指南",
+      "select": "选择",
+      "essentials": "PIELIK 精选",
+      "details_eyebrow": "日常舒适",
+      "details": "产品详情",
+      "gallery": "产品图集",
+      "gallery_eyebrow": "细节特写",
+      "reviews": "评价",
+      "save": "省"
+    },
+    "card": {
+      "best_seller": "热卖",
+      "quick_shop": "快速购买"
+    },
+    "recommendations": "你可能也喜欢",
+    "loading_options": "正在加载商品选项…"
+  },
+  "cart": {
+    "title": "购物袋",
+    "empty": "购物袋还是空的",
+    "empty_hint": "来看看下一件日常必备单品。",
+    "continue": "继续购物",
+    "checkout": "去结算",
+    "subtotal": "小计",
+    "total": "合计",
+    "remove": "移除",
+    "update": "更新购物袋",
+    "order_summary": "订单摘要",
+    "shipping": "运费",
+    "shipping_note": "结算时计算",
+    "added": "已加入购物袋",
+    "error": "购物袋更新失败，请重试。",
+    "discount_applied": "折扣码已生效。",
+    "discount_invalid": "折扣码无效。",
+    "product": "商品",
+    "shop_all": "选购全部商品",
+    "taxes_note": "税费与运费在结算时计算。",
+    "view_bag": "查看购物袋",
+    "view_cart": "查看购物车"
+  },
+  "footer": {
+    "newsletter_heading": "订阅上新",
+    "newsletter_text": "抢先获取新色与新品。",
+    "subscribe": "订阅",
+    "cookie_preferences": "Cookie 偏好设置"
+  },
+  "favorites": {
+    "title": "我的收藏",
+    "empty": "浏览时把喜欢的单品留在这里。",
+    "share": "分享清单"
+  }
+}
