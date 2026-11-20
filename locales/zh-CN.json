@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "general": {
     "accessibility": {
@@ -27,7 +36,7 @@
       "sold_out": "已售罄",
       "buy_now": "立即购买",
       "quantity": "数量",
-      "size_guide": "尺码指南",
+      "size_guide": "尺码与版型指南",
       "select": "选择",
       "essentials": "PIELIK 精选",
       "details_eyebrow": "日常舒适",
@@ -110,5 +119,97 @@
     "explore_collection": "浏览系列",
     "shop_by_style": "按款式选购",
     "shop_by_solution": "按需求选购"
+  },
+  "shopify": {
+    "checkout": {
+      "contact": {
+        "contact_method_title": "联系我们"
+      },
+      "order_summary": {
+        "more_items_modal": {
+          "search_item": "搜索"
+        },
+        "discount_title": "折扣",
+        "discount_title_stacking": {
+          "one": "折扣"
+        },
+        "discount_label": "折扣码",
+        "discount_placeholder": "折扣码",
+        "apply_discount_button_label": "使用",
+        "discount_code_aria_text": "折扣码"
+      },
+      "payment": {
+        "apply_gift_card_button_label": "使用",
+        "order_edit_banner_discount_title": "折扣"
+      },
+      "review": {
+        "blocks": {
+          "contact_method_title": "联系我们"
+        }
+      },
+      "shop_policies": {
+        "contact_information": "联系我们"
+      },
+      "pickup_point": {
+        "search_button": "搜索"
+      },
+      "notice_banner": {
+        "validation_errors_banner": {
+          "section_label": {
+            "contact": "联系我们"
+          }
+        }
+      }
+    },
+    "page_titles": {
+      "search": "搜索"
+    }
+  },
+  "customer_accounts": {
+    "navigation_and_structure": {
+      "search": "搜索"
+    },
+    "orders": {
+      "order_list": {
+        "filter": {
+          "apply": "使用"
+        }
+      }
+    },
+    "order_details": {
+      "contact": "联系我们",
+      "discount": "折扣",
+      "edit_summary": {
+        "discount": "折扣"
+      }
+    },
+    "returns_and_cancellations": {
+      "request_withdrawal_page": {
+        "bulk_apply_return_reason_modal": {
+          "apply": "使用"
+        }
+      },
+      "estimated_refund_summary_card": {
+        "discount_label": "折扣"
+      }
+    },
+    "account_menu": {
+      "location_picker": {
+        "search_field_placeholder": "搜索"
+      }
+    },
+    "B2B": {
+      "locations": {
+        "contact_contact": "联系我们"
+      }
+    },
+    "payment_methods": {
+      "update_payment_method": {
+        "button_title": "更新"
+      }
+    },
+    "profile_preview_bar": {
+      "badge_active": "运动"
+    }
   }
 }
