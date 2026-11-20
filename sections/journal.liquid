@@ -5,7 +5,9 @@
 {%- else -%}
 {% for block in section.blocks %}<article class="home-journal-card" {{ block.shopify_attributes }}>{% render 'home-image', image:block.settings.image, image_url:block.settings.image_url, title:block.settings.heading, width:600, height:450 %}<small>{{ block.settings.category | escape }}</small><h3>{{ block.settings.heading | escape }}</h3><p>{{ block.settings.summary | escape }}</p>{% if block.settings.content != blank %}<button type="button" class="home-text-link" data-guide-open="guide-{{ section.id }}-{{ block.id }}" aria-haspopup="dialog">{{ block.settings.button_label | escape }} →</button>{% elsif request.design_mode %}<p class="home-editor-empty">填写文章正文后显示阅读按钮。</p>{% endif %}</article>{% endfor %}{%- endif -%}
 </div></div>
+{%- unless section.settings.source == 'blog' and section.settings.blog != blank and section.settings.blog.articles_count > 0 -%}
 {% for block in section.blocks %}{% if block.settings.content != blank %}<dialog class="home-guide" id="guide-{{ section.id }}-{{ block.id }}" aria-labelledby="guide-title-{{ section.id }}-{{ block.id }}"><button type="button" class="home-guide__close" data-guide-close aria-label="{{ section.settings.close_label | escape }}">×</button><p class="home-eyebrow">{{ block.settings.category | escape }}</p><h2 id="guide-title-{{ section.id }}-{{ block.id }}">{{ block.settings.heading | escape }}</h2><div>{{ block.settings.content }}</div>{% if block.settings.related_label != blank %}<a class="home-pill" href="{{ block.settings.link | default: routes.all_products_collection_url }}">{{ block.settings.related_label | escape }} →</a>{% endif %}</dialog>{% endif %}{% endfor %}
+{%- endunless -%}
 </section>
 {% schema %}
 {
