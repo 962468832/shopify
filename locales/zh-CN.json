@@ -73,7 +73,19 @@
     "subscribe": "订阅",
     "cookie_preferences": "Cookie 偏好设置",
     "terms": "服务条款",
-    "privacy": "隐私政策"
+    "privacy": "隐私政策",
+    "engineering_lab": "工程实验室",
+    "about_us": "关于我们",
+    "blogs": "专栏文章",
+    "gift_card": "礼品卡",
+    "faq": "常见问题",
+    "guarantee": "最佳搭配保证",
+    "shipping": "配送",
+    "returns": "退换货",
+    "all_policies": "全部政策",
+    "contact": "联系我们",
+    "email_placeholder": "你的邮箱",
+    "email": "邮箱"
   },
   "favorites": {
     "title": "我的收藏",

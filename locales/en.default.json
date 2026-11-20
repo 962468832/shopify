@@ -78,7 +78,19 @@
     "subscribe": "Subscribe",
     "cookie_preferences": "Cookie Preferences",
     "terms": "Terms of Service",
-    "privacy": "Privacy Policy"
+    "privacy": "Privacy Policy",
+    "engineering_lab": "Engineering Lab",
+    "about_us": "About Us",
+    "blogs": "Blogs",
+    "gift_card": "Gift Card",
+    "faq": "FAQ",
+    "guarantee": "Best Pair Guarantee",
+    "shipping": "Shipping",
+    "returns": "Returns & Exchanges",
+    "all_policies": "All Policies",
+    "contact": "Contact Us",
+    "email_placeholder": "Your email",
+    "email": "Email"
   },
   "nav": {
     "underwear": "Underwear",
