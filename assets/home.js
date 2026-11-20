@@ -3,7 +3,7 @@
   const canHover = window.matchMedia('(hover: hover)');
   const controllers = new Map();
   const globalEvents = new AbortController();
-  window.NuageHome?.destroy();
+  window.PielikHome?.destroy();
   const init = (root) => {
     // Shopify replaces section HTML without reloading scripts.
     for (const [node, controller] of controllers) {
@@ -153,7 +153,7 @@
     const rail = event.target.closest('[data-home-rail], .home-journal-grid');
     if (rail) event.target.scrollIntoView({ block:'nearest', inline:'center', behavior:'instant' });
   }, { signal:globalEvents.signal });
-  window.NuageHome = {
+  window.PielikHome = {
     destroy() {
       globalEvents.abort();
       controllers.forEach((controller) => controller.destroy());

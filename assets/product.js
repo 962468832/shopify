@@ -31,8 +31,8 @@
   const purchaseBlock = root.querySelector('[data-product-purchase]');
   const optionsTarget = root.querySelector('[data-product-options-target]');
   const currency = root.dataset.currency || 'USD';
-  const formatMoney = (cents) => (window.NuageFormatMoney ? window.NuageFormatMoney(cents) : new Intl.NumberFormat(undefined, { style: 'currency', currency }).format(cents / 100));
-  const pricing = window.NuagePricing || {
+  const formatMoney = (cents) => (window.PielikFormatMoney ? window.PielikFormatMoney(cents) : new Intl.NumberFormat(undefined, { style: 'currency', currency }).format(cents / 100));
+  const pricing = window.PielikPricing || {
     details(source) {
       const price = Number(source?.price || 0);
       const compareAtPrice = Number(source?.compare_at_price || 0);
@@ -259,8 +259,8 @@
     if (paymentButton.disabled || id.disabled || !id.value) return;
     const routes = window.ShopifyRoutes || {};
     const form = id.form;
-    const item = window.NuageCart?.productFormItem ? window.NuageCart.productFormItem(form) : { id: Number(id.value), quantity: Math.max(1, Number(quantity?.value || 1)) };
-    const added = window.NuageCart?.addToCart ? await window.NuageCart.addToCart(item, item.quantity, paymentButton, { openDrawer: false }) : false;
+    const item = window.PielikCart?.productFormItem ? window.PielikCart.productFormItem(form) : { id: Number(id.value), quantity: Math.max(1, Number(quantity?.value || 1)) };
+    const added = window.PielikCart?.addToCart ? await window.PielikCart.addToCart(item, item.quantity, paymentButton, { openDrawer: false }) : false;
     if (!added) return;
     paymentButton.disabled = true;
     paymentButton.textContent = 'Loading…';

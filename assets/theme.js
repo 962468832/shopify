@@ -1,7 +1,7 @@
 (function () {
   const qs = (selector, context = document) => context.querySelector(selector);
   const qsa = (selector, context = document) => [...context.querySelectorAll(selector)];
-  const moneySettings = window.NuageMoney || {};
+  const moneySettings = window.PielikMoney || {};
   const money = (cents) => {
     const value = Number(cents || 0);
     const format = moneySettings.format;
@@ -24,7 +24,7 @@
       amount_with_period_and_space_separator: formatWithDelimiters(value, 2, ' ', '.')
     }[key] ?? formatWithDelimiters(value, 2)));
   };
-  window.NuageFormatMoney = money;
+  window.PielikFormatMoney = money;
   const escapeHtml = (value) => String(value || '').replace(/[&<>'"]/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
   const mediaSource = (value) => typeof value === 'string' ? value : value?.src || value?.url || value?.originalSrc || value?.original_src || '';
   const mediaUrl = (value) => String(mediaSource(value)).replace(/^\/\//, 'https://');
@@ -36,7 +36,7 @@
     if (!/cdn\.shopify\.com|shopifycdn\.com/.test(url)) return url;
     return `${url}${url.includes('?') ? '&' : '?'}width=${width}`;
   };
-  const pricing = window.NuagePricing || {
+  const pricing = window.PielikPricing || {
     details(source) {
       const price = Number(source?.price || 0);
       const compareAtPrice = Number(source?.compare_at_price || 0);
@@ -50,7 +50,7 @@
       return this.details(this.variant(product, variantId));
     }
   };
-  window.NuagePricing = pricing;
+  window.PielikPricing = pricing;
 
   const focusableSelector = 'a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
   const focusReturn = new Map();
@@ -119,7 +119,7 @@
   }
 
   async function applyDiscount(code) {
-    const copy = window.NuageCopy || {};
+    const copy = window.PielikCopy || {};
     const message = qs('[data-cart-discount-message]');
     const routes = window.ShopifyRoutes || {};
     const current = await cartRequest(routes.cartJson || '/cart.js');
@@ -147,7 +147,7 @@
 
   const quickShopModal = qs('#quick-shop');
   const quickShopBody = qs('[data-quick-shop-body]');
-  const quickShopSettings = window.NuageThemeSettings || {};
+  const quickShopSettings = window.PielikThemeSettings || {};
   const progressThreshold = Math.round(Number(quickShopSettings.cartProgressThreshold ?? 0) * 100 * (moneySettings.rate || 1));
   function formatMoney(cents) {
     return money(cents);
@@ -229,7 +229,7 @@
       <article class="drawer-line" data-cart-line="${escapeHtml(item.key)}" data-product-handle="${escapeHtml(item.handle)}" data-product-id="${item.product_id}" data-variant-id="${item.variant_id}" data-quantity="${item.quantity}">
         <a class="drawer-line__media" href="${escapeHtml(item.url)}"><img src="${escapeHtml(item.image || '')}" alt="${escapeHtml(item.product_title)}"></a>
         <div class="drawer-line__details">
-          <p class="drawer-line__vendor">${escapeHtml(item.vendor || window.NuageShopName || '')}</p>
+          <p class="drawer-line__vendor">${escapeHtml(item.vendor || window.PielikShopName || '')}</p>
           <h3><a href="${escapeHtml(item.url)}">${escapeHtml(item.product_title)}</a></h3>
           ${item.variant_title && item.variant_title !== 'Default Title' ? `<p>${escapeHtml(item.variant_title)}</p>` : ''}
           <div class="drawer-line__controls">
@@ -292,7 +292,7 @@
     return `
       <article class="cart-recommendation" data-product-handle="${escapeHtml(product.handle)}">
         <a href="${escapeHtml(product.url)}"><img src="${escapeHtml(image)}" alt="${escapeHtml(product.title)}"></a>
-        <div><p>${escapeHtml(product.vendor || window.NuageShopName || '')}</p><h4><a href="${escapeHtml(product.url)}">${escapeHtml(product.title)}</a></h4><strong>${formatMoney(productPricing.price)}</strong>${productPricing.hasDiscount ? `<s>${formatMoney(productPricing.compareAtPrice)}</s><span class="product-card__save">Save ${productPricing.discountPercent}%</span>` : ''}</div>
+        <div><p>${escapeHtml(product.vendor || window.PielikShopName || '')}</p><h4><a href="${escapeHtml(product.url)}">${escapeHtml(product.title)}</a></h4><strong>${formatMoney(productPricing.price)}</strong>${productPricing.hasDiscount ? `<s>${formatMoney(productPricing.compareAtPrice)}</s><span class="product-card__save">Save ${productPricing.discountPercent}%</span>` : ''}</div>
         <button type="button" data-quick-open data-product-handle="${escapeHtml(product.handle)}">Add</button>
       </article>
     `;
@@ -340,7 +340,7 @@
           <button class="wishlist-card" type="button" data-wishlist data-wishlist-handle="${escapeHtml(product.handle)}" data-wishlist-url="${escapeHtml(product.url || `/products/${product.handle}`)}" data-wishlist-title="${escapeHtml(product.title)}" data-wishlist-image="${escapeHtml(image)}" data-wishlist-price="${escapeHtml(formatMoney(price))}" data-wishlist-compare-price="${escapeHtml(compareAtPrice ? formatMoney(compareAtPrice) : '')}" data-wishlist-variant-id="${escapeHtml(variant?.id || '')}" data-wishlist-variant-title="${escapeHtml(variantTitle)}" aria-label="Add ${escapeHtml(product.title)} to favorites"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M7.5 3A5.5 5.5 0 0 0 2 8.5c0 1.085.136 1.99.527 2.851.386.849.984 1.574 1.766 2.356L10.586 20a2 2 0 0 0 2.828 0l6.293-6.293c.782-.782 1.38-1.507 1.766-2.356.391-.86.527-1.766.527-2.851A5.5 5.5 0 0 0 16.5 3c-1.805 0-3.265.776-4.221 1.807L12 5.086l-.279-.28C10.765 3.777 9.305 3 7.5 3Z"></path></svg></button>
           <button class="quick-shop" type="button" data-quick-open data-product-handle="${escapeHtml(product.handle)}"${product.available === false ? ' disabled' : ''}>Quick shop</button>
         </div>
-        <div class="product-card__meta"><a class="product-card__vendor" href="${escapeHtml(product.url || `/products/${product.handle}`)}">${escapeHtml(product.vendor || window.NuageShopName || '')}</a><a class="product-card__title" href="${escapeHtml(product.url || `/products/${product.handle}`)}">${escapeHtml(product.title)}</a>${product.type ? `<p class="product-card__subtitle">${escapeHtml(product.type)}</p>` : ''}${colorMarkup}<div class="product-card__price">${formatMoney(price)}${savePercent ? `<s>${formatMoney(compareAtPrice)}</s><span class="product-card__save">Save ${savePercent}%</span>` : ''}</div></div>
+        <div class="product-card__meta"><a class="product-card__vendor" href="${escapeHtml(product.url || `/products/${product.handle}`)}">${escapeHtml(product.vendor || window.PielikShopName || '')}</a><a class="product-card__title" href="${escapeHtml(product.url || `/products/${product.handle}`)}">${escapeHtml(product.title)}</a>${product.type ? `<p class="product-card__subtitle">${escapeHtml(product.type)}</p>` : ''}${colorMarkup}<div class="product-card__price">${formatMoney(price)}${savePercent ? `<s>${formatMoney(compareAtPrice)}</s><span class="product-card__save">Save ${savePercent}%</span>` : ''}</div></div>
       </article>
     `;
   }
@@ -437,7 +437,7 @@
       await queueCartUpdate(async () => {
         await cartRequest(cartEndpoint((window.ShopifyRoutes || {}).cartAdd, '/cart/add'), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items: [payload] }) });
         if (!openDrawer) return;
-        showCartFeedback(`✓ ${window.NuageCopy?.cartAdded || 'Added to your bag'}`);
+        showCartFeedback(`✓ ${window.PielikCopy?.cartAdded || 'Added to your bag'}`);
         if (button) button.textContent = 'Added ✓';
         try {
           await refreshCart();
@@ -518,7 +518,7 @@
       <div class="quick-shop-product">
         <div class="quick-shop-product__media">${image ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(product.title)}">` : '<span class="media-placeholder"></span>'}</div>
         <div class="quick-shop-product__info">
-          <p class="quick-shop-product__vendor">${escapeHtml(product.vendor || window.NuageShopName || '')}</p>
+          <p class="quick-shop-product__vendor">${escapeHtml(product.vendor || window.PielikShopName || '')}</p>
           <h2 id="QuickShopTitle">${escapeHtml(product.title)}</h2>
           <div class="quick-shop-product__price"><strong>${formatMoney(price)}</strong>${savings ? `<s>${formatMoney(compare)}</s><span class="product-price__save">Save ${savings}%</span>` : ''}</div>
           ${product.options.length && !(product.variants.length === 1 && /^default title$/i.test(product.variants[0].title || '')) ? product.options.map((option, index) => { const name = typeof option === 'string' ? option : option.name; return `
@@ -780,7 +780,7 @@
     if (Object.keys(properties).length) item.properties = properties;
     return item;
   };
-  window.NuageCart = { addToCart, productFormItem };
+  window.PielikCart = { addToCart, productFormItem };
   qsa('[data-product-form]').forEach((form) => form.addEventListener('submit', (event) => { event.preventDefault(); const item = productFormItem(form); if (!item.id) return; addToCart(item, item.quantity, qs('button[type="submit"]', form)); }));
   qsa('[data-cart-page-quantity]').forEach((button) => button.addEventListener('click', () => {
     const input = qs('input', button.parentElement);
@@ -1114,7 +1114,7 @@
     if (!button) return;
     const privacyManager = window.Shopify?.customerPrivacy || window.privacyBanner;
     if (privacyManager?.showPreferences) privacyManager.showPreferences();
-    else window.location.href = button.dataset.fallbackUrl || window.NuageThemeSettings?.cookiePreferencesUrl || '/policies/privacy-policy';
+    else window.location.href = button.dataset.fallbackUrl || window.PielikThemeSettings?.cookiePreferencesUrl || '/policies/privacy-policy';
   });
 
   const filterToggle = qs('[data-filter-toggle]');
