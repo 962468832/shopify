@@ -250,5 +250,32 @@
   },
   "journal": {
     "read_more": "Read Article"
+  },
+  "article": {
+    "journal": "The Journal",
+    "min_read": "min read",
+    "back": "← Back to journal",
+    "previous": "Previous article",
+    "next": "Next article",
+    "comments": "comments",
+    "page_prev": "← Previous",
+    "page_of": "Page",
+    "page_next": "Next →",
+    "leave_comment": "Leave a comment",
+    "posted": "Your comment was posted.",
+    "posted_moderated": "Your comment was posted and will appear after approval.",
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "moderated_note": "Comments are moderated before they appear.",
+    "post_comment": "Post comment",
+    "shop_story": "Shop the comfort behind the story"
+  },
+  "tags": {
+    "fit-guide": "Fit Guide",
+    "work": "Work",
+    "everyday-comfort": "Everyday Comfort",
+    "fabric-movement": "Fabric & Movement",
+    "travel": "Travel"
   }
 }
