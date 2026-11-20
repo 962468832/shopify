@@ -316,5 +316,28 @@
     "order": "订单号",
     "message": "留言内容",
     "send": "发送消息"
+  },
+  "collection": {
+    "laser_comfort": "激光切割 无痕舒适",
+    "gentle_shaping": "温和塑形 自然提托",
+    "feel_nothing": "穿上像什么都没穿。",
+    "smooth_shape": "修饰身形，留住舒适。",
+    "feel_nothing_desc": "凉感冰丝针织与压合边缘，穿在什么下面都隐形。",
+    "smooth_shape_desc": "无缝高腰塑形与无钢圈上托，一整天都柔软贴合。",
+    "all_filters": "全部筛选",
+    "all_underwear": "全部内裤",
+    "apply_filters": "应用筛选",
+    "clear_all": "清除全部",
+    "find_your_fit": "找到你的版型",
+    "next_favorite": "找到下一件心仪单品",
+    "from": "价格从",
+    "keep_exploring": "继续逛逛",
+    "more_comfort": "更多舒适，随你选择。",
+    "next": "下一页 →",
+    "no_products": "没有找到商品。",
+    "shop_all": "查看全部",
+    "shop_all_underwear": "全部内裤",
+    "by_collection": "按系列选购",
+    "sort_by": "排序"
   }
 }

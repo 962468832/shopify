@@ -224,5 +224,28 @@
     "order": "Order number",
     "message": "Message",
     "send": "Send message"
+  },
+  "collection": {
+    "laser_comfort": "Laser-cut seamless comfort",
+    "gentle_shaping": "Gentle shaping and lift",
+    "feel_nothing": "Feel Like You’re Wearing Nothing.",
+    "smooth_shape": "Smooth Your Shape. Keep Your Comfort.",
+    "feel_nothing_desc": "Cool ice-silk knit and bonded edges that stay invisible under everything.",
+    "smooth_shape_desc": "Seamless high-rise shaping and wire-free lift that stay soft all day.",
+    "all_filters": "All filters",
+    "all_underwear": "All underwear",
+    "apply_filters": "Apply filters",
+    "clear_all": "Clear all",
+    "find_your_fit": "Find your fit",
+    "next_favorite": "Find your next favorite",
+    "from": "From",
+    "keep_exploring": "Keep exploring",
+    "more_comfort": "More comfort, your way.",
+    "next": "Next →",
+    "no_products": "No products found.",
+    "shop_all": "Shop all",
+    "shop_all_underwear": "Shop all underwear",
+    "by_collection": "Shop by collection",
+    "sort_by": "Sort by"
   }
 }
