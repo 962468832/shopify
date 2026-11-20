@@ -77,5 +77,24 @@
     "title": "我的收藏",
     "empty": "浏览时把喜欢的单品留在这里。",
     "share": "分享清单"
+  },
+  "nav": {
+    "underwear": "内裤",
+    "bras": "内衣",
+    "shapewear": "塑形",
+    "featured_collection": "精选系列",
+    "best_sellers": "热销榜",
+    "new_arrivals": "新品上架",
+    "last_chance": "最后机会",
+    "shop_all": "查看全部",
+    "shop_all_underwear": "全部内裤",
+    "shop_all_bras": "全部内衣",
+    "sale_best_sellers": "折扣热销款",
+    "lowest_prices": "最低价",
+    "final_markdowns": "清仓特价",
+    "shop_all_sale": "全部折扣商品",
+    "explore_collection": "浏览系列",
+    "shop_by_style": "按款式选购",
+    "shop_by_solution": "按需求选购"
   }
 }

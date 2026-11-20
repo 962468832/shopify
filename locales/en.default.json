@@ -77,5 +77,24 @@
     "newsletter_text": "Early access to new colors and collections.",
     "subscribe": "Subscribe",
     "cookie_preferences": "Cookie Preferences"
+  },
+  "nav": {
+    "underwear": "Underwear",
+    "bras": "Bras",
+    "shapewear": "Shapewear",
+    "featured_collection": "Featured Collection",
+    "best_sellers": "Best Sellers",
+    "new_arrivals": "New Arrivals",
+    "last_chance": "Last Chance",
+    "shop_all": "Shop All",
+    "shop_all_underwear": "Shop All Underwear",
+    "shop_all_bras": "Shop All Bras",
+    "sale_best_sellers": "Sale best sellers",
+    "lowest_prices": "Lowest prices",
+    "final_markdowns": "Final markdowns",
+    "shop_all_sale": "Shop all sale",
+    "explore_collection": "Explore collection",
+    "shop_by_style": "Shop by Style",
+    "shop_by_solution": "Shop by Solution"
   }
 }
