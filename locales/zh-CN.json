@@ -339,5 +339,8 @@
     "shop_all_underwear": "全部内裤",
     "by_collection": "按系列选购",
     "sort_by": "排序"
+  },
+  "journal": {
+    "read_more": "阅读文章"
   }
 }

@@ -473,7 +473,10 @@
         "heading": "Fit, comfort & care, decoded",
         "link_label": "All Articles",
         "link": "",
-        "close_label": "Close article"
+        "close_label": "Close article",
+        "source": "blog",
+        "blog": "新闻",
+        "limit": 3
       }
     }
   },

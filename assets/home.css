@@ -130,3 +130,7 @@
   .home-journal-card{flex-basis:86vw}
   .home-guide{width:calc(100% - 20px);max-height:calc(100svh - 20px);padding:18px}
 }
+
+/* Journal cards sourced from blog articles link through to the article page. */
+.home-journal-card h3 a{color:inherit;text-decoration:none}
+.home-journal-card h3 a:hover{text-decoration:underline}

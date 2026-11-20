@@ -247,5 +247,8 @@
     "shop_all_underwear": "Shop all underwear",
     "by_collection": "Shop by collection",
     "sort_by": "Sort by"
+  },
+  "journal": {
+    "read_more": "Read Article"
   }
 }
