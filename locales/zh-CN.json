@@ -307,5 +307,13 @@
     "help_prefix": "还有其他问题？",
     "help_link": "联系我们",
     "help_suffix": "，我们会帮你找到答案。"
+  },
+  "contact": {
+    "name": "姓名",
+    "email": "邮箱",
+    "phone": "电话",
+    "order": "订单号",
+    "message": "留言内容",
+    "send": "发送消息"
   }
 }

@@ -215,5 +215,13 @@
     "help_prefix": "Still need help?",
     "help_link": "Contact us",
     "help_suffix": "and we will help you find the right answer."
+  },
+  "contact": {
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "order": "Order number",
+    "message": "Message",
+    "send": "Send message"
   }
 }
