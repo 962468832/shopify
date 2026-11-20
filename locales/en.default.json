@@ -107,7 +107,8 @@
     "all_policies": "All Policies",
     "contact": "Contact Us",
     "email_placeholder": "Your email",
-    "email": "Email"
+    "email": "Email",
+    "update": "Update"
   },
   "nav": {
     "underwear": "Underwear",
@@ -126,7 +127,8 @@
     "shop_all_sale": "Shop all sale",
     "explore_collection": "Explore collection",
     "shop_by_style": "Shop by Style",
-    "shop_by_solution": "Shop by Solution"
+    "shop_by_solution": "Shop by Solution",
+    "sculpt_lift": "Sculpt & Lift"
   },
   "size": {
     "apply_suggestion": "Apply Size Suggestion",
@@ -161,6 +163,14 @@
     "measure_hip": "- Measure around the fullest part of your hips and butt.",
     "relaxed_desc": "A little more room",
     "between_smaller": "For a closer, smoothing fit, choose the smaller size.",
-    "between_larger": "For an airier, more relaxed feel, choose the larger size."
+    "between_larger": "For an airier, more relaxed feel, choose the larger size.",
+    "table_note": "Body measurements in inches or centimeters. If you are between sizes, use the Fit Guide to choose your preferred feel.",
+    "enter_hip_desc": "Enter your hip measurement and choose how you like your fit. We'll suggest a size you can apply to your selection.",
+    "how_hip_desc": "Measure around the fullest part of your hips and butt, with your feet together and the tape level.",
+    "rolling_desc": "Choose a high-rise style in your true size for a band that stays put through movement.",
+    "riding_desc": "Choose your true size and a cut with enough seat coverage. Riding up often means the current cut is too small.",
+    "digging_desc": "Size up or choose a softer waistband. A digging band usually means the band is too small.",
+    "lines_desc": "Choose your true size in a raw-cut style so the edges sit flat. Avoid sizing down, which can press the edges into the skin.",
+    "between_desc": "Between sizes? Choose the smaller size for a closer fit or the larger size for a more relaxed feel."
   }
 }

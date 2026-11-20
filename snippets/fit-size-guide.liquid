@@ -4,7 +4,7 @@
     <header class="size-guide__head">
       <h2 id="SizeGuideTitle">
         <svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m14.5 4.5 5 5L8 21H3v-5Z"></path><path d="m13 6 5 5"></path><path d="m11 8 2 2"></path><path d="m8 11 2 2"></path><path d="m5 14 2 2"></path></svg>
-        Fit &amp; Size Guide
+        {{ 'products.product.size_guide' | t }}
       </h2>
       <button class="icon-button" type="button" data-size-guide-close aria-label="Close size guide">&times;</button>
     </header>
@@ -24,7 +24,7 @@
         </div>
         <div class="size-guide__table-scroll">
           <table class="size-guide__table">
-            <thead><tr><th scope="col">{{ 'size.size' | t }}</th><th scope="col">Waist <span data-size-guide-unit-label>(in)</span></th><th scope="col">Hip <span data-size-guide-unit-label>(in)</span></th><th scope="col">{{ 'size.us_size' | t }}</th></tr></thead>
+            <thead><tr><th scope="col">{{ 'size.size' | t }}</th><th scope="col">{{ 'size.waist' | t }} <span data-size-guide-unit-label>(in)</span></th><th scope="col">Hip <span data-size-guide-unit-label>(in)</span></th><th scope="col">{{ 'size.us_size' | t }}</th></tr></thead>
             <tbody>
               <tr><th scope="row">XS</th><td><span data-size-in="24 - 26" data-size-cm="61 - 66">24 - 26</span></td><td><span data-size-in="35 - 36" data-size-cm="89 - 91">35 - 36</span></td><td>0-2</td></tr>
               <tr><th scope="row">S</th><td><span data-size-in="26 - 28" data-size-cm="66 - 71">26 - 28</span></td><td><span data-size-in="37 - 38" data-size-cm="94 - 97">37 - 38</span></td><td>4-6</td></tr>
@@ -43,7 +43,7 @@
           <p><strong>{{ 'size.hip' | t }}</strong> - Measure around the fullest part of your hips and butt.</p>
           <img src="{{ 'size-guide-measurement.jpg' | asset_url }}" width="500" height="509" alt="Waist and hip measurement guide: measure the natural waistline and the fullest part of the hips" loading="lazy">
         </section>
-        <p class="size-guide__note">Body measurements in inches or centimeters. If you are between sizes, use the Fit Guide to choose your preferred feel.</p>
+        <p class="size-guide__note">{{ 'size.table_note' | t }}</p>
       </section>
       <section id="FitGuidePanel" role="tabpanel" aria-labelledby="FitGuideTab" data-size-guide-panel="fit" hidden>
         <div class="size-guide__finder-head">
@@ -53,7 +53,7 @@
             <button type="button" data-size-guide-fit-unit="cm" aria-pressed="false">cm</button>
           </div>
         </div>
-        <p class="size-guide__finder-intro">Enter your hip measurement and choose how you like your fit. We'll suggest a size you can apply to your selection.</p>
+        <p class="size-guide__finder-intro">{{ 'size.enter_hip_desc' | t }}</p>
         <label class="size-guide__measurement-label" for="SizeGuideHip">Hip <span data-size-guide-fit-unit-label>(in)</span></label>
         <input class="size-guide__measurement-input" id="SizeGuideHip" type="number" inputmode="decimal" min="1" step="0.1" placeholder="e.g. 38" data-size-guide-measurement>
         <fieldset class="size-guide__preferences">
@@ -70,19 +70,19 @@
           <p class="size-guide__suggestion-status" data-size-guide-suggestion-status aria-live="polite">{{ 'size.enter_hip' | t }}</p>
           <button class="button button--dark button--full" type="button" data-size-guide-apply disabled>{{ 'size.apply_suggestion' | t }}</button>
         </div>
-        <details class="size-guide__measurement-help"><summary>{{ 'size.how_hip' | t }}</summary><p>Measure around the fullest part of your hips and butt, with your feet together and the tape level.</p><img class="size-guide__measurement-image" src="{{ 'size-guide-measurement.jpg' | asset_url }}" width="500" height="509" alt="Illustration showing where to measure the waist and hips" loading="lazy"></details>
+        <details class="size-guide__measurement-help"><summary>{{ 'size.how_hip' | t }}</summary><p>{{ 'size.how_hip_desc' | t }}</p><img class="size-guide__measurement-image" src="{{ 'size-guide-measurement.jpg' | asset_url }}" width="500" height="509" alt="Illustration showing where to measure the waist and hips" loading="lazy"></details>
         <h3 class="size-guide__subheading">{{ 'size.between_sizes' | t }}</h3>
         <ul class="size-guide__between"><li>{{ 'size.between_smaller' | t }}</li><li>{{ 'size.between_larger' | t }}</li></ul>
       </section>
       <section id="FitHelpPanel" role="tabpanel" aria-labelledby="FitHelpTab" data-size-guide-panel="help" hidden>
         <h3>{{ 'size.solve_by_fit' | t }}</h3>
         <div class="size-guide__help-list">
-          <details open><summary>{{ 'size.rolling_waistband' | t }}</summary><p>Choose a high-rise style in your true size for a band that stays put through movement.</p></details>
-          <details><summary>{{ 'size.riding_up' | t }}</summary><p>Choose your true size and a cut with enough seat coverage. Riding up often means the current cut is too small.</p></details>
-          <details><summary>{{ 'size.waistband_digging' | t }}</summary><p>Size up or choose a softer waistband. A digging band usually means the band is too small.</p></details>
-          <details><summary>{{ 'size.visible_lines' | t }}</summary><p>Choose your true size in a raw-cut style so the edges sit flat. Avoid sizing down, which can press the edges into the skin.</p></details>
+          <details open><summary>{{ 'size.rolling_waistband' | t }}</summary><p>{{ 'size.rolling_desc' | t }}</p></details>
+          <details><summary>{{ 'size.riding_up' | t }}</summary><p>{{ 'size.riding_desc' | t }}</p></details>
+          <details><summary>{{ 'size.waistband_digging' | t }}</summary><p>{{ 'size.digging_desc' | t }}</p></details>
+          <details><summary>{{ 'size.visible_lines' | t }}</summary><p>{{ 'size.lines_desc' | t }}</p></details>
         </div>
-        <p class="size-guide__note">Between sizes? Choose the smaller size for a closer fit or the larger size for a more relaxed feel.</p>
+        <p class="size-guide__note">{{ 'size.between_desc' | t }}</p>
       </section>
     </div>
   </section>

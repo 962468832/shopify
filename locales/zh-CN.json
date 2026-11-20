@@ -102,7 +102,8 @@
     "all_policies": "全部政策",
     "contact": "联系我们",
     "email_placeholder": "你的邮箱",
-    "email": "邮箱"
+    "email": "邮箱",
+    "update": "更新"
   },
   "favorites": {
     "title": "我的收藏",
@@ -126,7 +127,8 @@
     "shop_all_sale": "全部折扣商品",
     "explore_collection": "浏览系列",
     "shop_by_style": "按款式选购",
-    "shop_by_solution": "按需求选购"
+    "shop_by_solution": "按需求选购",
+    "sculpt_lift": "塑形提托"
   },
   "shopify": {
     "checkout": {
@@ -253,6 +255,14 @@
     "measure_hip": "- 测量臀部最丰满处。",
     "relaxed_desc": "更宽松一点",
     "between_smaller": "想要更贴身、更平滑，选小一码。",
-    "between_larger": "想要更透气、更宽松，选大一码。"
+    "between_larger": "想要更透气、更宽松，选大一码。",
+    "table_note": "身体数据可选英寸或厘米。介于两个尺码之间时，可用「尺码指南」按你喜欢的松紧度选择。",
+    "enter_hip_desc": "输入臀围并选择你喜欢的贴合度，我们会给出可应用到所选商品的尺码建议。",
+    "how_hip_desc": "双脚并拢、皮尺保持水平，测量臀部最丰满处。",
+    "rolling_desc": "选择高腰款式并选你的标准尺码，腰头在活动中才能稳住。",
+    "riding_desc": "选标准尺码，并选择臀部包裹更充分的版型。容易上移，通常是版型偏小。",
+    "digging_desc": "选大一码，或换更柔软的腰头。腰头勒肉通常是腰头偏小。",
+    "lines_desc": "选标准尺码的毛边款式，边缘才能平贴。不要刻意选小，否则会把边缘压进皮肤。",
+    "between_desc": "介于两个尺码之间？想要更贴身选小码，想要更松弛选大码。"
   }
 }
