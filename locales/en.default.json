@@ -128,7 +128,16 @@
     "explore_collection": "Explore collection",
     "shop_by_style": "Shop by Style",
     "shop_by_solution": "Shop by Solution",
-    "sculpt_lift": "Sculpt & Lift"
+    "sculpt_lift": "Sculpt & Lift",
+    "style_briefs": "Briefs",
+    "style_high_rise": "High-Rise",
+    "style_thongs": "Thongs",
+    "no_visible_lines": "No Visible Lines",
+    "no_wedgies": "No Wedgies",
+    "no_digging": "No Digging",
+    "no_rolling": "No Rolling",
+    "breathable_all_day": "Breathable All Day",
+    "anti_camel_toe": "Anti Camel-Toe"
   },
   "size": {
     "apply_suggestion": "Apply Size Suggestion",
