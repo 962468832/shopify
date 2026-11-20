@@ -20,7 +20,8 @@
       "title": "搜索",
       "placeholder": "搜索",
       "submit": "搜索",
-      "no_results": "没有找到相关商品"
+      "no_results": "没有找到相关商品",
+      "search_products": "搜索商品"
     },
     "404": {
       "title": "页面不存在",
@@ -28,7 +29,8 @@
       "home": "返回首页",
       "continue": "继续购物"
     },
-    "language": "语言"
+    "language": "语言",
+    "country_currency": "国家与货币"
   },
   "products": {
     "product": {
@@ -36,7 +38,7 @@
       "sold_out": "已售罄",
       "buy_now": "立即购买",
       "quantity": "数量",
-      "size_guide": "尺码与版型指南",
+      "size_guide": "尺码指南",
       "select": "选择",
       "essentials": "PIELIK 精选",
       "details_eyebrow": "日常舒适",
@@ -74,7 +76,13 @@
     "shop_all": "选购全部商品",
     "taxes_note": "税费与运费在结算时计算。",
     "view_bag": "查看购物袋",
-    "view_cart": "查看购物车"
+    "view_cart": "查看购物车",
+    "shopping_bag": "购物袋",
+    "unlock_shipping": "解锁免运费",
+    "you_save": "已省",
+    "discount_code": "折扣码",
+    "apply": "使用",
+    "discount": "折扣"
   },
   "footer": {
     "newsletter_heading": "订阅上新",
@@ -211,5 +219,40 @@
     "profile_preview_bar": {
       "badge_active": "运动"
     }
+  },
+  "size": {
+    "apply_suggestion": "使用建议尺码",
+    "between_sizes": "介于两个尺码之间？",
+    "centimeters": "厘米",
+    "smoothing_desc": "更贴身、更平滑",
+    "enter_hip": "输入臀围，帮你找到合适的尺码。",
+    "find_your_size": "找到你的尺码",
+    "fit_guide": "尺码指南",
+    "fit_preference": "版型偏好",
+    "hip": "臀围",
+    "how_to_measure": "如何测量",
+    "how_hip": "如何测量臀围",
+    "inches": "英寸",
+    "problem_help": "问题 / 版型帮助",
+    "relaxed": "宽松",
+    "riding_up": "容易上移",
+    "rolling_waistband": "腰头卷边",
+    "size": "尺码",
+    "size_chart": "尺码表",
+    "smoothing": "塑形",
+    "solve_by_fit": "按版型解决",
+    "suggested_size": "建议尺码",
+    "true_fit": "标准版型",
+    "us_size": "美码",
+    "underwear_chart": "内裤尺码表",
+    "visible_lines": "露内裤线",
+    "waist": "腰围",
+    "waistband_digging": "腰头勒肉",
+    "true_fit_desc": "日常版型",
+    "measure_waist": "- 测量肚脐上方或齐平的天然腰线。",
+    "measure_hip": "- 测量臀部最丰满处。",
+    "relaxed_desc": "更宽松一点",
+    "between_smaller": "想要更贴身、更平滑，选小一码。",
+    "between_larger": "想要更透气、更宽松，选大一码。"
   }
 }

@@ -20,7 +20,8 @@
       "title": "Search",
       "placeholder": "Search",
       "submit": "Search",
-      "no_results": "No results found"
+      "no_results": "No results found",
+      "search_products": "Search products"
     },
     "404": {
       "title": "Page not found",
@@ -28,7 +29,8 @@
       "home": "Back to home",
       "continue": "Continue shopping"
     },
-    "language": "Language"
+    "language": "Language",
+    "country_currency": "Country and currency"
   },
   "products": {
     "product": {
@@ -74,7 +76,13 @@
     "added": "Added to your bag",
     "error": "Unable to update your bag. Please try again.",
     "discount_applied": "Discount code applied.",
-    "discount_invalid": "That discount code is not valid."
+    "discount_invalid": "That discount code is not valid.",
+    "shopping_bag": "Shopping bag",
+    "unlock_shipping": "Unlock free shipping",
+    "you_save": "You save",
+    "discount_code": "Discount code",
+    "apply": "Apply",
+    "discount": "Discount"
   },
   "favorites": {
     "title": "Favorite items",
@@ -119,5 +127,40 @@
     "explore_collection": "Explore collection",
     "shop_by_style": "Shop by Style",
     "shop_by_solution": "Shop by Solution"
+  },
+  "size": {
+    "apply_suggestion": "Apply Size Suggestion",
+    "between_sizes": "Between Sizes?",
+    "centimeters": "Centimeters",
+    "smoothing_desc": "Closer, smoothing feel",
+    "enter_hip": "Enter your hip measurement to find your size.",
+    "find_your_size": "Find Your Size",
+    "fit_guide": "Fit Guide",
+    "fit_preference": "Fit Preference",
+    "hip": "Hip",
+    "how_to_measure": "How to Measure",
+    "how_hip": "How to measure your hips",
+    "inches": "Inches",
+    "problem_help": "Problem / Fit Help",
+    "relaxed": "Relaxed",
+    "riding_up": "Riding up",
+    "rolling_waistband": "Rolling waistband",
+    "size": "Size",
+    "size_chart": "Size Chart",
+    "smoothing": "Smoothing",
+    "solve_by_fit": "Solve It by Fit",
+    "suggested_size": "Suggested size",
+    "true_fit": "True fit",
+    "us_size": "US Size",
+    "underwear_chart": "Underwear Size Chart",
+    "visible_lines": "Visible lines",
+    "waist": "Waist",
+    "waistband_digging": "Waistband digging",
+    "true_fit_desc": "Your everyday fit",
+    "measure_waist": "- Measure your natural waistline at or just above your belly button.",
+    "measure_hip": "- Measure around the fullest part of your hips and butt.",
+    "relaxed_desc": "A little more room",
+    "between_smaller": "For a closer, smoothing fit, choose the smaller size.",
+    "between_larger": "For an airier, more relaxed feel, choose the larger size."
   }
 }

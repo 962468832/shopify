@@ -9,22 +9,22 @@
       <button class="icon-button" type="button" data-size-guide-close aria-label="Close size guide">&times;</button>
     </header>
     <div class="size-guide__tabs" role="tablist" aria-label="Size guide sections">
-      <button id="SizeChartTab" type="button" role="tab" aria-selected="true" aria-controls="SizeChartPanel" data-size-guide-tab="chart">Size Chart</button>
-      <button id="FitGuideTab" type="button" role="tab" aria-selected="false" aria-controls="FitGuidePanel" tabindex="-1" data-size-guide-tab="fit">Fit Guide</button>
-      <button id="FitHelpTab" type="button" role="tab" aria-selected="false" aria-controls="FitHelpPanel" tabindex="-1" data-size-guide-tab="help">Problem / Fit Help</button>
+      <button id="SizeChartTab" type="button" role="tab" aria-selected="true" aria-controls="SizeChartPanel" data-size-guide-tab="chart">{{ 'size.size_chart' | t }}</button>
+      <button id="FitGuideTab" type="button" role="tab" aria-selected="false" aria-controls="FitGuidePanel" tabindex="-1" data-size-guide-tab="fit">{{ 'size.fit_guide' | t }}</button>
+      <button id="FitHelpTab" type="button" role="tab" aria-selected="false" aria-controls="FitHelpPanel" tabindex="-1" data-size-guide-tab="help">{{ 'size.problem_help' | t }}</button>
     </div>
     <div class="size-guide__body">
       <section id="SizeChartPanel" role="tabpanel" aria-labelledby="SizeChartTab" data-size-guide-panel="chart">
         <div class="size-guide__chart-head">
-          <h3>Underwear Size Chart</h3>
+          <h3>{{ 'size.underwear_chart' | t }}</h3>
           <div class="size-guide__units" role="group" aria-label="Measurement unit">
-            <button type="button" data-size-guide-unit="in" aria-pressed="true">Inches</button>
-            <button type="button" data-size-guide-unit="cm" aria-pressed="false">Centimeters</button>
+            <button type="button" data-size-guide-unit="in" aria-pressed="true">{{ 'size.inches' | t }}</button>
+            <button type="button" data-size-guide-unit="cm" aria-pressed="false">{{ 'size.centimeters' | t }}</button>
           </div>
         </div>
         <div class="size-guide__table-scroll">
           <table class="size-guide__table">
-            <thead><tr><th scope="col">Size</th><th scope="col">Waist <span data-size-guide-unit-label>(in)</span></th><th scope="col">Hip <span data-size-guide-unit-label>(in)</span></th><th scope="col">US Size</th></tr></thead>
+            <thead><tr><th scope="col">{{ 'size.size' | t }}</th><th scope="col">Waist <span data-size-guide-unit-label>(in)</span></th><th scope="col">Hip <span data-size-guide-unit-label>(in)</span></th><th scope="col">{{ 'size.us_size' | t }}</th></tr></thead>
             <tbody>
               <tr><th scope="row">XS</th><td><span data-size-in="24 - 26" data-size-cm="61 - 66">24 - 26</span></td><td><span data-size-in="35 - 36" data-size-cm="89 - 91">35 - 36</span></td><td>0-2</td></tr>
               <tr><th scope="row">S</th><td><span data-size-in="26 - 28" data-size-cm="66 - 71">26 - 28</span></td><td><span data-size-in="37 - 38" data-size-cm="94 - 97">37 - 38</span></td><td>4-6</td></tr>
@@ -38,16 +38,16 @@
           </table>
         </div>
         <section class="size-guide__how-to" aria-labelledby="SizeGuideMeasureTitle">
-          <h3 id="SizeGuideMeasureTitle">How to Measure</h3>
-          <p><strong>Waist</strong> - Measure your natural waistline at or just above your belly button.</p>
-          <p><strong>Hip</strong> - Measure around the fullest part of your hips and butt.</p>
+          <h3 id="SizeGuideMeasureTitle">{{ 'size.how_to_measure' | t }}</h3>
+          <p><strong>{{ 'size.waist' | t }}</strong> - Measure your natural waistline at or just above your belly button.</p>
+          <p><strong>{{ 'size.hip' | t }}</strong> - Measure around the fullest part of your hips and butt.</p>
           <img src="{{ 'size-guide-measurement.jpg' | asset_url }}" width="500" height="509" alt="Waist and hip measurement guide: measure the natural waistline and the fullest part of the hips" loading="lazy">
         </section>
         <p class="size-guide__note">Body measurements in inches or centimeters. If you are between sizes, use the Fit Guide to choose your preferred feel.</p>
       </section>
       <section id="FitGuidePanel" role="tabpanel" aria-labelledby="FitGuideTab" data-size-guide-panel="fit" hidden>
         <div class="size-guide__finder-head">
-          <h3>Find Your Size</h3>
+          <h3>{{ 'size.find_your_size' | t }}</h3>
           <div class="size-guide__units" role="group" aria-label="Fit guide measurement unit">
             <button type="button" data-size-guide-fit-unit="in" aria-pressed="true">In</button>
             <button type="button" data-size-guide-fit-unit="cm" aria-pressed="false">cm</button>
@@ -57,30 +57,30 @@
         <label class="size-guide__measurement-label" for="SizeGuideHip">Hip <span data-size-guide-fit-unit-label>(in)</span></label>
         <input class="size-guide__measurement-input" id="SizeGuideHip" type="number" inputmode="decimal" min="1" step="0.1" placeholder="e.g. 38" data-size-guide-measurement>
         <fieldset class="size-guide__preferences">
-          <legend>Fit Preference</legend>
+          <legend>{{ 'size.fit_preference' | t }}</legend>
           <div>
-            <label><input type="radio" name="size-guide-fit" value="-1" data-size-guide-preference><span>Smoothing<small>Closer, smoothing feel</small></span></label>
-            <label><input type="radio" name="size-guide-fit" value="0" data-size-guide-preference checked><span>True fit<small>Your everyday fit</small></span></label>
-            <label><input type="radio" name="size-guide-fit" value="1" data-size-guide-preference><span>Relaxed<small>A little more room</small></span></label>
+            <label><input type="radio" name="size-guide-fit" value="-1" data-size-guide-preference><span>{{ 'size.smoothing' | t }}<small>{{ 'size.smoothing_desc' | t }}</small></span></label>
+            <label><input type="radio" name="size-guide-fit" value="0" data-size-guide-preference checked><span>{{ 'size.true_fit' | t }}<small>{{ 'size.true_fit_desc' | t }}</small></span></label>
+            <label><input type="radio" name="size-guide-fit" value="1" data-size-guide-preference><span>{{ 'size.relaxed' | t }}<small>{{ 'size.relaxed_desc' | t }}</small></span></label>
           </div>
         </fieldset>
         <div class="size-guide__suggestion" data-size-guide-result>
-          <p>Suggested size</p>
+          <p>{{ 'size.suggested_size' | t }}</p>
           <strong data-size-guide-suggestion>—</strong>
-          <p class="size-guide__suggestion-status" data-size-guide-suggestion-status aria-live="polite">Enter your hip measurement to find your size.</p>
-          <button class="button button--dark button--full" type="button" data-size-guide-apply disabled>Apply Size Suggestion</button>
+          <p class="size-guide__suggestion-status" data-size-guide-suggestion-status aria-live="polite">{{ 'size.enter_hip' | t }}</p>
+          <button class="button button--dark button--full" type="button" data-size-guide-apply disabled>{{ 'size.apply_suggestion' | t }}</button>
         </div>
-        <details class="size-guide__measurement-help"><summary>How to measure your hips</summary><p>Measure around the fullest part of your hips and butt, with your feet together and the tape level.</p><img class="size-guide__measurement-image" src="{{ 'size-guide-measurement.jpg' | asset_url }}" width="500" height="509" alt="Illustration showing where to measure the waist and hips" loading="lazy"></details>
-        <h3 class="size-guide__subheading">Between Sizes?</h3>
-        <ul class="size-guide__between"><li>For a closer, smoothing fit, choose the smaller size.</li><li>For an airier, more relaxed feel, choose the larger size.</li></ul>
+        <details class="size-guide__measurement-help"><summary>{{ 'size.how_hip' | t }}</summary><p>Measure around the fullest part of your hips and butt, with your feet together and the tape level.</p><img class="size-guide__measurement-image" src="{{ 'size-guide-measurement.jpg' | asset_url }}" width="500" height="509" alt="Illustration showing where to measure the waist and hips" loading="lazy"></details>
+        <h3 class="size-guide__subheading">{{ 'size.between_sizes' | t }}</h3>
+        <ul class="size-guide__between"><li>{{ 'size.between_smaller' | t }}</li><li>{{ 'size.between_larger' | t }}</li></ul>
       </section>
       <section id="FitHelpPanel" role="tabpanel" aria-labelledby="FitHelpTab" data-size-guide-panel="help" hidden>
-        <h3>Solve It by Fit</h3>
+        <h3>{{ 'size.solve_by_fit' | t }}</h3>
         <div class="size-guide__help-list">
-          <details open><summary>Rolling waistband</summary><p>Choose a high-rise style in your true size for a band that stays put through movement.</p></details>
-          <details><summary>Riding up</summary><p>Choose your true size and a cut with enough seat coverage. Riding up often means the current cut is too small.</p></details>
-          <details><summary>Waistband digging</summary><p>Size up or choose a softer waistband. A digging band usually means the band is too small.</p></details>
-          <details><summary>Visible lines</summary><p>Choose your true size in a raw-cut style so the edges sit flat. Avoid sizing down, which can press the edges into the skin.</p></details>
+          <details open><summary>{{ 'size.rolling_waistband' | t }}</summary><p>Choose a high-rise style in your true size for a band that stays put through movement.</p></details>
+          <details><summary>{{ 'size.riding_up' | t }}</summary><p>Choose your true size and a cut with enough seat coverage. Riding up often means the current cut is too small.</p></details>
+          <details><summary>{{ 'size.waistband_digging' | t }}</summary><p>Size up or choose a softer waistband. A digging band usually means the band is too small.</p></details>
+          <details><summary>{{ 'size.visible_lines' | t }}</summary><p>Choose your true size in a raw-cut style so the edges sit flat. Avoid sizing down, which can press the edges into the skin.</p></details>
         </div>
         <p class="size-guide__note">Between sizes? Choose the smaller size for a closer fit or the larger size for a more relaxed feel.</p>
       </section>
