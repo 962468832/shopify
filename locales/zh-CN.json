@@ -71,7 +71,9 @@
     "newsletter_heading": "订阅上新",
     "newsletter_text": "抢先获取新色与新品。",
     "subscribe": "订阅",
-    "cookie_preferences": "Cookie 偏好设置"
+    "cookie_preferences": "Cookie 偏好设置",
+    "terms": "服务条款",
+    "privacy": "隐私政策"
   },
   "favorites": {
     "title": "我的收藏",
