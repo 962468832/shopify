@@ -1,21 +1,21 @@
 <section class="page-width page-content faq-page">
-  <header class="page-content__head"><p class="eyebrow">Support</p><h1>{{ page.title | default: 'Frequently Asked Questions' }}</h1></header>
-  <div class="page-content__body rte"><p>Find answers to common questions about our products, sizing, and policies.</p>
-    <h2>Sizing &amp; Fit</h2>
-    <details><summary>How do I find my size?</summary><p>Measure your waist and hips, then match the larger measurement to the size guide on the product page. If you are between sizes, choose the larger size for a more relaxed fit.</p></details>
-    <details><summary>What is the difference between Curve, Balance, and Lift fits?</summary><p>These shape focused options adjust the rise and coverage for different body proportions. Choose the fit that best matches your silhouette and comfort preference.</p></details>
-    <details><summary>What if my size is between two options?</summary><p>Choose the smaller size for a closer smoothing fit or the larger size for more room. The Best Pair Guarantee covers your first pair if the fit is not right.</p></details>
-    <h2>Products &amp; Materials</h2>
-    <details><summary>How can I learn about the materials?</summary><p>Check the material details on the product page and the latest care information. Contact support if you need help with a specific style.</p></details>
-    <details><summary>How should I care for my Pielik products?</summary><p>Machine wash cold and air dry when possible. Avoid bleach and fabric softeners to protect the fabric, bonded edges, and softness.</p></details>
-    <details><summary>Are raw-cut edges durable?</summary><p>Yes. The bonded edges are designed to stay smooth and invisible without fraying under normal wear and care.</p></details>
-    <h2>Orders &amp; Shipping</h2>
-    <details><summary>How long does shipping take?</summary><p>Shipping timelines vary by destination and current fulfillment capacity. See the shipping policy or contact support for the latest estimate.</p></details>
-    <details><summary>How do I track my order?</summary><p>Use the tracking link in your shipping email or contact us with your order number and email address.</p></details>
-    <h2>Returns &amp; Guarantee</h2>
-    <details><summary>What is the Best Pair Guarantee?</summary><p>The guarantee helps with your first pair when the fit is not right. Review the guarantee page for the current eligibility and contact steps.</p></details>
-    <details><summary>How do I start a return or exchange?</summary><p>Contact support from the Contact Us page with your order number and reason for the request.</p></details>
-    <p class="faq-page__help">Still need help? <a href="/pages/contact">Contact us</a> and we will help you find the right answer.</p>
+  <header class="page-content__head"><p class="eyebrow">{{ 'faq.eyebrow' | t }}</p><h1>{{ page.title | default: 'Frequently Asked Questions' }}</h1></header>
+  <div class="page-content__body rte"><p>{{ 'faq.intro' | t }}</p>
+    <h2>{{ 'faq.h_sizing' | t }}</h2>
+    <details><summary>{{ 'faq.q_size' | t }}</summary><p>{{ 'faq.a_size' | t }}</p></details>
+    <details><summary>{{ 'faq.q_fits' | t }}</summary><p>{{ 'faq.a_fits' | t }}</p></details>
+    <details><summary>{{ 'faq.q_between' | t }}</summary><p>{{ 'faq.a_between' | t }}</p></details>
+    <h2>{{ 'faq.h_products' | t }}</h2>
+    <details><summary>{{ 'faq.q_materials' | t }}</summary><p>{{ 'faq.a_materials' | t }}</p></details>
+    <details><summary>{{ 'faq.q_care' | t }}</summary><p>{{ 'faq.a_care' | t }}</p></details>
+    <details><summary>{{ 'faq.q_raw' | t }}</summary><p>{{ 'faq.a_raw' | t }}</p></details>
+    <h2>{{ 'faq.h_orders' | t }}</h2>
+    <details><summary>{{ 'faq.q_shipping' | t }}</summary><p>{{ 'faq.a_shipping' | t }}</p></details>
+    <details><summary>{{ 'faq.q_track' | t }}</summary><p>{{ 'faq.a_track' | t }}</p></details>
+    <h2>{{ 'faq.h_returns' | t }}</h2>
+    <details><summary>{{ 'faq.q_guarantee' | t }}</summary><p>{{ 'faq.a_guarantee' | t }}</p></details>
+    <details><summary>{{ 'faq.q_return' | t }}</summary><p>{{ 'faq.a_return' | t }}</p></details>
+    <p class="faq-page__help">{{ 'faq.help_prefix' | t }} <a href="/pages/contact">{{ 'faq.help_link' | t }}</a> {{ 'faq.help_suffix' | t }}</p>
   </div>
 </section>
 {% schema %}{"name":"FAQ","settings":[]}{% endschema %}
