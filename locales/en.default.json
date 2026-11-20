@@ -138,7 +138,8 @@
     "no_digging": "No Digging",
     "no_rolling": "No Rolling",
     "breathable_all_day": "Breathable All Day",
-    "anti_camel_toe": "Anti Camel-Toe"
+    "anti_camel_toe": "Anti Camel-Toe",
+    "featherlight": "Featherlight"
   },
   "size": {
     "apply_suggestion": "Apply Size Suggestion",
