@@ -180,6 +180,8 @@
     "riding_desc": "Choose your true size and a cut with enough seat coverage. Riding up often means the current cut is too small.",
     "digging_desc": "Size up or choose a softer waistband. A digging band usually means the band is too small.",
     "lines_desc": "Choose your true size in a raw-cut style so the edges sit flat. Avoid sizing down, which can press the edges into the skin.",
-    "between_desc": "Between sizes? Choose the smaller size for a closer fit or the larger size for a more relaxed feel."
+    "between_desc": "Between sizes? Choose the smaller size for a closer fit or the larger size for a more relaxed feel.",
+    "measure_waist_text": "Measure your natural waistline at or just above your belly button.",
+    "measure_hip_text": "Measure around the fullest part of your hips and butt."
   }
 }

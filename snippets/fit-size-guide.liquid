@@ -24,7 +24,7 @@
         </div>
         <div class="size-guide__table-scroll">
           <table class="size-guide__table">
-            <thead><tr><th scope="col">{{ 'size.size' | t }}</th><th scope="col">{{ 'size.waist' | t }} <span data-size-guide-unit-label>(in)</span></th><th scope="col">Hip <span data-size-guide-unit-label>(in)</span></th><th scope="col">{{ 'size.us_size' | t }}</th></tr></thead>
+            <thead><tr><th scope="col">{{ 'size.size' | t }}</th><th scope="col">{{ 'size.waist' | t }} <span data-size-guide-unit-label>(in)</span></th><th scope="col">{{ 'size.hip' | t }} <span data-size-guide-unit-label>(in)</span></th><th scope="col">{{ 'size.us_size' | t }}</th></tr></thead>
             <tbody>
               <tr><th scope="row">XS</th><td><span data-size-in="24 - 26" data-size-cm="61 - 66">24 - 26</span></td><td><span data-size-in="35 - 36" data-size-cm="89 - 91">35 - 36</span></td><td>0-2</td></tr>
               <tr><th scope="row">S</th><td><span data-size-in="26 - 28" data-size-cm="66 - 71">26 - 28</span></td><td><span data-size-in="37 - 38" data-size-cm="94 - 97">37 - 38</span></td><td>4-6</td></tr>
@@ -39,8 +39,8 @@
         </div>
         <section class="size-guide__how-to" aria-labelledby="SizeGuideMeasureTitle">
           <h3 id="SizeGuideMeasureTitle">{{ 'size.how_to_measure' | t }}</h3>
-          <p><strong>{{ 'size.waist' | t }}</strong> - Measure your natural waistline at or just above your belly button.</p>
-          <p><strong>{{ 'size.hip' | t }}</strong> - Measure around the fullest part of your hips and butt.</p>
+          <p><strong>{{ 'size.waist' | t }}</strong> - {{ 'size.measure_waist_text' | t }}</p>
+          <p><strong>{{ 'size.hip' | t }}</strong> - {{ 'size.measure_hip_text' | t }}</p>
           <img src="{{ 'size-guide-measurement.jpg' | asset_url }}" width="500" height="509" alt="Waist and hip measurement guide: measure the natural waistline and the fullest part of the hips" loading="lazy">
         </section>
         <p class="size-guide__note">{{ 'size.table_note' | t }}</p>
@@ -54,7 +54,7 @@
           </div>
         </div>
         <p class="size-guide__finder-intro">{{ 'size.enter_hip_desc' | t }}</p>
-        <label class="size-guide__measurement-label" for="SizeGuideHip">Hip <span data-size-guide-fit-unit-label>(in)</span></label>
+        <label class="size-guide__measurement-label" for="SizeGuideHip">{{ 'size.hip' | t }} <span data-size-guide-fit-unit-label>(in)</span></label>
         <input class="size-guide__measurement-input" id="SizeGuideHip" type="number" inputmode="decimal" min="1" step="0.1" placeholder="e.g. 38" data-size-guide-measurement>
         <fieldset class="size-guide__preferences">
           <legend>{{ 'size.fit_preference' | t }}</legend>

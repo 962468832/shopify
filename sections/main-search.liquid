@@ -1,13 +1,13 @@
 <section class="page-width search-page">
   <div class="collection-head">
-    <p class="eyebrow">Search</p>
+    <p class="eyebrow">{{ 'general.search.title' | t }}</p>
     <h1>{% if search.performed %}Results for “{{ search.terms | escape }}”{% else %}Find your comfort{% endif %}</h1>
     <form class="search-form" action="{{ routes.search_url }}" role="search">
-      <label class="visually-hidden" for="SearchPageInput">Search</label>
+      <label class="visually-hidden" for="SearchPageInput">{{ 'general.search.title' | t }}</label>
       <input id="SearchPageInput" type="search" name="q" value="{{ search.terms | escape }}" placeholder="Search products...">
       <input type="hidden" name="options[prefix]" value="last">
       <input type="hidden" name="type" value="product,article,page">
-      <button class="button button--dark" type="submit">Search</button>
+      <button class="button button--dark" type="submit">{{ 'general.search.submit' | t }}</button>
     </form>
   </div>
   {% if search.performed %}
