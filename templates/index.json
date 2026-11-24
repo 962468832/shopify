@@ -410,7 +410,8 @@
         "eyebrow": "Real People, Real Comfort",
         "heading": "From the Community",
         "hint": "Scroll or drag to browse · hover to play"
-      }
+      },
+      "disabled": true
     },
     "journal": {
       "type": "journal",
