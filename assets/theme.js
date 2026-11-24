@@ -1058,7 +1058,7 @@
       };
       const launcher = findChatLauncher();
       if (launcher) { launcher.click(); return; }
-      if (!host?.hasAttribute('open')) window.location.href = '/pages/contact';
+      if (!host?.hasAttribute('open')) window.location.href = '/pages/about-us';
     }
   }, true);
   async function shareWishlist() {
