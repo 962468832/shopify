@@ -30,6 +30,52 @@
   const stickyButton = root.querySelector('[data-product-sticky-button]');
   const purchaseBlock = root.querySelector('[data-product-purchase]');
   const optionsTarget = root.querySelector('[data-product-options-target]');
+  const productTitle = root.querySelector('[data-product-title]');
+  const stickyTitle = root.querySelector('[data-product-sticky-title]');
+  const packIncludes = root.querySelector('[data-pack-includes]');
+  const baseTitle = productTitle?.dataset.baseTitle || data.title || '';
+  const PACK_INCLUDES = {
+    'essential trio': [['Black', '#1f1f1f'], ['White', '#f7f7f7'], ['Nude', '#e7cfbc']],
+    'black trio': [['3× Black', '#1f1f1f']],
+    'nude trio': [['3× Nude', '#e7cfbc']],
+    'white trio': [['3× White', '#f7f7f7']],
+    'neutral trio': [['Nude', '#e7cfbc'], ['White', '#f7f7f7'], ['Khaki', '#c8bba9']],
+    'monochrome trio': [['2× Black', '#1f1f1f'], ['1× White', '#f7f7f7']],
+    'pastel trio': [['Pink', '#f0cfd3'], ['Blue', '#c9d5df'], ['Khaki', '#c8bba9']],
+    'classic 5-pack': [['Black', '#1f1f1f'], ['Nude', '#e7cfbc'], ['Khaki', '#c8bba9'], ['White', '#f7f7f7'], ['Pink', '#f0cfd3']],
+    'black 5-pack': [['5× Black', '#1f1f1f']],
+    'white 5-pack': [['5× White', '#f7f7f7']],
+    'everyday 5-pack': [['2× Black', '#1f1f1f'], ['3× Nude', '#e7cfbc']],
+    'soft mood 5-pack': [['Black', '#1f1f1f'], ['Nude', '#e7cfbc'], ['White', '#f7f7f7'], ['Pink', '#f0cfd3'], ['Blue', '#c9d5df']],
+    'pastel 5-pack': [['Nude', '#e7cfbc'], ['White', '#f7f7f7'], ['Pink', '#f0cfd3'], ['Blue', '#c9d5df'], ['Khaki', '#c8bba9']]
+  };
+  function syncPackPresentation(variant, current) {
+    const packIndex = groups.findIndex((g) => /package|pack/i.test(g.dataset.optionName || ''));
+    if (packIndex < 0) return;
+    const packVal = variant?.options?.[packIndex] || current[packIndex] || '';
+    const isMultiPack = Boolean(packVal) && !/^single$/i.test(packVal.trim());
+    const nextTitle = isMultiPack ? `${baseTitle} (${packVal})` : baseTitle;
+    if (productTitle) productTitle.textContent = nextTitle;
+    if (stickyTitle) stickyTitle.textContent = nextTitle;
+    if (packIncludes) {
+      const colorIndex = groups.findIndex((g) => /color|colour/i.test(g.dataset.optionName || ''));
+      const colorVal = colorIndex >= 0 ? (variant?.options?.[colorIndex] || current[colorIndex] || '') : '';
+      const items = isMultiPack ? PACK_INCLUDES[colorVal.trim().toLowerCase()] : null;
+      if (items?.length) {
+        packIncludes.innerHTML = `<span class="product-pack-includes__label">Includes</span><span class="product-pack-includes__items">${items.map(([label, hex]) => `<span class="product-pack-includes__item"><i style="background:${hex}"></i>${label}</span>`).join('')}</span>`;
+        packIncludes.hidden = false;
+      } else {
+        packIncludes.hidden = true;
+        packIncludes.innerHTML = '';
+      }
+    }
+    if (packVal && thumbs.length) {
+      const activeIds = new Set(data.variants.filter((v) => v.options?.[packIndex] === packVal && v.featured_image?.id).map((v) => String(v.featured_image.id)));
+      if (activeIds.size) {
+        thumbs.forEach((thumb) => { thumb.hidden = !activeIds.has(String(thumb.dataset.imageId)); });
+      }
+    }
+  }
   const currency = root.dataset.currency || 'USD';
   const formatMoney = (cents) => (window.PielikFormatMoney ? window.PielikFormatMoney(cents) : new Intl.NumberFormat(undefined, { style: 'currency', currency }).format(cents / 100));
   const pricing = window.PielikPricing || {
@@ -161,6 +207,7 @@
         }
       });
     });
+    syncPackPresentation(variant, current);
   }
   function syncSubmit(variant = data.variants.find((candidate) => String(candidate.id) === id.value)) {
     if (submit.getAttribute('aria-busy') === 'true') return;

@@ -22,7 +22,7 @@
       {% else %}
         <p class="eyebrow">{{ vendor_label }} essentials</p>
       {% endif %}
-      <h1>{{ product.title }}</h1>
+      <h1 data-product-title data-base-title="{{ product.title | escape }}">{{ product.title }}</h1>
       <a class="product-review-anchor" href="#product-reviews" aria-label="Read product reviews">{% if rating_value != blank %}<span class="product-review-anchor__stars" aria-hidden="true">★★★★★</span><span>{{ rating_value }}</span>{% if rating_count != blank %}<span>({{ rating_count }})</span>{% endif %}{% else %}Reviews{% endif %}</a>
       <div class="product-price"><span data-product-price>{{ current_variant.price | money }}</span>{% if discount_percent > 0 %}<s data-product-compare>{{ current_variant.compare_at_price | money }}</s><span class="product-price__save" data-product-savings>Save <span data-product-savings-value>{{ discount_percent }}</span>%</span>{% else %}<s data-product-compare hidden></s><span class="product-price__save" data-product-savings hidden></span>{% endif %}</div>
       {% form 'product', product, data-product-form: '', data-product-installments: '' %}
@@ -66,6 +66,7 @@
                   </label>
                 {% endfor %}
               </div>
+              {% if option_name contains 'color' or option_name contains 'colour' %}<div class="product-pack-includes" data-pack-includes hidden></div>{% endif %}
             </fieldset>
           {% endfor %}
           <span id="SoldOutHint-{{ section.id }}" class="visually-hidden">{{ 'products.product.sold_out' | t }}</span>
@@ -85,7 +86,7 @@
       <div class="product-sticky-atc__product">
         <div class="product-sticky-atc__media">{% if main_image %}<img data-product-sticky-image src="{{ main_image | image_url: width: 180 }}" width="90" height="112" alt="{{ main_image.alt | default: product.title | escape }}">{% endif %}</div>
         <div class="product-sticky-atc__details">
-          <strong class="product-sticky-atc__title">{{ product.title }}</strong>
+          <strong class="product-sticky-atc__title" data-product-sticky-title>{{ product.title }}</strong>
           <span class="product-sticky-atc__variant" data-product-sticky-variant>{% unless current_variant.title == 'Default Title' %}{{ current_variant.title }}{% endunless %}</span>
           <span class="product-sticky-atc__rating{% unless rating_value != blank %} is-empty{% endunless %}" data-product-sticky-rating{% unless rating_value != blank %} hidden{% endunless %}><span aria-hidden="true">★★★★★</span> <b>{{ rating_value }}</b>{% if rating_count != blank %}<small>({{ rating_count }})</small>{% endif %}</span>
           <span class="product-sticky-atc__price"><strong data-product-sticky-price>{{ current_variant.price | money }}</strong><s data-product-sticky-compare{% unless discount_percent > 0 %} hidden{% endunless %}>{% if discount_percent > 0 %}{{ current_variant.compare_at_price | money }}{% endif %}</s><em data-product-sticky-savings{% unless discount_percent > 0 %} hidden{% endunless %}>{% if discount_percent > 0 %}Save {{ discount_percent }}%{% endif %}</em></span>
