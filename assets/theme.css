@@ -932,9 +932,12 @@ body.size-guide-lock{position:fixed;inset-inline:0;width:100%}
 .product-lightbox__panel h2{font-size:15px;font-weight:400;margin:0}
 .product-lightbox__panel header span{font-size:11px;color:#786e67}
 .product-lightbox__panel .icon-button{font-size:28px}
-.product-lightbox__stage{display:grid;grid-template-columns:64px minmax(0,1fr) 64px;align-items:center;justify-items:center;min-height:0;flex:1;padding:20px;background:#f4f3f2}
-.product-lightbox__stage>img{display:block;max-width:100%;max-height:calc(100dvh - 130px);width:auto;height:auto;object-fit:contain}
-.product-lightbox__stage>button{display:grid;place-items:center;width:48px;height:48px;border:1px solid var(--line);border-radius:50%;background:#fff;color:var(--ink)}
+.product-lightbox__stage{position:relative;display:grid;grid-template-columns:64px minmax(0,1fr) 64px;align-items:center;justify-items:center;min-height:0;flex:1;padding:20px;background:#f4f3f2;overflow:hidden}
+.product-lightbox__viewport{width:100%;height:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
+.product-lightbox__viewport>img{display:block;max-width:100%;max-height:calc(100dvh - 130px);width:auto;height:auto;object-fit:contain;transform-origin:center center;will-change:transform;-webkit-user-drag:none}
+.product-lightbox__viewport.is-animating>img{transition:transform .22s cubic-bezier(.2,.8,.2,1)}
+.product-lightbox__stage>button{position:relative;z-index:2;display:grid;place-items:center;width:48px;height:48px;border:1px solid var(--line);border-radius:50%;background:#fff;color:var(--ink)}
+.product-lightbox.is-zoomed .product-lightbox__stage>button{opacity:0;pointer-events:none;transition:opacity .15s}
 @media(min-width:901px){
   .product-detail .product-page{grid-template-columns:minmax(0,1.08fr) minmax(0,1fr)}
   .product-detail .product-gallery{top:74px;grid-template-columns:68px minmax(0,1fr);gap:14px;height:min(95vh,calc(100vh - 220px),760px)}
@@ -973,7 +976,7 @@ body.size-guide-lock{position:fixed;inset-inline:0;width:100%}
   .product-lightbox__panel h2{max-width:260px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
   .product-lightbox__stage{grid-template-columns:42px minmax(0,1fr) 42px;padding:12px 5px}
   .product-lightbox__stage>button{width:36px;height:36px}
-  .product-lightbox__stage>img{max-height:calc(100dvh - 105px)}
+  .product-lightbox__viewport>img{max-height:calc(100dvh - 105px)}
 }
 @media(min-width:1201px){
   /* Keep wide desktop menus inside the viewport. Anchor them to the header's left padding,
