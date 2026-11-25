@@ -174,11 +174,18 @@
       const rect = zoomStage.getBoundingClientRect();
       const paneRect = zoomPane.getBoundingClientRect();
       if (!rect.width || !rect.height || !paneRect.width || !paneRect.height) return;
-      const scale = Math.min(rect.width / mainImage.naturalWidth, rect.height / mainImage.naturalHeight);
+      const imgStyle = window.getComputedStyle(mainImage);
+      const padL = parseFloat(imgStyle.paddingLeft) || 0;
+      const padR = parseFloat(imgStyle.paddingRight) || 0;
+      const padT = parseFloat(imgStyle.paddingTop) || 0;
+      const padB = parseFloat(imgStyle.paddingBottom) || 0;
+      const boxW = Math.max(1, rect.width - padL - padR);
+      const boxH = Math.max(1, rect.height - padT - padB);
+      const scale = Math.min(boxW / mainImage.naturalWidth, boxH / mainImage.naturalHeight);
       const imgW = mainImage.naturalWidth * scale;
       const imgH = mainImage.naturalHeight * scale;
-      const imgLeft = (rect.width - imgW) / 2;
-      const imgTop = (rect.height - imgH) / 2;
+      const imgLeft = padL + (boxW - imgW) / 2;
+      const imgTop = padT + (boxH - imgH) / 2;
       const mx = event.clientX - rect.left;
       const my = event.clientY - rect.top;
       if (mx < imgLeft || mx > imgLeft + imgW || my < imgTop || my > imgTop + imgH) { stopZoom(); return; }
