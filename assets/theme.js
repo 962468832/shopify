@@ -521,8 +521,8 @@
           <p class="quick-shop-product__vendor">${escapeHtml(product.vendor || window.PielikShopName || '')}</p>
           <h2 id="QuickShopTitle">${escapeHtml(product.title)}</h2>
           <div class="quick-shop-product__price"><strong>${formatMoney(price)}</strong>${savings ? `<s>${formatMoney(compare)}</s><span class="product-price__save">Save ${savings}%</span>` : ''}</div>
-          ${product.options.length && !(product.variants.length === 1 && /^default title$/i.test(product.variants[0].title || '')) ? product.options.map((option, index) => { const name = typeof option === 'string' ? option : option.name; return `
-            <fieldset class="quick-option-group"><legend><span>Select ${escapeHtml(name)}</span>${/size/i.test(name) ? '<button class="size-guide-trigger" type="button" data-size-guide-open aria-haspopup="dialog"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m14.5 4.5 5 5L8 21H3v-5Z"></path><path d="m13 6 5 5M11 8l2 2M8 11l2 2M5 14l2 2"></path></svg>Fit &amp; Size Guide</button>' : ''}</legend><div>${product.variants.map((variant) => variant.options[index]).filter((value, index, values) => value && values.indexOf(value) === index).map((value) => optionButton(product, name, value, index)).join('')}</div></fieldset>
+          ${product.options.length && !(product.variants.length === 1 && /^default title$/i.test(product.variants[0].title || '')) ? product.options.map((option, index) => { const name = typeof option === 'string' ? option : option.name; const scopedVariants = index > 0 ? product.variants.filter((v) => v.options.every((val, pos) => pos >= index || val === quickShopState.selected[pos])) : product.variants; return `
+            <fieldset class="quick-option-group"><legend><span>Select ${escapeHtml(name)}</span>${/size/i.test(name) ? '<button class="size-guide-trigger" type="button" data-size-guide-open aria-haspopup="dialog"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m14.5 4.5 5 5L8 21H3v-5Z"></path><path d="m13 6 5 5M11 8l2 2M8 11l2 2M5 14l2 2"></path></svg>Fit &amp; Size Guide</button>' : ''}</legend><div>${scopedVariants.map((variant) => variant.options[index]).filter((value, idx, values) => value && values.indexOf(value) === idx).map((value) => optionButton(product, name, value, index)).join('')}</div></fieldset>
           `; }).join('') : ''}
           <label class="quick-quantity">Qty<span><button type="button" data-quick-quantity="-1" aria-label="Decrease quantity">−</button><input type="number" min="1" value="${quantity}" data-quick-quantity-input aria-label="Quantity"><button type="button" data-quick-quantity="1" aria-label="Increase quantity">+</button></span></label>
           <div class="quick-shop-product__actions"><button class="button button--dark" type="button" data-quick-submit${variant?.available ? '' : ' disabled'}>${lineKey ? 'Update bag' : variant?.available ? 'Add to bag' : 'Sold out'}</button><button class="button button--danger" type="button" data-quick-buy${variant?.available ? '' : ' disabled'}>Buy now</button></div>
@@ -1058,7 +1058,7 @@
       };
       const launcher = findChatLauncher();
       if (launcher) { launcher.click(); return; }
-      if (!host?.hasAttribute('open')) window.location.href = '/pages/about-us';
+      if (!host?.hasAttribute('open')) window.location.href = '/pages/contact';
     }
   }, true);
   async function shareWishlist() {

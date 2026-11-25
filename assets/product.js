@@ -153,8 +153,12 @@
       group.querySelector('[data-option-label]').textContent = current[index] || '';
       group.querySelectorAll('[data-product-option]').forEach((input) => {
         const possible = data.variants.filter((candidate) => candidate.options[index] === input.value && candidate.options.every((value, position) => position >= index || value === current[position]));
+        const label = input.closest('label');
         input.disabled = !possible.length;
-        input.closest('label').classList.toggle('is-unavailable', !possible.some((candidate) => candidate.available));
+        if (label) {
+          label.hidden = index > 0 && !possible.length;
+          label.classList.toggle('is-unavailable', possible.length > 0 && !possible.some((candidate) => candidate.available));
+        }
       });
     });
   }
