@@ -144,8 +144,62 @@
       opener.dataset.imageId = imageId || '';
       opener.dataset.alt = alt || data.title;
     }
+    syncZoomSource(src);
     thumbs.forEach((thumb) => thumb.setAttribute('aria-pressed', String(String(imageId) === thumb.dataset.imageId)));
     thumbs.find((thumb) => String(imageId) === thumb.dataset.imageId)?.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
+  }
+  const galleryRoot = root.querySelector('.product-gallery');
+  const zoomStage = root.querySelector('[data-product-zoom-stage]');
+  const zoomLens = root.querySelector('[data-product-zoom-lens]');
+  const zoomPane = root.querySelector('[data-product-zoom-pane]');
+  const ZOOM_FACTOR = 2.5;
+  function highResUrl(src) {
+    if (!src) return '';
+    try {
+      const url = new URL(String(src).replace(/^\/\//, 'https://'), window.location.href);
+      if (url.searchParams.has('width')) url.searchParams.set('width', '2400');
+      return url.toString();
+    } catch { return src; }
+  }
+  function syncZoomSource(src) {
+    if (!zoomPane || !src) return;
+    zoomPane.style.backgroundImage = `url("${highResUrl(src)}")`;
+  }
+  if (mainImage?.src) syncZoomSource(mainImage.src);
+  if (galleryRoot && zoomStage && zoomLens && zoomPane && mainImage) {
+    const canHoverZoom = () => window.innerWidth > 960 && window.matchMedia?.('(hover: hover) and (pointer: fine)').matches;
+    const stopZoom = () => galleryRoot.classList.remove('is-zooming');
+    const updateZoom = (event) => {
+      if (!canHoverZoom() || !mainImage.naturalWidth || !mainImage.naturalHeight) { stopZoom(); return; }
+      const rect = zoomStage.getBoundingClientRect();
+      const paneRect = zoomPane.getBoundingClientRect();
+      if (!rect.width || !rect.height || !paneRect.width || !paneRect.height) return;
+      const scale = Math.min(rect.width / mainImage.naturalWidth, rect.height / mainImage.naturalHeight);
+      const imgW = mainImage.naturalWidth * scale;
+      const imgH = mainImage.naturalHeight * scale;
+      const imgLeft = (rect.width - imgW) / 2;
+      const imgTop = (rect.height - imgH) / 2;
+      const mx = event.clientX - rect.left;
+      const my = event.clientY - rect.top;
+      if (mx < imgLeft || mx > imgLeft + imgW || my < imgTop || my > imgTop + imgH) { stopZoom(); return; }
+      const lensW = Math.min(imgW, paneRect.width / ZOOM_FACTOR);
+      const lensH = Math.min(imgH, paneRect.height / ZOOM_FACTOR);
+      const lx = Math.max(imgLeft, Math.min(mx - lensW / 2, imgLeft + imgW - lensW));
+      const ly = Math.max(imgTop, Math.min(my - lensH / 2, imgTop + imgH - lensH));
+      const ix = lx - imgLeft;
+      const iy = ly - imgTop;
+      zoomLens.style.width = `${lensW}px`;
+      zoomLens.style.height = `${lensH}px`;
+      zoomLens.style.transform = `translate3d(${lx}px, ${ly}px, 0)`;
+      zoomPane.style.backgroundSize = `${imgW * ZOOM_FACTOR}px ${imgH * ZOOM_FACTOR}px`;
+      zoomPane.style.backgroundPosition = `${-ix * ZOOM_FACTOR}px ${-iy * ZOOM_FACTOR}px`;
+      galleryRoot.classList.add('is-zooming');
+    };
+    zoomStage.addEventListener('pointerenter', updateZoom);
+    zoomStage.addEventListener('pointermove', updateZoom);
+    zoomStage.addEventListener('pointerleave', stopZoom);
+    zoomStage.addEventListener('click', stopZoom);
+    window.addEventListener('scroll', stopZoom, { passive: true });
   }
   thumbs.forEach((thumb) => thumb.addEventListener('click', () => showImage(thumb.dataset.src, thumb.dataset.imageId, thumb.dataset.alt)));
   function syncVariant(changedIndex, updateUrl = true) {
