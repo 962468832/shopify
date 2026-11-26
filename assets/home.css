@@ -1,4 +1,4 @@
-.template-index{background:#fff;color:#392e28;font-family:'Nunito',Arial,sans-serif}
+.template-index{background:#f8f3ea;color:#392e28;font-family:'DM Sans',Arial,sans-serif}
 .template-index #MainContent{overflow:clip}
 .home-container{width:100%;padding-inline:8px;margin-inline:auto}
 .home-section{padding-block:96px}
@@ -27,15 +27,15 @@
 .home-rail img{-webkit-user-drag:none}
 .home-rail:focus-visible{outline:2px solid #392e28;outline-offset:3px}
 .home-rail-controls{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
-.home-rail-controls button{border:1px solid #d8dde0;background:#fff;color:#392e28;border-radius:50%;height:36px;width:36px;font-size:20px}
+.home-rail-controls button{border:1px solid #d9c6b0;background:#fdf9f3;color:#392e28;border-radius:50%;height:36px;width:36px;font-size:20px}
 .home-rail-controls button:disabled{opacity:.3;cursor:default}
-.home-scenarios{border-bottom:1px solid #e5e7e9}
+.home-scenarios{border-bottom:1px solid #e8dccb}
 .home-scenario{flex-basis:calc((100% - 72px)/4)}
-.home-scenario__visual{position:relative;aspect-ratio:3/4;overflow:hidden;border-radius:2px;background:#e8edf0}
-.home-video{position:relative;width:100%;height:100%;overflow:hidden;background:#e8edf0}
+.home-scenario__visual{position:relative;aspect-ratio:3/4;overflow:hidden;border-radius:2px;background:#efe6da}
+.home-video{position:relative;width:100%;height:100%;overflow:hidden;background:#efe6da}
 .home-video video{display:block;width:100%;height:100%;object-fit:cover}
 .home-video>img{display:block;width:100%;height:100%;object-fit:cover}
-.home-media-placeholder{display:grid;place-items:center;width:100%;height:100%;min-height:180px;padding:24px;background:#e8edf0;color:#392e28;text-align:center;font-size:14px}
+.home-media-placeholder{display:grid;place-items:center;width:100%;height:100%;min-height:180px;padding:24px;background:#efe6da;color:#392e28;text-align:center;font-size:14px}
 .home-media-notice{position:absolute;inset:auto 12px 58px;padding:8px 12px;background:#fff;color:#392e28;font-size:13px}
 .home-editor-empty{padding:24px;background:#f1f0ed;color:#392e28}
 .home-video__toggle{position:absolute;bottom:12px;right:12px;z-index:3;display:grid;place-items:center;width:36px;height:36px;border:1px solid #fff;border-radius:50%;background:#392e2888;color:#fff;font-size:12px}
@@ -68,12 +68,12 @@
 .home-film .home-pill{align-self:flex-start;min-height:54px;pointer-events:auto}
 .home-film>.home-video .home-video__toggle{z-index:4}
 .home-products--compact{padding-block:48px}
-.home-lifestyles{padding-top:56px;border-block:1px solid #e5e7e9}
-.home-lifestyles{padding-top:36px;padding-bottom:76px;border-bottom:1px solid #e5e7e9}
+.home-lifestyles{padding-top:56px;border-block:1px solid #e8dccb}
+.home-lifestyles{padding-top:36px;padding-bottom:76px;border-bottom:1px solid #e8dccb}
 .home-lifestyles .home-heading{margin-bottom:26px}
 .home-lifestyle-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
 .home-lifestyle-grid--3{grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
-.home-lifestyle{position:relative;aspect-ratio:3/4;overflow:hidden;border-radius:3px;color:#fff;background:#e8edf0}
+.home-lifestyle{position:relative;aspect-ratio:3/4;overflow:hidden;border-radius:3px;color:#fff;background:#efe6da}
 .home-lifestyle>.home-video{position:absolute;inset:0;width:100%;height:100%;z-index:0}
 .home-lifestyle>img,.home-lifestyle>.home-video img,.home-lifestyle>.home-video video{width:100%;height:100%;object-fit:cover;transition:transform .55s cubic-bezier(.22,1,.36,1)}
 .home-lifestyle:hover>img,.home-lifestyle:hover>.home-video img,.home-lifestyle:hover>.home-video video{transform:scale(1.03)}
@@ -84,11 +84,11 @@
 .home-lifestyle h3{font-size:28px;color:#fff}
 .home-lifestyle__link>p:not(.home-eyebrow),.home-lifestyle div>p:not(.home-eyebrow){font-size:14px;line-height:1.5;margin:10px 0 18px;color:rgba(255,255,255,.9)}
 .home-lifestyle__link .home-text-link{color:#fff}
-.home-collections{padding-block:48px;border-bottom:1px solid #e5e7e9;background:#fff}
+.home-collections{padding-block:48px;border-bottom:1px solid #e5d4bf;background:#f8f3ea}
 .home-collection{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:24px;margin-bottom:24px}
 .home-collection:last-child{margin-bottom:0}
 .home-collection:nth-child(even) .home-collection__cover{order:2}
-.home-collection__cover{position:relative;display:block;aspect-ratio:7/8;overflow:hidden;background:#e8edf0;color:#fff}
+.home-collection__cover{position:relative;display:block;aspect-ratio:7/8;overflow:hidden;background:#efe6da;color:#fff}
 .home-collection__cover>img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
 .home-collection__cover:hover>img{transform:scale(1.02)}
 .home-collection__cover:after{content:'';position:absolute;inset:0;background:linear-gradient(0deg,#000b,transparent 75%)}
@@ -107,7 +107,7 @@
 .home-story>a{display:block;padding:18px 0 0}
 .home-story h3{font-size:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:400;margin:0 0 10px}
 .home-hint{font-size:13px;color:#7a6457}
-.home-journal{border-top:1px solid #e5e7e9}
+.home-journal{border-top:1px solid #e8dccb}
 .home-journal-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
 .home-journal-card{display:flex;flex-direction:column;min-width:0}
 .home-journal-card img{width:100%;aspect-ratio:4/3;object-fit:cover}
@@ -150,7 +150,7 @@
 @media(prefers-reduced-motion:reduce){.home-video--editorial>img{animation:none}}
 
 /* Brand Trust & Value Proposition Strip */
-.home-trust-strip{border-bottom:1px solid #e5e7e9;background:#fbf7f0;padding-block:28px}
+.home-trust-strip{border-bottom:1px solid #e8dccb;background:#fbf7f0;padding-block:28px}
 .home-trust-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;align-items:center}
 .home-trust-item{display:flex;align-items:center;gap:14px;padding:6px 10px}
 .home-trust-item__icon{display:flex;align-items:center;justify-content:center;width:40px;height:40px;flex:none;border-radius:50%;background:#fff;border:1px solid #e5e1dc;color:#392e28}
@@ -161,11 +161,11 @@
 @media(max-width:767px){.home-trust-strip{padding-block:14px}.home-trust-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 8px}.home-trust-item{padding:2px 4px;gap:8px;align-items:flex-start}.home-trust-item__icon{width:28px;height:28px;margin-top:1px}.home-trust-item__icon svg{width:14px;height:14px}.home-trust-item>div strong{font-size:11.5px;line-height:1.25}.home-trust-item>div span{font-size:10.5px;line-height:1.3;margin-top:2px}}
 
 /* Sport Spotlight: Equestrian & Yoga */
-.home-sport-spotlight{background:#fbf7f0;border-top:1px solid #e5e7e9;border-bottom:1px solid #e5e7e9}
+.home-sport-spotlight{background:#fbf7f0;border-top:1px solid #e8dccb;border-bottom:1px solid #e8dccb}
 .home-sport-spotlight__head>div{max-width:760px}
 .home-sport-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;align-items:stretch}
 .home-sport-col{display:flex;flex-direction:column;gap:22px;min-width:0;height:100%}
-.home-sport-card{display:flex;flex-direction:column;flex:1;background:#fff;border:1px solid #e7e2dc;border-radius:3px;overflow:hidden}
+.home-sport-card{display:flex;flex-direction:column;flex:1;background:#fdf9f3;border:1px solid #e7e2dc;border-radius:3px;overflow:hidden}
 .home-sport-card__media{position:relative;aspect-ratio:10/11;overflow:hidden;background:#ece0d0}
 .home-sport-card__media img{width:100%;height:100%;object-fit:cover;object-position:center 45%;display:block;transition:transform .55s cubic-bezier(.22,1,.36,1)}
 .home-sport-card:hover .home-sport-card__media img{transform:scale(1.03)}
@@ -185,7 +185,7 @@
 .home-sport-pill{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:10px 20px;border-radius:999px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:background-color .2s,color .2s,border-color .2s}
 .home-sport-pill--dark{background:#392e28;color:#fff;border:1px solid #392e28}
 .home-sport-pill--dark:hover{background:#392e28;border-color:#392e28}
-.home-sport-pill--outline{background:#fff;color:#392e28;border:1px solid #d4ccc4}
+.home-sport-pill--outline{background:#fdf9f3;color:#392e28;border:1px solid #d4ccc4}
 .home-sport-pill--outline:hover{border-color:#392e28;background:#fbf7f0}
 .home-sport-shelf{min-width:0}
 .home-sport-shelf__label{display:none}
@@ -233,7 +233,7 @@
 .home-reviews__score{display:inline-flex;align-items:center;gap:10px;font-size:13px;color:#6b645e}
 .home-reviews__stars{color:#79474d;letter-spacing:.12em;font-size:14px;line-height:1}
 .home-reviews-rail{gap:16px;padding:4px 2px 12px}
-.home-review-card{flex-basis:clamp(290px,24vw,360px);min-height:224px;display:flex;flex-direction:column;justify-content:space-between;background:#fff;border:1px solid #eae6e1;border-radius:4px;padding:24px 24px 20px;transition:border-color .22s ease,box-shadow .22s ease}
+.home-review-card{flex-basis:clamp(290px,24vw,360px);min-height:224px;display:flex;flex-direction:column;justify-content:space-between;background:#fdf9f3;border:1px solid #eae6e1;border-radius:4px;padding:24px 24px 20px;transition:border-color .22s ease,box-shadow .22s ease}
 .home-review-card:hover,.home-review-card.is-featured{border-color:#8a827b;box-shadow:0 8px 24px rgba(57,46,40,.05)}
 .home-review-card__stars{color:#79474d;letter-spacing:.12em;font-size:14px;line-height:1;margin-bottom:14px}
 .home-review-card__quote{font-size:14.5px;line-height:1.65;color:#2b2622;margin:0 0 24px;flex:1}
