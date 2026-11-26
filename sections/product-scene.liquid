@@ -4,16 +4,23 @@
     {% for block in section.blocks %}
       {% assign scene_image = block.settings.image %}
       {% assign scene_asset_name = blank %}
-      {% assign scene_label = block.settings.label | downcase %}
+      {% assign scene_label = block.settings.label | strip | downcase %}
       {% case scene_label %}
-        {% when 'everyday' %}
+        {% when 'everyday', '日常', '居家日常' %}
           {% assign scene_asset_name = 'product-scene-everyday.webp' %}
-        {% when 'travel' %}
+        {% when 'travel', '旅行', '差旅出行' %}
           {% assign scene_asset_name = 'product-scene-travel.webp' %}
-        {% when 'movement' %}
+        {% when 'movement', '运动', '运动伸展' %}
           {% assign scene_asset_name = 'product-scene-movement.webp' %}
-        {% when 'vacation' %}
+        {% when 'vacation', '度假', '度假出行' %}
           {% assign scene_asset_name = 'product-scene-vacation.webp' %}
+        {% else %}
+          {% case forloop.index0 %}
+            {% when 0 %}{% assign scene_asset_name = 'product-scene-everyday.webp' %}
+            {% when 1 %}{% assign scene_asset_name = 'product-scene-travel.webp' %}
+            {% when 2 %}{% assign scene_asset_name = 'product-scene-movement.webp' %}
+            {% when 3 %}{% assign scene_asset_name = 'product-scene-vacation.webp' %}
+          {% endcase %}
       {% endcase %}
       {% if scene_image %}
         <img
