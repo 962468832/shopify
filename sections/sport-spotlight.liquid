@@ -15,7 +15,7 @@
     <div class="home-sport-grid">
       {% for block in section.blocks %}
         <div class="home-sport-col" {{ block.shopify_attributes }}>
-          <article class="home-sport-card">
+          <article class="home-sport-card home-sport-card--{{ forloop.index }}">
             <div class="home-sport-card__media">
               {% if block.settings.image != blank %}
                 <img
@@ -105,7 +105,8 @@
           {%- assign rail_handles_raw = block.settings.rail_handles | strip -%}
           {%- if rail_handles_raw != blank -%}
             {%- assign rail_handles = rail_handles_raw | split: ',' -%}
-            <div class="home-sport-shelf" data-home-carousel>
+            <div class="home-sport-shelf home-sport-shelf--{{ forloop.index }}" data-home-carousel>
+              {% if block.settings.rec_label != blank %}<p class="home-sport-shelf__label">{% render 'i18n', text: block.settings.rec_label %}</p>{% endif %}
               <div class="home-rail home-sport-rail" data-home-rail tabindex="0" role="region" aria-label="{% render 'i18n', text: block.settings.rec_label %}">
                 {%- for raw_handle in rail_handles -%}
                   {%- assign h = raw_handle | strip -%}

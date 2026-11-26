@@ -397,8 +397,8 @@ body{overflow-x:hidden}
   .home-hero{min-height:calc(100svh - 34px);height:auto}
   .home-hero__content{padding-inline:16px;padding-top:110px}
   .home-hero h1{font-size:31px}
-  .home-hero__buttons{flex-direction:column;align-items:center}
-  .home-hero .home-pill{width:min(100%,260px);min-height:44px}
+  .home-hero__buttons{flex-direction:row;flex-wrap:nowrap;justify-content:center;align-items:center;gap:8px}
+  .home-hero .home-pill{width:auto;flex:1 1 0;max-width:176px;min-height:40px;padding:9px 10px;font-size:10px;white-space:nowrap}
   .home-heading h2{font-size:27px}
   .home-product-rail>.product-card{flex-basis:78vw}
   .home-collection__products .product-card__media{aspect-ratio:4/5}
