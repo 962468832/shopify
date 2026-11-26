@@ -1,4 +1,4 @@
-<section class="home-section home-scenarios" data-home-carousel>
+<section id="scenario" class="home-section home-scenarios" data-home-carousel>
   <div class="home-container"><div class="home-heading"><div><p class="home-eyebrow">{{ section.settings.eyebrow | escape }}</p><h2>{{ section.settings.heading | escape }}</h2></div>{% if section.settings.link_label != blank %}<a class="home-text-link" href="{{ section.settings.link | default: routes.all_products_collection_url }}">{{ section.settings.link_label | escape }} →</a>{% endif %}</div>
   <div class="home-rail home-scenario-rail" data-home-rail tabindex="0" role="region" aria-label="{{ section.settings.heading | escape }}">
     {% for block in section.blocks %}<article class="home-scenario" {{ block.shopify_attributes }}>

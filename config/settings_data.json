@@ -17,8 +17,8 @@
       "announcement-bar": {
         "type": "announcement-bar",
         "settings": {
-          "default_message": "🎁 FREE Laundry Bag with Orders $100+",
-          "promo_message": "BLACK FRIDAY STARTS EARLY FOR VIPs · Unlock Early Access, Exclusive Discounts & More.",
+          "default_message": "✨ Meet Softveil Original · Save up to 25% on 3 & 5-Packs",
+          "promo_message": "🎁 FREE Laundry Bag with Orders $100+",
           "shipping_message": "Free shipping on orders over [threshold]"
         }
       },
@@ -26,7 +26,9 @@
         "type": "header",
         "settings": {
           "use_storefront_menu": false,
-          "menu": ""
+          "menu": "",
+          "menu_nucloud_image": "shopify://shop_images/pielik-cover-softveil-collection.jpg",
+          "menu_nuair_image": "shopify://shop_images/pielik-cover-freeform-collection.jpg"
         }
       },
       "footer": {

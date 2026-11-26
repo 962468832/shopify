@@ -1,5 +1,5 @@
 <section class="home-film" aria-labelledby="film-{{ section.id }}">
-  {% render 'home-video', video: section.settings.video, video_url: section.settings.video_url, poster: section.settings.poster, poster_url: section.settings.poster_url, title: section.settings.heading %}
+  {% render 'home-video', video: section.settings.video, video_url: section.settings.video_url, poster: section.settings.poster, poster_url: section.settings.poster_url, title: section.settings.heading, width: 2200, sizes: '100vw' %}
   <div class="home-film__copy"><p class="home-eyebrow">{{ section.settings.eyebrow | escape }}</p><h2 id="film-{{ section.id }}">{{ section.settings.heading | escape }}</h2><p class="home-film__tagline">{{ section.settings.tagline | escape }}</p><p class="home-film__description">{{ section.settings.description | escape }}</p>{% if section.settings.button_label != blank %}<a class="home-pill" href="{{ section.settings.link | default: routes.all_products_collection_url }}">{{ section.settings.button_label | escape }}</a>{% endif %}</div>
 </section>
 {% schema %}
@@ -47,7 +47,7 @@
       "type": "text",
       "id": "heading",
       "label": "标题",
-      "default": "The Featherlight Collection"
+      "default": "The Softveil Collection"
     },
     {
       "type": "text",
@@ -64,7 +64,7 @@
       "type": "text",
       "id": "button_label",
       "label": "按钮文字",
-      "default": "Shop Featherlight"
+      "default": "Shop Softveil"
     },
     {
       "type": "url",

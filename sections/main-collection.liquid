@@ -1,5 +1,5 @@
-{% assign category_collection_handles = 'mid-rise-brief,thongs,high-rise,bras-2026,sculpt-lift' | split: ',' %}
-{% assign category_collection_titles = 'Briefs,Thongs,High-Rise,Bras,Shapewear' | split: ',' %}
+{% assign category_collection_handles = 'mid-rise-brief,high-rise,hipster,high-cut' | split: ',' %}
+{% assign category_collection_titles = 'Mid-Rise Briefs,High-Rise,Hipster,High-Cut' | split: ',' %}
 {% assign has_active_filter = false %}
 {% for filter in collection.filters %}{% if filter.active_values.size > 0 or filter.min_value.value != blank or filter.max_value.value != blank %}{% assign has_active_filter = true %}{% endif %}{% endfor %}
 {% assign has_non_default_sort = false %}{% if collection.sort_by != blank and collection.sort_by != collection.default_sort_by %}{% assign has_non_default_sort = true %}{% endif %}
@@ -28,11 +28,11 @@
 
     {% if show_grouped %}
       <div class="underwear-groups">
-        {% assign group_labels = 'nav.featherlight,nav.sculpt_lift' | split: ',' %}
+        {% assign group_labels = 'nav.softveil,nav.freeform' | split: ',' %}
         {% assign group_eyebrows = 'collection.laser_comfort,collection.gentle_shaping' | split: ',' %}
         {% assign group_headings = 'collection.feel_nothing,collection.smooth_shape' | split: ',' %}
         {% assign group_descriptions = 'collection.feel_nothing_desc,collection.smooth_shape_desc' | split: ',' %}
-        {% assign group_handles = 'featherlight-collection,sculpt-lift' | split: ',' %}
+        {% assign group_handles = 'softveil-collection,freeform-collection' | split: ',' %}
         {% for group_handle in group_handles %}{% assign group_products = collections[group_handle] %}{% if group_products != blank and group_products.products_count > 0 %}<section class="underwear-group" aria-labelledby="group-{{ group_handle }}"><div class="underwear-group__head"><div><p class="eyebrow">{{ group_eyebrows[forloop.index0] | t }}</p><h2 id="group-{{ group_handle }}">{{ group_headings[forloop.index0] | t }}</h2><p>{{ group_descriptions[forloop.index0] | t }}</p></div><a class="text-link" href="{{ group_products.url }}">Shop {{ group_labels[forloop.index0] | t }} <span>↗</span></a></div><div class="product-grid underwear-group__grid">{% for product in group_products.products limit: 12 %}{% unless product.product_type == 'Gift Card' or product.handle contains 'gift-card' %}{% render 'product-card', product: product, show_color_options: true %}{% endunless %}{% endfor %}</div></section>{% endif %}{% endfor %}
         {% assign all_underwear = collections['undies-2026'] %}{% assign general_count = 0 %}{% if all_underwear != blank %}{% for product in all_underwear.products %}{% assign group_membership = false %}{% for group_handle in group_handles %}{% assign group_products = collections[group_handle] %}{% assign group_product_handles = group_products.products | map: 'handle' %}{% if group_product_handles contains product.handle %}{% assign group_membership = true %}{% endif %}{% endfor %}{% unless group_membership or product.product_type == 'Gift Card' or product.handle contains 'gift-card' %}{% assign general_count = general_count | plus: 1 %}{% endunless %}{% endfor %}{% endif %}
         {% assign general_rendered = 0 %}{% if general_count > 0 %}<section class="underwear-group underwear-group--general"><div class="underwear-group__head"><div><p class="eyebrow">{{ 'collection.all_underwear' | t }}</p><h2>{{ 'collection.more_comfort' | t }}</h2></div><a class="text-link" href="{{ all_underwear.url }}">{{ 'collection.shop_all_underwear' | t }}<span>↗</span></a></div><div class="product-grid underwear-group__grid">{% for product in all_underwear.products %}{% assign group_membership = false %}{% for group_handle in group_handles %}{% assign group_products = collections[group_handle] %}{% assign group_product_handles = group_products.products | map: 'handle' %}{% if group_product_handles contains product.handle %}{% assign group_membership = true %}{% endif %}{% endfor %}{% unless group_membership or product.product_type == 'Gift Card' or product.handle contains 'gift-card' %}{% assign general_rendered = general_rendered | plus: 1 %}{% render 'product-card', product: product, show_color_options: true %}{% if general_rendered >= 24 %}{% break %}{% endif %}{% endunless %}{% endfor %}</div></section>{% endif %}
@@ -42,7 +42,7 @@
     {% endif %}
   </div>
 
-  {% assign recommendation_handles = 'featherlight-collection,sculpt-lift,bras-2026' | split: ',' %}
+  {% assign recommendation_handles = 'softveil-collection,freeform-collection,best-sellers-2026' | split: ',' %}
   <section class="collection-recommendations" aria-labelledby="collection-recommendations-title">
     <div class="collection-recommendations__head"><div><p class="eyebrow">{{ 'collection.keep_exploring' | t }}</p><h2 id="collection-recommendations-title">{{ 'collection.next_favorite' | t }}</h2></div><a class="text-link" href="{{ routes.all_products_collection_url }}">{{ 'collection.shop_all' | t }}<span>↗</span></a></div>
     <div class="collection-recommendations__grid">

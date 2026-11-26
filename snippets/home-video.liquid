@@ -1,6 +1,8 @@
 {% liquid
   assign source_url = video_url
   assign cover_url = poster_url
+  assign cover_srcset = blank
+  assign img_width = width | default: 1200
   if video != blank
     assign source_url = blank
     for source in video.sources
@@ -11,20 +13,29 @@
         endif
       endif
     endfor
-    assign cover_url = video.preview_image | image_url: width: 1000
+    assign cover_url = video.preview_image | image_url: width: img_width
   endif
   if poster != blank
-    assign cover_url = poster | image_url: width: 1000
+    assign cover_url = poster | image_url: width: img_width
+    capture cover_srcset
+      echo poster | image_url: width: 600
+      echo ' 600w, '
+      echo poster | image_url: width: 1000
+      echo ' 1000w, '
+      echo poster | image_url: width: 1600
+      echo ' 1600w, '
+      echo poster | image_url: width: 2200
+      echo ' 2200w'
+    endcapture
   endif
 %}
-<div class="home-video"{% if source_url != blank %} data-home-video data-video-mode="{{ mode | default: 'auto' }}"{% endif %}{% if video != blank %} data-native-video="{{ video.id }}"{% endif %}>
+<div class="home-video{% if source_url == blank and cover_url != blank %} home-video--editorial{% endif %}"{% if source_url != blank %} data-home-video data-video-mode="{{ mode | default: 'auto' }}"{% endif %}{% if video != blank %} data-native-video="{{ video.id }}"{% endif %}>
   {% if source_url != blank %}
     <video muted loop playsinline preload="none"{% if cover_url != blank %} data-poster="{{ cover_url | escape }}"{% endif %} data-src="{{ source_url | escape }}" aria-label="{{ title | escape }}"></video>
     <button class="home-video__toggle" type="button" data-video-toggle aria-label="Play {{ title | escape }}" aria-pressed="false"><span aria-hidden="true">▶</span></button>
   {% elsif cover_url != blank %}
-    <img src="{{ cover_url | escape }}" alt="{{ title | escape }}" width="900" height="1200" loading="lazy">
-    {% if request.design_mode %}<span class="home-media-notice">请选择或上传视频</span>{% endif %}
+    <img src="{{ cover_url | escape }}"{% if cover_srcset != blank %} srcset="{{ cover_srcset | escape }}" sizes="{{ sizes | default: '(max-width: 750px) 85vw, 33vw' }}"{% endif %} alt="{{ title | escape }}" width="{{ img_width }}" height="1200" loading="lazy" decoding="async">
   {% elsif request.design_mode %}
-    <div class="home-media-placeholder">请选择或上传视频，可另外设置封面</div>
+    <div class="home-media-placeholder">请选择或上传图片/视频</div>
   {% endif %}
 </div>

@@ -12,17 +12,82 @@
     "hero": {
       "type": "hero",
       "settings": {
-        "image": "shopify://shop_images/7fc14e403815c9e12f458bb5bd5bfa3b.png",
-        "mobile_image": "shopify://shop_images/4c871390ea9594ffaa7f54b41268864d.png",
+        "asset_file_mobile": "",
+        "asset_file": "",
+        "image": "shopify://shop_images/pielik-hero-desktop-2026.jpg",
+        "mobile_image": "shopify://shop_images/pielik-hero-mobile-2026.jpg",
         "show_legacy_media": false,
-        "image_alt": "Pielik comfort underwear campaign banner",
-        "heading": "BLACK FRIDAY STARTS EARLY FOR VIPs",
-        "text": "Unlock Early Access, Exclusive Discounts & More.",
-        "primary_label": "Shop by Underwear",
-        "primary_link": "/collections/all",
+        "image_alt": "Pielik Softveil Original second-skin comfort underwear campaign",
+        "heading": "Second-Skin Comfort, Zero Lines.",
+        "text": "Meet Softveil Original — ultra-thin ice silk with laser-cut edges and a 5A cotton gusset. Save up to 25% on 3 & 5-Packs.",
+        "primary_label": "Shop Softveil Original",
+        "primary_link": "/products/softveil-original",
         "tertiary_label": "Shop by Scenario",
-        "tertiary_link": "/collections/all",
-        "asset_file_mobile": "hero-mobile-2026.webp"
+        "tertiary_link": "#scenario"
+      }
+    },
+    "trust": {
+      "type": "trust-strip",
+      "blocks": {
+        "t0": {
+          "type": "item",
+          "settings": {
+            "icon": "feather",
+            "title": "Invisible Laser-Cut Edges",
+            "subtitle": "Zero panty lines under silk, denim & leggings"
+          }
+        },
+        "t1": {
+          "type": "item",
+          "settings": {
+            "icon": "shield",
+            "title": "5A Antibacterial Cotton Gusset",
+            "subtitle": "Breathable skin-first freshness all day"
+          }
+        },
+        "t2": {
+          "type": "item",
+          "settings": {
+            "icon": "pack",
+            "title": "Save Up to 25% on Packs",
+            "subtitle": "Build your 3-Pack or 5-Pack rotation"
+          }
+        },
+        "t3": {
+          "type": "item",
+          "settings": {
+            "icon": "check",
+            "title": "Best Pair Fit Guarantee",
+            "subtitle": "Love your first pair or we make it right"
+          }
+        }
+      },
+      "block_order": [
+        "t0",
+        "t1",
+        "t2",
+        "t3"
+      ],
+      "settings": {
+        "label": "Why Pielik"
+      }
+    },
+    "bestsellers": {
+      "type": "product-carousel",
+      "settings": {
+        "heading": "Best Seller",
+        "description": "Our most-loved seamless essentials, worn on repeat.",
+        "hide_heading": false,
+        "collection": "best-sellers-2026",
+        "products": [
+          "softveil-original",
+          "softveil-original-high-rise-hipster-bikini",
+          "softveil-wave-hipster-bikini",
+          "freeform-high-cut"
+        ],
+        "limit": 4,
+        "link_label": "Shop All",
+        "link": "/collections/best-sellers-2026"
       }
     },
     "scenario": {
@@ -31,14 +96,11 @@
         "item0": {
           "type": "scenario",
           "settings": {
-            "video": "shopify://files/videos/home-3b8d12a29ed54ca2babdf132e1491dc1.mp4",
-            "poster": "shopify://shop_images/work.png",
+            "poster": "shopify://shop_images/pielik-scenario-no-vpls.jpg",
             "show_legacy_media": false,
-            "video_url": "https://cdn.shopify.com/videos/c/vp/4c7726eb58e5416d9c65e7d9bfc4e0c7/4c7726eb58e5416d9c65e7d9bfc4e0c7.HD-720p-3.0Mbps-98885385.mp4",
-            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/work.png?v=1792995931",
-            "kicker": "Seamless Collection",
+            "kicker": "Softveil Original",
             "title": "No Visible Lines",
-            "copy": "Seamless, laser-cut edges that vanish under leggings, silk and everything in between.",
+            "copy": "Laser-cut edges and bonded sides that vanish under tailored trousers, silk, and leggings.",
             "button_label": "Shop the Solution",
             "link": "/collections/no-vpls"
           }
@@ -46,14 +108,11 @@
         "item1": {
           "type": "scenario",
           "settings": {
-            "video": "shopify://files/videos/home-56e1a4a2e054482295c52adfe043b1a3.mp4",
-            "poster": "shopify://shop_images/everyday.png",
+            "poster": "shopify://shop_images/pielik-scenario-no-wedgies.jpg",
             "show_legacy_media": false,
-            "video_url": "https://cdn.shopify.com/videos/c/vp/0597eabbe7264da792fcf418afa1c077/0597eabbe7264da792fcf418afa1c077.HD-720p-3.0Mbps-98885397.mp4",
-            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/everyday.png?v=1792995947",
-            "kicker": "Everyday Briefs",
+            "kicker": "Softveil Everyday",
             "title": "No Wedgies",
-            "copy": "Stay-put cuts that never ride up, no matter how much you move.",
+            "copy": "Stay-put second-skin cuts engineered to stay smooth and never ride up.",
             "button_label": "Shop the Solution",
             "link": "/collections/no-wedgies"
           }
@@ -61,14 +120,11 @@
         "item3": {
           "type": "scenario",
           "settings": {
-            "video": "shopify://files/videos/home-c2bad840b15e451b8f23e368648ce000.mp4",
-            "poster": "shopify://shop_images/active.png",
+            "poster": "shopify://shop_images/pielik-scenario-breathable.jpg",
             "show_legacy_media": false,
-            "video_url": "https://cdn.shopify.com/videos/c/vp/fda955631b6d4775b0143ed89e25546e/fda955631b6d4775b0143ed89e25546e.HD-720p-4.5Mbps-98885420.mp4",
-            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/active.png?v=1792995965",
-            "kicker": "Featherlight",
+            "kicker": "Ice-Silk & 5A Cotton",
             "title": "Breathable All Day",
-            "copy": "Airy mesh panels keep you cool and dry from the desk to the gym.",
+            "copy": "Featherlight cooling ice silk paired with a 5A antibacterial cotton gusset keeps you fresh.",
             "button_label": "Shop the Solution",
             "link": "/collections/breathable-all-day"
           }
@@ -76,14 +132,11 @@
         "item4": {
           "type": "scenario",
           "settings": {
-            "video": "shopify://files/videos/home-a920729606d346b582109ef8c92c44aa.mp4",
-            "poster": "shopify://shop_images/travel.png",
+            "poster": "shopify://shop_images/pielik-scenario-no-digging.jpg",
             "show_legacy_media": false,
-            "video_url": "https://cdn.shopify.com/videos/c/vp/eee6d60c52434508ac404706991f9997/eee6d60c52434508ac404706991f9997.HD-720p-3.0Mbps-98885425.mp4",
-            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/travel.png?v=1792995971",
-            "kicker": "High-Rise Collection",
+            "kicker": "Softveil High-Rise",
             "title": "No Digging",
-            "copy": "Soft high-rise waistbands that smooth and support instead of pinch.",
+            "copy": "Flat seamless high-rise waistbands that smooth gently without ever pinching.",
             "button_label": "Shop the Solution",
             "link": "/collections/no-digging"
           }
@@ -91,14 +144,11 @@
         "item5": {
           "type": "scenario",
           "settings": {
-            "video": "shopify://files/videos/home-29c1baf6fae84039a31b9c641f0da121.mp4",
-            "poster": "shopify://shop_images/work.png",
+            "poster": "shopify://shop_images/pielik-scenario-no-rolling.jpg",
             "show_legacy_media": false,
-            "video_url": "https://cdn.shopify.com/videos/c/vp/d1db27f5638b44598d49588f5fbf88ae/d1db27f5638b44598d49588f5fbf88ae.HD-720p-3.0Mbps-98885457.mp4",
-            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/work.png?v=1792995931",
-            "kicker": "Sculpt High-Rise",
+            "kicker": "Freeform High Cut",
             "title": "No Rolling",
-            "copy": "Bonded bands that hold their place through every mile and every move.",
+            "copy": "Anchored bonded bands and high-cut freedom that stay flat through every stretch and stride.",
             "button_label": "Shop the Solution",
             "link": "/collections/no-rolling"
           }
@@ -115,52 +165,38 @@
         "eyebrow": "Shop by Scenario",
         "heading": "What's your biggest challenge?",
         "link_label": "All Scenarios",
-        "link": ""
-      }
-    },
-    "new": {
-      "type": "product-carousel",
-      "settings": {
-        "heading": "New Arrivals",
-        "description": "The latest in effortless comfort.",
-        "hide_heading": false,
-        "collection": "new-arrivals-2026",
-        "products": [],
-        "limit": 6,
-        "link_label": "Shop All",
-        "link": ""
+        "link": "/collections/undies-2026"
       }
     },
     "film": {
       "type": "home-video-banner",
       "settings": {
-        "video": "shopify://files/videos/home-6f14c62d65594a8f9cd5bcd634677504.mp4",
-        "poster": "shopify://shop_images/banner.png",
+        "poster": "shopify://shop_images/pielik-featured-softveil-banner.jpg",
         "show_legacy_media": false,
-        "video_url": "https://cdn.shopify.com/videos/c/vp/92e6c1feae734434b45eab1c560b7a41/92e6c1feae734434b45eab1c560b7a41.HD-720p-4.5Mbps-98885466.mp4",
-        "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/banner.png?v=1792995981",
         "eyebrow": "Featured Collection",
-        "heading": "The Featherlight Collection",
-        "tagline": "No lines. No digging. Just comfort.",
-        "description": "Ultra-thin. Invisible edges. Full coverage. Experience everyday comfort that feels like wearing nothing at all.",
-        "button_label": "Shop Featherlight",
-        "link": "/collections/featherlight-collection"
+        "heading": "The Softveil Collection",
+        "tagline": "No lines. No digging. Just second-skin comfort.",
+        "description": "Ultra-thin ice silk. Invisible laser-cut edges. 5A cotton gusset. Meet Softveil Original — everyday comfort that feels like wearing nothing at all.",
+        "button_label": "Shop Softveil",
+        "link": "/collections/softveil-collection"
       }
     },
     "cloud": {
       "type": "product-carousel",
       "settings": {
-        "heading": "Featherlight collection",
-        "description": "The latest in effortless comfort.",
+        "heading": "Softveil Collection",
+        "description": "Barely-there ice-silk essentials crafted for every silhouette.",
         "hide_heading": true,
-        "collection": "featherlight-collection",
+        "collection": "softveil-collection",
         "products": [
-          "featherlight-seamless-brief",
-          "featherlight-seamless-thong"
+          "softveil-original",
+          "softveil-original-high-rise-hipster-bikini",
+          "softveil-wave-hipster-bikini",
+          "freeform-high-cut"
         ],
-        "limit": 6,
-        "link_label": "Shop All",
-        "link": ""
+        "limit": 4,
+        "link_label": "Shop Softveil",
+        "link": "/collections/softveil-collection"
       }
     },
     "lifestyle": {
@@ -169,11 +205,11 @@
         "item0": {
           "type": "lifestyle",
           "settings": {
-            "image": "shopify://shop_images/work.png",
+            "image": "shopify://shop_images/pielik-lifestyle-work.jpg",
             "show_legacy_media": false,
             "label": "Work",
             "title": "Desk to dinner",
-            "copy": "Invisible lines under tailored everything.",
+            "copy": "Invisible lines under tailored trousers and silk.",
             "button_label": "Explore",
             "link": "/collections/desk-to-dinner"
           }
@@ -181,11 +217,11 @@
         "item1": {
           "type": "lifestyle",
           "settings": {
-            "image": "shopify://shop_images/travel.png",
+            "image": "shopify://shop_images/pielik-lifestyle-travel.jpg",
             "show_legacy_media": false,
             "label": "Travel",
             "title": "Long-haul ease",
-            "copy": "Breathable comfort, flight after flight.",
+            "copy": "Breathable ice-silk comfort, flight after flight.",
             "button_label": "Explore",
             "link": "/collections/long-haulease"
           }
@@ -193,11 +229,11 @@
         "item2": {
           "type": "lifestyle",
           "settings": {
-            "image": "shopify://shop_images/active.png",
+            "image": "shopify://shop_images/pielik-lifestyle-active.jpg",
             "show_legacy_media": false,
             "label": "Active",
             "title": "Made to move",
-            "copy": "Stay-put bands through every mile.",
+            "copy": "Stay-put seamless bands through every studio session.",
             "button_label": "Explore",
             "link": "/collections/made-to-move"
           }
@@ -205,11 +241,11 @@
         "item3": {
           "type": "lifestyle",
           "settings": {
-            "image": "shopify://shop_images/everyday.png",
+            "image": "shopify://shop_images/pielik-lifestyle-everyday.jpg",
             "show_legacy_media": false,
             "label": "Everyday",
             "title": "Off-duty soft",
-            "copy": "The barely-there basics you reach for daily.",
+            "copy": "Softveil Original — the barely-there basic you reach for daily.",
             "button_label": "Explore",
             "link": "/collections/off-duty-soft"
           }
@@ -232,33 +268,35 @@
         "item0": {
           "type": "collection",
           "settings": {
+            "image": "shopify://shop_images/pielik-cover-softveil-collection.jpg",
+            "asset_file": "",
             "show_legacy_media": false,
-            "collection": "featherlight-collection",
+            "collection": "softveil-collection",
             "products": [
-              "featherlight-seamless-brief",
-              "featherlight-seamless-thong"
+              "softveil-original",
+              "softveil-original-high-rise-hipster-bikini"
             ],
-            "heading": "Featherlight Collection",
-            "description": "Laser-cut, ice-silk essentials that disappear under everything.",
-            "button_label": "Shop Featherlight",
-            "link": "",
-            "asset_file": "collection-featherlight.webp"
+            "heading": "Softveil Collection",
+            "description": "Laser-cut, ice-silk essentials led by Softveil Original that disappear under everything.",
+            "button_label": "Shop Softveil",
+            "link": "/collections/softveil-collection"
           }
         },
         "item1": {
           "type": "collection",
           "settings": {
+            "image": "shopify://shop_images/pielik-cover-freeform-collection.jpg",
+            "asset_file": "",
             "show_legacy_media": false,
-            "collection": "sculpt-lift",
+            "collection": "freeform-collection",
             "products": [
-              "sculpt-high-rise-brief",
-              "jelly-lift-wireless-bra"
+              "freeform-high-cut",
+              "softveil-wave-hipster-bikini"
             ],
-            "heading": "Sculpt & Lift",
-            "description": "Gentle shaping and wire-free lift for all-day support.",
-            "button_label": "Shop Sculpt & Lift",
-            "link": "",
-            "asset_file": "collection-sculpt.webp"
+            "heading": "Freeform & Wave",
+            "description": "Leg-lengthening deep-V high cuts and scalloped wave edges with zero digging or rolling.",
+            "button_label": "Shop Freeform",
+            "link": "/collections/freeform-collection"
           }
         }
       },
@@ -272,146 +310,12 @@
     },
     "community": {
       "type": "community-strip",
-      "blocks": {
-        "item0": {
-          "type": "story",
-          "settings": {
-            "video": "shopify://files/videos/home-ff079ad0b44b4f09a99be73cb6bedea1.mp4",
-            "show_legacy_media": false,
-            "video_url": "https://cdn.shopify.com/videos/c/vp/119544d823414e17ba3df4cc4201ef86/119544d823414e17ba3df4cc4201ef86.HD-720p-1.6Mbps-98885472.mp4",
-            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/preview_images/119544d823414e17ba3df4cc4201ef86.thumbnail.0000000000.jpg?v=1792996011",
-            "title": "Everyday Comfort",
-            "button_label": "Shop the look",
-            "link": "/products/sculpt-high-rise-brief"
-          }
-        },
-        "item1": {
-          "type": "story",
-          "settings": {
-            "video": "shopify://files/videos/home-7220d6eded1e4172962ae57a33b2bfd0.mp4",
-            "show_legacy_media": false,
-            "video_url": "https://cdn.shopify.com/videos/c/vp/82bfce96942347e0bbeb544987ed7da2/82bfce96942347e0bbeb544987ed7da2.HD-720p-1.6Mbps-98885475.mp4",
-            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/preview_images/82bfce96942347e0bbeb544987ed7da2.thumbnail.0000000000.jpg?v=1792996006",
-            "title": "No-Dig High Rise",
-            "button_label": "Shop the look",
-            "link": "/products/featherlight-seamless-thong"
-          }
-        },
-        "item2": {
-          "type": "story",
-          "settings": {
-            "video": "shopify://files/videos/home-f89b09424ca94346a269b01bab27d499.mp4",
-            "show_legacy_media": false,
-            "video_url": "https://cdn.shopify.com/videos/c/vp/bfcdc44bd4c942aabafceef68bc13fba/bfcdc44bd4c942aabafceef68bc13fba.HD-720p-1.6Mbps-98885478.mp4",
-            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/preview_images/bfcdc44bd4c942aabafceef68bc13fba.thumbnail.0000000000.jpg?v=1792996020",
-            "title": "No Visible Lines",
-            "button_label": "Shop the look",
-            "link": "/products/featherlight-seamless-brief"
-          }
-        },
-        "item3": {
-          "type": "story",
-          "settings": {
-            "video": "shopify://files/videos/home-b2e90b0de6fb4a0a9611f6ff2528b5d7.mp4",
-            "show_legacy_media": false,
-            "video_url": "https://cdn.shopify.com/videos/c/vp/4bd5485d33aa48dd80f56fb6f35b3177/4bd5485d33aa48dd80f56fb6f35b3177.HD-720p-1.6Mbps-98885481.mp4",
-            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/preview_images/4bd5485d33aa48dd80f56fb6f35b3177.thumbnail.0000000000.jpg?v=1792996024",
-            "title": "Invisible Under Skirts",
-            "button_label": "Shop the look",
-            "link": "/products/featherlight-seamless-brief"
-          }
-        },
-        "item4": {
-          "type": "story",
-          "settings": {
-            "video": "shopify://files/videos/home-b61d2e0b339244deb1968d3f823cb6c4.mp4",
-            "show_legacy_media": false,
-            "video_url": "https://cdn.shopify.com/videos/c/vp/06f4c5d9c4094a028fe7efd66f482679/06f4c5d9c4094a028fe7efd66f482679.HD-720p-1.6Mbps-98885483.mp4",
-            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/preview_images/06f4c5d9c4094a028fe7efd66f482679.thumbnail.0000000000.jpg?v=1792996034",
-            "title": "Real Rider Review",
-            "button_label": "Shop the look",
-            "link": "/products/featherlight-seamless-brief"
-          }
-        },
-        "item5": {
-          "type": "story",
-          "settings": {
-            "video": "shopify://files/videos/home-7fa3807e1b71405d89747af19aa31bd9.mp4",
-            "show_legacy_media": false,
-            "video_url": "https://cdn.shopify.com/videos/c/vp/b06b877bb2634dfc93dddb4cc8864fd1/b06b877bb2634dfc93dddb4cc8864fd1.HD-720p-1.6Mbps-98885484.mp4",
-            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/preview_images/b06b877bb2634dfc93dddb4cc8864fd1.thumbnail.0000000000.jpg?v=1792996029",
-            "title": "Made to Move",
-            "button_label": "Shop the look",
-            "link": "/products/featherlight-seamless-thong"
-          }
-        },
-        "item6": {
-          "type": "story",
-          "settings": {
-            "video": "shopify://files/videos/home-ae89793906fa481780013a68b6ec96a6.mp4",
-            "show_legacy_media": false,
-            "video_url": "https://cdn.shopify.com/videos/c/vp/780d31f890e64d4dbf81953afa46cac6/780d31f890e64d4dbf81953afa46cac6.HD-720p-1.6Mbps-98885515.mp4",
-            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/preview_images/780d31f890e64d4dbf81953afa46cac6.thumbnail.0000000000.jpg?v=1792996030",
-            "title": "The Collection",
-            "button_label": "Shop the look",
-            "link": "/collections/no-vpls"
-          }
-        },
-        "item7": {
-          "type": "story",
-          "settings": {
-            "video": "shopify://files/videos/home-de379a3ad3564915b55bd7d2fb553982.mp4",
-            "show_legacy_media": false,
-            "video_url": "https://cdn.shopify.com/videos/c/vp/1c3dce290e6543509965331f56f601fe/1c3dce290e6543509965331f56f601fe.HD-720p-1.6Mbps-98885517.mp4",
-            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/preview_images/1c3dce290e6543509965331f56f601fe.thumbnail.0000000000.jpg?v=1792996032",
-            "title": "As Seen on IG",
-            "button_label": "Shop the look",
-            "link": "/products/featherlight-seamless-brief"
-          }
-        },
-        "item8": {
-          "type": "story",
-          "settings": {
-            "video": "shopify://files/videos/home-55c3475e25c24e9d94d38a84ab2d0cb1.mp4",
-            "show_legacy_media": false,
-            "video_url": "https://cdn.shopify.com/videos/c/vp/071dbd5796a5468fa1e86f30e6b88fc8/071dbd5796a5468fa1e86f30e6b88fc8.HD-720p-1.6Mbps-98885529.mp4",
-            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/preview_images/071dbd5796a5468fa1e86f30e6b88fc8.thumbnail.0000000000.jpg?v=1792996053",
-            "title": "Behind the Seams",
-            "button_label": "Shop the look",
-            "link": "/products/featherlight-seamless-brief"
-          }
-        },
-        "item9": {
-          "type": "story",
-          "settings": {
-            "video": "shopify://files/videos/home-721c700702aa4fa3b133d448bc44807a.mp4",
-            "show_legacy_media": false,
-            "video_url": "https://cdn.shopify.com/videos/c/vp/6beecac53678413fa6fd7af713e5a6ee/6beecac53678413fa6fd7af713e5a6ee.HD-720p-1.6Mbps-98885530.mp4",
-            "poster_url": "https://cdn.shopify.com/s/files/1/0609/7797/1333/files/preview_images/6beecac53678413fa6fd7af713e5a6ee.thumbnail.0000000000.jpg?v=1792996039",
-            "title": "Fan Favorite",
-            "button_label": "Shop the look",
-            "link": "/products/featherlight-seamless-brief"
-          }
-        }
-      },
-      "block_order": [
-        "item0",
-        "item1",
-        "item2",
-        "item3",
-        "item4",
-        "item5",
-        "item6",
-        "item7",
-        "item8",
-        "item9"
-      ],
+      "disabled": true,
       "settings": {
         "eyebrow": "Real People, Real Comfort",
         "heading": "From the Community",
-        "hint": "Scroll or drag to browse · hover to play"
-      },
-      "disabled": true
+        "hint": "Scroll or drag to browse"
+      }
     },
     "journal": {
       "type": "journal",
@@ -419,43 +323,43 @@
         "item0": {
           "type": "guide",
           "settings": {
-            "image": "shopify://shop_images/MAD09999_088a7299-8065-43c1-8a94-905237bda6b0.jpg",
+            "image": "shopify://shop_images/pielik-blog-softveil-invisible.jpg",
             "show_legacy_media": false,
-            "heading": "2026 Ultimate Guide to Choosing Best Invisible Undies for Office Pants",
+            "heading": "Why Softveil Original Is the Only Invisible Brief You Need Under Fitted Pants",
             "category": "Fit Guide",
-            "summary": "Choose smooth edges and a fit that stays comfortable through a full day at your desk.",
-            "content": "<p>Start with the trousers you wear most. Fine or close-fitting fabrics can make raised seams and tight elastic more noticeable. Look for a smooth edge, then choose the amount of coverage you find comfortable.</p><p>Try the Featherlight Seamless Brief for everyday coverage, or the Sculpt High-Rise Brief if you want a smoother line under fitted trousers.</p>",
+            "summary": "Discover how laser-cut edges and bonded side strips eliminate panty lines all day.",
+            "content": "<p>Softveil Original pairs precision laser-cut edges with cooling ice silk and a 5A antibacterial cotton gusset so nothing shows under tailored trousers or leggings.</p>",
             "button_label": "Read Article",
-            "related_label": "Explore the collection",
-            "link": "/collections/featherlight-collection"
+            "related_label": "Shop Softveil Original",
+            "link": "/products/softveil-original"
           }
         },
         "item1": {
           "type": "guide",
           "settings": {
-            "image": "shopify://shop_images/DSC03621_9569b931-58ba-43f7-bccd-f5f568fdaa09.jpg",
+            "image": "shopify://shop_images/pielik-blog-fit-guide-4styles.jpg",
             "show_legacy_media": false,
-            "heading": "The Ultimate 2026 Guide: Which Seamless Underwear Works Best for Both Office and Casual Wear?",
-            "category": "Everyday Comfort",
-            "summary": "Build an easy rotation of seamless shapes for work, weekends and everything between.",
-            "content": "<p>Choose underwear around your clothes and the coverage you prefer. Mid-rise briefs suit an everyday rotation, hipsters sit lower on the hip, and thongs offer less rear coverage.</p><p>Compare the actual size and color options on each product page. Start with a single pair when trying a new style, then choose a multipack once you know the fit works for you.</p>",
+            "heading": "Mid-Rise vs. High-Rise vs. Wave vs. High-Cut: Find Your Perfect Pielik Fit",
+            "category": "Style Guide",
+            "summary": "Compare all four Pielik seamless silhouettes and pick your ideal 3-Pack or 5-Pack.",
+            "content": "<p>From Softveil Original mid-rise to High-Rise smoothing, Wave scalloped edges, and Freeform High Cut freedom—find your everyday fit.</p>",
             "button_label": "Read Article",
-            "related_label": "Explore the collection",
-            "link": "/collections/no-vpls"
+            "related_label": "Shop Best Sellers",
+            "link": "/collections/best-sellers-2026"
           }
         },
         "item2": {
           "type": "guide",
           "settings": {
-            "image": "shopify://shop_images/31_d85337ae-7014-430f-9a44-1c149a6580fc.jpg",
+            "image": "shopify://shop_images/pielik-blog-icesilk-care.jpg",
             "show_legacy_media": false,
-            "heading": "Top 3 Breathable Underwers for Active Women: What to Look For",
-            "category": "Fabric & Movement",
-            "summary": "Explore mesh styles and practical fit checks for days spent on the move.",
-            "content": "<p>For active days, consider fabric, coverage and a waistband that stays comfortable as you move. Look for quick-drying knits, a breathable lined gusset and bonded edges that won’t roll or ride up. Thongs and low-coverage cuts stay put under leggings; a smooth high-rise brief adds light support for longer sessions.</p><p>Wash performance underwear cold and hang it to dry so the stretch fibers recover between wears.</p>",
+            "heading": "Ice-Silk & 5A Cotton Gusset: How to Care for Seamless Underwear So It Lasts",
+            "category": "Fabric & Care",
+            "summary": "Simple cold-wash and air-dry tips to keep bonded edges flat and cloud-soft.",
+            "content": "<p>Wash cold in a mesh laundry bag, skip fabric softeners, and hang to air dry so your Softveil briefs keep their second-skin recovery.</p>",
             "button_label": "Read Article",
-            "related_label": "Explore the collection",
-            "link": "/collections/breathable-all-day"
+            "related_label": "Explore Softveil",
+            "link": "/collections/softveil-collection"
           }
         }
       },
@@ -465,21 +369,22 @@
         "item2"
       ],
       "settings": {
+        "source": "blog",
+        "blog": "news",
+        "limit": 3,
         "eyebrow": "The Journal",
         "heading": "Fit, comfort & care, decoded",
         "link_label": "All Articles",
-        "link": "",
-        "close_label": "Close article",
-        "source": "blog",
-        "blog": "新闻",
-        "limit": 3
+        "link": "/blogs/news",
+        "close_label": "Close article"
       }
     }
   },
   "order": [
     "hero",
+    "trust",
+    "bestsellers",
     "scenario",
-    "new",
     "film",
     "cloud",
     "lifestyle",

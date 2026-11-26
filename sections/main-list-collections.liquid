@@ -1,5 +1,5 @@
 {%- liquid
-  assign featured_handles = 'undies-2026,bras-2026,featherlight-collection,sculpt-lift,sale-2026' | split: ','
+  assign featured_handles = 'best-sellers-2026,softveil-collection,freeform-collection,undies-2026,no-vpls' | split: ','
   assign featured_found = false
   for handle in featured_handles
     if collections[handle] != blank

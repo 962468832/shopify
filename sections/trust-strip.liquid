@@ -1,0 +1,68 @@
+<section class="home-trust-strip" aria-label="{{ section.settings.label | escape }}">
+  <div class="home-container">
+    <div class="home-trust-grid">
+      {% for block in section.blocks %}
+        <div class="home-trust-item" {{ block.shopify_attributes }}>
+          <span class="home-trust-item__icon" aria-hidden="true">
+            {% case block.settings.icon %}
+              {% when 'feather' %}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" y1="8" x2="2" y2="22"/><line x1="17.5" y1="15" x2="9" y2="15"/></svg>
+              {% when 'shield' %}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+              {% when 'pack' %}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+              {% else %}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z"/><path d="m9 12 2 2 4-4"/></svg>
+            {% endcase %}
+          </span>
+          <div>
+            <strong>{{ block.settings.title | escape }}</strong>
+            <span>{{ block.settings.subtitle | escape }}</span>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "品牌信任保障条",
+  "settings": [
+    { "type": "text", "id": "label", "label": "区域名称", "default": "Why Pielik" }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "卖点项",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "图标",
+          "options": [
+            { "value": "feather", "label": "无痕轻盈" },
+            { "value": "shield", "label": "抑菌棉裆" },
+            { "value": "pack", "label": "套装立省" },
+            { "value": "check", "label": "尺码保障" }
+          ],
+          "default": "feather"
+        },
+        { "type": "text", "id": "title", "label": "主文案", "default": "Invisible Laser-Cut Edges" },
+        { "type": "text", "id": "subtitle", "label": "副文案", "default": "Zero panty lines under leggings & silk" }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "品牌信任保障条",
+      "blocks": [
+        { "type": "item", "settings": { "icon": "feather", "title": "Invisible Laser-Cut Edges", "subtitle": "Zero VPL under silk, denim & leggings" } },
+        { "type": "item", "settings": { "icon": "shield", "title": "5A Antibacterial Cotton Gusset", "subtitle": "Breathable all-day skin-first protection" } },
+        { "type": "item", "settings": { "icon": "pack", "title": "Save Up to 25% on Packs", "subtitle": "Build your 3-Pack or 5-Pack rotation" } },
+        { "type": "item", "settings": { "icon": "check", "title": "Best Pair Fit Guarantee", "subtitle": "Love your first pair or we make it right" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

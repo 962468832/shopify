@@ -161,7 +161,11 @@
 .color-dot[data-color*="red"],.color-dot[data-color*="burgundy"],.color-dot[data-color*="wine"]{background:#923e50}
 .color-dot[data-color*="brown"],.color-dot[data-color*="cocoa"],.color-dot[data-color*="mocha"]{background:#755345}
 .color-dot[data-color*="green"]{background:#637c69}
-.color-dot[data-color*="gray"],.color-dot[data-color*="grey"],.color-dot[data-color*="silver"]{background:#9b9b99}
+.color-dot[data-color*="gray"],.color-dot[data-color*="grey"],.color-dot[data-color*="silver"]{background:#c6c8ca}
+.color-dot[data-color*="nude"],.color-dot[data-color*="skin"],.color-dot[data-color*="beige"],.color-dot[data-color*="sand"]{background:#dfc3ae}
+.color-dot[data-color*="khaki"],.color-dot[data-color*="taupe"],.color-dot[data-color*="oat"]{background:#bfa893}
+.color-dot[data-color*="lavender"],.color-dot[data-color*="lilac"],.color-dot[data-color*="purple"]{background:#c9bfd4}
+.color-dot[data-color*="sky"],.color-dot[data-color*="ice"]{background:#adc5d9}
 .color-more{font-size:10px;color:#6c625c;margin-left:2px}
 .color-count{font-size:10px;color:#786e67;margin-left:5px}
 .filter-form__heading{display:flex;align-items:center;gap:12px;padding:4px 0 12px;border-bottom:1px solid var(--line);font-size:12px;text-transform:uppercase;letter-spacing:.08em}
