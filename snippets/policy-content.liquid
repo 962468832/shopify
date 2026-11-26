@@ -1,0 +1,212 @@
+{%- liquid
+  assign is_zh = false
+  if request.locale.iso_code contains 'zh'
+    assign is_zh = true
+  endif
+  assign p = request.path | downcase
+  assign contact_email = 'limilly127@gmail.com'
+  assign contact_url = '/pages/contact'
+  if is_zh
+    assign contact_url = '/zh/pages/contact'
+  endif
+-%}
+<section class="page-width page-content policy-page">
+{%- if p contains 'refund-policy' -%}
+  {%- if is_zh -%}
+    <header class="page-content__head">
+      <p class="eyebrow">客户保障</p>
+      <h1>退款与退换政策</h1>
+    </header>
+    <div class="page-content__body rte">
+      <p>在 Pielik，我们希望你穿上的每一条内裤都轻盈贴合、自在安心。如果收到的商品未能让你 100% 满意，我们随时为你提供协助。</p>
+      <h2>首条合身保障（First Pair Guarantee）</h2>
+      <p>如果你是首次尝试某一版型的 Pielik 内裤，可放心拆封、清洗并试穿第一条。如在签收后 <strong>30 天内</strong>觉得尺码或版型不够理想，联系我们即可申请<strong>全额退款或免费换码/换款</strong>，且首次试穿的那一条<strong>无需寄回</strong>。每位顾客每个产品品类限享一次；若购买多条装（如 3 条装、5 条装），该保障适用于套装中的首条试穿单品。</p>
+      <h2>标准退换货政策</h2>
+      <p>除首条合身保障外，其余商品均支持签收后 <strong>30 天内</strong>申请退换。退回商品须保持未穿着、未洗涤、吊牌完整且保留原包装。礼品卡及积分兑换商品暂不支持退换。</p>
+      <ul>
+        <li><strong>美国地区订单</strong>：换货与退回至店铺余额均免退货运费；原路退回至原支付方式可能因发卡行规则产生银行手续费；原订单运费不予退还。</li>
+        <li><strong>国际订单</strong>：退货运费需由顾客自行承担，原订单产生的进口关税与清关费用不予退还。</li>
+        <li><strong>不适用退换的商品</strong>：清仓特卖商品（折扣达 30% 及以上）、配件类商品，以及超出首条合身保障范围且已穿着/洗涤的贴身衣物不支持退换。</li>
+      </ul>
+      <h2>如何申请退换</h2>
+      <p>请在寄回任何商品前先联系我们提交退换申请，未经确认擅自寄回的包裹将无法办理退款。如需协助，请通过<a href="{{ contact_url }}">联系我们</a>页面提交订单号，或发送邮件至 <a href="mailto:{{ contact_email }}">{{ contact_email }}</a>。</p>
+    </div>
+  {%- else -%}
+    <header class="page-content__head">
+      <p class="eyebrow">Policies</p>
+      <h1>Returns &amp; Refunds Policy</h1>
+    </header>
+    <div class="page-content__body rte">
+      <p>At Pielik, we want you to feel confident and comfortable in every piece you wear. If you’re not 100% satisfied, we’re here to help.</p>
+      <h2>The First Pair Guarantee</h2>
+      <p>If this is your first time trying a specific Pielik silhouette, you can open, wash, and wear it. Notify us within <strong>30 days of delivery</strong> for a full refund or free exchange. No return is needed for the first tried-on pair. Limit one item per product category per customer; for multipacks (such as 3-Packs and 5-Packs), the guarantee applies to one item.</p>
+      <h2>Standard Return Policy</h2>
+      <p>Requests must be made within <strong>30 days of delivery</strong>. Items must be unworn, unwashed, and in original packaging with all tags attached. Gift cards and items redeemed via store points are non-returnable.</p>
+      <ul>
+        <li><strong>U.S. options</strong>: Exchanges and store credit are free. Refunds to the original payment method may be subject to bank fees. Original shipping fees are non-refundable.</li>
+        <li><strong>International orders</strong>: Customers are responsible for return shipping costs. Original import duties and customs fees are non-refundable.</li>
+        <li><strong>Non-returnable items</strong>: Final sale items discounted by 30% or more, accessories, and worn items outside the First Pair Guarantee cannot be returned or exchanged.</li>
+      </ul>
+      <h2>How to Start a Return</h2>
+      <p>Please initiate a request with our support team before shipping anything back. Unauthorized returns will not be refunded. Reach us via our <a href="{{ contact_url }}">Contact Us</a> page or email <a href="mailto:{{ contact_email }}">{{ contact_email }}</a> with your order number for assistance.</p>
+    </div>
+  {%- endif -%}
+
+{%- elsif p contains 'shipping-policy' -%}
+  {%- if is_zh -%}
+    <header class="page-content__head">
+      <p class="eyebrow">客户保障</p>
+      <h1>配送与物流政策</h1>
+    </header>
+    <div class="page-content__body rte">
+      <p>在 Pielik，我们致力于尽快、稳妥地将你的每一笔订单送达手中。</p>
+      <h2>处理与发货时效</h2>
+      <ul>
+        <li><strong>截单时间</strong>：当日凌晨 12:00 前提交的订单将于下一个工作日开始处理。</li>
+        <li><strong>处理时间</strong>：周一至周五（不含法定节假日）正常配货与发货，周末订单统一于周一顺延处理。</li>
+        <li><strong>出库时效</strong>：订单通常在下单后 <strong>1–2 个工作日</strong>内发出。</li>
+        <li><strong>配送方式</strong>：标准经济专线快递（Standard Express Shipping）。</li>
+      </ul>
+      <h2>运费标准</h2>
+      <ul>
+        <li><strong>美国地区订单</strong>：订单满 <strong>$60 免运费</strong>；未满 $60 统一收取 $6.90 运费。</li>
+        <li><strong>国际地区订单</strong>：订单满 <strong>$60 免运费</strong>；未满 $60 统一收取 $6.90 运费。</li>
+      </ul>
+      <h2>预计送达时间</h2>
+      <p>订单发出后，美国境内预计 <strong>3–5 个工作日</strong>送达；国际订单预计 <strong>5–8 个工作日</strong>送达（具体时效可能受目的地清关进度影响）。大促高峰期或节假日期间物流可能出现轻微延迟。</p>
+      <h2>物流查询</h2>
+      <p>包裹发出后，系统会向你的下单邮箱发送附带物流单号的发货通知邮件，物流轨迹通常在 1–2 个工作日内更新。如遇物流异常，请通过<a href="{{ contact_url }}">联系我们</a>页面或发送邮件至 <a href="mailto:{{ contact_email }}">{{ contact_email }}</a> 与我们联系。</p>
+    </div>
+  {%- else -%}
+    <header class="page-content__head">
+      <p class="eyebrow">Policies</p>
+      <h1>Shipping Policy</h1>
+    </header>
+    <div class="page-content__body rte">
+      <p>At Pielik, we aim to get your order to you as quickly and smoothly as possible.</p>
+      <h2>Order Processing</h2>
+      <ul>
+        <li><strong>Order Cutoff Time</strong>: Orders placed by 12:00 AM (midnight) begin processing the next business day.</li>
+        <li><strong>Processing Time</strong>: Orders are processed and shipped Monday through Friday, excluding holidays. Weekend orders are processed on Monday.</li>
+        <li><strong>Fulfillment Time</strong>: Orders typically ship within <strong>1–2 business days</strong>.</li>
+        <li><strong>Shipping Method</strong>: Standard Express Shipping (Economy).</li>
+      </ul>
+      <h2>Shipping Rates</h2>
+      <ul>
+        <li><strong>U.S. Orders</strong>: Free shipping on orders over <strong>$60</strong>; $6.90 flat rate under $60.</li>
+        <li><strong>International Orders</strong>: Free shipping on orders over <strong>$60</strong>; $6.90 flat rate under $60.</li>
+      </ul>
+      <h2>Estimated Delivery</h2>
+      <p>Domestic U.S. orders typically arrive <strong>3–5 business days</strong> after shipping. International orders arrive <strong>5–8 business days</strong> after shipping, depending on customs clearance. During peak periods or holidays there may be minor delays.</p>
+      <h2>Order Tracking</h2>
+      <p>Once your order ships, you will receive a confirmation email with a tracking number. Please allow 1–2 business days for tracking updates to activate. For any tracking questions, reach out via our <a href="{{ contact_url }}">Contact Us</a> page or email <a href="mailto:{{ contact_email }}">{{ contact_email }}</a>.</p>
+    </div>
+  {%- endif -%}
+
+{%- elsif p contains 'privacy-policy' -%}
+  {%- if is_zh -%}
+    <header class="page-content__head">
+      <p class="eyebrow">法律与隐私</p>
+      <h1>隐私政策</h1>
+    </header>
+    <div class="page-content__body rte">
+      <p>最后更新日期：2026 年 10 月 22 日</p>
+      <p>Pielik（由 <strong>Golden Thread Media Limited</strong> 运营）通过本网站及相关服务（统称「服务」）为你提供优质的在线购物体验。本店铺由 Shopify 提供技术支持。本隐私政策说明当你访问、浏览、下单或与我们联系时，我们如何收集、使用与保护你的个人信息。</p>
+      <h2>我们收集的个人信息</h2>
+      <ul>
+        <li><strong>联系与配送信息</strong>：姓名、收货与账单地址、电话号码及电子邮箱。</li>
+        <li><strong>交易与支付信息</strong>：订单记录、退换货记录及由合规支付服务商加密处理的结算信息（我们不会明文存储你的完整银行卡号）。</li>
+        <li><strong>账户与客服沟通记录</strong>：账号登录信息、尺码偏好及你通过邮件或客服表单提交的咨询内容。</li>
+        <li><strong>设备与浏览数据</strong>：IP 地址、浏览器类型、页面访问与 Cookie 偏好，用于保障网站安全、记住购物袋内容及优化购物体验。</li>
+      </ul>
+      <h2>我们如何使用你的信息</h2>
+      <ul>
+        <li><strong>履约与客户服务</strong>：处理订单、完成付款、安排发货、发送物流通知及处理售后退换请求。</li>
+        <li><strong>体验优化与安全防护</strong>：维护网站稳定运行、防范欺诈及未经授权的交易行为。</li>
+        <li><strong>营销通知（经你同意）</strong>：仅在你主动订阅邮件时向你推送上新与优惠资讯，你可随时点击邮件底部的退订链接取消订阅。</li>
+      </ul>
+      <h2>信息共享与托管</h2>
+      <p>我们仅在履约与技术运营所需范围内，与 Shopify、支付机构、物流承运商及合规数据分析伙伴共享必要信息。我们不会出售你的个人敏感信息。如需管理隐私与数据共享选项，可访问<a href="/zh/pages/data-sharing-opt-out">隐私选择设置</a>。</p>
+      <h2>你的隐私权利</h2>
+      <p>根据你所在地区的适用法律，你有权请求查阅、更正、删除我们持有的你的个人信息，或撤回营销订阅同意。行使上述权利不会导致任何歧视性对待。</p>
+      <h2>联系我们</h2>
+      <p>如对本隐私政策有任何疑问，或希望行使你的隐私权利，请通过<a href="{{ contact_url }}">联系我们</a>页面留言，或发邮件至 <a href="mailto:{{ contact_email }}">{{ contact_email }}</a>。<br>运营主体：Golden Thread Media Limited（香港尖沙咀科学馆道 14 号新文华中心 A 座 9 楼 917B 室）。</p>
+    </div>
+  {%- else -%}
+    <header class="page-content__head">
+      <p class="eyebrow">Legal &amp; Privacy</p>
+      <h1>Privacy Policy</h1>
+    </header>
+    <div class="page-content__body rte">
+      <p>Last updated: October 22, 2026</p>
+      <p>Pielik (operated by <strong>Golden Thread Media Limited</strong>) runs this store and website to provide you with a curated shopping experience (the “Services”). Pielik is powered by Shopify. This Privacy Policy describes how we collect, use, and disclose your personal information when you visit, use, or make a purchase through the Services.</p>
+      <h2>Personal Information We Collect</h2>
+      <ul>
+        <li><strong>Contact &amp; Shipping Details</strong>: Your name, shipping and billing address, phone number, and email address.</li>
+        <li><strong>Order &amp; Payment Information</strong>: Items viewed or purchased, return/exchange requests, and payment confirmations processed securely by our payment providers.</li>
+        <li><strong>Account &amp; Support Communications</strong>: Account credentials, preferences, and messages you send to our customer care team.</li>
+        <li><strong>Device &amp; Usage Data</strong>: IP address, browser type, device identifiers, and cookies used to keep your bag intact, secure checkout, and improve site performance.</li>
+      </ul>
+      <h2>How We Use Your Personal Information</h2>
+      <ul>
+        <li><strong>Fulfillment &amp; Support</strong>: To process payments, fulfill and ship your orders, send order/shipping updates, and manage returns or exchanges.</li>
+        <li><strong>Security &amp; Improvements</strong>: To detect and prevent fraud, secure our store, and improve our products and website.</li>
+        <li><strong>Marketing (With Your Choice)</strong>: If you subscribe to our newsletter, we may send product launches and exclusive offers; you can unsubscribe at any time.</li>
+      </ul>
+      <h2>How We Share Information</h2>
+      <p>We share personal information only as needed with trusted service providers such as Shopify, payment processors, fulfillment and shipping carriers, and analytics partners. You can manage your privacy preferences at any time via <a href="/pages/data-sharing-opt-out">Your Privacy Choices</a>.</p>
+      <h2>Your Rights</h2>
+      <p>Depending on where you live, you may have the right to request access to, correction of, or deletion of your personal information, or to opt out of marketing communications.</p>
+      <h2>Contact Us</h2>
+      <p>If you have questions about our privacy practices or wish to exercise your rights, please reach us via our <a href="{{ contact_url }}">Contact Us</a> page or email <a href="mailto:{{ contact_email }}">{{ contact_email }}</a>.<br>Operated by Golden Thread Media Limited, Unit 917B, 9/F, Tower A, New Mandarin Plaza, No. 14 Science Museum Road, Tsim Sha Tsui, Hong Kong.</p>
+    </div>
+  {%- endif -%}
+
+{%- elsif p contains 'terms-of-service' -%}
+  {%- if is_zh -%}
+    <header class="page-content__head">
+      <p class="eyebrow">法律与条款</p>
+      <h1>服务条款</h1>
+    </header>
+    <div class="page-content__body rte">
+      <p>本网站由 <strong>Pielik</strong>（Golden Thread Media Limited）运营。访问本网站或在本网站下单购买商品，即表示你同意受以下服务条款（下称「条款」）约束。</p>
+      <h2>在线商店使用条件</h2>
+      <p>使用本网站即表明你在所在司法管辖区已达到法定成年年龄。你不得将我们的产品用于任何非法或未经授权的目的，亦不得传播任何恶意代码或破坏网站正常运行。</p>
+      <h2>一般条款</h2>
+      <p>我们保留在任何时候依法拒绝向任何人提供服务的权利。未经我们书面许可，你不得复制、转售或商业利用本网站的任何内容、图片或服务。</p>
+      <h2>商品、价格与账单</h2>
+      <p>部分商品或套装可能限量供应，实际色泽可能因不同屏幕显示存在细微差异。我们保留在不另行通知的情况下调整商品价格、描述或下架商品的权利，并有权限制单笔订单或单个账户的购买数量；如订单需变更或取消，我们将通过结账时预留的联系方式通知你。</p>
+      <h2>个人信息保护</h2>
+      <p>你通过本网站提交的所有个人信息均受我们的<a href="/zh/policies/privacy-policy">隐私政策</a>约束与保护。</p>
+      <h2>错误更正与禁止行为</h2>
+      <p>如网站信息中偶尔出现排版、价格、促销或库存错误，我们保留随时更正并在必要时取消受影响订单的权利。严禁将本网站用于任何违法、侵权、欺诈或滥用行为。</p>
+      <h2>免责声明与责任限制</h2>
+      <p>在适用法律允许的最大范围内，本网站服务及商品均按「现状」与「可用」状态提供。对于因使用本服务所引起的任何间接性或附带性损失，Pielik 在法律允许范围内不承担责任。</p>
+      <h2>联系我们</h2>
+      <p>如对本服务条款有任何疑问，请通过<a href="{{ contact_url }}">联系我们</a>页面提交咨询，或发送邮件至 <a href="mailto:{{ contact_email }}">{{ contact_email }}</a>。</p>
+    </div>
+  {%- else -%}
+    <header class="page-content__head">
+      <p class="eyebrow">Legal</p>
+      <h1>Terms of Service</h1>
+    </header>
+    <div class="page-content__body rte">
+      <p>This website is operated by <strong>Pielik</strong> (Golden Thread Media Limited). By visiting our site and/or purchasing from us, you engage in our Service and agree to these Terms of Service. These terms apply to all users of the site.</p>
+      <h2>Online Store Terms</h2>
+      <p>You confirm that you are at least the age of majority in your jurisdiction. You may not use our products for any illegal or unauthorized purpose or transmit destructive or malicious code.</p>
+      <h2>General Conditions</h2>
+      <p>We reserve the right to refuse service to anyone at any time. You agree not to reproduce, duplicate, copy, sell, resell, or exploit any portion of the Service without express written permission from Pielik.</p>
+      <h2>Products, Pricing, and Billing</h2>
+      <p>Products may have limited quantities and colors may vary slightly by screen display. Prices and product descriptions are subject to change without notice. We reserve the right to limit or cancel quantities per order and will notify you using the contact information provided at checkout.</p>
+      <h2>Personal Information</h2>
+      <p>Your submission of personal information through the store is governed by our <a href="/policies/privacy-policy">Privacy Policy</a>.</p>
+      <h2>Errors and Prohibited Uses</h2>
+      <p>We may correct errors, inaccuracies, or omissions and update or cancel orders when necessary. You may not use the site for unlawful, abusive, deceptive, or malicious purposes.</p>
+      <h2>Disclaimer and Limitation of Liability</h2>
+      <p>The Service and all products are provided “as is” and “as available” to the maximum extent permitted by law. Pielik is not liable for indirect, incidental, or consequential damages arising from use of the Service.</p>
+      <h2>Questions</h2>
+      <p>Questions about these Terms of Service should be sent via our <a href="{{ contact_url }}">Contact Us</a> page or emailed to <a href="mailto:{{ contact_email }}">{{ contact_email }}</a>.</p>
+    </div>
+  {%- endif -%}
+{%- endif -%}
+</section>

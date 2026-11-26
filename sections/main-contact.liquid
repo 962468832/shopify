@@ -3,7 +3,11 @@
     <p class="eyebrow">{% render 'i18n', text: section.settings.eyebrow %}</p>
     <h1>{% render 'i18n', text: page.title %}</h1>
   </header>
-  {% if page.content != blank %}<div class="page-content__body rte">{{ page.content }}</div>{% endif %}
+  {% assign is_zh_contact = false %}{% if request.locale.iso_code contains 'zh' %}{% assign is_zh_contact = true %}{% endif %}
+  {% if is_zh_contact %}
+    {% capture zh_contact_intro %}{% render 'page-content-zh', page: page %}{% endcapture %}
+    {% if zh_contact_intro != blank %}<div class="page-content__body rte">{{ zh_contact_intro }}</div>{% elsif page.content != blank %}<div class="page-content__body rte">{{ page.content }}</div>{% endif %}
+  {% elsif page.content != blank %}<div class="page-content__body rte">{{ page.content }}</div>{% endif %}
   <div class="contact-page__form">
     {% form 'contact', id: 'ContactForm' %}
       {% if form.posted_successfully? %}

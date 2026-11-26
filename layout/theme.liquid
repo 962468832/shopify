@@ -46,7 +46,7 @@
     <a class="skip-link" href="#MainContent">{{ 'general.accessibility.skip_to_content' | t }}</a>
     {% section 'announcement-bar' %}
     {% section 'header' %}
-    <main id="MainContent" role="main">{{ content_for_layout }}</main>
+    <main id="MainContent" role="main">{% if request.page_type == 'policy' and request.path contains 'refund-policy' or request.page_type == 'policy' and request.path contains 'shipping-policy' or request.page_type == 'policy' and request.path contains 'privacy-policy' or request.page_type == 'policy' and request.path contains 'terms-of-service' %}{% render 'policy-content' %}{% else %}{{ content_for_layout }}{% endif %}</main>
     {% section 'footer' %}
     <div class="cart-feedback" data-cart-feedback hidden><p role="status" aria-live="polite" aria-atomic="true" data-cart-feedback-message></p><a href="{{ routes.cart_url }}">{{ 'cart.view_bag' | t }} →</a><button type="button" data-cart-feedback-close aria-label="Dismiss notification">×</button></div>
     <div id="cart-drawer" class="cart-drawer" aria-hidden="true">

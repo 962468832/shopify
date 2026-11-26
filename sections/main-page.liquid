@@ -4,8 +4,18 @@
     <h1>{% render 'i18n', text: page.title %}</h1>
   </header>
   <div class="page-content__body rte">
+    {% assign is_zh_page = false %}{% if request.locale.iso_code contains 'zh' %}{% assign is_zh_page = true %}{% endif %}
     {% if page.handle == 'faq' %}
       {% render 'faq-content' %}
+    {% elsif is_zh_page %}
+      {% capture zh_page_body %}{% render 'page-content-zh', page: page %}{% endcapture %}
+      {% if zh_page_body != blank %}
+        {{ zh_page_body }}
+      {% elsif page.content != blank %}
+        {{ page.content }}
+      {% else %}
+        <p>该页面内容正在更新中，如有需要请发送邮件至 <a href="mailto:{{ shop.email }}">{{ shop.email }}</a>。</p>
+      {% endif %}
     {% elsif page.content != blank %}
       {{ page.content }}
     {% else %}
