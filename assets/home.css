@@ -151,3 +151,32 @@
 .home-trust-item>div span{display:block;font-size:12px;color:#756f69;line-height:1.45;margin-top:2px}
 @media(max-width:1023px){.home-trust-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}}
 @media(max-width:560px){.home-trust-strip{padding-block:20px}.home-trust-grid{grid-template-columns:1fr;gap:10px}.home-trust-item{padding:4px 6px}}
+
+/* Sport Spotlight: Equestrian & Yoga */
+.home-sport-spotlight{background:#faf8f6;border-top:1px solid #e5e7e9;border-bottom:1px solid #e5e7e9}
+.home-sport-spotlight__head>div{max-width:760px}
+.home-sport-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;align-items:stretch}
+.home-sport-card{display:flex;flex-direction:column;background:#fff;border:1px solid #e7e2dc;border-radius:3px;overflow:hidden}
+.home-sport-card__media{position:relative;aspect-ratio:10/11;overflow:hidden;background:#ebe6e0}
+.home-sport-card__media img{width:100%;height:100%;object-fit:cover;object-position:center 45%;display:block;transition:transform .55s cubic-bezier(.22,1,.36,1)}
+.home-sport-card:hover .home-sport-card__media img{transform:scale(1.03)}
+.home-sport-card__badge{position:absolute;top:16px;left:16px;padding:7px 13px;border-radius:999px;background:rgba(48,39,31,.82);backdrop-filter:blur(6px);color:#fff;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+.home-sport-card__body{display:flex;flex-direction:column;flex:1;padding:28px 30px 30px}
+.home-sport-card__body .home-eyebrow{margin-bottom:8px;color:#8a786b}
+.home-sport-card__body h3{font-family:'Plus Jakarta Sans',Arial,sans-serif;font-size:26px;font-weight:500;line-height:1.25;color:#30271f;margin:0}
+.home-sport-card__intro{margin:12px 0 22px;font-size:14.5px;line-height:1.68;color:#6c655f}
+.home-sport-points{list-style:none;margin:0 0 26px;padding:0;display:grid;gap:14px;border-top:1px solid #efeae4;padding-top:20px}
+.home-sport-points li{display:flex;align-items:flex-start;gap:12px}
+.home-sport-points__check{flex:none;width:22px;height:22px;border-radius:50%;background:#f5efe9;color:#30271f;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;margin-top:1px}
+.home-sport-points strong{display:block;font-family:'Plus Jakarta Sans',Arial,sans-serif;font-size:14px;font-weight:600;color:#30271f;line-height:1.35}
+.home-sport-points li>div span{display:block;font-size:13px;line-height:1.55;color:#6e6761;margin-top:2px}
+.home-sport-card__footer{margin-top:auto;padding-top:18px;border-top:1px solid #efeae4;display:flex;flex-direction:column;gap:12px}
+.home-sport-card__rec-label{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#8a7f78}
+.home-sport-card__actions{display:flex;flex-wrap:wrap;gap:10px}
+.home-sport-pill{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:10px 20px;border-radius:999px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:background-color .2s,color .2s,border-color .2s}
+.home-sport-pill--dark{background:#30271f;color:#fff;border:1px solid #30271f}
+.home-sport-pill--dark:hover{background:#473b30;border-color:#473b30}
+.home-sport-pill--outline{background:#fff;color:#30271f;border:1px solid #d4ccc4}
+.home-sport-pill--outline:hover{border-color:#30271f;background:#faf8f6}
+@media(max-width:959px){.home-sport-grid{grid-template-columns:1fr;gap:22px}.home-sport-card__body{padding:22px 20px 24px}.home-sport-card__body h3{font-size:22px}}
+@media(max-width:560px){.home-sport-card__actions{flex-direction:column}.home-sport-pill{width:100%}}

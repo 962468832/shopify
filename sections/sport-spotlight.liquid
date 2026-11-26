@@ -1,0 +1,150 @@
+<section id="sport-spotlight-{{ section.id }}" class="home-section home-sport-spotlight" aria-labelledby="sport-spotlight-title-{{ section.id }}">
+  <div class="home-container">
+    <div class="home-heading home-sport-spotlight__head">
+      <div>
+        <p class="home-eyebrow">{% render 'i18n', text: section.settings.eyebrow %}</p>
+        <h2 id="sport-spotlight-title-{{ section.id }}">{% render 'i18n', text: section.settings.heading %}</h2>
+        {% if section.settings.description != blank %}<p>{% render 'i18n', text: section.settings.description %}</p>{% endif %}
+      </div>
+      {% if section.settings.link_label != blank %}
+        {% assign sport_head_href = section.settings.link | default: routes.all_products_collection_url %}
+        <a class="home-text-link" href="{% render 'locale-url', url: sport_head_href %}">{% render 'i18n', text: section.settings.link_label %} →</a>
+      {% endif %}
+    </div>
+
+    <div class="home-sport-grid">
+      {% for block in section.blocks %}
+        <article class="home-sport-card" {{ block.shopify_attributes }}>
+          <div class="home-sport-card__media">
+            {% if block.settings.image != blank %}
+              <img
+                src="{{ block.settings.image | image_url: width: 1200 }}"
+                srcset="{{ block.settings.image | image_url: width: 600 }} 600w, {{ block.settings.image | image_url: width: 900 }} 900w, {{ block.settings.image | image_url: width: 1200 }} 1200w"
+                sizes="(max-width: 959px) 100vw, 48vw"
+                width="1000"
+                height="840"
+                loading="lazy"
+                decoding="async"
+                alt="{% render 'i18n', text: block.settings.title %}"
+              >
+            {% elsif block.settings.image_url != blank %}
+              <img src="{{ block.settings.image_url | escape }}" width="1000" height="840" loading="lazy" decoding="async" alt="{% render 'i18n', text: block.settings.title %}">
+            {% endif %}
+            {% if block.settings.badge != blank %}
+              <span class="home-sport-card__badge">{% render 'i18n', text: block.settings.badge %}</span>
+            {% endif %}
+          </div>
+
+          <div class="home-sport-card__body">
+            {% if block.settings.kicker != blank %}
+              <p class="home-eyebrow">{% render 'i18n', text: block.settings.kicker %}</p>
+            {% endif %}
+            <h3>{% render 'i18n', text: block.settings.title %}</h3>
+            {% if block.settings.intro != blank %}
+              <p class="home-sport-card__intro">{% render 'i18n', text: block.settings.intro %}</p>
+            {% endif %}
+
+            <ul class="home-sport-points">
+              {% if block.settings.point1_title != blank %}
+                <li>
+                  <span class="home-sport-points__check" aria-hidden="true">✓</span>
+                  <div>
+                    <strong>{% render 'i18n', text: block.settings.point1_title %}</strong>
+                    <span>{% render 'i18n', text: block.settings.point1_copy %}</span>
+                  </div>
+                </li>
+              {% endif %}
+              {% if block.settings.point2_title != blank %}
+                <li>
+                  <span class="home-sport-points__check" aria-hidden="true">✓</span>
+                  <div>
+                    <strong>{% render 'i18n', text: block.settings.point2_title %}</strong>
+                    <span>{% render 'i18n', text: block.settings.point2_copy %}</span>
+                  </div>
+                </li>
+              {% endif %}
+              {% if block.settings.point3_title != blank %}
+                <li>
+                  <span class="home-sport-points__check" aria-hidden="true">✓</span>
+                  <div>
+                    <strong>{% render 'i18n', text: block.settings.point3_title %}</strong>
+                    <span>{% render 'i18n', text: block.settings.point3_copy %}</span>
+                  </div>
+                </li>
+              {% endif %}
+              {% if block.settings.point4_title != blank %}
+                <li>
+                  <span class="home-sport-points__check" aria-hidden="true">✓</span>
+                  <div>
+                    <strong>{% render 'i18n', text: block.settings.point4_title %}</strong>
+                    <span>{% render 'i18n', text: block.settings.point4_copy %}</span>
+                  </div>
+                </li>
+              {% endif %}
+            </ul>
+
+            <div class="home-sport-card__footer">
+              {% if block.settings.rec_label != blank %}
+                <span class="home-sport-card__rec-label">{% render 'i18n', text: block.settings.rec_label %}</span>
+              {% endif %}
+              <div class="home-sport-card__actions">
+                {% if block.settings.cta1_label != blank %}
+                  {% assign cta1_href = block.settings.cta1_link | default: routes.all_products_collection_url %}
+                  <a class="home-sport-pill home-sport-pill--dark" href="{% render 'locale-url', url: cta1_href %}">{% render 'i18n', text: block.settings.cta1_label %} →</a>
+                {% endif %}
+                {% if block.settings.cta2_label != blank %}
+                  {% assign cta2_href = block.settings.cta2_link | default: routes.all_products_collection_url %}
+                  <a class="home-sport-pill home-sport-pill--outline" href="{% render 'locale-url', url: cta2_href %}">{% render 'i18n', text: block.settings.cta2_label %}</a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "运动推荐专栏（马术 / 瑜伽）",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "上方小标题", "default": "Performance Spotlight" },
+    { "type": "text", "id": "heading", "label": "主标题", "default": "Why Equestrian & Yoga Demand Pielik" },
+    { "type": "textarea", "id": "description", "label": "副标题说明", "default": "High-contact rides and deep studio stretches expose ordinary underwear fast. Here is why riders and yogis rely on Pielik." },
+    { "type": "text", "id": "link_label", "label": "右上角链接文案", "default": "Shop Active Picks" },
+    { "type": "url", "id": "link", "label": "右上角链接" }
+  ],
+  "blocks": [
+    {
+      "type": "sport",
+      "name": "运动场景卡片",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "主视觉图片" },
+        { "type": "url", "id": "image_url", "label": "备用图片链接" },
+        { "type": "text", "id": "badge", "label": "图片角标" },
+        { "type": "text", "id": "kicker", "label": "运动分类标签" },
+        { "type": "text", "id": "title", "label": "卡片标题" },
+        { "type": "textarea", "id": "intro", "label": "痛点导语" },
+        { "type": "text", "id": "point1_title", "label": "卖点 1 标题" },
+        { "type": "text", "id": "point1_copy", "label": "卖点 1 说明" },
+        { "type": "text", "id": "point2_title", "label": "卖点 2 标题" },
+        { "type": "text", "id": "point2_copy", "label": "卖点 2 说明" },
+        { "type": "text", "id": "point3_title", "label": "卖点 3 标题" },
+        { "type": "text", "id": "point3_copy", "label": "卖点 3 说明" },
+        { "type": "text", "id": "point4_title", "label": "卖点 4 标题" },
+        { "type": "text", "id": "point4_copy", "label": "卖点 4 说明" },
+        { "type": "text", "id": "rec_label", "label": "推荐产品标签", "default": "Recommended Pairs" },
+        { "type": "text", "id": "cta1_label", "label": "主推荐按钮文案" },
+        { "type": "url", "id": "cta1_link", "label": "主推荐链接" },
+        { "type": "text", "id": "cta2_label", "label": "副推荐按钮文案" },
+        { "type": "url", "id": "cta2_link", "label": "副推荐链接" }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    { "name": "运动推荐专栏（马术 / 瑜伽）" }
+  ]
+}
+{% endschema %}
