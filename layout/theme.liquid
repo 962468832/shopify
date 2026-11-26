@@ -26,6 +26,8 @@
     {% render 'meta-tags' %}
     {% render 'favicon' %}
     <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500;600&display=swap">
     <link rel="dns-prefetch" href="https://cdn.shopify.com">
     {{ content_for_header }}
     {{ 'theme.css' | asset_url | stylesheet_tag }}
@@ -39,7 +41,7 @@
     {% style %}
       {{ settings.heading_font | font_face: font_display: 'swap' }}
       {{ settings.body_font | font_face: font_display: 'swap' }}
-      :root{--ink:{{ settings.color_ink | default: '#1d1b1a' }};--paper:{{ settings.color_paper | default: '#f8f5f2' }};--accent:{{ settings.color_accent | default: '#f05ba7' }};--line:{{ settings.color_line | default: '#ded8d3' }};--heading-font:{{ settings.heading_font.family | default: 'Playfair Display' | json }};--body-font:{{ settings.body_font.family | default: 'DM Sans' | json }};}
+      :root{--ink:{{ settings.color_ink | default: '#392e28' }};--paper:{{ settings.color_paper | default: '#f8f3ea' }};--accent:{{ settings.color_accent | default: '#79474d' }};--line:{{ settings.color_line | default: '#e5d4bf' }};--heading-font:{{ settings.heading_font.family | default: 'Playfair Display' | json }};--body-font:{{ settings.body_font.family | default: 'DM Sans' | json }};}:root{--heading-font:'Cormorant Garamond';--body-font:'DM Sans';}
     {% endstyle %}
   </head>
   <body class="template-{{ template.name }}">

@@ -5,7 +5,7 @@
     "theme_version": "1.1.0",
     "theme_author": "Pielik",
     "theme_documentation_url": "https://shopify.dev/docs/storefronts/themes",
-    "theme_support_url": "https://pielik.com/pages/about-us"
+    "theme_support_url": "https://pielik.com/pages/contact"
   },
   {
     "name": "Logo",
@@ -37,25 +37,25 @@
         "type": "color",
         "id": "color_ink",
         "label": "Text",
-        "default": "#1d1b1a"
+        "default": "#392e28"
       },
       {
         "type": "color",
         "id": "color_paper",
         "label": "Background",
-        "default": "#f8f5f2"
+        "default": "#f8f3ea"
       },
       {
         "type": "color",
         "id": "color_accent",
         "label": "Accent",
-        "default": "#f05ba7"
+        "default": "#79474d"
       },
       {
         "type": "color",
         "id": "color_line",
         "label": "Borders",
-        "default": "#ded8d3"
+        "default": "#e5d4bf"
       }
     ]
   },

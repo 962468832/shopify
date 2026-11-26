@@ -9,10 +9,10 @@
  */
 {
   "current": {
-    "color_ink": "#1d1b1a",
-    "color_paper": "#f8f5f2",
-    "color_accent": "#f05ba7",
-    "color_line": "#ded8d3",
+    "color_ink": "#392e28",
+    "color_paper": "#f8f3ea",
+    "color_accent": "#79474d",
+    "color_line": "#e5d4bf",
     "sections": {
       "announcement-bar": {
         "type": "announcement-bar",
@@ -57,8 +57,8 @@
           "greeting_message": "",
           "show_featured_products": true,
           "featured_products": [],
-          "background_color": "#f8f5f2",
-          "font_color": "#D6388E",
+          "background_color": "#f8f3ea",
+          "font_color": "#79474d",
           "agent_invert_activator_colors": true,
           "button_color": "#000000",
           "launcher_style": "button",
