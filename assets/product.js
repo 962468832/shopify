@@ -47,7 +47,16 @@
     'white 5-pack': [['5× White', '#f7f7f7']],
     'everyday 5-pack': [['2× Black', '#1f1f1f'], ['3× Nude', '#e7cfbc']],
     'soft mood 5-pack': [['Black', '#1f1f1f'], ['Nude', '#e7cfbc'], ['White', '#f7f7f7'], ['Pink', '#f0cfd3'], ['Blue', '#c9d5df']],
-    'pastel 5-pack': [['Nude', '#e7cfbc'], ['White', '#f7f7f7'], ['Pink', '#f0cfd3'], ['Blue', '#c9d5df'], ['Khaki', '#c8bba9']]
+    'pastel 5-pack': [['Nude', '#e7cfbc'], ['White', '#f7f7f7'], ['Pink', '#f0cfd3'], ['Blue', '#c9d5df'], ['Khaki', '#c8bba9']],
+    'core trio': [['Black', '#1f1f1f'], ['Cream', '#f4efe6'], ['Nude', '#e7cfbc']],
+    'cream trio': [['3× Cream', '#f4efe6']],
+    'monochrome mist trio': [['Black', '#1f1f1f'], ['Light Gray', '#d3d5d8'], ['Cream', '#f4efe6']],
+    'everyday neutral trio': [['2× Black', '#1f1f1f'], ['1× Cream', '#f4efe6']],
+    'soft lilac trio': [['Nude', '#e7cfbc'], ['Light Gray', '#d3d5d8'], ['Lavender', '#dcd4df']],
+    'all-5 signature pack': [['Black', '#1f1f1f'], ['Nude', '#e7cfbc'], ['Cream', '#f4efe6'], ['Light Gray', '#d3d5d8'], ['Lavender', '#dcd4df']],
+    'cream 5-pack': [['5× Cream', '#f4efe6']],
+    'neutral 5-pack': [['2× Black', '#1f1f1f'], ['2× Cream', '#f4efe6'], ['1× Nude', '#e7cfbc']],
+    'cool mist 5-pack': [['2× Nude', '#e7cfbc'], ['Cream', '#f4efe6'], ['Light Gray', '#d3d5d8'], ['Lavender', '#dcd4df']]
   };
   function syncPackPresentation(variant, current) {
     const packIndex = groups.findIndex((g) => /package|pack/i.test(g.dataset.optionName || ''));
