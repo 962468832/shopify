@@ -34,6 +34,27 @@
   const stickyTitle = root.querySelector('[data-product-sticky-title]');
   const packIncludes = root.querySelector('[data-pack-includes]');
   const baseTitle = productTitle?.dataset.baseTitle || data.title || '';
+  const isZh = /^zh/i.test(document.documentElement.lang || window.PielikMoney?.locale || '');
+  const copy = window.PielikCopy || {};
+  const ZH_LABELS = {
+    'Package': '规格套装', 'Color': '颜色', 'Size': '尺码',
+    'Single': '单条装', '3-Pack': '3 条装', '5-Pack': '5 条装',
+    'Nude': '肤色', 'Black': '黑色', 'White': '白色', 'Pink': '粉色',
+    'Khaki': '卡其色', 'Blue': '蓝色', 'Cream': '奶白色', 'Light Gray': '浅灰色', 'Lavender': '浅紫色',
+    'Essential Trio': '经典百搭 3 条装', 'Black Trio': '纯黑 3 条装', 'Nude Trio': '纯肤 3 条装',
+    'White Trio': '纯白 3 条装', 'Neutral Trio': '自然裸色 3 条装', 'Monochrome Trio': '黑白极简 3 条装',
+    'Pastel Trio': '莫兰迪柔色 3 条装', 'Classic 5-Pack': '经典 5 色套装', 'Black 5-Pack': '纯黑 5 条装',
+    'White 5-Pack': '纯白 5 条装', 'Everyday 5-Pack': '日常黑肤 5 条装', 'Soft Mood 5-Pack': '温柔日常 5 色套装',
+    'Pastel 5-Pack': '马卡龙柔色 5 条装', 'Core Trio': '核心三色 3 条装', 'Cream Trio': '奶白 3 条装',
+    'Monochrome Mist Trio': '黑白灰 3 条装', 'Everyday Neutral Trio': '日常黑奶 3 条装',
+    'Soft Lilac Trio': '浅紫柔雾 3 条装', 'All-5 Signature Pack': '全色招牌 5 条装',
+    'Cream 5-Pack': '奶白 5 条装', 'Neutral 5-Pack': '中性百搭 5 条装', 'Cool Mist 5-Pack': '清冷雾色 5 条装'
+  };
+  const tr = (val) => {
+    if (!isZh || !val) return val || '';
+    if (ZH_LABELS[val]) return ZH_LABELS[val];
+    return String(val).replace(/^(\d+×\s*)(.+)$/, (_, prefix, color) => `${prefix}${ZH_LABELS[color] || color}`);
+  };
   const PACK_INCLUDES = {
     'essential trio': [['Black', '#1f1f1f'], ['White', '#f7f7f7'], ['Nude', '#e7cfbc']],
     'black trio': [['3× Black', '#1f1f1f']],
@@ -63,7 +84,7 @@
     if (packIndex < 0) return;
     const packVal = variant?.options?.[packIndex] || current[packIndex] || '';
     const isMultiPack = Boolean(packVal) && !/^single$/i.test(packVal.trim());
-    const nextTitle = isMultiPack ? `${baseTitle} (${packVal})` : baseTitle;
+    const nextTitle = isMultiPack ? (isZh ? `${baseTitle}（${tr(packVal)}）` : `${baseTitle} (${packVal})`) : baseTitle;
     if (productTitle) productTitle.textContent = nextTitle;
     if (stickyTitle) stickyTitle.textContent = nextTitle;
     if (packIncludes) {
@@ -71,7 +92,8 @@
       const colorVal = colorIndex >= 0 ? (variant?.options?.[colorIndex] || current[colorIndex] || '') : '';
       const items = isMultiPack ? PACK_INCLUDES[colorVal.trim().toLowerCase()] : null;
       if (items?.length) {
-        packIncludes.innerHTML = `<span class="product-pack-includes__label">Includes</span><span class="product-pack-includes__items">${items.map(([label, hex]) => `<span class="product-pack-includes__item"><i style="background:${hex}"></i>${label}</span>`).join('')}</span>`;
+        const incLabel = copy.includes || (isZh ? '包含颜色' : 'Includes');
+        packIncludes.innerHTML = `<span class="product-pack-includes__label">${incLabel}</span><span class="product-pack-includes__items">${items.map(([label, hex]) => `<span class="product-pack-includes__item"><i style="background:${hex}"></i>${tr(label)}</span>`).join('')}</span>`;
         packIncludes.hidden = false;
       } else {
         packIncludes.hidden = true;
@@ -103,11 +125,13 @@
     compare.hidden = !variantPricing.hasDiscount;
     compare.textContent = variantPricing.hasDiscount ? formatMoney(variantPricing.compareAtPrice) : '';
     savings.hidden = !variantPricing.hasDiscount;
-    savings.textContent = variantPricing.hasDiscount ? `Save ${variantPricing.discountPercent}%` : '';
+    savings.textContent = variantPricing.hasDiscount ? `${copy.save || (isZh ? '立省' : 'Save')} ${variantPricing.discountPercent}%` : '';
   }
   function getVariantLabel(variant) {
     if (!variant || variant.title === 'Default Title') return '';
-    return variant.title || (variant.options || []).filter(Boolean).join(' / ');
+    const opts = (variant.options || []).filter(Boolean);
+    if (opts.length) return opts.map(tr).join(' / ');
+    return variant.title || '';
   }
   function getVariantImage(variant) {
     const source = variant?.featured_image?.src || data.featured_image?.src || data.images?.[0]?.src;
@@ -134,7 +158,7 @@
     }
     if (stickySavings) {
       stickySavings.hidden = !variantPricing.hasDiscount;
-      stickySavings.textContent = variantPricing.hasDiscount ? `Save ${variantPricing.discountPercent}%` : '';
+      stickySavings.textContent = variantPricing.hasDiscount ? `${copy.save || (isZh ? '立省' : 'Save')} ${variantPricing.discountPercent}%` : '';
     }
   }
   const selectedValues = () => groups.map((group) => group.querySelector('input:checked')?.value);
@@ -263,10 +287,10 @@
     }
     syncSubmit(variant);
     if (paymentButton) paymentButton.disabled = !variant?.available;
-    availability.textContent = variant?.available ? '' : (variant ? 'This option is currently sold out.' : 'This combination is not available. Please choose another option.');
+    availability.textContent = variant?.available ? '' : (variant ? (copy.soldOutMsg || (isZh ? '当前所选规格已售罄。' : 'This option is currently sold out.')) : (copy.unavailableMsg || (isZh ? '当前规格组合暂不可选，请更换其他选项。' : 'This combination is not available. Please choose another option.')));
     const current = selectedValues();
     groups.forEach((group, index) => {
-      group.querySelector('[data-option-label]').textContent = current[index] || '';
+      group.querySelector('[data-option-label]').textContent = tr(current[index] || '');
       group.querySelectorAll('[data-product-option]').forEach((input) => {
         const possible = data.variants.filter((candidate) => candidate.options[index] === input.value && candidate.options.every((value, position) => position >= index || value === current[position]));
         const label = input.closest('label');
@@ -283,7 +307,7 @@
     if (submit.getAttribute('aria-busy') === 'true') return;
     const available = Boolean(variant?.available) && !id.disabled;
     submit.disabled = !available;
-    submit.textContent = variant ? (available ? 'Add to bag' : 'Sold out') : 'Unavailable';
+    submit.textContent = variant ? (available ? (copy.addToBag || (isZh ? '加入购物袋' : 'Add to bag')) : (copy.soldOut || (isZh ? '已售罄' : 'Sold out'))) : (copy.unavailable || (isZh ? '暂无库存' : 'Unavailable'));
   }
   document.addEventListener('nuage:cart-add-finished', (event) => { if (event.detail?.button === submit) syncSubmit(); });
   groups.forEach((group, index) => group.addEventListener('change', () => syncVariant(index)));
@@ -384,7 +408,7 @@
     const added = window.PielikCart?.addToCart ? await window.PielikCart.addToCart(item, item.quantity, paymentButton, { openDrawer: false }) : false;
     if (!added) return;
     paymentButton.disabled = true;
-    paymentButton.textContent = 'Loading…';
+    paymentButton.textContent = copy.loading || (isZh ? '正在跳转…' : 'Loading…');
     window.location.href = routes.checkoutUrl || '/checkout';
   });
 

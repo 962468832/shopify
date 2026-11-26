@@ -1,9 +1,10 @@
 <section id="scenario" class="home-section home-scenarios" data-home-carousel>
-  <div class="home-container"><div class="home-heading"><div><p class="home-eyebrow">{{ section.settings.eyebrow | escape }}</p><h2>{{ section.settings.heading | escape }}</h2></div>{% if section.settings.link_label != blank %}<a class="home-text-link" href="{{ section.settings.link | default: routes.all_products_collection_url }}">{{ section.settings.link_label | escape }} →</a>{% endif %}</div>
-  <div class="home-rail home-scenario-rail" data-home-rail tabindex="0" role="region" aria-label="{{ section.settings.heading | escape }}">
-    {% for block in section.blocks %}<article class="home-scenario" {{ block.shopify_attributes }}>
-      <div class="home-scenario__visual">{% render 'home-video', video: block.settings.video, video_url: block.settings.video_url, poster: block.settings.poster, poster_url: block.settings.poster_url, title: block.settings.title %}<span>{{ block.settings.kicker | escape }}</span></div>
-      <a href="{{ block.settings.link | default: routes.all_products_collection_url }}"><h3>{{ block.settings.title | escape }}</h3><p>{{ block.settings.copy | escape }}</p>{% if block.settings.button_label != blank %}<b class="home-text-link">{{ block.settings.button_label | escape }} →</b>{% endif %}</a>
+  {% assign scenario_head_href = section.settings.link | default: routes.all_products_collection_url %}
+  <div class="home-container"><div class="home-heading"><div><p class="home-eyebrow">{% render 'i18n', text: section.settings.eyebrow %}</p><h2>{% render 'i18n', text: section.settings.heading %}</h2></div>{% if section.settings.link_label != blank %}<a class="home-text-link" href="{% render 'locale-url', url: scenario_head_href %}">{% render 'i18n', text: section.settings.link_label %} →</a>{% endif %}</div>
+  <div class="home-rail home-scenario-rail" data-home-rail tabindex="0" role="region" aria-label="{% render 'i18n', text: section.settings.heading %}">
+    {% for block in section.blocks %}{% assign scenario_block_href = block.settings.link | default: routes.all_products_collection_url %}<article class="home-scenario" {{ block.shopify_attributes }}>
+      <div class="home-scenario__visual">{% render 'home-video', video: block.settings.video, video_url: block.settings.video_url, poster: block.settings.poster, poster_url: block.settings.poster_url, title: block.settings.title %}<span>{% render 'i18n', text: block.settings.kicker %}</span></div>
+      <a href="{% render 'locale-url', url: scenario_block_href %}"><h3>{% render 'i18n', text: block.settings.title %}</h3><p>{% render 'i18n', text: block.settings.copy %}</p>{% if block.settings.button_label != blank %}<b class="home-text-link">{% render 'i18n', text: block.settings.button_label %} →</b>{% endif %}</a>
     </article>{% endfor %}
   </div>{% render 'home-rail-controls', label:section.settings.heading %}</div>
 </section>

@@ -47,7 +47,8 @@
     {%- assign card_primary = card_variant.featured_image | default: product.featured_image -%}
     {%- assign card_secondary = second_pack_img | default: model_card_img | default: product.featured_image -%}
     {%- assign card_url = card_variant.url | default: product.url -%}
-    {%- assign card_title = product.title | append: ' (5-Pack)' -%}
+    {%- assign pack5_suffix = 'products.card.pack5_suffix' | t -%}
+    {%- assign card_title = product.title | append: ' ' | append: pack5_suffix -%}
   {%- else -%}
     {%- assign card_primary = model_card_img | default: product.featured_image -%}
     {%- if model_card_img != blank -%}
@@ -77,15 +78,16 @@
   {%- assign best_seller = false -%}
   {%- for card_tag in product.tags -%}{%- assign card_tag_down = card_tag | downcase -%}{%- if card_tag_down contains 'best seller' or card_tag_down contains 'best-seller' or card_tag_down == 'bestseller' -%}{%- assign best_seller = true -%}{%- endif -%}{%- endfor -%}
   {%- assign card_fabric = '' -%}
-  {%- if product.tags contains 'seamless' -%}{%- assign card_fabric = 'Seamless Ice-Silk' -%}
-  {%- elsif product.tags contains 'cotton-gusset' -%}{%- assign card_fabric = '5A Cotton Gusset' -%}
-  {%- elsif product.tags contains 'breathable' -%}{%- assign card_fabric = 'Breathable' -%}
-  {%- elsif product.tags contains 'wireless' -%}{%- assign card_fabric = 'Wire-free' -%}{%- endif -%}
+  {%- if product.tags contains 'seamless' -%}{%- assign card_fabric = 'products.card.seamless_ice_silk' | t -%}
+  {%- elsif product.tags contains 'cotton-gusset' -%}{%- assign card_fabric = 'products.card.cotton_gusset' | t -%}
+  {%- elsif product.tags contains 'breathable' -%}{%- assign card_fabric = 'products.card.breathable' | t -%}
+  {%- elsif product.tags contains 'wireless' -%}{%- assign card_fabric = 'products.card.wire_free' | t -%}{%- endif -%}
+  {%- capture card_type_label -%}{% if product.type != blank %}{% render 'i18n', text: product.type %}{% else %}{{ 'products.card.everyday_essential' | t }}{% endif %}{%- endcapture -%}
 
 <article class="product-card{% if card_secondary != blank %} product-card--has-secondary{% endif %}{% if is_pack5 %} product-card--pack{% endif %}">
   <div class="product-card__media">
     {% if is_pack5 %}
-      <span class="badge badge--sale">5-PACK{% if discount_percent > 0 %} · -{{ discount_percent }}%{% endif %}</span>
+      <span class="badge badge--sale">{{ 'products.card.pack5_badge' | t }}{% if discount_percent > 0 %} · -{{ discount_percent }}%{% endif %}</span>
     {% elsif best_seller %}
       <span class="badge badge--best">{{ 'products.card.best_seller' | t }}</span>
     {% elsif discount_percent > 0 %}
@@ -106,7 +108,7 @@
     <a class="product-card__vendor" href="{{ card_url }}">{{ card_vendor | default: shop.name }}</a>
     <a class="product-card__title" href="{{ card_url }}">{{ card_title }}</a>
     {% if rating_value != blank %}<a class="product-card__rating" href="{{ card_url }}#product-reviews" aria-label="{{ rating_value }} out of 5 stars{% if rating_count != blank %}, {{ rating_count }} reviews{% endif %}"><span class="stars" aria-hidden="true">★★★★★</span><b>{{ rating_value }}</b>{% if rating_count != blank %}<span>({{ rating_count }})</span>{% endif %}</a>{% endif %}
-    <p class="product-card__subtitle">{% if is_pack5 %}Value 5-Pack{% if discount_percent > 0 %} · Save {{ discount_percent }}%{% endif %}{% else %}{% if card_fabric != blank %}{{ card_fabric }} · {% endif %}{{ product.type | default: 'Everyday essential' }}{% endif %}</p>
+    <p class="product-card__subtitle">{% if is_pack5 %}{{ 'products.card.value_5pack' | t }}{% if discount_percent > 0 %} · {{ 'products.product.save' | t }} {{ discount_percent }}%{% endif %}{% else %}{% if card_fabric != blank %}{{ card_fabric }} · {% endif %}{{ card_type_label | strip }}{% endif %}</p>
     <div class="product-card__price">{% render 'price', product: product, variant: card_variant %}</div>
     {% if show_color_options and color_opt_index >= 0 %}
       {%- assign seen_colors = '||' -%}
@@ -133,13 +135,13 @@
       {%- if card_colors.size > 0 -%}
         <div class="product-card__colors" aria-label="{{ card_colors.size }} color options">
           {%- for value in card_colors limit: 6 -%}
-            <span class="color-dot" data-color="{{ value | handle }}" title="{{ value | escape }}"></span>
+            <span class="color-dot" data-color="{{ value | handle }}" title="{% render 'i18n', text: value %}"></span>
           {%- endfor -%}
           {%- if card_colors.size > 6 -%}<span class="color-more">+{{ card_colors.size | minus: 6 }}</span>{%- endif -%}
         </div>
       {%- endif -%}
     {% endif %}
-    {% if settings.card_promo_code != blank %}<span class="product-card__promo">Code: {{ settings.card_promo_code | escape }}</span>{% endif %}
+    {% if settings.card_promo_code != blank %}<span class="product-card__promo">{{ 'products.card.code' | t }} {{ settings.card_promo_code | escape }}</span>{% endif %}
   </div>
 </article>
 {%- endif -%}

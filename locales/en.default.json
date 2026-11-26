@@ -21,7 +21,15 @@
       "placeholder": "Search",
       "submit": "Search",
       "no_results": "No results found",
-      "search_products": "Search products"
+      "search_products": "Search products",
+      "find_comfort": "Find your comfort",
+      "results_for": "Results for",
+      "result": "result",
+      "results": "results",
+      "journal_label": "Journal",
+      "page_label": "Page",
+      "no_results_for": "No results found for",
+      "try_different": "Try a different word or"
     },
     "404": {
       "title": "Page not found",
@@ -46,11 +54,33 @@
       "gallery": "Product gallery",
       "gallery_eyebrow": "A closer look",
       "reviews": "Reviews",
-      "save": "Save"
+      "save": "Save",
+      "photos": "photos",
+      "view": "View",
+      "scroll_hint": "Scroll to explore · Select an image to enlarge",
+      "promise_base": "Soft, breathable comfort with easy returns",
+      "promise_shipping": "and free shipping over",
+      "includes": "Includes",
+      "unavailable": "Unavailable",
+      "loading": "Loading…",
+      "sold_out_msg": "This option is currently sold out.",
+      "unavailable_msg": "This combination is not available. Please choose another option.",
+      "in_stock": "In stock."
     },
     "card": {
       "best_seller": "Best seller",
-      "quick_shop": "Quick shop"
+      "quick_shop": "Quick shop",
+      "pack5_badge": "5-PACK",
+      "pack5_suffix": "(5-Pack)",
+      "value_5pack": "Value 5-Pack",
+      "seamless_ice_silk": "Seamless Ice-Silk",
+      "cotton_gusset": "5A Cotton Gusset",
+      "breathable": "Breathable",
+      "wire_free": "Wire-free",
+      "everyday_essential": "Everyday essential",
+      "code": "Code:",
+      "sale": "Sale",
+      "colors": "colors"
     },
     "recommendations": "You may also like",
     "loading_options": "Loading product options…"
@@ -82,12 +112,34 @@
     "you_save": "You save",
     "discount_code": "Discount code",
     "apply": "Apply",
-    "discount": "Discount"
+    "discount": "Discount",
+    "enter_code": "Enter code",
+    "enter_code_error": "Enter a discount code.",
+    "discount_not_applicable": "This code is valid but does not apply to the items in your bag yet.",
+    "free_shipping_unlocked": "Free shipping unlocked",
+    "unlocked": "Unlocked",
+    "away": "away",
+    "edit": "Edit",
+    "shop_now": "Shop now",
+    "add": "Add",
+    "adding": "Adding…",
+    "added_short": "Added ✓",
+    "loading_bag": "Loading your bag…",
+    "loading_recs": "Loading recommendations…",
+    "items": "items",
+    "you_save_sale": "You save",
+    "on_sale_items": "on sale items.",
+    "secure_checkout": "Secure checkout",
+    "qty": "Qty",
+    "updated_bag": "Updated your bag"
   },
   "favorites": {
     "title": "Favorite items",
     "empty": "Keep pieces here while you browse.",
-    "share": "Share list"
+    "share": "Share list",
+    "add_to_cart": "Add to cart",
+    "added_to_cart": "Added to cart",
+    "link_copied": "Favorite list link copied."
   },
   "footer": {
     "newsletter_heading": "Stay in the loop",
@@ -132,6 +184,7 @@
     "sculpt_lift": "Freeform High Cut",
     "softveil": "Softveil Collection",
     "freeform": "Freeform High Cut",
+    "journal": "Journal",
     "style_briefs": "Mid-Rise Briefs",
     "style_high_rise": "High-Rise",
     "style_hipster": "Hipster",
@@ -227,7 +280,8 @@
     "phone": "Phone",
     "order": "Order number",
     "message": "Message",
-    "send": "Send message"
+    "send": "Send message",
+    "success": "Thanks for reaching out. We'll get back to you as soon as possible."
   },
   "collection": {
     "laser_comfort": "Signature Softveil Series",
@@ -243,17 +297,33 @@
     "find_your_fit": "Find your fit",
     "next_favorite": "Find your next favorite",
     "from": "From",
+    "to": "To",
     "keep_exploring": "Keep exploring",
     "more_comfort": "More comfort, your way.",
+    "prev": "← Previous",
     "next": "Next →",
+    "page": "Page",
+    "of": "of",
     "no_products": "No products found.",
     "shop_all": "Shop all",
     "shop_all_underwear": "Shop all underwear",
     "by_collection": "Shop by collection",
-    "sort_by": "Sort by"
+    "sort_by": "Sort by",
+    "explore_pielik": "Explore Pielik",
+    "fit_intro": "Find the collection made for the way you want to feel, fit, and move every day.",
+    "limited_time": "Limited time",
+    "collection_label": "Collection",
+    "products_and_packs": "products & packs",
+    "products_count_label": "products",
+    "shop_prefix": "Shop",
+    "updating": "Collections are being updated."
   },
   "journal": {
-    "read_more": "Read Article"
+    "read_more": "Read Article",
+    "editorial": "Editorial",
+    "subtitle": "Dispatches on comfort, design, and living well.",
+    "brand_journal": "Pielik Journal",
+    "no_articles": "No articles are published yet. Check back soon."
   },
   "article": {
     "journal": "The Journal",
@@ -277,6 +347,8 @@
   },
   "tags": {
     "fit-guide": "Fit Guide",
+    "style-guide": "Style Guide",
+    "fabric-care": "Fabric & Care",
     "work": "Work",
     "everyday-comfort": "Everyday Comfort",
     "fabric-movement": "Fabric & Movement",

@@ -1,23 +1,23 @@
 {%- assign shipping_threshold = settings.cart_progress_threshold | times: 100 | money_without_trailing_zeros -%}
-{%- assign default_announcement = section.settings.default_message -%}
-{%- assign promo_announcement = section.settings.promo_message -%}
-{%- assign shipping_announcement = section.settings.shipping_message -%}
+{%- capture default_announcement -%}{% render 'i18n', text: section.settings.default_message %}{%- endcapture -%}
+{%- capture promo_announcement -%}{% render 'i18n', text: section.settings.promo_message %}{%- endcapture -%}
+{%- capture shipping_announcement -%}{% render 'i18n', text: section.settings.shipping_message %}{%- endcapture -%}
 {%- assign announcement_text = blank -%}
 {%- for block in section.blocks -%}
   {%- if block.settings.text != blank -%}
-    {%- assign announcement_text = block.settings.text -%}
+    {%- capture announcement_text -%}{% render 'i18n', text: block.settings.text %}{%- endcapture -%}
     {%- break -%}
   {%- endif -%}
 {%- endfor -%}
 {%- assign announcement_text = announcement_text | default: default_announcement -%}
 <div class="announcement" data-announcement>
   <button class="announcement__arrow" data-announcement-prev aria-label="Previous announcement">&lsaquo;</button>
-  <p data-announcement-text>{{ announcement_text | replace: '[threshold]', shipping_threshold | escape }}</p>
+  <p data-announcement-text>{{ announcement_text | strip | replace: '[threshold]', shipping_threshold }}</p>
   <button class="announcement__arrow" data-announcement-next aria-label="Next announcement">&rsaquo;</button>
   <button class="announcement__close" data-announcement-close aria-label="Dismiss announcement">&times;</button>
 </div>
 {%- assign announcement_count = 0 -%}
-<script type="application/json" data-announcements>[{%- for block in section.blocks -%}{%- assign block_message = block.settings.text | replace: '[threshold]', shipping_threshold -%}{%- if block_message != blank -%}{% if announcement_count > 0 %},{% endif %}{{ block_message | json }}{%- assign announcement_count = announcement_count | plus: 1 -%}{%- endif -%}{%- endfor -%}{%- assign configured_messages = default_announcement | append: '|||' | append: promo_announcement | append: '|||' | append: shipping_announcement | split: '|||' -%}{%- for message in configured_messages -%}{%- assign configured_message = message | replace: '[threshold]', shipping_threshold -%}{%- if configured_message != blank -%}{% if announcement_count > 0 %},{% endif %}{{ configured_message | json }}{%- assign announcement_count = announcement_count | plus: 1 -%}{%- endif -%}{%- endfor -%}]</script>
+<script type="application/json" data-announcements>[{%- for block in section.blocks -%}{%- capture block_i18n -%}{% render 'i18n', text: block.settings.text %}{%- endcapture -%}{%- assign block_message = block_i18n | strip | replace: '[threshold]', shipping_threshold -%}{%- if block_message != blank -%}{% if announcement_count > 0 %},{% endif %}{{ block_message | json }}{%- assign announcement_count = announcement_count | plus: 1 -%}{%- endif -%}{%- endfor -%}{%- assign configured_messages = default_announcement | append: '|||' | append: promo_announcement | append: '|||' | append: shipping_announcement | split: '|||' -%}{%- for message in configured_messages -%}{%- assign configured_message = message | strip | replace: '[threshold]', shipping_threshold -%}{%- if configured_message != blank -%}{% if announcement_count > 0 %},{% endif %}{{ configured_message | json }}{%- assign announcement_count = announcement_count | plus: 1 -%}{%- endif -%}{%- endfor -%}]</script>
 {% schema %}
 {
   "name": "Announcement bar",

@@ -2,6 +2,25 @@
   const qs = (selector, context = document) => context.querySelector(selector);
   const qsa = (selector, context = document) => [...context.querySelectorAll(selector)];
   const moneySettings = window.PielikMoney || {};
+  const isZh = /^zh/i.test(document.documentElement.lang || moneySettings.locale || '');
+  const copy = window.PielikCopy || {};
+  const ZH_OPT_MAP = {
+    'Package': '规格套装', 'Color': '颜色', 'Size': '尺码',
+    'Single': '单条装', '3-Pack': '3 条装', '5-Pack': '5 条装',
+    'Nude': '肤色', 'Black': '黑色', 'White': '白色', 'Pink': '粉色',
+    'Khaki': '卡其色', 'Blue': '蓝色', 'Cream': '奶白色', 'Light Gray': '浅灰色', 'Lavender': '浅紫色',
+    'Essential Trio': '经典百搭 3 条装', 'Black Trio': '纯黑 3 条装', 'Nude Trio': '纯肤 3 条装',
+    'White Trio': '纯白 3 条装', 'Neutral Trio': '自然裸色 3 条装', 'Monochrome Trio': '黑白极简 3 条装',
+    'Pastel Trio': '莫兰迪柔色 3 条装', 'Classic 5-Pack': '经典 5 色套装', 'Black 5-Pack': '纯黑 5 条装',
+    'White 5-Pack': '纯白 5 条装', 'Everyday 5-Pack': '日常黑肤 5 条装', 'Soft Mood 5-Pack': '温柔日常 5 色套装',
+    'Pastel 5-Pack': '马卡龙柔色 5 条装', 'Core Trio': '核心三色 3 条装', 'Cream Trio': '奶白 3 条装',
+    'Monochrome Mist Trio': '黑白灰 3 条装', 'Everyday Neutral Trio': '日常黑奶 3 条装',
+    'Soft Lilac Trio': '浅紫柔雾 3 条装', 'All-5 Signature Pack': '全色招牌 5 条装',
+    'Cream 5-Pack': '奶白 5 条装', 'Neutral 5-Pack': '中性百搭 5 条装', 'Cool Mist 5-Pack': '清冷雾色 5 条装',
+    'Mid-Rise Brief': '中腰无痕三角裤', 'High-Rise Hipster': '高腰无痕内裤',
+    'Wave-Edge Hipster': '波浪花边无痕内裤', 'High-Cut Brief': '高开叉无痕三角裤'
+  };
+  const trOpt = (v) => (isZh && v ? (ZH_OPT_MAP[v] || String(v).split(' / ').map((p) => ZH_OPT_MAP[p] || p).join(' / ')) : (v || ''));
   const money = (cents) => {
     const value = Number(cents || 0);
     const format = moneySettings.format;
@@ -128,7 +147,7 @@
     const applied = (cart.discount_codes || []).find((discount) => String(discount.code || '').toLowerCase() === code.toLowerCase());
     await refreshCart();
     if (!applied) throw new Error(copy.discountInvalid || 'That discount code is not valid.');
-    if (!applied.applicable) throw new Error('This code is valid but does not apply to the items in your bag yet.');
+    if (!applied.applicable) throw new Error(copy.discountNotApplicable || 'This code is valid but does not apply to the items in your bag yet.');
     if (message) message.textContent = copy.discountApplied || 'Discount code applied.';
   }
 
@@ -139,10 +158,10 @@
     const message = qs('[data-cart-discount-message]');
     const button = qs('button[type="submit"]', form);
     const code = input?.value.trim();
-    if (!code) { if (message) message.textContent = 'Enter a discount code.'; return; }
+    if (!code) { if (message) message.textContent = copy.enterCodeError || 'Enter a discount code.'; return; }
     if (button) { button.disabled = true; button.textContent = '…'; }
     if (message) message.textContent = '';
-    applyDiscount(code).catch((error) => { if (message) message.textContent = error.message || 'That discount code is not valid.'; }).finally(() => { if (button) { button.disabled = false; button.textContent = 'Apply'; } });
+    applyDiscount(code).catch((error) => { if (message) message.textContent = error.message || copy.discountInvalid || 'That discount code is not valid.'; }).finally(() => { if (button) { button.disabled = false; button.textContent = copy.apply || 'Apply'; } });
   });
 
   const quickShopModal = qs('#quick-shop');
@@ -164,8 +183,9 @@
   function progressMessage(subtotal) {
     if (!progressThreshold) return { label: quickShopSettings.cartProgressLabel || 'Unlock free shipping', remaining: '', percent: 0 };
     const percent = Math.min(100, Math.round((subtotal / progressThreshold) * 100));
-    if (subtotal >= progressThreshold) return { label: quickShopSettings.cartProgressCompleteLabel || 'Free shipping unlocked', remaining: 'Unlocked', percent };
-    return { label: quickShopSettings.cartProgressLabel || 'Unlock free shipping', remaining: `${formatMoney(progressThreshold - subtotal)} away`, percent };
+    if (subtotal >= progressThreshold) return { label: quickShopSettings.cartProgressCompleteLabel || 'Free shipping unlocked', remaining: copy.unlocked || 'Unlocked', percent };
+    const diff = formatMoney(progressThreshold - subtotal);
+    return { label: quickShopSettings.cartProgressLabel || 'Unlock free shipping', remaining: isZh ? `还差 ${diff} 即可免运费` : `${diff} ${copy.away || 'away'}`, percent };
   }
 
   function fallbackCartLinePricing(item) {
@@ -219,7 +239,7 @@
     const items = qs('[data-cart-items]');
     if (!items) return '';
     if (!cart.items.length) {
-      items.innerHTML = '<p class="empty-state">Your bag is empty.</p>';
+      items.innerHTML = `<p class="empty-state">${escapeHtml(copy.cartEmpty || 'Your bag is empty')}.</p>`;
       return '';
     }
     items.innerHTML = cart.items.map((item) => {
@@ -231,15 +251,15 @@
         <div class="drawer-line__details">
           <p class="drawer-line__vendor">${escapeHtml(item.vendor || window.PielikShopName || '')}</p>
           <h3><a href="${escapeHtml(item.url)}">${escapeHtml(item.product_title)}</a></h3>
-          ${item.variant_title && item.variant_title !== 'Default Title' ? `<p>${escapeHtml(item.variant_title)}</p>` : ''}
+          ${item.variant_title && item.variant_title !== 'Default Title' ? `<p>${escapeHtml(trOpt(item.variant_title))}</p>` : ''}
           <div class="drawer-line__controls">
             <div class="drawer-quantity"><button type="button" data-cart-quantity="-1" aria-label="Decrease quantity">−</button><span>${item.quantity}</span><button type="button" data-cart-quantity="1" aria-label="Increase quantity">+</button></div>
-            <button class="drawer-edit" type="button" data-cart-edit>Edit</button>
-            ${item.options_with_values?.some((option) => /size/i.test(option.name)) ? `<button class="drawer-size-guide" type="button" data-size-guide-open data-product-handle="${escapeHtml(item.handle)}">Size guide</button>` : ''}
-            <button class="drawer-remove" type="button" data-remove-line>Remove</button>
+            <button class="drawer-edit" type="button" data-cart-edit>${escapeHtml(copy.edit || 'Edit')}</button>
+            ${item.options_with_values?.some((option) => /size/i.test(option.name)) ? `<button class="drawer-size-guide" type="button" data-size-guide-open data-product-handle="${escapeHtml(item.handle)}">${escapeHtml(copy.sizeGuide || 'Size guide')}</button>` : ''}
+            <button class="drawer-remove" type="button" data-remove-line>${escapeHtml(copy.remove || 'Remove')}</button>
           </div>
         </div>
-        <div class="drawer-line__price"><strong>${formatMoney(item.final_line_price)}</strong>${showReferencePrice ? `<s>${formatMoney(linePricing.referenceLinePrice)}</s>` : ''}${linePricing.savePercent ? `<span class="cart-price__save">Save ${linePricing.savePercent}%</span>` : ''}</div>
+        <div class="drawer-line__price"><strong>${formatMoney(item.final_line_price)}</strong>${showReferencePrice ? `<s>${formatMoney(linePricing.referenceLinePrice)}</s>` : ''}${linePricing.savePercent ? `<span class="cart-price__save">${escapeHtml(copy.save || 'Save')} ${linePricing.savePercent}%</span>` : ''}</div>
       </article>
     `;
     }).join('');
@@ -267,7 +287,7 @@
     if (discount) discount.classList.toggle('is-empty', !cart.items.length);
     const checkout = qs('[data-cart-checkout]');
     if (checkout) {
-      checkout.textContent = cart.items.length ? 'Checkout' : 'Shop now';
+      checkout.textContent = cart.items.length ? (copy.checkout || 'Checkout') : (copy.shopNow || 'Shop now');
       checkout.href = cart.items.length ? (window.ShopifyRoutes || {}).checkoutUrl || '/checkout' : (window.ShopifyRoutes || {}).allProductsUrl || '/collections/all';
     }
   }
@@ -292,8 +312,8 @@
     return `
       <article class="cart-recommendation" data-product-handle="${escapeHtml(product.handle)}">
         <a href="${escapeHtml(product.url)}"><img src="${escapeHtml(image)}" alt="${escapeHtml(product.title)}"></a>
-        <div><p>${escapeHtml(product.vendor || window.PielikShopName || '')}</p><h4><a href="${escapeHtml(product.url)}">${escapeHtml(product.title)}</a></h4><strong>${formatMoney(productPricing.price)}</strong>${productPricing.hasDiscount ? `<s>${formatMoney(productPricing.compareAtPrice)}</s><span class="product-card__save">Save ${productPricing.discountPercent}%</span>` : ''}</div>
-        <button type="button" data-quick-open data-product-handle="${escapeHtml(product.handle)}">Add</button>
+        <div><p>${escapeHtml(product.vendor || window.PielikShopName || '')}</p><h4><a href="${escapeHtml(product.url)}">${escapeHtml(product.title)}</a></h4><strong>${formatMoney(productPricing.price)}</strong>${productPricing.hasDiscount ? `<s>${formatMoney(productPricing.compareAtPrice)}</s><span class="product-card__save">${escapeHtml(copy.save || 'Save')} ${productPricing.discountPercent}%</span>` : ''}</div>
+        <button type="button" data-quick-open data-product-handle="${escapeHtml(product.handle)}">${escapeHtml(copy.add || 'Add')}</button>
       </article>
     `;
   }
@@ -305,7 +325,7 @@
     if (!section || !grid || !productId) { if (section) section.hidden = true; return; }
     const requestId = ++recommendationRequestId;
     section.hidden = false;
-    grid.innerHTML = '<p class="empty-state">Loading recommendations…</p>';
+    grid.innerHTML = `<p class="empty-state">${escapeHtml(copy.loadingRecs || 'Loading recommendations…')}</p>`;
     try {
       const root = (window.ShopifyRoutes.rootUrl || '').replace(/\/$/, '');
       const response = await fetch(`${root}/recommendations/products.json?product_id=${encodeURIComponent(productId)}&limit=4&_=${Date.now()}`, { cache: 'no-store' });
@@ -331,16 +351,16 @@
     const variantTitle = variant?.title && variant.title !== 'Default Title' ? variant.title : '';
     const colorOption = (product.options_with_values || []).find((option) => /color|colour/i.test(option.name));
     const colorValues = colorOption?.values || [];
-    const colorMarkup = colorValues.length ? `<div class="product-card__colors" aria-label="${colorValues.length} color options">${colorValues.slice(0, 5).map((value) => `<span class="color-dot" data-color="${escapeHtml(String(value).toLowerCase().replace(/\s+/g, '-'))}" title="${escapeHtml(value)}"></span>`).join('')}${colorValues.length > 5 ? `<span class="color-more">+${colorValues.length - 5}</span>` : ''}<span class="color-count">${colorValues.length} colors</span></div>` : '';
+    const colorMarkup = colorValues.length ? `<div class="product-card__colors" aria-label="${colorValues.length} color options">${colorValues.slice(0, 5).map((value) => `<span class="color-dot" data-color="${escapeHtml(String(value).toLowerCase().replace(/\s+/g, '-'))}" title="${escapeHtml(trOpt(value))}"></span>`).join('')}${colorValues.length > 5 ? `<span class="color-more">+${colorValues.length - 5}</span>` : ''}<span class="color-count">${colorValues.length} ${escapeHtml(copy.colors || 'colors')}</span></div>` : '';
     return `
       <article class="product-card${secondaryImage ? ' product-card--has-secondary' : ''}">
         <div class="product-card__media">
-          ${savePercent ? '<span class="badge">Sale</span>' : ''}
+          ${savePercent ? `<span class="badge">${escapeHtml(copy.sale || 'Sale')}</span>` : ''}
           <a href="${escapeHtml(product.url || `/products/${product.handle}`)}">${image ? `<img class="product-card__image product-card__image--primary" src="${escapeHtml(image)}" alt="${escapeHtml(product.title)}" loading="lazy">${secondaryImage ? `<img class="product-card__image product-card__image--secondary" src="${escapeHtml(secondaryImage)}" alt="${escapeHtml(product.title)}" loading="lazy">` : ''}` : '<div class="media-placeholder"></div>'}</a>
           <button class="wishlist-card" type="button" data-wishlist data-wishlist-handle="${escapeHtml(product.handle)}" data-wishlist-url="${escapeHtml(product.url || `/products/${product.handle}`)}" data-wishlist-title="${escapeHtml(product.title)}" data-wishlist-image="${escapeHtml(image)}" data-wishlist-price="${escapeHtml(formatMoney(price))}" data-wishlist-compare-price="${escapeHtml(compareAtPrice ? formatMoney(compareAtPrice) : '')}" data-wishlist-variant-id="${escapeHtml(variant?.id || '')}" data-wishlist-variant-title="${escapeHtml(variantTitle)}" aria-label="Add ${escapeHtml(product.title)} to favorites"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M7.5 3A5.5 5.5 0 0 0 2 8.5c0 1.085.136 1.99.527 2.851.386.849.984 1.574 1.766 2.356L10.586 20a2 2 0 0 0 2.828 0l6.293-6.293c.782-.782 1.38-1.507 1.766-2.356.391-.86.527-1.766.527-2.851A5.5 5.5 0 0 0 16.5 3c-1.805 0-3.265.776-4.221 1.807L12 5.086l-.279-.28C10.765 3.777 9.305 3 7.5 3Z"></path></svg></button>
-          <button class="quick-shop" type="button" data-quick-open data-product-handle="${escapeHtml(product.handle)}"${product.available === false ? ' disabled' : ''}>Quick shop</button>
+          <button class="quick-shop" type="button" data-quick-open data-product-handle="${escapeHtml(product.handle)}"${product.available === false ? ' disabled' : ''}>${escapeHtml(copy.quickShop || 'Quick shop')}</button>
         </div>
-        <div class="product-card__meta"><a class="product-card__vendor" href="${escapeHtml(product.url || `/products/${product.handle}`)}">${escapeHtml(product.vendor || window.PielikShopName || '')}</a><a class="product-card__title" href="${escapeHtml(product.url || `/products/${product.handle}`)}">${escapeHtml(product.title)}</a>${product.type ? `<p class="product-card__subtitle">${escapeHtml(product.type)}</p>` : ''}${colorMarkup}<div class="product-card__price">${formatMoney(price)}${savePercent ? `<s>${formatMoney(compareAtPrice)}</s><span class="product-card__save">Save ${savePercent}%</span>` : ''}</div></div>
+        <div class="product-card__meta"><a class="product-card__vendor" href="${escapeHtml(product.url || `/products/${product.handle}`)}">${escapeHtml(product.vendor || window.PielikShopName || '')}</a><a class="product-card__title" href="${escapeHtml(product.url || `/products/${product.handle}`)}">${escapeHtml(product.title)}</a>${product.type ? `<p class="product-card__subtitle">${escapeHtml(trOpt(product.type))}</p>` : ''}${colorMarkup}<div class="product-card__price">${formatMoney(price)}${savePercent ? `<s>${formatMoney(compareAtPrice)}</s><span class="product-card__save">${escapeHtml(copy.save || 'Save')} ${savePercent}%</span>` : ''}</div></div>
       </article>
     `;
   }
@@ -386,7 +406,7 @@
   const openCart = async () => {
     setDrawer(cartDrawer, true);
     const items = qs('[data-cart-items]');
-    if (items) items.innerHTML = '<p class="empty-state">Loading your bag…</p>';
+    if (items) items.innerHTML = `<p class="empty-state">${escapeHtml(copy.loadingBag || 'Loading your bag…')}</p>`;
     try { await cartQueue; await refreshCart(); }
     catch (error) {
       if (items) items.innerHTML = '<p class="empty-state">Your bag could not be loaded. Please use View bag below to try again.</p>';
@@ -432,13 +452,13 @@
     payload.quantity = Math.max(1, Number(payload.quantity || quantity || 1));
     if (button?.getAttribute('aria-busy') === 'true') return false;
     const label = button?.textContent;
-    if (button) { button.disabled = true; button.textContent = 'Adding…'; button.setAttribute('aria-busy', 'true'); }
+    if (button) { button.disabled = true; button.textContent = copy.adding || 'Adding…'; button.setAttribute('aria-busy', 'true'); }
     try {
       await queueCartUpdate(async () => {
         await cartRequest(cartEndpoint((window.ShopifyRoutes || {}).cartAdd, '/cart/add'), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items: [payload] }) });
         if (!openDrawer) return;
         showCartFeedback(`✓ ${window.PielikCopy?.cartAdded || 'Added to your bag'}`);
-        if (button) button.textContent = 'Added ✓';
+        if (button) button.textContent = copy.addedShort || 'Added ✓';
         try {
           await refreshCart();
           setDrawer(cartDrawer, true);
@@ -492,7 +512,7 @@
   function optionButton(product, option, value, index) {
     const selected = quickShopState?.selected[index] === value;
     const available = product.variants.some((variant) => variant.options[index] === value && variant.available);
-    return `<button type="button" class="quick-option${selected ? ' is-selected' : ''}${available ? '' : ' is-unavailable'}" data-quick-option="${index}" data-value="${escapeHtml(value)}" ${selected ? 'aria-pressed="true"' : 'aria-pressed="false"'}${available ? '' : ' disabled'}>${escapeHtml(value)}</button>`;
+    return `<button type="button" class="quick-option${selected ? ' is-selected' : ''}${available ? '' : ' is-unavailable'}" data-quick-option="${index}" data-value="${escapeHtml(value)}" ${selected ? 'aria-pressed="true"' : 'aria-pressed="false"'}${available ? '' : ' disabled'}>${escapeHtml(trOpt(value))}</button>`;
   }
 
   let quickShopState = null;
@@ -520,13 +540,13 @@
         <div class="quick-shop-product__info">
           <p class="quick-shop-product__vendor">${escapeHtml(product.vendor || window.PielikShopName || '')}</p>
           <h2 id="QuickShopTitle">${escapeHtml(product.title)}</h2>
-          <div class="quick-shop-product__price"><strong>${formatMoney(price)}</strong>${savings ? `<s>${formatMoney(compare)}</s><span class="product-price__save">Save ${savings}%</span>` : ''}</div>
+          <div class="quick-shop-product__price"><strong>${formatMoney(price)}</strong>${savings ? `<s>${formatMoney(compare)}</s><span class="product-price__save">${escapeHtml(copy.save || 'Save')} ${savings}%</span>` : ''}</div>
           ${product.options.length && !(product.variants.length === 1 && /^default title$/i.test(product.variants[0].title || '')) ? product.options.map((option, index) => { const name = typeof option === 'string' ? option : option.name; const scopedVariants = index > 0 ? product.variants.filter((v) => v.options.every((val, pos) => pos >= index || val === quickShopState.selected[pos])) : product.variants; return `
-            <fieldset class="quick-option-group"><legend><span>Select ${escapeHtml(name)}</span>${/size/i.test(name) ? '<button class="size-guide-trigger" type="button" data-size-guide-open aria-haspopup="dialog"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m14.5 4.5 5 5L8 21H3v-5Z"></path><path d="m13 6 5 5M11 8l2 2M8 11l2 2M5 14l2 2"></path></svg>Fit &amp; Size Guide</button>' : ''}</legend><div>${scopedVariants.map((variant) => variant.options[index]).filter((value, idx, values) => value && values.indexOf(value) === idx).map((value) => optionButton(product, name, value, index)).join('')}</div></fieldset>
+            <fieldset class="quick-option-group"><legend><span>${escapeHtml(copy.select || 'Select')} ${escapeHtml(trOpt(name))}</span>${/size/i.test(name) ? `<button class="size-guide-trigger" type="button" data-size-guide-open aria-haspopup="dialog"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m14.5 4.5 5 5L8 21H3v-5Z"></path><path d="m13 6 5 5M11 8l2 2M8 11l2 2M5 14l2 2"></path></svg>${escapeHtml(copy.sizeGuide || 'Fit & Size Guide')}</button>` : ''}</legend><div>${scopedVariants.map((variant) => variant.options[index]).filter((value, idx, values) => value && values.indexOf(value) === idx).map((value) => optionButton(product, name, value, index)).join('')}</div></fieldset>
           `; }).join('') : ''}
-          <label class="quick-quantity">Qty<span><button type="button" data-quick-quantity="-1" aria-label="Decrease quantity">−</button><input type="number" min="1" value="${quantity}" data-quick-quantity-input aria-label="Quantity"><button type="button" data-quick-quantity="1" aria-label="Increase quantity">+</button></span></label>
-          <div class="quick-shop-product__actions"><button class="button button--dark" type="button" data-quick-submit${variant?.available ? '' : ' disabled'}>${lineKey ? 'Update bag' : variant?.available ? 'Add to bag' : 'Sold out'}</button><button class="button button--danger" type="button" data-quick-buy${variant?.available ? '' : ' disabled'}>Buy now</button></div>
-          <p class="quick-shop-product__availability" role="status">${variant ? (variant.available ? 'In stock.' : 'This option is currently sold out.') : 'This combination is unavailable.'}</p>
+          <label class="quick-quantity">${escapeHtml(copy.qty || 'Qty')}<span><button type="button" data-quick-quantity="-1" aria-label="Decrease quantity">−</button><input type="number" min="1" value="${quantity}" data-quick-quantity-input aria-label="Quantity"><button type="button" data-quick-quantity="1" aria-label="Increase quantity">+</button></span></label>
+          <div class="quick-shop-product__actions"><button class="button button--dark" type="button" data-quick-submit${variant?.available ? '' : ' disabled'}>${escapeHtml(lineKey ? (copy.updateBag || 'Update bag') : variant?.available ? (copy.addToBag || 'Add to bag') : (copy.soldOut || 'Sold out'))}</button><button class="button button--danger" type="button" data-quick-buy${variant?.available ? '' : ' disabled'}>${escapeHtml(copy.buyNow || 'Buy now')}</button></div>
+          <p class="quick-shop-product__availability" role="status">${escapeHtml(variant ? (variant.available ? (copy.inStock || 'In stock.') : (copy.soldOutMsg || 'This option is currently sold out.')) : (copy.unavailableMsg || 'This combination is unavailable.'))}</p>
         </div>
       </div>
     `;
@@ -542,7 +562,7 @@
     quickShopModal.setAttribute('aria-hidden', 'false');
     document.documentElement.classList.add('quick-shop-lock');
     document.body.classList.add('quick-shop-lock');
-    quickShopBody.innerHTML = '<p class="empty-state">Loading product options…</p>';
+    quickShopBody.innerHTML = `<p class="empty-state">${escapeHtml(copy.loadingOptions || 'Loading product options…')}</p>`;
     try {
       const product = await fetchProduct(handle);
       renderQuickShop(product, options);
@@ -594,7 +614,7 @@
       const variant = resolveVariant(quickShopState.product.variants, quickShopState.selected);
       if (!variant?.available) return;
       if (quickShopState.lineKey) {
-        replaceCartLine(quickShopState.lineKey, variant.id, quickShopState.quantity).then(() => { closeQuickShop(); setDrawer(cartDrawer, true); showCartFeedback('✓ Updated your bag'); }).catch((error) => showCartFeedback(error.message, true));
+        replaceCartLine(quickShopState.lineKey, variant.id, quickShopState.quantity).then(() => { closeQuickShop(); setDrawer(cartDrawer, true); showCartFeedback(`✓ ${copy.updatedBag || 'Updated your bag'}`); }).catch((error) => showCartFeedback(error.message, true));
       } else {
         addToCart(variant.id, quickShopState.quantity, submit).then((added) => { if (added) closeQuickShop(); });
       }
@@ -607,7 +627,7 @@
       addToCart(variant.id, quickShopState.quantity, buy, { openDrawer: false }).then((added) => {
         if (!added) return;
         buy.disabled = true;
-        buy.textContent = 'Loading…';
+        buy.textContent = copy.loading || 'Loading…';
         window.location.href = (window.ShopifyRoutes || {}).checkoutUrl || '/checkout';
       });
     }
@@ -664,7 +684,7 @@
     const status = qs('[data-size-guide-suggestion-status]', sizeGuide);
     const apply = qs('[data-size-guide-apply]', sizeGuide);
     if (output) output.textContent = sizeGuideSuggestion || '—';
-    if (status) status.textContent = !measurement ? 'Enter your hip measurement to find your size.' : sizeGuideSuggestion ? (sizeGuideUnit === 'cm' ? `Based on ${measurement} cm hips.` : `Based on ${measurement} in hips.`) : 'This size is unavailable for the selected product. Please choose another option.';
+    if (status) status.textContent = !measurement ? (copy.enterHip || 'Enter your hip measurement to find your size.') : sizeGuideSuggestion ? (isZh ? `根据 ${measurement} ${sizeGuideUnit === 'cm' ? '厘米' : '英寸'}臀围推荐。` : (sizeGuideUnit === 'cm' ? `Based on ${measurement} cm hips.` : `Based on ${measurement} in hips.`)) : (isZh ? '该商品暂缺此推荐尺码，请选择其他尺码。' : 'This size is unavailable for the selected product. Please choose another option.');
     if (apply) apply.disabled = !sizeGuideSuggestion;
   }
   function applySizeGuideSuggestion() {
@@ -930,7 +950,7 @@
         if (!predictiveResults) return;
         const priceText = (price) => { const cents = Math.round(Number(price) * 100); return Number.isFinite(cents) ? formatMoney(cents) : ''; };
         const thumb = (url) => { if (!url) return ''; const imageUrl = new URL(mediaUrl(url), window.location.href); imageUrl.searchParams.set('width', '120'); return imageUrl.toString(); };
-        predictiveResults.innerHTML = products.length ? products.map((product) => `<a class="predictive-result" href="${escapeHtml(product.url)}">${product.featured_image?.url ? `<img src="${escapeHtml(thumb(product.featured_image.url))}" width="60" height="80" alt="" loading="lazy">` : ''}<span>${escapeHtml(product.title)}<small>${escapeHtml(priceText(product.price))}</small></span></a>`).join('') : '<p class="empty-state">No products found.</p>';
+        predictiveResults.innerHTML = products.length ? products.map((product) => `<a class="predictive-result" href="${escapeHtml(product.url)}">${product.featured_image?.url ? `<img src="${escapeHtml(thumb(product.featured_image.url))}" width="60" height="80" alt="" loading="lazy">` : ''}<span>${escapeHtml(product.title)}<small>${escapeHtml(priceText(product.price))}</small></span></a>`).join('') : `<p class="empty-state">${escapeHtml(copy.noProducts || 'No products found.')}</p>`;
       }).catch((error) => { if (error.name !== 'AbortError' && predictiveResults) predictiveResults.innerHTML = ''; });
     }, 220);
   });
@@ -959,13 +979,13 @@
   const normalizeWishlistItem = (item) => ({ handle: String(item?.handle || ''), url: item?.url || (item?.handle ? `/products/${item.handle}` : ''), title: item?.title || item?.handle || 'Favorite item', image: item?.image || '', price: item?.price || '', comparePrice: item?.comparePrice || '', variantId: item?.variantId || '', variantTitle: item?.variantTitle || '', rating: item?.rating || '', ratingCount: item?.ratingCount || '' });
   const readWishlist = () => { try { const items = JSON.parse(localStorage.getItem(wishlistKey) || '[]'); return Array.isArray(items) ? items.map(normalizeWishlistItem).filter((item) => item.handle) : []; } catch (error) { return []; } };
   const writeWishlist = (items) => { try { localStorage.setItem(wishlistKey, JSON.stringify(items.map(normalizeWishlistItem))); } catch (error) { /* Storage can be unavailable in private mode. */ } updateWishlist(); };
-  const wishlistItemMarkup = (item) => `<article class="wishlist-item" data-wishlist-item="${escapeHtml(item.handle)}"><div class="wishlist-item__media">${item.image ? `<a href="${escapeHtml(item.url)}"><img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}" loading="lazy"></a>` : `<a href="${escapeHtml(item.url)}" class="media-placeholder" aria-label="${escapeHtml(item.title)}"></a>`}<button class="wishlist-item__heart wishlist-card" type="button" data-wishlist data-wishlist-handle="${escapeHtml(item.handle)}" data-wishlist-url="${escapeHtml(item.url)}" data-wishlist-title="${escapeHtml(item.title)}" data-wishlist-image="${escapeHtml(item.image)}" data-wishlist-price="${escapeHtml(item.price)}" data-wishlist-compare-price="${escapeHtml(item.comparePrice)}" data-wishlist-variant-id="${escapeHtml(item.variantId)}" data-wishlist-variant-title="${escapeHtml(item.variantTitle)}" data-wishlist-rating="${escapeHtml(item.rating)}" data-wishlist-rating-count="${escapeHtml(item.ratingCount)}" aria-label="Remove ${escapeHtml(item.title)} from favorites">${wishlistHeartSvg()}</button></div><div class="wishlist-item__details"><a class="wishlist-item__title" href="${escapeHtml(item.url)}">${escapeHtml(item.title)}</a>${item.rating ? `<p class="wishlist-item__rating"><span aria-hidden="true">★★★★★</span> <b>${escapeHtml(item.rating)}</b>${item.ratingCount ? ` <span>(${escapeHtml(item.ratingCount)})</span>` : ''}</p>` : ''}<p class="wishlist-item__price"><strong>${escapeHtml(item.price)}</strong>${item.comparePrice ? ` <s>${escapeHtml(item.comparePrice)}</s>` : ''}</p>${item.variantTitle ? `<p class="wishlist-item__variant">${escapeHtml(item.variantTitle)}</p>` : ''}<button class="wishlist-item__add" type="button" data-wishlist-add data-wishlist-handle="${escapeHtml(item.handle)}" data-wishlist-variant-id="${escapeHtml(item.variantId)}">Add to cart</button></div></article>`;
+  const wishlistItemMarkup = (item) => `<article class="wishlist-item" data-wishlist-item="${escapeHtml(item.handle)}"><div class="wishlist-item__media">${item.image ? `<a href="${escapeHtml(item.url)}"><img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}" loading="lazy"></a>` : `<a href="${escapeHtml(item.url)}" class="media-placeholder" aria-label="${escapeHtml(item.title)}"></a>`}<button class="wishlist-item__heart wishlist-card" type="button" data-wishlist data-wishlist-handle="${escapeHtml(item.handle)}" data-wishlist-url="${escapeHtml(item.url)}" data-wishlist-title="${escapeHtml(item.title)}" data-wishlist-image="${escapeHtml(item.image)}" data-wishlist-price="${escapeHtml(item.price)}" data-wishlist-compare-price="${escapeHtml(item.comparePrice)}" data-wishlist-variant-id="${escapeHtml(item.variantId)}" data-wishlist-variant-title="${escapeHtml(item.variantTitle)}" data-wishlist-rating="${escapeHtml(item.rating)}" data-wishlist-rating-count="${escapeHtml(item.ratingCount)}" aria-label="Remove ${escapeHtml(item.title)} from favorites">${wishlistHeartSvg()}</button></div><div class="wishlist-item__details"><a class="wishlist-item__title" href="${escapeHtml(item.url)}">${escapeHtml(item.title)}</a>${item.rating ? `<p class="wishlist-item__rating"><span aria-hidden="true">★★★★★</span> <b>${escapeHtml(item.rating)}</b>${item.ratingCount ? ` <span>(${escapeHtml(item.ratingCount)})</span>` : ''}</p>` : ''}<p class="wishlist-item__price"><strong>${escapeHtml(item.price)}</strong>${item.comparePrice ? ` <s>${escapeHtml(item.comparePrice)}</s>` : ''}</p>${item.variantTitle ? `<p class="wishlist-item__variant">${escapeHtml(trOpt(item.variantTitle))}</p>` : ''}<button class="wishlist-item__add" type="button" data-wishlist-add data-wishlist-handle="${escapeHtml(item.handle)}" data-wishlist-variant-id="${escapeHtml(item.variantId)}">${escapeHtml(copy.addToCart || 'Add to cart')}</button></div></article>`;
   function updateWishlist() {
     const items = readWishlist();
     qsa('[data-wishlist-count]').forEach((element) => { element.textContent = items.length; element.hidden = items.length === 0; });
     qsa('[data-wishlist]').forEach((button) => { const saved = items.some((item) => item.handle === button.dataset.wishlistHandle); button.classList.toggle('is-saved', saved); button.setAttribute('aria-label', `${saved ? 'Remove' : 'Add'} ${button.dataset.wishlistTitle || 'item'} ${saved ? 'from' : 'to'} favorites`); });
     const body = qs('[data-wishlist-body]');
-    if (body) body.innerHTML = `<button class="wishlist-drawer__share" type="button" data-wishlist-share>Share list</button>${items.length ? items.map(wishlistItemMarkup).join('') : '<p class="empty-state">Keep pieces here while you browse.</p>'}`;
+    if (body) body.innerHTML = `<button class="wishlist-drawer__share" type="button" data-wishlist-share>${escapeHtml(copy.shareList || 'Share list')}</button>${items.length ? items.map(wishlistItemMarkup).join('') : `<p class="empty-state">${escapeHtml(copy.favoritesEmpty || 'Keep pieces here while you browse.')}</p>`}`;
   }
   const openWishlist = () => { updateWishlist(); setDrawer(qs('#wishlist-drawer'), true); qs('[data-wishlist-open]')?.classList.add('is-hidden'); };
   const closeWishlist = () => { setDrawer(qs('#wishlist-drawer'), false); qs('[data-wishlist-open]')?.classList.remove('is-hidden'); };
@@ -1070,24 +1090,24 @@
     try { if (navigator.share) await navigator.share(shareData); else throw new Error('share unavailable'); }
     catch (error) {
       if (error?.name === 'AbortError') return;
-      try { await navigator.clipboard.writeText(url.toString()); showCartFeedback('Favorite list link copied.'); }
-      catch (copyError) { const input = document.createElement('textarea'); input.value = url.toString(); document.body.appendChild(input); input.select(); document.execCommand('copy'); input.remove(); showCartFeedback('Favorite list link copied.'); }
+      try { await navigator.clipboard.writeText(url.toString()); showCartFeedback(copy.linkCopied || 'Favorite list link copied.'); }
+      catch (copyError) { const input = document.createElement('textarea'); input.value = url.toString(); document.body.appendChild(input); input.select(); document.execCommand('copy'); input.remove(); showCartFeedback(copy.linkCopied || 'Favorite list link copied.'); }
     }
   }
   async function addWishlistItem(button) {
     const item = readWishlist().find((candidate) => candidate.handle === button.dataset.wishlistHandle);
     if (!item) return;
-    const label = button.textContent || 'Add to cart';
+    const label = button.textContent || copy.addToCart || 'Add to cart';
     button.disabled = true;
-    button.textContent = 'Adding…';
+    button.textContent = copy.adding || 'Adding…';
     try {
       let variantId = button.dataset.wishlistVariantId || item.variantId;
       if (!variantId) { const product = await fetchProduct(item.handle); variantId = (product.variants || []).find((variant) => variant.available)?.id || product.variants?.[0]?.id; }
-      if (!variantId) throw new Error('This item is currently unavailable.');
+      if (!variantId) throw new Error(copy.unavailableMsg || 'This item is currently unavailable.');
       const added = await addToCart({ id: Number(variantId), quantity: 1 }, 1, button, { openDrawer: false });
-      if (added !== false) { button.textContent = 'Added to cart'; window.setTimeout(() => { if (document.contains(button)) { button.disabled = false; button.textContent = label || 'Add to cart'; } }, 1400); }
-      else button.textContent = label || 'Add to cart';
-    } catch (error) { showCartFeedback(error.message, true); button.disabled = false; button.textContent = label || 'Add to cart'; }
+      if (added !== false) { button.textContent = copy.addedToCart || 'Added to cart'; window.setTimeout(() => { if (document.contains(button)) { button.disabled = false; button.textContent = label || copy.addToCart || 'Add to cart'; } }, 1400); }
+      else button.textContent = label || copy.addToCart || 'Add to cart';
+    } catch (error) { showCartFeedback(error.message, true); button.disabled = false; button.textContent = label || copy.addToCart || 'Add to cart'; }
   }
   document.addEventListener('click', (event) => {
     const button = event.target.closest('[data-wishlist]');

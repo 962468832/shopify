@@ -1,6 +1,7 @@
 <section class="home-film" aria-labelledby="film-{{ section.id }}">
   {% render 'home-video', video: section.settings.video, video_url: section.settings.video_url, poster: section.settings.poster, poster_url: section.settings.poster_url, title: section.settings.heading, width: 2200, sizes: '100vw' %}
-  <div class="home-film__copy"><p class="home-eyebrow">{{ section.settings.eyebrow | escape }}</p><h2 id="film-{{ section.id }}">{{ section.settings.heading | escape }}</h2><p class="home-film__tagline">{{ section.settings.tagline | escape }}</p><p class="home-film__description">{{ section.settings.description | escape }}</p>{% if section.settings.button_label != blank %}<a class="home-pill" href="{{ section.settings.link | default: routes.all_products_collection_url }}">{{ section.settings.button_label | escape }}</a>{% endif %}</div>
+  {% assign film_href = section.settings.link | default: routes.all_products_collection_url %}
+  <div class="home-film__copy"><p class="home-eyebrow">{% render 'i18n', text: section.settings.eyebrow %}</p><h2 id="film-{{ section.id }}">{% render 'i18n', text: section.settings.heading %}</h2><p class="home-film__tagline">{% render 'i18n', text: section.settings.tagline %}</p><p class="home-film__description">{% render 'i18n', text: section.settings.description %}</p>{% if section.settings.button_label != blank %}<a class="home-pill" href="{% render 'locale-url', url: film_href %}">{% render 'i18n', text: section.settings.button_label %}</a>{% endif %}</div>
 </section>
 {% schema %}
 {

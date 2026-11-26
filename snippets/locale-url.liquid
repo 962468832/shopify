@@ -1,0 +1,17 @@
+{%- liquid
+  assign raw_url = url | strip
+  assign prefix = routes.root_url
+  if prefix == '/'
+    assign prefix = ''
+  endif
+  if prefix != '' and raw_url != ''
+    assign first_char = raw_url | slice: 0, 1
+    assign first_two = raw_url | slice: 0, 2
+    assign prefix_slash = prefix | append: '/'
+    if first_char == '/' and first_two != '//' and raw_url != prefix
+      unless raw_url contains prefix_slash
+        assign raw_url = prefix | append: raw_url
+      endunless
+    endif
+  endif
+-%}{{ raw_url }}

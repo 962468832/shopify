@@ -13,6 +13,6 @@
   <span class="price__current">{{ current_price | money }}</span>
   {%- if has_discount -%}
     <s class="price__compare">{{ compare_at_price | money }}</s>
-    <span class="price__save">Save {{ discount_percent }}%</span>
+    <span class="price__save">{{ 'products.product.save' | t }} {{ discount_percent }}%</span>
   {%- endif -%}
 </span>

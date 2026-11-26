@@ -16,8 +16,8 @@
             {% endcase %}
           </span>
           <div>
-            <strong>{{ block.settings.title | escape }}</strong>
-            <span>{{ block.settings.subtitle | escape }}</span>
+            <strong>{% render 'i18n', text: block.settings.title %}</strong>
+            <span>{% render 'i18n', text: block.settings.subtitle %}</span>
           </div>
         </div>
       {% endfor %}
