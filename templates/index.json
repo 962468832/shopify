@@ -184,10 +184,11 @@
     "cloud": {
       "type": "product-carousel",
       "settings": {
-        "heading": "Softveil Collection",
-        "description": "Barely-there ice-silk essentials crafted for every silhouette.",
-        "hide_heading": true,
-        "collection": "softveil-collection",
+        "heading": "Value 5-Packs",
+        "description": "Build your weekday rotation and save up to 25% on curated 5-Packs.",
+        "hide_heading": false,
+        "card_mode": "pack5",
+        "collection": "best-sellers-2026",
         "products": [
           "softveil-original",
           "softveil-original-high-rise-hipster-bikini",
@@ -195,8 +196,8 @@
           "freeform-high-cut"
         ],
         "limit": 4,
-        "link_label": "Shop Softveil",
-        "link": "/collections/softveil-collection"
+        "link_label": "Shop All",
+        "link": "/collections/all"
       }
     },
     "lifestyle": {

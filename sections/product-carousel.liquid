@@ -1,8 +1,37 @@
 {% assign selected_collection = section.settings.collection %}
+{% assign card_display_mode = section.settings.card_mode | default: 'single' %}
 <section class="home-section home-products{% if section.settings.hide_heading %} home-products--compact{% endif %}" data-home-carousel>
   <div class="home-container">{% unless section.settings.hide_heading %}<div class="home-heading"><div><h2>{{ section.settings.heading | escape }}</h2><p>{{ section.settings.description | escape }}</p></div>{% if section.settings.link_label != blank %}<a class="home-text-link" href="{{ section.settings.link | default: selected_collection.url | default: routes.all_products_collection_url }}">{{ section.settings.link_label | escape }} →</a>{% endif %}</div>{% endunless %}
     <div class="home-rail home-product-rail" data-home-rail tabindex="0" role="region" aria-label="{{ section.settings.heading | default: 'Collection products' | escape }}">
-      {% if section.settings.products != blank %}{% for product in section.settings.products limit:section.settings.limit %}{% render 'product-card', product:product, show_color_options:true %}{% endfor %}{% else %}{% for product in selected_collection.products limit:section.settings.limit %}{% render 'product-card', product:product, show_color_options:true %}{% else %}{% if request.design_mode %}<p class="home-editor-empty">请选择商品，或选择一个有商品的集合。</p>{% endif %}{% endfor %}{% endif %}
+      {% if section.settings.products != blank %}
+        {% for product in section.settings.products limit:section.settings.limit %}
+          {% if card_display_mode == 'pack5' %}
+            {% render 'product-card', product:product, show_color_options:true, card_mode:'pack5' %}
+          {% else %}
+            {% render 'product-card', product:product, show_color_options:true %}
+          {% endif %}
+        {% endfor %}
+        {% if card_display_mode == 'both' %}
+          {% for product in section.settings.products limit:section.settings.limit %}
+            {% render 'product-card', product:product, show_color_options:true, card_mode:'pack5' %}
+          {% endfor %}
+        {% endif %}
+      {% else %}
+        {% for product in selected_collection.products limit:section.settings.limit %}
+          {% if card_display_mode == 'pack5' %}
+            {% render 'product-card', product:product, show_color_options:true, card_mode:'pack5' %}
+          {% else %}
+            {% render 'product-card', product:product, show_color_options:true %}
+          {% endif %}
+        {% else %}
+          {% if request.design_mode %}<p class="home-editor-empty">请选择商品，或选择一个有商品的集合。</p>{% endif %}
+        {% endfor %}
+        {% if card_display_mode == 'both' %}
+          {% for product in selected_collection.products limit:section.settings.limit %}
+            {% render 'product-card', product:product, show_color_options:true, card_mode:'pack5' %}
+          {% endfor %}
+        {% endif %}
+      {% endif %}
     </div>{% render 'home-rail-controls', label:section.settings.heading %}
   </div>
 </section>
@@ -27,6 +56,17 @@
       "id": "hide_heading",
       "label": "隐藏标题",
       "default": false
+    },
+    {
+      "type": "select",
+      "id": "card_mode",
+      "label": "卡片展示形态",
+      "options": [
+        { "value": "single", "label": "单条装模特图（默认）" },
+        { "value": "pack5", "label": "五条装 Value 5-Pack" },
+        { "value": "both", "label": "单条装 + 五条装双卡" }
+      ],
+      "default": "single"
     },
     {
       "type": "collection",
