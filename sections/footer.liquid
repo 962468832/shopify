@@ -27,7 +27,7 @@
     {%- endform -%}
   </div>
   {%- endif -%}
-  <div class="page-width footer-bottom"><span>copyright: {{ 'now' | date: '%Y' }} © {{ shop.name | capitalize }}</span><span><a href="/policies/terms-of-service">{{ 'footer.terms' | t }}</a><a href="/policies/privacy-policy">{{ 'footer.privacy' | t }}</a><button type="button" data-cookie-preferences data-fallback-url="{{ settings.cookie_preferences_url | default: '/policies/privacy-policy' }}">{{ 'footer.cookie_preferences' | t }}</button></span></div>
+  <div class="page-width footer-bottom"><span>© {{ 'now' | date: '%Y' }} {{ shop.name | capitalize }}</span><span><a href="{% render 'locale-url', url: '/policies/terms-of-service' %}">{{ 'footer.terms' | t }}</a><a href="{% render 'locale-url', url: '/policies/privacy-policy' %}">{{ 'footer.privacy' | t }}</a><button type="button" data-cookie-preferences data-fallback-url="{{ settings.cookie_preferences_url | default: '/policies/privacy-policy' }}">{{ 'footer.cookie_preferences' | t }}</button></span></div>
 </footer>
 {% schema %}
 {

@@ -6,7 +6,48 @@
   endif
   assign out = raw
   if is_zh
+    if slot == 'pack5_heading' and raw == 'Featherlight 系列'
+      assign out = '超值 5 条装'
+    else
     case raw
+      when '黑五提前开启，VIP 专享'
+        assign out = '第二层肌肤般的无痕舒适'
+      when '抢先入场、专属折扣，还有更多。'
+        assign out = '主推 Softveil Original —— 超薄冰丝激光无痕切边，搭配 5A 抑菌棉裆。选 3 条或 5 条装最高立省 25%。'
+      when '按内衣选购'
+        assign out = '选购 Softveil Original'
+      when '轻松舒适的新选择。'
+        assign out = '精选每日换洗 5 条套装，组合立省高达 25%。'
+      when '无痕系列'
+        assign out = 'Softveil Original 主推款'
+      when '日常内裤'
+        assign out = 'Softveil 日常版型'
+      when 'Featherlight'
+        assign out = '冰丝与 5A 抑菌棉裆'
+      when '透气网眼面料，从办公桌到健身房都干爽。'
+        assign out = '清凉透气冰丝面料搭配 5A 级抑菌棉裆，告别闷热黏腻。'
+      when '高腰系列'
+        assign out = 'Softveil 高腰系列'
+      when '塑形高腰'
+        assign out = 'Freeform 高开叉'
+      when '压合腰头稳稳贴合，跑跳都不位移。'
+        assign out = '稳固压胶腰口与高开叉大长腿剪裁，大幅度运动也不卷边。'
+      when 'Featherlight 系列'
+        assign out = 'Softveil 无痕系列'
+      when '无痕、不勒，只有舒适。'
+        assign out = '不露痕、不勒肉，如第二层肌肤般自在。'
+      when '超薄、无痕、全包裹。体验几乎无感的日常舒适。'
+        assign out = '超薄冰丝、激光无痕切边与 5A 抑菌棉裆。认识 Softveil Original —— 轻若无物的全天候舒适体验。'
+      when '选购 Featherlight'
+        assign out = '探索 Softveil 系列'
+      when '激光切割冰丝单品，穿在什么下面都无痕。'
+        assign out = '以主推款 Softveil Original 领衔的激光无痕冰丝系列，百搭各种贴身外衣。'
+      when '塑形提托'
+        assign out = 'Freeform 高开叉 & Wave 花边'
+      when '温和塑形、无钢圈上托，全天支撑。'
+        assign out = '拉长腿部线条的深 V 高开叉与精致激光波浪花边，兼顾美感与零勒感。'
+      when '选购 Sculpt & Lift'
+        assign out = '探索 Freeform 系列'
       when '✨ Meet Softveil Original · Save up to 25% on 3 & 5-Packs'
         assign out = '✨ 主推 Softveil Original · 3 条/5 条装最高立省 25%'
       when '🎁 FREE Laundry Bag with Orders $100+'
@@ -316,5 +357,6 @@
       when 'Out of stock'
         assign out = '缺货'
     endcase
+    endif
   endif
 -%}{{ out | escape }}

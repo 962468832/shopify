@@ -2,7 +2,8 @@
 {% assign card_display_mode = section.settings.card_mode | default: 'single' %}
 <section class="home-section home-products{% if section.settings.hide_heading %} home-products--compact{% endif %}" data-home-carousel>
   {% assign carousel_href = section.settings.link | default: selected_collection.url | default: routes.all_products_collection_url %}
-  <div class="home-container">{% unless section.settings.hide_heading %}<div class="home-heading"><div><h2>{% render 'i18n', text: section.settings.heading %}</h2><p>{% render 'i18n', text: section.settings.description %}</p></div>{% if section.settings.link_label != blank %}<a class="home-text-link" href="{% render 'locale-url', url: carousel_href %}">{% render 'i18n', text: section.settings.link_label %} →</a>{% endif %}</div>{% endunless %}
+  {% assign heading_slot = '' %}{% if card_display_mode == 'pack5' %}{% assign heading_slot = 'pack5_heading' %}{% endif %}
+  <div class="home-container">{% unless section.settings.hide_heading %}<div class="home-heading"><div><h2>{% render 'i18n', text: section.settings.heading, slot: heading_slot %}</h2><p>{% render 'i18n', text: section.settings.description %}</p></div>{% if section.settings.link_label != blank %}<a class="home-text-link" href="{% render 'locale-url', url: carousel_href %}">{% render 'i18n', text: section.settings.link_label %} →</a>{% endif %}</div>{% endunless %}
     <div class="home-rail home-product-rail" data-home-rail tabindex="0" role="region" aria-label="{{ section.settings.heading | default: 'Collection products' | escape }}">
       {% if section.settings.products != blank %}
         {% for product in section.settings.products limit:section.settings.limit %}
