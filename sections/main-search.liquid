@@ -1,10 +1,10 @@
 <section class="page-width search-page">
   <div class="collection-head">
     <p class="eyebrow">{{ 'general.search.title' | t }}</p>
-    <h1>{% if search.performed %}Results for “{{ search.terms | escape }}”{% else %}Find your comfort{% endif %}</h1>
+    <h1>{% if search.performed %}{{ 'general.search.results_for' | t }} “{{ search.terms | escape }}”{% else %}{{ 'general.search.find_comfort' | t }}{% endif %}</h1>
     <form class="search-form" action="{{ routes.search_url }}" role="search">
       <label class="visually-hidden" for="SearchPageInput">{{ 'general.search.title' | t }}</label>
-      <input id="SearchPageInput" type="search" name="q" value="{{ search.terms | escape }}" placeholder="Search products...">
+      <input id="SearchPageInput" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'general.search.search_products' | t }}...">
       <input type="hidden" name="options[prefix]" value="last">
       <input type="hidden" name="type" value="product,article,page">
       <button class="button button--dark" type="submit">{{ 'general.search.submit' | t }}</button>
@@ -13,7 +13,7 @@
   {% if search.performed %}
     {% paginate search.results by 24 %}
       {% if search.results_count > 0 %}
-        <p class="search-page__count">{{ search.results_count }} {% if search.results_count == 1 %}result{% else %}results{% endif %}</p>
+        <p class="search-page__count">{{ search.results_count }} {% if search.results_count == 1 %}{{ 'general.search.result' | t }}{% else %}{{ 'general.search.results' | t }}{% endif %}</p>
         <div class="product-grid">
           {% for item in search.results %}
             {% case item.object_type %}
@@ -21,18 +21,18 @@
                 {% render 'product-card', product: item %}
               {% when 'article' %}
                 <article class="search-result-card">
-                  <a href="{{ item.url }}">{% if item.image %}<img src="{{ item.image | image_url: width: 700 }}" width="700" height="933" alt="{{ item.image.alt | default: item.title | escape }}" loading="lazy">{% endif %}<p class="eyebrow">Journal</p><h2>{{ item.title }}</h2><p>{{ item.excerpt_or_content | strip_html | truncatewords: 24 }}</p></a>
+                  <a href="{{ item.url }}">{% if item.image %}<img src="{{ item.image | image_url: width: 700 }}" width="700" height="933" alt="{{ item.image.alt | default: item.title | escape }}" loading="lazy">{% endif %}<p class="eyebrow">{{ 'general.search.journal_label' | t }}</p><h2>{% render 'i18n', text: item.title %}</h2><p>{{ item.excerpt_or_content | strip_html | truncatewords: 24 }}</p></a>
                 </article>
               {% when 'page' %}
                 <article class="search-result-card">
-                  <a href="{{ item.url }}"><p class="eyebrow">Page</p><h2>{{ item.title }}</h2><p>{{ item.content | strip_html | truncatewords: 24 }}</p></a>
+                  <a href="{{ item.url }}"><p class="eyebrow">{{ 'general.search.page_label' | t }}</p><h2>{% render 'i18n', text: item.title %}</h2><p>{{ item.content | strip_html | truncatewords: 24 }}</p></a>
                 </article>
             {% endcase %}
           {% endfor %}
-          {% if paginate.pages > 1 %}<nav class="pagination" aria-label="Search results pagination">{% if paginate.previous %}<a href="{{ paginate.previous.url }}">← Previous</a>{% endif %}<span>Page {{ paginate.current_page }} of {{ paginate.pages }}</span>{% if paginate.next %}<a href="{{ paginate.next.url }}">Next →</a>{% endif %}</nav>{% endif %}
+          {% if paginate.pages > 1 %}<nav class="pagination" aria-label="Search results pagination">{% if paginate.previous %}<a href="{{ paginate.previous.url }}">{{ 'collection.prev' | t }}</a>{% endif %}<span>{{ 'collection.page' | t }} {{ paginate.current_page }} {{ 'collection.of' | t }} {{ paginate.pages }}</span>{% if paginate.next %}<a href="{{ paginate.next.url }}">{{ 'collection.next' | t }}</a>{% endif %}</nav>{% endif %}
         </div>
       {% else %}
-        <p class="empty-state">No results found for “{{ search.terms | escape }}”. Try a different word or <a href="{{ routes.all_products_collection_url }}">shop all products</a>.</p>
+        <p class="empty-state">{{ 'general.search.no_results_for' | t }} “{{ search.terms | escape }}”. {{ 'general.search.try_different' | t }} <a href="{{ routes.all_products_collection_url }}">{{ 'cart.shop_all' | t }}</a>.</p>
       {% endif %}
     {% endpaginate %}
   {% endif %}

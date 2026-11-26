@@ -1,13 +1,13 @@
 <section class="page-width page-content contact-page">
   <header class="page-content__head">
-    <p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>
-    <h1>{{ page.title }}</h1>
+    <p class="eyebrow">{% render 'i18n', text: section.settings.eyebrow %}</p>
+    <h1>{% render 'i18n', text: page.title %}</h1>
   </header>
   {% if page.content != blank %}<div class="page-content__body rte">{{ page.content }}</div>{% endif %}
   <div class="contact-page__form">
     {% form 'contact', id: 'ContactForm' %}
       {% if form.posted_successfully? %}
-        <p class="form-success" role="status" tabindex="-1" autofocus>Thanks for reaching out. We'll get back to you as soon as possible.</p>
+        <p class="form-success" role="status" tabindex="-1" autofocus>{{ 'contact.success' | t }}</p>
       {% elsif form.errors %}
         <div class="errors" role="alert">{{ form.errors | default_errors }}</div>
       {% endif %}

@@ -17,23 +17,19 @@
       <div class="product-gallery__zoom-pane" data-product-zoom-pane aria-hidden="true"></div>
     </div>
     <div class="product-info">
-      {% assign vendor_label = product.vendor | strip %}
-      {% if vendor_label contains 'http' or vendor_label contains 'www.' %}
-        <p class="eyebrow">{{ 'products.product.essentials' | t }}</p>
-      {% else %}
-        <p class="eyebrow">{{ vendor_label }} essentials</p>
-      {% endif %}
+      <p class="eyebrow">{{ 'products.product.essentials' | t }}</p>
       <h1 data-product-title data-base-title="{{ product.title | escape }}">{{ product.title }}</h1>
-      <a class="product-review-anchor" href="#product-reviews" aria-label="Read product reviews">{% if rating_value != blank %}<span class="product-review-anchor__stars" aria-hidden="true">★★★★★</span><span>{{ rating_value }}</span>{% if rating_count != blank %}<span>({{ rating_count }})</span>{% endif %}{% else %}Reviews{% endif %}</a>
-      <div class="product-price"><span data-product-price>{{ current_variant.price | money }}</span>{% if discount_percent > 0 %}<s data-product-compare>{{ current_variant.compare_at_price | money }}</s><span class="product-price__save" data-product-savings>Save <span data-product-savings-value>{{ discount_percent }}</span>%</span>{% else %}<s data-product-compare hidden></s><span class="product-price__save" data-product-savings hidden></span>{% endif %}</div>
+      <a class="product-review-anchor" href="#product-reviews" aria-label="Read product reviews">{% if rating_value != blank %}<span class="product-review-anchor__stars" aria-hidden="true">★★★★★</span><span>{{ rating_value }}</span>{% if rating_count != blank %}<span>({{ rating_count }})</span>{% endif %}{% else %}{{ 'products.product.reviews' | t }}{% endif %}</a>
+      <div class="product-price"><span data-product-price>{{ current_variant.price | money }}</span>{% if discount_percent > 0 %}<s data-product-compare>{{ current_variant.compare_at_price | money }}</s><span class="product-price__save" data-product-savings>{{ 'products.product.save' | t }} <span data-product-savings-value>{{ discount_percent }}</span>%</span>{% else %}<s data-product-compare hidden></s><span class="product-price__save" data-product-savings hidden></span>{% endif %}</div>
       {% form 'product', product, data-product-form: '', data-product-installments: '' %}
         {% capture payment_terms %}{{ form | payment_terms }}{% endcapture %}
         <div class="product-installments"{% if payment_terms == blank %} hidden{% endif %}>{{ payment_terms }}</div>
         {% unless product.has_only_default_variant %}<div class="variant-options" data-product-options-target>
           {% for option in product.options_with_values %}
             {% assign option_index = forloop.index0 %}{% assign option_name = option.name | downcase %}
+            {% assign current_opt_val = current_variant.options[option_index] %}
             <fieldset class="product-option{% if option_name contains 'color' or option_name contains 'colour' %} product-option--color{% elsif option_name contains 'package' or option_name contains 'pack' %} product-option--package{% endif %}" data-option-group data-option-index="{{ option_index }}" data-option-name="{{ option.name | escape }}">
-              <legend><span>{{ 'products.product.select' | t }} {{ option.name }} <span data-option-label>{{ current_variant.options[option_index] }}</span></span>{% if option_name contains 'size' %}<button class="size-guide-trigger" type="button" data-size-guide-open aria-haspopup="dialog"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m14.5 4.5 5 5L8 21H3v-5Z"></path><path d="m13 6 5 5M11 8l2 2M8 11l2 2M5 14l2 2"></path></svg>{{ 'products.product.size_guide' | t }}</button>{% endif %}</legend>
+              <legend><span>{{ 'products.product.select' | t }} {% render 'i18n', text: option.name %} <span data-option-label>{% render 'i18n', text: current_opt_val %}</span></span>{% if option_name contains 'size' %}<button class="size-guide-trigger" type="button" data-size-guide-open aria-haspopup="dialog"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m14.5 4.5 5 5L8 21H3v-5Z"></path><path d="m13 6 5 5M11 8l2 2M8 11l2 2M5 14l2 2"></path></svg>{{ 'products.product.size_guide' | t }}</button>{% endif %}</legend>
               <div class="product-option__values">
                 {% for value in option.values %}
                   {% assign option_value = value.name | default: value %}
@@ -63,7 +59,7 @@
                   {%- endif -%}
                   <label class="product-option__choice{% if option_image %} product-option__choice--image{% endif %}"{% unless option_value_exists %} hidden{% endunless %}>
                     <input type="radio" name="options[{{ option.name | escape }}]" value="{{ option_value | escape }}" data-product-option{% if current_variant.options[option_index] == option_value %} checked{% endif %}{% unless option_value_exists %} disabled{% endunless %}{% if option_value_exists and option_value_available == false %} aria-describedby="SoldOutHint-{{ section.id }}"{% endif %}>
-                    <span class="product-option__tile">{% if option_image %}<img src="{{ option_image | image_url: width: 180 }}" width="90" height="120" alt="{{ option_value | escape }}" loading="lazy">{% endif %}<span>{{ option_value }}</span></span>
+                    <span class="product-option__tile">{% if option_image %}<img src="{{ option_image | image_url: width: 180 }}" width="90" height="120" alt="{% render 'i18n', text: option_value %}" loading="lazy">{% endif %}<span>{% render 'i18n', text: option_value %}</span></span>
                   </label>
                 {% endfor %}
               </div>
@@ -79,7 +75,8 @@
         {% endif %}
         <p class="product-availability" data-product-availability role="status" aria-live="polite"></p>
       {% endform %}
-      <div class="product-promise"><span>✓</span><p>Soft, breathable comfort with easy returns{% if settings.cart_progress_threshold > 0 %} and free shipping over {{ settings.cart_progress_threshold | times: 100 | times: cart.currency.rate | money_without_trailing_zeros }}{% endif %}.</p></div>
+      {%- assign is_zh_pdp = false -%}{%- if request.locale.iso_code contains 'zh' -%}{%- assign is_zh_pdp = true -%}{%- endif -%}
+      <div class="product-promise"><span>✓</span><p>{% if is_zh_pdp %}柔软亲肤透气，支持无忧退换{% if settings.cart_progress_threshold > 0 %}，订单满 {{ settings.cart_progress_threshold | times: 100 | times: cart.currency.rate | money_without_trailing_zeros }} 免运费{% endif %}。{% else %}{{ 'products.product.promise_base' | t }}{% if settings.cart_progress_threshold > 0 %} {{ 'products.product.promise_shipping' | t }} {{ settings.cart_progress_threshold | times: 100 | times: cart.currency.rate | money_without_trailing_zeros }}{% endif %}.{% endif %}</p></div>
     </div>
   </div>
   <aside class="product-sticky-atc" data-product-sticky-atc aria-hidden="true" aria-label="Product purchase options">
@@ -90,7 +87,7 @@
           <strong class="product-sticky-atc__title" data-product-sticky-title>{{ product.title }}</strong>
           <span class="product-sticky-atc__variant" data-product-sticky-variant>{% unless current_variant.title == 'Default Title' %}{{ current_variant.title }}{% endunless %}</span>
           <span class="product-sticky-atc__rating{% unless rating_value != blank %} is-empty{% endunless %}" data-product-sticky-rating{% unless rating_value != blank %} hidden{% endunless %}><span aria-hidden="true">★★★★★</span> <b>{{ rating_value }}</b>{% if rating_count != blank %}<small>({{ rating_count }})</small>{% endif %}</span>
-          <span class="product-sticky-atc__price"><strong data-product-sticky-price>{{ current_variant.price | money }}</strong><s data-product-sticky-compare{% unless discount_percent > 0 %} hidden{% endunless %}>{% if discount_percent > 0 %}{{ current_variant.compare_at_price | money }}{% endif %}</s><em data-product-sticky-savings{% unless discount_percent > 0 %} hidden{% endunless %}>{% if discount_percent > 0 %}Save {{ discount_percent }}%{% endif %}</em></span>
+          <span class="product-sticky-atc__price"><strong data-product-sticky-price>{{ current_variant.price | money }}</strong><s data-product-sticky-compare{% unless discount_percent > 0 %} hidden{% endunless %}>{% if discount_percent > 0 %}{{ current_variant.compare_at_price | money }}{% endif %}</s><em data-product-sticky-savings{% unless discount_percent > 0 %} hidden{% endunless %}>{% if discount_percent > 0 %}{{ 'products.product.save' | t }} {{ discount_percent }}%{% endif %}</em></span>
         </div>
       </div>
       <button class="button button--dark product-sticky-atc__button" type="button" data-product-sticky-button aria-label="Return to product options">{{ 'products.product.add_to_cart' | t }}</button>
@@ -99,11 +96,11 @@
   <section class="product-details" aria-labelledby="product-details-title"><p class="eyebrow">{{ 'products.product.details_eyebrow' | t }}</p><h2 id="product-details-title">{{ 'products.product.details' | t }}</h2><div class="product-description rte">{{ product.description }}</div></section>
   {% if product.images.size > 0 %}
     <section class="product-photo-gallery" aria-labelledby="ProductPhotoGalleryTitle">
-      <header class="product-photo-gallery__header"><div><p class="eyebrow">{{ 'products.product.gallery_eyebrow' | t }}</p><h2 id="ProductPhotoGalleryTitle">{{ 'products.product.gallery' | t }}</h2></div><div class="product-photo-gallery__controls"><span>{{ product.images.size }} photos</span><button type="button" data-product-gallery-scroll="-1" aria-label="Previous product images" disabled><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m15 5-7 7 7 7"></path></svg></button><button type="button" data-product-gallery-scroll="1" aria-label="Next product images"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg></button></div></header>
+      <header class="product-photo-gallery__header"><div><p class="eyebrow">{{ 'products.product.gallery_eyebrow' | t }}</p><h2 id="ProductPhotoGalleryTitle">{{ 'products.product.gallery' | t }}</h2></div><div class="product-photo-gallery__controls"><span>{{ product.images.size }} {{ 'products.product.photos' | t }}</span><button type="button" data-product-gallery-scroll="-1" aria-label="Previous product images" disabled><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m15 5-7 7 7 7"></path></svg></button><button type="button" data-product-gallery-scroll="1" aria-label="Next product images"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m9 5 7 7-7 7"></path></svg></button></div></header>
       <div class="product-photo-gallery__rail" data-product-gallery-rail tabindex="0" aria-label="Scrollable product images">
-        {% for image in product.images %}<button class="product-photo-gallery__card" type="button" data-product-gallery-open data-src="{{ image | image_url: width: 2200 }}" data-image-id="{{ image.id }}" data-alt="{{ image.alt | default: product.title | escape }}" aria-label="Enlarge image {{ forloop.index }} of {{ product.images.size }}"><img src="{{ image | image_url: width: 500 }}" width="500" height="625" alt="{{ image.alt | default: product.title | escape }}" loading="lazy" decoding="async"><span>View {{ forloop.index | prepend: '0' }}</span></button>{% endfor %}
+        {% for image in product.images %}<button class="product-photo-gallery__card" type="button" data-product-gallery-open data-src="{{ image | image_url: width: 2200 }}" data-image-id="{{ image.id }}" data-alt="{{ image.alt | default: product.title | escape }}" aria-label="Enlarge image {{ forloop.index }} of {{ product.images.size }}"><img src="{{ image | image_url: width: 500 }}" width="500" height="625" alt="{{ image.alt | default: product.title | escape }}" loading="lazy" decoding="async"><span>{{ 'products.product.view' | t }} {{ forloop.index | prepend: '0' }}</span></button>{% endfor %}
       </div>
-      <p class="product-photo-gallery__hint">Scroll to explore · Select an image to enlarge</p>
+      <p class="product-photo-gallery__hint">{{ 'products.product.scroll_hint' | t }}</p>
     </section>
   {% endif %}
   <script type="application/json" data-product-json>{{ product | json }}</script>

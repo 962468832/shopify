@@ -1,5 +1,6 @@
 <section class="page-width page-content faq-page">
-  <header class="page-content__head"><p class="eyebrow">{{ 'faq.eyebrow' | t }}</p><h1>{{ page.title | default: 'Frequently Asked Questions' }}</h1></header>
+  {% assign faq_title = page.title | default: 'Frequently Asked Questions' %}
+  <header class="page-content__head"><p class="eyebrow">{{ 'faq.eyebrow' | t }}</p><h1>{% render 'i18n', text: faq_title %}</h1></header>
   <div class="page-content__body rte"><p>{{ 'faq.intro' | t }}</p>
     <h2>{{ 'faq.h_sizing' | t }}</h2>
     <details><summary>{{ 'faq.q_size' | t }}</summary><p>{{ 'faq.a_size' | t }}</p></details>
@@ -15,7 +16,7 @@
     <h2>{{ 'faq.h_returns' | t }}</h2>
     <details><summary>{{ 'faq.q_guarantee' | t }}</summary><p>{{ 'faq.a_guarantee' | t }}</p></details>
     <details><summary>{{ 'faq.q_return' | t }}</summary><p>{{ 'faq.a_return' | t }}</p></details>
-    <p class="faq-page__help">{{ 'faq.help_prefix' | t }} <a href="/pages/about-us">{{ 'faq.help_link' | t }}</a> {{ 'faq.help_suffix' | t }}</p>
+    <p class="faq-page__help">{{ 'faq.help_prefix' | t }} <a href="/pages/contact">{{ 'faq.help_link' | t }}</a> {{ 'faq.help_suffix' | t }}</p>
   </div>
 </section>
 {% schema %}{"name":"FAQ","settings":[]}{% endschema %}

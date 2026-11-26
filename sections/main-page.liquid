@@ -1,7 +1,7 @@
 <section class="page-width page-content">
   <header class="page-content__head">
-    <p class="eyebrow">{{ page.title }}</p>
-    <h1>{{ page.title }}</h1>
+    <p class="eyebrow">{% render 'i18n', text: page.title %}</p>
+    <h1>{% render 'i18n', text: page.title %}</h1>
   </header>
   <div class="page-content__body rte">
     {% if page.handle == 'faq' %}
