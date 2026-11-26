@@ -65,7 +65,18 @@
     root.querySelectorAll('[data-home-rail], .home-journal-grid').forEach((rail) => {
       const carousel = rail.closest('[data-home-carousel]');
       const buttons = [...(carousel?.querySelectorAll('[data-rail-direction]') || [])];
-      const update = () => buttons.forEach((button) => { button.disabled = Number(button.dataset.railDirection) < 0 ? rail.scrollLeft < 2 : rail.scrollLeft >= rail.scrollWidth - rail.clientWidth - 2; });
+      const progressBar = carousel?.querySelector('[data-rail-progress]');
+      const update = () => {
+        const max = Math.max(0, rail.scrollWidth - rail.clientWidth);
+        buttons.forEach((button) => { button.disabled = Number(button.dataset.railDirection) < 0 ? rail.scrollLeft < 2 : rail.scrollLeft >= max - 2; });
+        if (progressBar && rail.scrollWidth > 0) {
+          const thumbPct = Math.max(18, Math.min(100, (rail.clientWidth / rail.scrollWidth) * 100));
+          const ratio = max > 0 ? rail.scrollLeft / max : 0;
+          const offsetPct = ratio * (100 - thumbPct);
+          progressBar.style.width = `${thumbPct}%`;
+          progressBar.style.transform = `translateX(${(offsetPct / thumbPct) * 100}%)`;
+        }
+      };
       buttons.forEach((button) => listen(button, 'click', () => rail.scrollBy({ left: Number(button.dataset.railDirection) * rail.clientWidth * .85, behavior: reduceMotion.matches ? 'auto' : 'smooth' })));
       listen(rail, 'scroll', update, { passive:true });
       listen(rail, 'keydown', (event) => { if (event.target === rail && ['ArrowRight', 'ArrowLeft'].includes(event.key)) { event.preventDefault(); rail.scrollBy({ left: (event.key === 'ArrowRight' ? 1 : -1) * rail.clientWidth * .8, behavior:reduceMotion.matches ? 'auto' : 'smooth' }); } });
@@ -73,7 +84,7 @@
         if (event.defaultPrevented || event.ctrlKey || event.target.closest('input, textarea, select, [contenteditable="true"]')) return;
         const max = rail.scrollWidth - rail.clientWidth;
         if (max <= 1) return;
-        const lockVerticalWheel = rail.classList.contains('home-product-rail') || rail.classList.contains('home-community-rail');
+        const lockVerticalWheel = rail.classList.contains('home-product-rail') || rail.classList.contains('home-community-rail') || rail.classList.contains('home-sport-rail') || rail.classList.contains('home-reviews-rail');
         // Product and community rails must not turn a normal vertical page scroll into horizontal movement.
         // Keep real horizontal trackpad gestures available by requiring deltaX to dominate.
         if (lockVerticalWheel && Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return;

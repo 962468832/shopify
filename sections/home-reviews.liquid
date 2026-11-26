@@ -1,0 +1,72 @@
+<section id="home-reviews-{{ section.id }}" class="home-section home-reviews" data-home-carousel aria-labelledby="home-reviews-title-{{ section.id }}">
+  <div class="home-container">
+    <div class="home-reviews__head">
+      <div>
+        <p class="home-eyebrow">{% render 'i18n', text: section.settings.eyebrow %}</p>
+        <h2 id="home-reviews-title-{{ section.id }}">{% render 'i18n', text: section.settings.heading %}</h2>
+      </div>
+      <div class="home-reviews__score" aria-label="{% render 'i18n', text: section.settings.recommend_text %}">
+        <span class="home-reviews__stars" aria-hidden="true">★★★★★</span>
+        <span>{% render 'i18n', text: section.settings.recommend_text %}</span>
+      </div>
+    </div>
+
+    <div class="home-rail home-reviews-rail" data-home-rail tabindex="0" role="region" aria-label="{% render 'i18n', text: section.settings.heading %}">
+      {% for block in section.blocks %}
+        <article class="home-review-card{% if block.settings.featured %} is-featured{% endif %}" {{ block.shopify_attributes }}>
+          <div class="home-review-card__stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <p class="home-review-card__quote">“{% render 'i18n', text: block.settings.quote %}”</p>
+          <footer class="home-review-card__meta">
+            <span class="home-review-card__author">
+              <strong>{{ block.settings.author | escape }}</strong>
+              <em class="home-review-card__verified">{% render 'i18n', text: 'Verified' %}</em>
+            </span>
+            {% if block.settings.product_label != blank %}
+              {% if block.settings.product_link != blank %}
+                <a class="home-review-card__product" href="{% render 'locale-url', url: block.settings.product_link %}">{% render 'i18n', text: block.settings.product_label %}</a>
+              {% else %}
+                <span class="home-review-card__product">{% render 'i18n', text: block.settings.product_label %}</span>
+              {% endif %}
+            {% endif %}
+          </footer>
+        </article>
+      {% endfor %}
+    </div>
+
+    <div class="home-rail-bar">
+      <div class="home-rail-progress" aria-hidden="true"><span class="home-rail-progress__bar" data-rail-progress></span></div>
+      <div class="home-rail-controls">
+        <button type="button" data-rail-direction="-1" aria-label="Previous reviews">&#8592;</button>
+        <button type="button" data-rail-direction="1" aria-label="Next reviews">&#8594;</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "首页集中好评墙",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "上方小标题", "default": "Loved by thousands" },
+    { "type": "text", "id": "heading", "label": "主标题", "default": "4.9 average from 1,280+ reviews" },
+    { "type": "text", "id": "recommend_text", "label": "右侧推荐率文案", "default": "96% would recommend" }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "买家评价卡",
+      "settings": [
+        { "type": "textarea", "id": "quote", "label": "评价正文" },
+        { "type": "text", "id": "author", "label": "买家姓名" },
+        { "type": "text", "id": "product_label", "label": "所购款式名称" },
+        { "type": "url", "id": "product_link", "label": "款式链接" },
+        { "type": "checkbox", "id": "featured", "label": "默认高亮边框", "default": false }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    { "name": "首页集中好评墙" }
+  ]
+}
+{% endschema %}

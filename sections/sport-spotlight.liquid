@@ -14,92 +14,118 @@
 
     <div class="home-sport-grid">
       {% for block in section.blocks %}
-        <article class="home-sport-card" {{ block.shopify_attributes }}>
-          <div class="home-sport-card__media">
-            {% if block.settings.image != blank %}
-              <img
-                src="{{ block.settings.image | image_url: width: 1200 }}"
-                srcset="{{ block.settings.image | image_url: width: 600 }} 600w, {{ block.settings.image | image_url: width: 900 }} 900w, {{ block.settings.image | image_url: width: 1200 }} 1200w"
-                sizes="(max-width: 959px) 100vw, 48vw"
-                width="1000"
-                height="840"
-                loading="lazy"
-                decoding="async"
-                alt="{% render 'i18n', text: block.settings.title %}"
-              >
-            {% elsif block.settings.image_url != blank %}
-              <img src="{{ block.settings.image_url | escape }}" width="1000" height="840" loading="lazy" decoding="async" alt="{% render 'i18n', text: block.settings.title %}">
-            {% endif %}
-            {% if block.settings.badge != blank %}
-              <span class="home-sport-card__badge">{% render 'i18n', text: block.settings.badge %}</span>
-            {% endif %}
-          </div>
+        <div class="home-sport-col" {{ block.shopify_attributes }}>
+          <article class="home-sport-card">
+            <div class="home-sport-card__media">
+              {% if block.settings.image != blank %}
+                <img
+                  src="{{ block.settings.image | image_url: width: 1200 }}"
+                  srcset="{{ block.settings.image | image_url: width: 600 }} 600w, {{ block.settings.image | image_url: width: 900 }} 900w, {{ block.settings.image | image_url: width: 1200 }} 1200w"
+                  sizes="(max-width: 959px) 100vw, 48vw"
+                  width="1000"
+                  height="1100"
+                  loading="lazy"
+                  decoding="async"
+                  alt="{% render 'i18n', text: block.settings.title %}"
+                >
+              {% elsif block.settings.image_url != blank %}
+                <img src="{{ block.settings.image_url | escape }}" width="1000" height="1100" loading="lazy" decoding="async" alt="{% render 'i18n', text: block.settings.title %}">
+              {% endif %}
+              {% if block.settings.badge != blank %}
+                <span class="home-sport-card__badge">{% render 'i18n', text: block.settings.badge %}</span>
+              {% endif %}
+            </div>
 
-          <div class="home-sport-card__body">
-            {% if block.settings.kicker != blank %}
-              <p class="home-eyebrow">{% render 'i18n', text: block.settings.kicker %}</p>
-            {% endif %}
-            <h3>{% render 'i18n', text: block.settings.title %}</h3>
-            {% if block.settings.intro != blank %}
-              <p class="home-sport-card__intro">{% render 'i18n', text: block.settings.intro %}</p>
-            {% endif %}
+            <div class="home-sport-card__body">
+              {% if block.settings.kicker != blank %}
+                <p class="home-eyebrow">{% render 'i18n', text: block.settings.kicker %}</p>
+              {% endif %}
+              <h3>{% render 'i18n', text: block.settings.title %}</h3>
+              {% if block.settings.intro != blank %}
+                <p class="home-sport-card__intro">{% render 'i18n', text: block.settings.intro %}</p>
+              {% endif %}
 
-            <ul class="home-sport-points">
-              {% if block.settings.point1_title != blank %}
-                <li>
-                  <span class="home-sport-points__check" aria-hidden="true">✓</span>
-                  <div>
-                    <strong>{% render 'i18n', text: block.settings.point1_title %}</strong>
-                    <span>{% render 'i18n', text: block.settings.point1_copy %}</span>
-                  </div>
-                </li>
-              {% endif %}
-              {% if block.settings.point2_title != blank %}
-                <li>
-                  <span class="home-sport-points__check" aria-hidden="true">✓</span>
-                  <div>
-                    <strong>{% render 'i18n', text: block.settings.point2_title %}</strong>
-                    <span>{% render 'i18n', text: block.settings.point2_copy %}</span>
-                  </div>
-                </li>
-              {% endif %}
-              {% if block.settings.point3_title != blank %}
-                <li>
-                  <span class="home-sport-points__check" aria-hidden="true">✓</span>
-                  <div>
-                    <strong>{% render 'i18n', text: block.settings.point3_title %}</strong>
-                    <span>{% render 'i18n', text: block.settings.point3_copy %}</span>
-                  </div>
-                </li>
-              {% endif %}
-              {% if block.settings.point4_title != blank %}
-                <li>
-                  <span class="home-sport-points__check" aria-hidden="true">✓</span>
-                  <div>
-                    <strong>{% render 'i18n', text: block.settings.point4_title %}</strong>
-                    <span>{% render 'i18n', text: block.settings.point4_copy %}</span>
-                  </div>
-                </li>
-              {% endif %}
-            </ul>
-
-            <div class="home-sport-card__footer">
-              {% if block.settings.rec_label != blank %}
-                <span class="home-sport-card__rec-label">{% render 'i18n', text: block.settings.rec_label %}</span>
-              {% endif %}
-              <div class="home-sport-card__actions">
-                {% if block.settings.cta1_label != blank %}
-                  {% assign cta1_href = block.settings.cta1_link | default: routes.all_products_collection_url %}
-                  <a class="home-sport-pill home-sport-pill--dark" href="{% render 'locale-url', url: cta1_href %}">{% render 'i18n', text: block.settings.cta1_label %} →</a>
+              <ul class="home-sport-points">
+                {% if block.settings.point1_title != blank %}
+                  <li>
+                    <span class="home-sport-points__check" aria-hidden="true">✓</span>
+                    <div>
+                      <strong>{% render 'i18n', text: block.settings.point1_title %}</strong>
+                      <span>{% render 'i18n', text: block.settings.point1_copy %}</span>
+                    </div>
+                  </li>
                 {% endif %}
-                {% if block.settings.cta2_label != blank %}
-                  {% assign cta2_href = block.settings.cta2_link | default: routes.all_products_collection_url %}
-                  <a class="home-sport-pill home-sport-pill--outline" href="{% render 'locale-url', url: cta2_href %}">{% render 'i18n', text: block.settings.cta2_label %}</a>
+                {% if block.settings.point2_title != blank %}
+                  <li>
+                    <span class="home-sport-points__check" aria-hidden="true">✓</span>
+                    <div>
+                      <strong>{% render 'i18n', text: block.settings.point2_title %}</strong>
+                      <span>{% render 'i18n', text: block.settings.point2_copy %}</span>
+                    </div>
+                  </li>
                 {% endif %}
+                {% if block.settings.point3_title != blank %}
+                  <li>
+                    <span class="home-sport-points__check" aria-hidden="true">✓</span>
+                    <div>
+                      <strong>{% render 'i18n', text: block.settings.point3_title %}</strong>
+                      <span>{% render 'i18n', text: block.settings.point3_copy %}</span>
+                    </div>
+                  </li>
+                {% endif %}
+                {% if block.settings.point4_title != blank %}
+                  <li>
+                    <span class="home-sport-points__check" aria-hidden="true">✓</span>
+                    <div>
+                      <strong>{% render 'i18n', text: block.settings.point4_title %}</strong>
+                      <span>{% render 'i18n', text: block.settings.point4_copy %}</span>
+                    </div>
+                  </li>
+                {% endif %}
+              </ul>
+
+              <div class="home-sport-card__footer">
+                {% if block.settings.rec_label != blank %}
+                  <span class="home-sport-card__rec-label">{% render 'i18n', text: block.settings.rec_label %}</span>
+                {% endif %}
+                <div class="home-sport-card__actions">
+                  {% if block.settings.cta1_label != blank %}
+                    {% assign cta1_href = block.settings.cta1_link | default: routes.all_products_collection_url %}
+                    <a class="home-sport-pill home-sport-pill--dark" href="{% render 'locale-url', url: cta1_href %}">{% render 'i18n', text: block.settings.cta1_label %} →</a>
+                  {% endif %}
+                  {% if block.settings.cta2_label != blank %}
+                    {% assign cta2_href = block.settings.cta2_link | default: routes.all_products_collection_url %}
+                    <a class="home-sport-pill home-sport-pill--outline" href="{% render 'locale-url', url: cta2_href %}">{% render 'i18n', text: block.settings.cta2_label %}</a>
+                  {% endif %}
+                </div>
               </div>
             </div>
-          </div>
-        </article>
+          </article>
+
+          {%- assign rail_handles_raw = block.settings.rail_handles | strip -%}
+          {%- if rail_handles_raw != blank -%}
+            {%- assign rail_handles = rail_handles_raw | split: ',' -%}
+            <div class="home-sport-shelf" data-home-carousel>
+              <div class="home-rail home-sport-rail" data-home-rail tabindex="0" role="region" aria-label="{% render 'i18n', text: block.settings.rec_label %}">
+                {%- for raw_handle in rail_handles -%}
+                  {%- assign h = raw_handle | strip -%}
+                  {%- assign sp = all_products[h] -%}
+                  {%- if sp != blank -%}
+                    {% render 'product-card', product: sp, show_color_options: true %}
+                    {% render 'product-card', product: sp, show_color_options: true, card_mode: 'pack5' %}
+                  {%- endif -%}
+                {%- endfor -%}
+              </div>
+              <div class="home-rail-bar">
+                <div class="home-rail-progress" aria-hidden="true"><span class="home-rail-progress__bar" data-rail-progress></span></div>
+                <div class="home-rail-controls">
+                  <button type="button" data-rail-direction="-1" aria-label="Previous">&#8592;</button>
+                  <button type="button" data-rail-direction="1" aria-label="Next">&#8594;</button>
+                </div>
+              </div>
+            </div>
+          {%- endif -%}
+        </div>
       {% endfor %}
     </div>
   </div>
@@ -135,6 +161,7 @@
         { "type": "text", "id": "point4_title", "label": "卖点 4 标题" },
         { "type": "text", "id": "point4_copy", "label": "卖点 4 说明" },
         { "type": "text", "id": "rec_label", "label": "推荐产品标签", "default": "Recommended Pairs" },
+        { "type": "text", "id": "rail_handles", "label": "下方横滑商品 Handle（逗号分隔，自动展示单条+5条装）" },
         { "type": "text", "id": "cta1_label", "label": "主推荐按钮文案" },
         { "type": "url", "id": "cta1_link", "label": "主推荐链接" },
         { "type": "text", "id": "cta2_label", "label": "副推荐按钮文案" },

@@ -586,7 +586,8 @@
     const quickOpen = event.target.closest('[data-quick-open]');
     if (quickOpen) {
       event.preventDefault();
-      openQuickShop(quickOpen.dataset.productHandle);
+      const variantId = quickOpen.dataset.variantId ? Number(quickOpen.dataset.variantId) : undefined;
+      openQuickShop(quickOpen.dataset.productHandle, variantId ? { variantId } : {});
       return;
     }
     if (event.target.closest('[data-quick-close]')) {
