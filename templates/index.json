@@ -238,6 +238,8 @@
         "item0": {
           "type": "lifestyle",
           "settings": {
+            "video": "shopify://files/videos/pielik-lifestyle-work.mp4",
+            "video_url": "https://cdn.shopify.com/videos/c/vp/ed550ed4083147768e18c13aa19f8c71/ed550ed4083147768e18c13aa19f8c71.SD-480p-1.2Mbps-102841483.mp4",
             "image": "shopify://shop_images/pielik-lifestyle-work.jpg",
             "show_legacy_media": false,
             "label": "Work",
@@ -247,21 +249,11 @@
             "link": "/collections/desk-to-dinner"
           }
         },
-        "item1": {
-          "type": "lifestyle",
-          "settings": {
-            "image": "shopify://shop_images/pielik-lifestyle-travel.jpg",
-            "show_legacy_media": false,
-            "label": "Travel",
-            "title": "Long-haul ease",
-            "copy": "Breathable ice-silk comfort, flight after flight.",
-            "button_label": "Explore",
-            "link": "/collections/long-haulease"
-          }
-        },
         "item2": {
           "type": "lifestyle",
           "settings": {
+            "video": "shopify://files/videos/pielik-lifestyle-active.mp4",
+            "video_url": "https://cdn.shopify.com/videos/c/vp/008c4e6cf5ff46a0929179fc3b29a1de/008c4e6cf5ff46a0929179fc3b29a1de.SD-480p-1.0Mbps-102841527.mp4",
             "image": "shopify://shop_images/pielik-lifestyle-active.jpg",
             "show_legacy_media": false,
             "label": "Active",
@@ -274,6 +266,8 @@
         "item3": {
           "type": "lifestyle",
           "settings": {
+            "video": "shopify://files/videos/pielik-lifestyle-everyday.mp4",
+            "video_url": "https://cdn.shopify.com/videos/c/vp/aab7a32203864568b7b5286aa42ce3d5/aab7a32203864568b7b5286aa42ce3d5.SD-480p-1.0Mbps-102841565.mp4",
             "image": "shopify://shop_images/pielik-lifestyle-everyday.jpg",
             "show_legacy_media": false,
             "label": "Everyday",
@@ -286,7 +280,6 @@
       },
       "block_order": [
         "item0",
-        "item1",
         "item2",
         "item3"
       ],
@@ -504,11 +497,11 @@
   },
   "order": [
     "hero",
+    "lifestyle",
     "bestsellers",
     "trust",
     "sport_spotlight",
     "scenario",
-    "lifestyle",
     "collections",
     "community",
     "reviews",

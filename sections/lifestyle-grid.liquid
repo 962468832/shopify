@@ -1,9 +1,34 @@
-<section class="home-section home-lifestyles"><div class="home-container"><div class="home-heading"><div><p class="home-eyebrow">{% render 'i18n', text: section.settings.eyebrow %}</p><h2>{% render 'i18n', text: section.settings.heading %}</h2></div></div><div class="home-lifestyle-grid">
-{% for block in section.blocks %}{% assign ls_href = block.settings.link | default: routes.all_products_collection_url %}<a class="home-lifestyle" href="{% render 'locale-url', url: ls_href %}" {{ block.shopify_attributes }}>{% render 'home-image', image:block.settings.image, image_url:block.settings.image_url, title:block.settings.title, width:600, height:800 %}<div><p class="home-eyebrow">{% render 'i18n', text: block.settings.label %}</p><h3>{% render 'i18n', text: block.settings.title %}</h3><p>{% render 'i18n', text: block.settings.copy %}</p>{% if block.settings.button_label != blank %}<span class="home-text-link">{% render 'i18n', text: block.settings.button_label %} →</span>{% endif %}</div></a>{% endfor %}
-</div></div></section>
+<section class="home-section home-lifestyles">
+  <div class="home-container">
+    <div class="home-heading">
+      <div>
+        <p class="home-eyebrow">{% render 'i18n', text: section.settings.eyebrow %}</p>
+        <h2>{% render 'i18n', text: section.settings.heading %}</h2>
+      </div>
+    </div>
+    <div class="home-lifestyle-grid{% if section.blocks.size == 3 %} home-lifestyle-grid--3{% endif %}">
+      {% for block in section.blocks %}
+        {% assign ls_href = block.settings.link | default: routes.all_products_collection_url %}
+        <article class="home-lifestyle" {{ block.shopify_attributes }}>
+          {% if block.settings.video != blank or block.settings.video_url != blank %}
+            {% render 'home-video', video: block.settings.video, video_url: block.settings.video_url, poster: block.settings.image, poster_url: block.settings.image_url, title: block.settings.title, mode: 'auto' %}
+          {% else %}
+            {% render 'home-image', image: block.settings.image, image_url: block.settings.image_url, title: block.settings.title, width: 800, height: 1067 %}
+          {% endif %}
+          <a class="home-lifestyle__link" href="{% render 'locale-url', url: ls_href %}">
+            <p class="home-eyebrow">{% render 'i18n', text: block.settings.label %}</p>
+            <h3>{% render 'i18n', text: block.settings.title %}</h3>
+            <p>{% render 'i18n', text: block.settings.copy %}</p>
+            {% if block.settings.button_label != blank %}<span class="home-text-link">{% render 'i18n', text: block.settings.button_label %} →</span>{% endif %}
+          </a>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
 {% schema %}
 {
-  "name": "生活方式卡片",
+  "name": "生活方式视频卡片",
   "settings": [
     {
       "type": "text",
@@ -20,11 +45,9 @@
   ],
   "presets": [
     {
-      "name": "生活方式卡片",
+      "name": "生活方式视频卡片",
       "blocks": [
-        {
-          "type": "lifestyle"
-        }
+        { "type": "lifestyle" }
       ]
     }
   ],
@@ -34,16 +57,26 @@
       "name": "生活方式卡片",
       "settings": [
         {
+          "type": "video",
+          "id": "video",
+          "label": "视频",
+          "info": "上传或选择竖版短视频，自动静音循环播放。"
+        },
+        {
+          "type": "url",
+          "id": "video_url",
+          "label": "视频直链（可选）"
+        },
+        {
           "type": "image_picker",
           "id": "image",
-          "label": "图片",
-          "info": "从文件库选择或上传。未选择时沿用现有图片。"
+          "label": "封面图片",
+          "info": "视频加载前显示的封面图，或无视频时的备用图。"
         },
         {
           "type": "checkbox",
           "id": "show_legacy_media",
           "label": "显示旧版素材地址",
-          "info": "仅兼容原有内容，日常更换素材请使用上方选择器。",
           "default": false
         },
         {
