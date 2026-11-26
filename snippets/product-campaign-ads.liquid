@@ -1,0 +1,227 @@
+{%- liquid
+  assign is_zh = false
+  if request.locale.iso_code contains 'zh'
+    assign is_zh = true
+  endif
+  assign h = product.handle
+  assign has_campaign = false
+
+  if h == 'softveil-original'
+    assign has_campaign = true
+    assign hero_img = 'https://cdn.shopify.com/s/files/1/0609/7797/1333/files/pdp-ad-sv-orig-01-zero-vpl.jpg?v=1795686507'
+    assign hero_pos = 'center 32%'
+    assign c1_img = 'https://cdn.shopify.com/s/files/1/0609/7797/1333/files/pdp-ad-sv-orig-02-icesilk-stretch.jpg?v=1795686505'
+    assign c1_pos = 'center center'
+    assign c2_img = 'https://cdn.shopify.com/s/files/1/0609/7797/1333/files/pdp-ad-sv-orig-03-gusset-breathable.jpg?v=1795686507'
+    assign c2_pos = 'center 22%'
+    if is_zh
+      assign sec_eyebrow = '功能与舒适实景'
+      assign sec_title = '轻若无物，全天候隐形舒适'
+      assign p1 = '激光无痕切边'
+      assign p2 = '超薄凉感冰丝'
+      assign p3 = '5A 级抑菌棉裆'
+      assign p4 = '稳妥贴合不夹臀'
+      assign hero_tag = '零内裤痕实测'
+      assign hero_title = '真丝与浅色西装裤下，彻底隐形'
+      assign hero_copy = '超薄哑光冰丝配合竖向无缝热压侧边与激光切边，紧身白裤、真丝垂坠裤与瑜伽裤皆不露一丝内裤线。'
+      assign c1_tag = '四向高弹回弹'
+      assign c1_title = '云朵般顺滑冰丝，一拉回弹不变形'
+      assign c1_copy = '纸薄高密冰丝面料触肤微凉，随身形自然延展，久坐久走不紧绷、不勒红印。'
+      assign c2_tag = '5A 抑菌纯棉底裆'
+      assign c2_title = '从清晨到夜晚，亲肤透气更洁净'
+      assign c2_copy = '贴身底裆采用 5A 级抑菌纯棉材质，吸湿透气告别闷热黏腻，全天保持清爽自在。'
+    else
+      assign sec_eyebrow = 'COMFORT IN MOTION'
+      assign sec_title = 'Barely-There Engineering, Built for Every Outfit'
+      assign p1 = 'Laser-Cut Zero VPL'
+      assign p2 = 'Cooling Ice-Silk'
+      assign p3 = '5A Cotton Gusset'
+      assign p4 = 'Wedgie-Free Fit'
+      assign hero_tag = 'ZERO PANTY LINES'
+      assign hero_title = 'Disappears Under Silk, Linen & Fitted Trousers'
+      assign hero_copy = 'Paper-thin laser-cut edges and bonded flat sides vanish completely beneath sheer ivory trousers, slip skirts, and studio leggings.'
+      assign c1_tag = '4-WAY RECOVERY STRETCH'
+      assign c1_title = 'Weightless Ice-Silk That Moves Like Second Skin'
+      assign c1_copy = 'Cool-to-the-touch ultra-fine knit stretches effortlessly in every direction and springs back flat—zero pinching, zero red marks.'
+      assign c2_tag = '5A ANTIBACTERIAL COTTON'
+      assign c2_title = 'Breathable Skin-First Freshness All Day Long'
+      assign c2_copy = 'Finished with a breathable 5A antibacterial cotton gusset that keeps you airy, dry, and fresh from morning coffee to late-night unwind.'
+    endif
+
+  elsif h == 'softveil-original-high-rise-hipster-bikini'
+    assign has_campaign = true
+    assign hero_img = 'https://cdn.shopify.com/s/files/1/0609/7797/1333/files/pdp-ad-sv-hr-02-yoga-no-roll.jpg?v=1795686516'
+    assign hero_pos = 'center 35%'
+    assign c1_img = 'https://cdn.shopify.com/s/files/1/0609/7797/1333/files/pdp-ad-sv-hr-01-no-digging.jpg?v=1795686506'
+    assign c1_pos = 'center 20%'
+    assign c2_img = 'https://cdn.shopify.com/s/files/1/0609/7797/1333/files/pdp-ad-sv-hr-03-bonded-waist.jpg?v=1795686517'
+    assign c2_pos = 'center center'
+    if is_zh
+      assign sec_eyebrow = '高腰无痕实景体验'
+      assign sec_title = '温柔包覆小腹，久坐拉伸都不卷边'
+      assign p1 = '无橡筋平口高腰'
+      assign p2 = '轻柔抚平不勒腹'
+      assign p3 = '拉伸稳固不卷边'
+      assign p4 = '5A 抑菌纯棉底裆'
+      assign hero_tag = '深弯拉伸不卷边'
+      assign hero_title = '大角度瑜伽与日常活动，腰头始终平贴'
+      assign hero_copy = '高腰腰口延伸至自然腰线，采用无缝压胶平口承托，扭转、前屈与起坐都不下滑、不卷边。'
+      assign c1_tag = '久坐零勒感'
+      assign c1_title = '松弛贴合，盘腿久坐也不勒出红印'
+      assign c1_copy = '告别传统细松紧带的束缚感，均匀分散腰腹压力，从居家沙发到通勤办公全天零存在感。'
+      assign c2_tag = '激光无痕压胶工艺'
+      assign c2_title = '一触即化的冰丝平口，平滑过渡肌肤'
+      assign c2_copy = '整片式超薄哑光冰丝无厚重车缝，贴身外穿瑜伽裤、针织裙依然平整无痕。'
+    else
+      assign sec_eyebrow = 'HIGH-RISE COMFORT'
+      assign sec_title = 'Gentle Smoothing Without Ever Pinching or Rolling'
+      assign p1 = 'No-Elastic Flat Waist'
+      assign p2 = 'Zero Digging'
+      assign p3 = 'Stay-Put Through Stretches'
+      assign p4 = '5A Cotton Gusset'
+      assign hero_tag = 'ZERO ROLLING'
+      assign hero_title = 'Stays Flat Through Deep Twists, Folds & Flows'
+      assign hero_copy = 'Cut to your natural waistline with a seamless bonded band that anchors softly without rolling down or bunching during yoga and daily movement.'
+      assign c1_tag = 'ALL-DAY SEATED EASE'
+      assign c1_title = 'Zero Digging—Even After Hours Seated'
+      assign c1_copy = 'Replaces tight elastic cords with soft differential stretch that smooths gently across the midsection with zero red marks.'
+      assign c2_tag = 'LASER-CUT BONDED EDGE'
+      assign c2_title = 'Seamless Flat Waistband That Melts Into Skin'
+      assign c2_copy = 'Featherlight matte ice silk with precision-cut edges lays completely flush under high-waisted leggings and fitted knits.'
+    endif
+
+  elsif h == 'softveil-wave-hipster-bikini'
+    assign has_campaign = true
+    assign hero_img = 'https://cdn.shopify.com/s/files/1/0609/7797/1333/files/pdp-ad-sv-wave-02-wave-macro.jpg?v=1795686517'
+    assign hero_pos = 'center center'
+    assign c1_img = 'https://cdn.shopify.com/s/files/1/0609/7797/1333/files/pdp-ad-sv-wave-01-silk-dress.jpg?v=1795686517'
+    assign c1_pos = 'center 20%'
+    assign c2_img = 'https://cdn.shopify.com/s/files/1/0609/7797/1333/files/pdp-ad-sv-wave-03-offduty-soft.jpg?v=1795686527'
+    assign c2_pos = 'center 18%'
+    if is_zh
+      assign sec_eyebrow = '浪漫花边 · 隐形工艺'
+      assign sec_title = '把精致波浪花边，做到真正不露痕'
+      assign p1 = '激光波浪花边切口'
+      assign p2 = '零车缝不扎肤'
+      assign p3 = '真丝裙下彻底隐形'
+      assign p4 = '5A 抑菌纯棉底裆'
+      assign hero_tag = '精密激光波浪工艺'
+      assign hero_title = '细腻波浪无痕切边，柔软不硌肤、不脱线'
+      assign hero_copy = '摒弃传统蕾丝车缝的扎痒与厚重感，以激光精密切出连续波浪花边，边缘薄如蝉翼且耐洗耐穿。'
+      assign c1_tag = '缎面裙隐形实测'
+      assign c1_title = '贴身真丝斜裁连衣裙下，依然丝滑零痕迹'
+      assign c1_copy = '波浪切口自然分散边缘轮廓压力，搭配垂坠感真丝礼服或缎面半裙同样平滑如第二层肌肤。'
+      assign c2_tag = '通勤到约会皆自在'
+      assign c2_title = '兼具少女浪漫与全天候裸感舒适'
+      assign c2_copy = '透气凉感冰丝搭配 5A 抑菌棉裆，外穿浅色西装裤干练隐形，内在细节精致温柔。'
+    else
+      assign sec_eyebrow = 'SCALLOPED SEAMLESS CRAFT'
+      assign sec_title = 'Delicate Wave Edges That Stay 100% Invisible'
+      assign p1 = 'Laser-Cut Wave Trim'
+      assign p2 = 'Zero Itchy Lace Seams'
+      assign p3 = 'Invisible Under Satin'
+      assign p4 = '5A Cotton Gusset'
+      assign hero_tag = 'PRECISION LASER-CUT TRIM'
+      assign hero_title = 'Soft Scalloped Edges With Zero Bulky Stitching'
+      assign hero_copy = 'Forget scratchy stitched lace. Our precision laser-cut scalloped wave trim sits feather-flat against your skin without fraying or digging.'
+      assign c1_tag = 'BIAS-CUT SILK TESTED'
+      assign c1_title = 'Vanishes Under Fluid Satin & Slip Dresses'
+      assign c1_copy = 'The gentle wave edge diffuses tension along the hip and leg line so nothing shows beneath even the sleekest champagne silk.'
+      assign c2_tag = 'EFFORTLESS DAILY POLISH'
+      assign c2_title = 'Romantic Detail, Second-Skin All-Day Ease'
+      assign c2_copy = 'Cooling ice-silk knit and a 5A antibacterial cotton gusset pair refined femininity with barely-there comfort from desk to dinner.'
+    endif
+
+  elsif h == 'freeform-high-cut'
+    assign has_campaign = true
+    assign hero_img = 'https://cdn.shopify.com/s/files/1/0609/7797/1333/files/pdp-ad-ff-hc-03-cloud-contour.jpg?v=1795686530'
+    assign hero_pos = 'center center'
+    assign c1_img = 'https://cdn.shopify.com/s/files/1/0609/7797/1333/files/pdp-ad-ff-hc-01-equestrian-stride.jpg?v=1795686529'
+    assign c1_pos = 'center 18%'
+    assign c2_img = 'https://cdn.shopify.com/s/files/1/0609/7797/1333/files/pdp-ad-ff-hc-02-active-mobility.jpg?v=1795686528'
+    assign c2_pos = 'center 22%'
+    if is_zh
+      assign sec_eyebrow = '高开叉零摩擦自由'
+      assign sec_title = '拉长腿部线条，大步幅运动零摩擦'
+      assign p1 = '深 V 显腿长高开叉'
+      assign p2 = '骑乘运动不磨腿根'
+      assign p3 = '3D 防夹臀立体剪裁'
+      assign p4 = '凉感冰丝 + 5A 棉裆'
+      assign hero_tag = '凉感无痕面料'
+      assign hero_title = '清凉哑光冰丝，平整压胶贴合零摩擦'
+      assign hero_copy = '丝滑冰凉触感搭配无缝热压平口，全天候排湿透气，长途骑乘与高强度训练依然干爽舒适。'
+      assign c1_tag = '马术骑手推荐'
+      assign c1_title = '鞍上久骑不磨腿，浅白色马裤彻底无痕'
+      assign c1_copy = '高开叉立体剪裁避开大腿根摩擦高发区，打浪快步不卡臀不移位，穿紧身白色马裤零内裤痕。'
+      assign c2_tag = '大幅度拉伸无束缚'
+      assign c2_title = '深 V 高开叉裤脚，抬腿劈叉不勒胯'
+      assign c2_copy = '解放腿根活动空间，无论是普拉提、芭蕾把杆还是瑜伽大跨步拉伸，全程轻盈舒展不卷边。'
+    else
+      assign sec_eyebrow = 'FRICTION-FREE MOBILITY'
+      assign sec_title = 'Leg-Lengthening Freedom Built for Active Motion'
+      assign p1 = 'Deep-V High-Cut'
+      assign p2 = 'Zero Thigh Chafing'
+      assign p3 = '3D Stay-Put Seat'
+      assign p4 = 'Cooling Ice-Silk'
+      assign hero_tag = 'COOL-TOUCH ICE SILK'
+      assign hero_title = 'Silky Breathable Knit With Smooth Bonded Edges'
+      assign hero_copy = 'Airy matte ice silk and precision flat-bonded seams keep you cool, chafe-free, and effortlessly smooth through long active days.'
+      assign c1_tag = 'EQUESTRIAN-TESTED'
+      assign c1_title = 'Zero Saddle Chafing Under Ivory Riding Breeches'
+      assign c1_copy = 'High-cut seamless leg openings clear the inner thigh friction zone while vanishing cleanly beneath tight light-colored breeches.'
+      assign c2_tag = 'UNRESTRICTED STRETCH'
+      assign c2_title = 'Deep-V Cut That Moves Through Every Extension'
+      assign c2_copy = 'Elongates the leg line and eliminates groin pinching across pilates, barre, yoga lunges, and every active stride.'
+    endif
+  endif
+-%}
+
+{%- if has_campaign -%}
+<div class="pdp-campaign" aria-label="{{ sec_title | escape }}">
+  <div class="pdp-campaign__intro">
+    <p class="pdp-campaign__eyebrow">{{ sec_eyebrow }}</p>
+    <h3 class="pdp-campaign__title">{{ sec_title }}</h3>
+    <div class="pdp-campaign__pills">
+      <span>✓ {{ p1 }}</span>
+      <span>✓ {{ p2 }}</span>
+      <span>✓ {{ p3 }}</span>
+      <span>✓ {{ p4 }}</span>
+    </div>
+  </div>
+
+  <figure class="pdp-campaign__hero">
+    <div class="pdp-campaign__hero-media">
+      <img src="{{ hero_img }}" width="1536" height="1024" loading="lazy" decoding="async" style="object-position: {{ hero_pos }};" alt="{{ hero_title | escape }}">
+      <span class="pdp-campaign__tag">{{ hero_tag }}</span>
+    </div>
+    <figcaption class="pdp-campaign__caption pdp-campaign__caption--hero">
+      <h4>{{ hero_title }}</h4>
+      <p>{{ hero_copy }}</p>
+    </figcaption>
+  </figure>
+
+  <div class="pdp-campaign__grid">
+    <figure class="pdp-campaign__card">
+      <div class="pdp-campaign__card-media">
+        <img src="{{ c1_img }}" width="1024" height="1280" loading="lazy" decoding="async" style="object-position: {{ c1_pos }};" alt="{{ c1_title | escape }}">
+        <span class="pdp-campaign__tag">{{ c1_tag }}</span>
+      </div>
+      <figcaption class="pdp-campaign__caption">
+        <h4>{{ c1_title }}</h4>
+        <p>{{ c1_copy }}</p>
+      </figcaption>
+    </figure>
+
+    <figure class="pdp-campaign__card">
+      <div class="pdp-campaign__card-media">
+        <img src="{{ c2_img }}" width="1024" height="1280" loading="lazy" decoding="async" style="object-position: {{ c2_pos }};" alt="{{ c2_title | escape }}">
+        <span class="pdp-campaign__tag">{{ c2_tag }}</span>
+      </div>
+      <figcaption class="pdp-campaign__caption">
+        <h4>{{ c2_title }}</h4>
+        <p>{{ c2_copy }}</p>
+      </figcaption>
+    </figure>
+  </div>
+</div>
+{%- endif -%}

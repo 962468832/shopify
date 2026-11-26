@@ -1274,6 +1274,37 @@ html.floatbar-collapsed .float-bar .float-edge-tab{display:grid}
 
 /* Footer language switcher (Shopify localization form). */
 .footer-locale{display:flex;justify-content:flex-end;margin:0 auto}
+
+/* Product Detail Page: Functional & Comfort Visual Campaign Showcase */
+.pdp-campaign{max-width:1040px;margin:10px auto 44px;display:flex;flex-direction:column;gap:24px}
+.pdp-campaign__intro{text-align:center;max-width:740px;margin:0 auto 4px}
+.pdp-campaign__eyebrow{margin:0 0 8px;font-size:11px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:#8a7f78}
+.pdp-campaign__title{margin:0 0 18px;font-family:'Playfair Display',Georgia,serif;font-size:clamp(24px,3vw,34px);font-weight:400;line-height:1.2;color:var(--ink)}
+.pdp-campaign__pills{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.pdp-campaign__pills span{display:inline-flex;align-items:center;padding:7px 14px;border-radius:999px;background:#f5f1ec;border:1px solid #e6dfd7;color:#30271f;font-size:12px;font-weight:500;letter-spacing:.03em}
+.pdp-campaign__hero,.pdp-campaign__card{margin:0;background:#fff;border:1px solid #eae4dd;border-radius:4px;overflow:hidden}
+.pdp-campaign__hero-media{position:relative;aspect-ratio:16/9;overflow:hidden;background:#eeeae5}
+.pdp-campaign__hero-media img,.pdp-campaign__card-media img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.22,1,.36,1)}
+.pdp-campaign__hero:hover .pdp-campaign__hero-media img,.pdp-campaign__card:hover .pdp-campaign__card-media img{transform:scale(1.025)}
+.pdp-campaign__tag{position:absolute;top:16px;left:16px;padding:7px 13px;border-radius:999px;background:rgba(48,39,31,.82);backdrop-filter:blur(6px);color:#fff;font-size:10.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
+.pdp-campaign__caption{padding:22px 24px 24px}
+.pdp-campaign__caption--hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:24px;align-items:center;padding:24px 28px}
+.pdp-campaign__caption h4{margin:0;font-family:'Playfair Display',Georgia,serif;font-size:clamp(20px,2vw,24px);font-weight:400;line-height:1.28;color:var(--ink)}
+.pdp-campaign__caption p{margin:8px 0 0;font-size:14px;line-height:1.68;color:#635c56}
+.pdp-campaign__caption--hero p{margin:0}
+.pdp-campaign__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.pdp-campaign__card-media{position:relative;aspect-ratio:4/5;overflow:hidden;background:#eeeae5}
+@media(max-width:767px){
+  .pdp-campaign{gap:16px;margin:4px auto 32px}
+  .pdp-campaign__pills{gap:6px}
+  .pdp-campaign__pills span{padding:5px 10px;font-size:11px}
+  .pdp-campaign__hero-media{aspect-ratio:4/3}
+  .pdp-campaign__caption--hero{grid-template-columns:1fr;gap:8px;padding:18px 16px}
+  .pdp-campaign__grid{grid-template-columns:1fr;gap:16px}
+  .pdp-campaign__card-media{aspect-ratio:4/4.4}
+  .pdp-campaign__caption{padding:16px 16px 18px}
+  .pdp-campaign__tag{top:12px;left:12px;padding:5px 10px;font-size:9.5px}
+}
 .footer-locale__form{display:inline-flex;align-items:center;gap:10px;margin:0;font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#7f7771}
 .footer-locale__label{margin:0}
 .footer-locale__select{position:relative;display:inline-flex;align-items:center}
