@@ -394,7 +394,7 @@ body{overflow-x:hidden}
 @media(min-width:1001px) and (max-width:1200px){.site-header__inner{padding-inline:max(16px,env(safe-area-inset-left)) max(16px,env(safe-area-inset-right))}.menu-toggle{width:44px;height:44px;padding:10px;left:max(12px,env(safe-area-inset-left))}.site-nav--right{right:max(12px,env(safe-area-inset-right));gap:2px}.site-nav--right .icon-button{width:44px;height:44px;min-width:44px;min-height:44px;padding:10px}.site-header--home:not(.is-scrolled) .brand img{width:clamp(108px,32vw,170px)}.site-nav--left.is-open{max-height:calc(100svh - 104px);overflow:auto;padding-bottom:max(28px,env(safe-area-inset-bottom))}.mega-menu{grid-template-columns:1fr;gap:12px}.mega-menu__tile{min-height:112px}}
 @media (max-width:560px){
   .home-section{padding-block:52px}
-  .home-hero{min-height:calc(100svh - 34px);height:auto}
+  .home-hero{min-height:490px;height:clamp(490px,76svh,680px)}
   .home-hero__content{padding-inline:16px;padding-top:110px}
   .home-hero h1{font-size:31px}
   .home-hero__buttons{flex-direction:row;flex-wrap:nowrap;justify-content:center;align-items:center;gap:8px}

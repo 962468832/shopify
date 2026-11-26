@@ -504,8 +504,8 @@
   },
   "order": [
     "hero",
-    "trust",
     "bestsellers",
+    "trust",
     "sport_spotlight",
     "scenario",
     "lifestyle",
