@@ -14,8 +14,8 @@
       "settings": {
         "asset_file_mobile": "",
         "asset_file": "",
-        "image": "shopify://shop_images/pielik-hero-desktop-2026.jpg",
-        "mobile_image": "shopify://shop_images/pielik-hero-mobile-2026.jpg",
+        "image": "shopify://shop_images/pielik-hero-desktop-v2.jpg",
+        "mobile_image": "shopify://shop_images/pielik-hero-mobile-v2.jpg",
         "show_legacy_media": false,
         "image_alt": "Pielik Softveil Original second-skin comfort underwear campaign",
         "heading": "Second-Skin Comfort, Zero Lines.",
@@ -285,7 +285,7 @@
         "item1": {
           "type": "collection",
           "settings": {
-            "image": "shopify://shop_images/pielik-cover-freeform-collection.jpg",
+            "image": "shopify://shop_images/pielik-cover-freeform-collection-v2.jpg",
             "asset_file": "",
             "show_legacy_media": false,
             "collection": "freeform-collection",
@@ -351,7 +351,7 @@
         "item2": {
           "type": "guide",
           "settings": {
-            "image": "shopify://shop_images/pielik-blog-icesilk-care.jpg",
+            "image": "shopify://shop_images/pielik-blog-icesilk-care-v2.jpg",
             "show_legacy_media": false,
             "heading": "Ice-Silk & 5A Cotton Gusset: How to Care for Seamless Underwear So It Lasts",
             "category": "Fabric & Care",
