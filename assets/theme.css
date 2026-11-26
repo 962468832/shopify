@@ -1332,3 +1332,6 @@ html.floatbar-collapsed .float-bar .float-edge-tab{display:grid}
 .site-footer .footer-locale__select svg{color:var(--cream)!important}
 .site-footer svg{stroke:currentColor}
 .button--dark,.quick-shop{background:var(--cocoa)}
+
+.site-footer{padding-bottom:74px!important}
+.float-bar{box-shadow:0 6px 20px rgba(57,46,40,.28);border-radius:22px;border:1px solid rgba(248,243,234,.22)}
