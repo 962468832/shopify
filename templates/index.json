@@ -232,25 +232,6 @@
         "link": "/collections/undies-2026"
       }
     },
-    "cloud": {
-      "type": "product-carousel",
-      "settings": {
-        "heading": "Value 5-Packs",
-        "description": "Build your weekday rotation and save up to 25% on curated 5-Packs.",
-        "hide_heading": false,
-        "card_mode": "pack5",
-        "collection": "best-sellers-2026",
-        "products": [
-          "softveil-original",
-          "softveil-original-high-rise-hipster-bikini",
-          "softveil-wave-hipster-bikini",
-          "freeform-high-cut"
-        ],
-        "limit": 4,
-        "link_label": "Shop All",
-        "link": "/collections/all"
-      }
-    },
     "lifestyle": {
       "type": "lifestyle-grid",
       "blocks": {
@@ -527,7 +508,6 @@
     "bestsellers",
     "sport_spotlight",
     "scenario",
-    "cloud",
     "lifestyle",
     "collections",
     "community",
