@@ -1,7 +1,7 @@
 {% assign news_blog = blogs.news %}
 <footer class="site-footer">
   <div class="page-width footer-grid">
-    <div class="footer-intro"><a class="footer-brand" href="{{ routes.root_url }}">{% render 'brand-logo', variant: 'dark', loading: 'lazy' %}</a><p>{{ 'footer.intro' | t }}</p></div>
+    <div class="footer-intro"><a class="footer-brand" href="{{ routes.root_url }}">{% render 'brand-logo', variant: 'light', loading: 'lazy' %}</a><p>{{ 'footer.intro' | t }}</p></div>
     {% assign shop_links = section.settings.shop_menu.links %}{% assign discover_links = section.settings.discover_menu.links %}{% assign support_links = section.settings.support_menu.links %}
     {% assign shop_head = section.settings.shop_heading | default: 'Shop' %}
     {% assign discover_head = section.settings.discover_heading | default: 'Discover' %}

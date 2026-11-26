@@ -47,7 +47,7 @@
 .home-products{padding-top:32px;padding-bottom:68px}
 .home-products .home-heading{margin-bottom:22px}
 .home-product-rail>.product-card{flex-basis:calc((100% - 72px)/4)}
-.template-index .product-card{font-family:'Nunito',Arial,sans-serif}
+.template-index .product-card{font-family:var(--body-font,'DM Sans'),Arial,sans-serif}
 .template-index .product-card__media{background:#e0e0e0;border-radius:2px}
 .template-index .product-card__title{font-size:16px;line-height:1.35;min-height:0;font-weight:500}
 .template-index .product-card__subtitle{font-size:12.5px;line-height:1.4;min-height:0}
@@ -153,7 +153,7 @@
 .home-trust-strip{border-bottom:1px solid #e8dccb;background:#fbf7f0;padding-block:28px}
 .home-trust-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;align-items:center}
 .home-trust-item{display:flex;align-items:center;gap:14px;padding:6px 10px}
-.home-trust-item__icon{display:flex;align-items:center;justify-content:center;width:40px;height:40px;flex:none;border-radius:50%;background:#fff;border:1px solid #e5e1dc;color:#392e28}
+.home-trust-item__icon{display:flex;align-items:center;justify-content:center;width:40px;height:40px;flex:none;border-radius:50%;background:#fdf9f3;border:1px solid #e5d4bf;color:#392e28}
 .home-trust-item__icon svg{display:block;width:19px;height:19px;flex:none}
 .home-trust-item>div strong{display:block;font-family:'Plus Jakarta Sans',Arial,sans-serif;font-size:13.5px;font-weight:600;color:#392e28;line-height:1.3}
 .home-trust-item>div span{display:block;font-size:12px;color:#7a6457;line-height:1.45;margin-top:2px}
