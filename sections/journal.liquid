@@ -1,59 +1,206 @@
-<section id="home-journal-{{ section.id }}" class="home-section home-journal"><div class="home-container"><div class="home-heading"><div><p class="home-eyebrow">{% render 'i18n', text: section.settings.eyebrow %}</p><h2>{% render 'i18n', text: section.settings.heading %}</h2></div>{% if section.settings.link_label != blank %}<a class="home-text-link" href="{% if section.settings.link != blank %}{% render 'locale-url', url: section.settings.link %}{% else %}#home-journal-{{ section.id }}{% endif %}">{% render 'i18n', text: section.settings.link_label %} →</a>{% endif %}</div><div class="home-journal-grid" tabindex="0" role="region" aria-label="{% render 'i18n', text: section.settings.heading %}">
-{%- assign blog_source = section.settings.blog -%}
-{%- if section.settings.source == 'blog' and blog_source != blank and blog_source.articles_count > 0 -%}
-{% for article in blog_source.articles limit: section.settings.limit %}<article class="home-journal-card">{% if article.image %}<a href="{{ article.url }}" tabindex="-1"><img src="{{ article.image | image_url: width: 600 }}" srcset="{{ article.image | image_url: width: 400 }} 400w, {{ article.image | image_url: width: 600 }} 600w, {{ article.image | image_url: width: 900 }} 900w" sizes="(max-width: 750px) 82vw, 30vw" width="600" height="450" loading="lazy" decoding="async" alt="{{ article.image.alt | default: article.title | escape }}"></a>{% endif %}{%- assign cat_key = article.tags.first | handleize | prepend: 'tags.' -%}{%- assign cat_label = cat_key | t -%}{%- if cat_label contains 'Translation missing' -%}{%- assign cat_label = article.tags.first -%}{%- endif -%}<small>{% if cat_label != blank %}{% render 'i18n', text: cat_label %}{% else %}{% render 'i18n', text: blog_source.title %}{% endif %}</small><h3><a href="{{ article.url }}">{% render 'i18n', text: article.title %}</a></h3>{% assign raw_excerpt = article.excerpt_or_content | strip_html | strip %}<p>{% capture t_excerpt %}{% render 'i18n', text: raw_excerpt %}{% endcapture %}{{ t_excerpt | strip | truncate: 140 }}</p><a class="home-text-link" href="{{ article.url }}">{{ 'journal.read_more' | t }} →</a></article>{% endfor %}
-{%- else -%}
-{% for block in section.blocks %}<article class="home-journal-card" {{ block.shopify_attributes }}>{% render 'home-image', image:block.settings.image, image_url:block.settings.image_url, title:block.settings.heading, width:600, height:450 %}<small>{% render 'i18n', text: block.settings.category %}</small><h3>{% render 'i18n', text: block.settings.heading %}</h3><p>{% render 'i18n', text: block.settings.summary %}</p>{% if block.settings.content != blank %}<button type="button" class="home-text-link" data-guide-open="guide-{{ section.id }}-{{ block.id }}" aria-haspopup="dialog">{{ 'journal.read_more' | t }} →</button>{% elsif request.design_mode %}<p class="home-editor-empty">填写文章正文后显示阅读按钮。</p>{% endif %}</article>{% endfor %}{%- endif -%}
-</div></div>
-{%- unless section.settings.source == 'blog' and section.settings.blog != blank and section.settings.blog.articles_count > 0 -%}
-{% for block in section.blocks %}{% if block.settings.content != blank %}{% assign guide_href = block.settings.link | default: routes.all_products_collection_url %}<dialog class="home-guide" id="guide-{{ section.id }}-{{ block.id }}" aria-labelledby="guide-title-{{ section.id }}-{{ block.id }}"><button type="button" class="home-guide__close" data-guide-close aria-label="{% render 'i18n', text: section.settings.close_label %}">×</button><p class="home-eyebrow">{% render 'i18n', text: block.settings.category %}</p><h2 id="guide-title-{{ section.id }}-{{ block.id }}">{% render 'i18n', text: block.settings.heading %}</h2><div>{{ block.settings.content }}</div>{% if block.settings.related_label != blank %}<a class="home-pill" href="{% render 'locale-url', url: guide_href %}">{% render 'i18n', text: block.settings.related_label %} →</a>{% endif %}</dialog>{% endif %}{% endfor %}
-{%- endunless -%}
+<section id="home-journal-{{ section.id }}" class="home-section home-journal" aria-labelledby="home-journal-title-{{ section.id }}">
+  <div class="home-container">
+    <div class="home-heading home-journal__head">
+      <div>
+        <p class="home-eyebrow">{% render 'i18n', text: section.settings.eyebrow %}</p>
+        <h2 id="home-journal-title-{{ section.id }}">{% render 'i18n', text: section.settings.heading %}</h2>
+      </div>
+      {% if section.settings.link_label != blank %}
+        {% assign journal_all_href = section.settings.link | default: routes.root_url %}
+        {% if section.settings.blog != blank and section.settings.link == blank %}
+          {% assign journal_all_href = section.settings.blog.url %}
+        {% endif %}
+        <a class="home-journal__all-link" href="{% render 'locale-url', url: journal_all_href %}">
+          <span>{% render 'i18n', text: section.settings.link_label %}</span>
+          {% if section.settings.source == 'blog' and section.settings.blog != blank and section.settings.blog.articles_count > 0 %}
+            <span class="home-journal__count">({{ section.settings.blog.articles_count }})</span>
+          {% endif %}
+          <span aria-hidden="true">→</span>
+        </a>
+      {% endif %}
+    </div>
+
+    {%- assign blog_source = section.settings.blog -%}
+    {%- if section.settings.source == 'blog' and blog_source != blank and blog_source.articles_count > 0 -%}
+      {%- assign total_limit = section.settings.limit | default: 9 -%}
+      <div class="home-journal-spread">
+        {%- for article in blog_source.articles limit: 1 -%}
+          {%- assign word_count = article.content | strip_html | split: ' ' | size -%}
+          {%- assign read_mins = word_count | divided_by: 180 -%}
+          {%- if read_mins < 2 -%}{%- assign read_mins = 3 -%}{%- endif -%}
+          {%- assign cat_raw = article.tags.first | default: blog_source.title -%}
+          {%- assign raw_excerpt = article.excerpt_or_content | strip_html | strip -%}
+          {%- capture t_excerpt -%}{% render 'i18n', text: raw_excerpt %}{%- endcapture -%}
+          <article class="home-journal-feature">
+            <a class="home-journal-feature__media" href="{{ article.url }}">
+              {% if article.image %}
+                <img
+                  src="{{ article.image | image_url: width: 1100 }}"
+                  srcset="{{ article.image | image_url: width: 600 }} 600w, {{ article.image | image_url: width: 900 }} 900w, {{ article.image | image_url: width: 1200 }} 1200w"
+                  sizes="(max-width: 959px) 96vw, 52vw"
+                  width="1100"
+                  height="733"
+                  loading="lazy"
+                  decoding="async"
+                  alt="{{ article.image.alt | default: article.title | escape }}"
+                >
+              {% endif %}
+              <span class="home-journal-pill">{% render 'i18n', text: cat_raw %}</span>
+            </a>
+            <div class="home-journal-feature__body">
+              <div class="home-journal-meta">
+                <span>{% render 'i18n', text: cat_raw %}</span>
+                <span aria-hidden="true">·</span>
+                <span>{{ read_mins }} {{ 'article.min_read' | t }}</span>
+              </div>
+              <h3><a href="{{ article.url }}">{% render 'i18n', text: article.title %}</a></h3>
+              <p>{{ t_excerpt | strip | truncate: 155 }}</p>
+              <a class="home-journal-cta" href="{{ article.url }}">{{ 'journal.read_more' | t }} <span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+        {%- endfor -%}
+
+        <div class="home-journal-stack">
+          {%- for article in blog_source.articles offset: 1 limit: 3 -%}
+            {%- assign word_count = article.content | strip_html | split: ' ' | size -%}
+            {%- assign read_mins = word_count | divided_by: 180 -%}
+            {%- if read_mins < 2 -%}{%- assign read_mins = 3 -%}{%- endif -%}
+            {%- assign cat_raw = article.tags.first | default: blog_source.title -%}
+            {%- assign raw_excerpt = article.excerpt_or_content | strip_html | strip -%}
+            {%- capture t_excerpt -%}{% render 'i18n', text: raw_excerpt %}{%- endcapture -%}
+            <article class="home-journal-row">
+              <a class="home-journal-row__thumb" href="{{ article.url }}" tabindex="-1">
+                {% if article.image %}
+                  <img
+                    src="{{ article.image | image_url: width: 420 }}"
+                    srcset="{{ article.image | image_url: width: 280 }} 280w, {{ article.image | image_url: width: 420 }} 420w"
+                    sizes="(max-width: 767px) 32vw, 150px"
+                    width="420"
+                    height="315"
+                    loading="lazy"
+                    decoding="async"
+                    alt="{{ article.image.alt | default: article.title | escape }}"
+                  >
+                {% endif %}
+              </a>
+              <div class="home-journal-row__body">
+                <div class="home-journal-meta">
+                  <span>{% render 'i18n', text: cat_raw %}</span>
+                  <span aria-hidden="true">·</span>
+                  <span>{{ read_mins }} {{ 'article.min_read' | t }}</span>
+                </div>
+                <h3><a href="{{ article.url }}">{% render 'i18n', text: article.title %}</a></h3>
+                <p>{{ t_excerpt | strip | truncate: 96 }}</p>
+                <a class="home-journal-cta home-journal-cta--subtle" href="{{ article.url }}">{{ 'journal.read_more' | t }} <span aria-hidden="true">→</span></a>
+              </div>
+            </article>
+          {%- endfor -%}
+        </div>
+      </div>
+
+      {%- if blog_source.articles_count > 4 and total_limit > 4 -%}
+        {%- assign more_limit = total_limit | minus: 4 -%}
+        <div class="home-journal-more" data-home-carousel>
+          <div class="home-journal-more__head">
+            <p class="home-eyebrow">{% render 'i18n', text: 'More from The Journal' %}</p>
+            <div class="home-rail-controls">
+              <button type="button" data-rail-direction="-1" aria-label="Previous">&#8592;</button>
+              <button type="button" data-rail-direction="1" aria-label="Next">&#8594;</button>
+            </div>
+          </div>
+          <div class="home-rail home-journal-rail" data-home-rail tabindex="0" role="region" aria-label="{% render 'i18n', text: 'More from The Journal' %}">
+            {%- for article in blog_source.articles offset: 4 limit: more_limit -%}
+              {%- assign word_count = article.content | strip_html | split: ' ' | size -%}
+              {%- assign read_mins = word_count | divided_by: 180 -%}
+              {%- if read_mins < 2 -%}{%- assign read_mins = 3 -%}{%- endif -%}
+              {%- assign cat_raw = article.tags.first | default: blog_source.title -%}
+              {%- assign raw_excerpt = article.excerpt_or_content | strip_html | strip -%}
+              {%- capture t_excerpt -%}{% render 'i18n', text: raw_excerpt %}{%- endcapture -%}
+              <article class="home-journal-mini">
+                <a class="home-journal-mini__media" href="{{ article.url }}" tabindex="-1">
+                  {% if article.image %}
+                    <img
+                      src="{{ article.image | image_url: width: 640 }}"
+                      srcset="{{ article.image | image_url: width: 420 }} 420w, {{ article.image | image_url: width: 640 }} 640w"
+                      sizes="(max-width: 767px) 72vw, 30vw"
+                      width="640"
+                      height="440"
+                      loading="lazy"
+                      decoding="async"
+                      alt="{{ article.image.alt | default: article.title | escape }}"
+                    >
+                  {% endif %}
+                </a>
+                <div class="home-journal-mini__body">
+                  <div class="home-journal-meta">
+                    <span>{% render 'i18n', text: cat_raw %}</span>
+                    <span aria-hidden="true">·</span>
+                    <span>{{ read_mins }} {{ 'article.min_read' | t }}</span>
+                  </div>
+                  <h3><a href="{{ article.url }}">{% render 'i18n', text: article.title %}</a></h3>
+                  <p>{{ t_excerpt | strip | truncate: 96 }}</p>
+                  <a class="home-journal-cta home-journal-cta--subtle" href="{{ article.url }}">{{ 'journal.read_more' | t }} <span aria-hidden="true">→</span></a>
+                </div>
+              </article>
+            {%- endfor -%}
+          </div>
+          <div class="home-rail-bar">
+            <div class="home-rail-progress" aria-hidden="true"><span class="home-rail-progress__bar" data-rail-progress></span></div>
+          </div>
+        </div>
+      {%- endif -%}
+    {%- else -%}
+      <div class="home-journal-grid" tabindex="0" role="region" aria-label="{% render 'i18n', text: section.settings.heading %}">
+        {% for block in section.blocks %}
+          <article class="home-journal-card" {{ block.shopify_attributes }}>
+            {% render 'home-image', image:block.settings.image, image_url:block.settings.image_url, title:block.settings.heading, width:600, height:450 %}
+            <small>{% render 'i18n', text: block.settings.category %}</small>
+            <h3>{% render 'i18n', text: block.settings.heading %}</h3>
+            <p>{% render 'i18n', text: block.settings.summary %}</p>
+            {% if block.settings.content != blank %}
+              <button type="button" class="home-text-link" data-guide-open="guide-{{ section.id }}-{{ block.id }}" aria-haspopup="dialog">{{ 'journal.read_more' | t }} →</button>
+            {% endif %}
+          </article>
+        {% endfor %}
+      </div>
+    {%- endif -%}
+  </div>
+
+  {%- unless section.settings.source == 'blog' and section.settings.blog != blank and section.settings.blog.articles_count > 0 -%}
+    {% for block in section.blocks %}
+      {% if block.settings.content != blank %}
+        {% assign guide_href = block.settings.link | default: routes.all_products_collection_url %}
+        <dialog class="home-guide" id="guide-{{ section.id }}-{{ block.id }}" aria-labelledby="guide-title-{{ section.id }}-{{ block.id }}">
+          <button type="button" class="home-guide__close" data-guide-close aria-label="{% render 'i18n', text: section.settings.close_label %}">×</button>
+          <p class="home-eyebrow">{% render 'i18n', text: block.settings.category %}</p>
+          <h2 id="guide-title-{{ section.id }}-{{ block.id }}">{% render 'i18n', text: block.settings.heading %}</h2>
+          <div>{{ block.settings.content }}</div>
+          {% if block.settings.related_label != blank %}
+            <a class="home-pill" href="{% render 'locale-url', url: guide_href %}">{% render 'i18n', text: block.settings.related_label %} →</a>
+          {% endif %}
+        </dialog>
+      {% endif %}
+    {% endfor %}
+  {%- endunless -%}
 </section>
+
 {% schema %}
 {
   "name": "文章与穿着指南",
   "settings": [
-      {"type": "select", "id": "source", "label": "内容来源", "options": [{"value": "blocks", "label": "手动配置卡片"}, {"value": "blog", "label": "读取博客文章（推荐）"}], "default": "blocks", "info": "选“读取博客文章”后，后台新增的文章会自动同步到首页"},
-      {"type": "blog", "id": "blog", "label": "博客"},
-      {"type": "range", "id": "limit", "min": 3, "max": 6, "step": 1, "label": "显示篇数", "default": 3},
-    {
-      "type": "text",
-      "id": "eyebrow",
-      "label": "上方小标题",
-      "default": "The Journal"
-    },
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "标题",
-      "default": "Fit, comfort & care, decoded"
-    },
-    {
-      "type": "text",
-      "id": "link_label",
-      "label": "入口文字",
-      "default": "All Articles"
-    },
-    {
-      "type": "url",
-      "id": "link",
-      "label": "入口链接（留空定位本模块）"
-    },
-    {
-      "type": "text",
-      "id": "close_label",
-      "label": "关闭面板提示",
-      "default": "Close article"
-    }
+    {"type": "select", "id": "source", "label": "内容来源", "options": [{"value": "blocks", "label": "手动配置卡片"}, {"value": "blog", "label": "读取博客文章（推荐）"}], "default": "blog", "info": "选“读取博客文章”后，后台新增的文章会自动同步到首页"},
+    {"type": "blog", "id": "blog", "label": "博客"},
+    {"type": "range", "id": "limit", "min": 3, "max": 12, "step": 1, "label": "显示篇数", "default": 9},
+    {"type": "text", "id": "eyebrow", "label": "上方小标题", "default": "The Journal"},
+    {"type": "text", "id": "heading", "label": "标题", "default": "Fit, comfort & care, decoded"},
+    {"type": "text", "id": "link_label", "label": "入口文字", "default": "All Articles"},
+    {"type": "url", "id": "link", "label": "入口链接（留空定位本模块）"},
+    {"type": "text", "id": "close_label", "label": "关闭面板提示", "default": "Close article"}
   ],
   "presets": [
     {
       "name": "文章与穿着指南",
-      "blocks": [
-        {
-          "type": "guide"
-        }
-      ]
+      "blocks": [{"type": "guide"}]
     }
   ],
   "blocks": [
@@ -61,64 +208,16 @@
       "type": "guide",
       "name": "文章卡片",
       "settings": [
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "图片",
-          "info": "从文件库选择或上传。未选择时沿用现有图片。"
-        },
-        {
-          "type": "checkbox",
-          "id": "show_legacy_media",
-          "label": "显示旧版素材地址",
-          "info": "仅兼容原有内容，日常更换素材请使用上方选择器。",
-          "default": false
-        },
-        {
-          "type": "url",
-          "id": "image_url",
-          "label": "旧版图片地址",
-          "visible_if": "{{ block.settings.show_legacy_media }}"
-        },
-        {
-          "type": "text",
-          "id": "heading",
-          "label": "标题",
-          "default": "Article"
-        },
-        {
-          "type": "text",
-          "id": "category",
-          "label": "分类",
-          "default": "Fit Guide"
-        },
-        {
-          "type": "textarea",
-          "id": "summary",
-          "label": "摘要"
-        },
-        {
-          "type": "richtext",
-          "id": "content",
-          "label": "文章正文"
-        },
-        {
-          "type": "text",
-          "id": "button_label",
-          "label": "阅读按钮文字",
-          "default": "Read Article"
-        },
-        {
-          "type": "text",
-          "id": "related_label",
-          "label": "面板按钮文字",
-          "default": "Explore the collection"
-        },
-        {
-          "type": "url",
-          "id": "link",
-          "label": "面板按钮链接"
-        }
+        {"type": "image_picker", "id": "image", "label": "图片"},
+        {"type": "checkbox", "id": "show_legacy_media", "label": "显示旧版素材地址", "default": false},
+        {"type": "url", "id": "image_url", "label": "旧版图片地址", "visible_if": "{{ block.settings.show_legacy_media }}"},
+        {"type": "text", "id": "heading", "label": "标题", "default": "Article"},
+        {"type": "text", "id": "category", "label": "分类", "default": "Fit Guide"},
+        {"type": "textarea", "id": "summary", "label": "摘要"},
+        {"type": "richtext", "id": "content", "label": "文章正文"},
+        {"type": "text", "id": "button_label", "label": "阅读按钮文字", "default": "Read Article"},
+        {"type": "text", "id": "related_label", "label": "面板按钮文字", "default": "Explore the collection"},
+        {"type": "url", "id": "link", "label": "面板按钮链接"}
       ]
     }
   ],

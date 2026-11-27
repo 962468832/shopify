@@ -2,7 +2,7 @@
 <article class="page-width article-page">
   <header class="article-page__head"><p class="eyebrow">{% if article.tags.first != blank %}{% render 'i18n', text: article.tags.first %}{% else %}{{ 'article.journal' | t }}{% endif %}</p><h1>{% render 'i18n', text: article.title %}</h1><div class="article-meta">{{ article.published_at | date: '%Y-%m-%d' }} · {{ reading_minutes }} {{ 'article.min_read' | t }}</div></header>
   {% if article.image %}<img class="article-page__image" src="{{ article.image | image_url: width: 1800 }}" width="1800" height="1100" alt="{{ article.image.alt | default: article.title | escape }}">{% endif %}
-  <div class="article-page__body rte">{{ article.content }}</div>
+  <div class="article-page__body rte">{% if request.locale.iso_code contains 'zh' %}{% capture zh_body %}{% render 'article-content-zh', handle: article.handle %}{% endcapture %}{% assign zh_body_clean = zh_body | strip %}{% if zh_body_clean != blank %}{{ zh_body_clean }}{% else %}{{ article.content }}{% endif %}{% else %}{{ article.content }}{% endif %}</div>
   <nav class="article-page__footer" aria-label="Article navigation"><a href="{{ blog.url }}">{{ 'article.back' | t }}</a><span>{% if blog.previous_article %}<a href="{{ blog.previous_article.url }}">{{ 'article.previous' | t }}</a>{% endif %}</span><span>{% if blog.next_article %}<a href="{{ blog.next_article.url }}">{{ 'article.next' | t }}</a>{% endif %}</span></nav>
   {% if blog.comments_enabled? %}
     <section class="article-comments" aria-labelledby="ArticleCommentsTitle">

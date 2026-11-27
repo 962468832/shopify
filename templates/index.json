@@ -486,7 +486,7 @@
       "settings": {
         "source": "blog",
         "blog": "news",
-        "limit": 3,
+        "limit": 9,
         "eyebrow": "The Journal",
         "heading": "Fit, comfort & care, decoded",
         "link_label": "All Articles",
