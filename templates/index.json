@@ -238,9 +238,9 @@
         "item0": {
           "type": "lifestyle",
           "settings": {
-            "video": "shopify://files/videos/pielik-lifestyle-work-v2.mp4",
-            "video_url": "https://cdn.shopify.com/videos/c/vp/af75e365360e4e5f8fc082fbd089a3a4/af75e365360e4e5f8fc082fbd089a3a4.HD-1080p-3.3Mbps-102942804.mp4",
-            "image": "shopify://shop_images/pielik-lifestyle-work-v2.jpg",
+            "video": "shopify://files/videos/pielik-lifestyle-work-v3.mp4",
+            "video_url": "https://cdn.shopify.com/videos/c/vp/6eb3080b562a4fb199dbddba90a48245/6eb3080b562a4fb199dbddba90a48245.HD-1080p-3.3Mbps-102943679.mp4",
+            "image": "shopify://shop_images/pielik-lifestyle-work-v3.jpg",
             "show_legacy_media": false,
             "label": "Work",
             "title": "Desk to dinner",
@@ -266,8 +266,8 @@
         "item3": {
           "type": "lifestyle",
           "settings": {
-            "video": "shopify://files/videos/pielik-lifestyle-everyday-v2.mp4",
-            "video_url": "https://cdn.shopify.com/videos/c/vp/43f2eb3a68b04ffcbfab2b09d427be78/43f2eb3a68b04ffcbfab2b09d427be78.HD-1080p-3.3Mbps-102942806.mp4",
+            "video": "shopify://files/videos/pielik-lifestyle-everyday-v3.mp4",
+            "video_url": "https://cdn.shopify.com/videos/c/vp/138345e4f38149f995fc62aab1d56ffc/138345e4f38149f995fc62aab1d56ffc.HD-1080p-4.8Mbps-102943680.mp4",
             "image": "shopify://shop_images/pielik-lifestyle-everyday-v2.jpg",
             "show_legacy_media": false,
             "label": "Everyday",
