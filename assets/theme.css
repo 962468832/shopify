@@ -1344,7 +1344,9 @@ html.floatbar-collapsed .float-bar .float-edge-tab{display:grid}
 .site-footer .footer-locale__select svg{color:var(--cream)!important}
 .site-footer svg{stroke:currentColor}
 .button--dark,.quick-shop{background:var(--cocoa)}
-.product-free-shipping{display:inline-flex;align-items:center;gap:6px;margin:8px 0 2px;padding:4px 10px;border-radius:999px;background:rgba(56,98,62,.1);color:#38623e;font-size:12px;font-weight:600;letter-spacing:.03em;line-height:1.3}
+.product-free-shipping-row{flex:0 0 100%;display:block;margin-top:6px}
+.product-free-shipping-row[hidden]{display:none}
+.product-free-shipping{display:inline-flex;align-items:center;gap:6px;margin:2px 0 0;padding:4px 10px;border-radius:999px;background:rgba(56,98,62,.1);color:#38623e;font-size:12px;font-weight:600;letter-spacing:.03em;line-height:1.3}
 .product-free-shipping[hidden]{display:none}
 .product-card__free-ship{display:inline-flex;align-items:center;gap:4px;margin:5px 0 0;font-size:11px;font-weight:600;color:#38623e;letter-spacing:.02em;line-height:1.25}
 .product-size-note{margin:10px 0 4px;font-size:13px;line-height:1.45;color:#7a6457}
