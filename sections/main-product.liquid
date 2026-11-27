@@ -20,7 +20,9 @@
       <p class="eyebrow">{{ 'products.product.essentials' | t }}</p>
       <h1 data-product-title data-base-title="{{ product.title | escape }}">{{ product.title }}</h1>
       <a class="product-review-anchor" href="#product-reviews" aria-label="Read product reviews">{% if rating_value != blank %}<span class="product-review-anchor__stars" aria-hidden="true">★★★★★</span><span>{{ rating_value }}</span>{% if rating_count != blank %}<span>({{ rating_count }})</span>{% endif %}{% else %}{{ 'products.product.reviews' | t }}{% endif %}</a>
+      {%- assign pdp_ship_thresh = settings.cart_progress_threshold | default: 60 | times: 100 | times: cart.currency.rate | round -%}
       <div class="product-price"><span data-product-price>{{ current_variant.price | money }}</span>{% if discount_percent > 0 %}<s data-product-compare>{{ current_variant.compare_at_price | money }}</s><span class="product-price__save" data-product-savings>{{ 'products.product.save' | t }} <span data-product-savings-value>{{ discount_percent }}</span>%</span>{% else %}<s data-product-compare hidden></s><span class="product-price__save" data-product-savings hidden></span>{% endif %}</div>
+      <p class="product-free-shipping" data-product-free-shipping{% unless pdp_ship_thresh > 0 and current_variant.price >= pdp_ship_thresh %} hidden{% endunless %}><span aria-hidden="true">✓</span> {% if request.locale.iso_code contains 'zh' %}美国包邮{% else %}Free US Shipping{% endif %}</p>
       {% form 'product', product, data-product-form: '', data-product-installments: '' %}
         {% capture payment_terms %}{{ form | payment_terms }}{% endcapture %}
         <div class="product-installments"{% if payment_terms == blank %} hidden{% endif %}>{{ payment_terms }}</div>
@@ -64,6 +66,21 @@
                 {% endfor %}
               </div>
               {% if option_name contains 'color' or option_name contains 'colour' %}<div class="product-pack-includes" data-pack-includes hidden></div>{% endif %}
+              {% if option_name contains 'size' %}
+                {%- assign cur_sz_up = current_opt_val | strip | upcase -%}
+                {%- assign marked_sz = '' -%}
+                {%- case cur_sz_up -%}
+                  {%- when 'XS' -%}{%- assign marked_sz = 'S' -%}
+                  {%- when 'S' -%}{%- assign marked_sz = 'M' -%}
+                  {%- when 'M' -%}{%- assign marked_sz = 'L' -%}
+                  {%- when 'L' -%}{%- assign marked_sz = 'XL' -%}
+                  {%- when 'XL' -%}{%- assign marked_sz = '2XL' -%}
+                  {%- when '2XL', 'XXL' -%}{%- assign marked_sz = '3XL' -%}
+                  {%- when '3XL', 'XXXL' -%}{%- assign marked_sz = '4XL' -%}
+                  {%- when '4XL' -%}{%- assign marked_sz = '5XL' -%}
+                {%- endcase -%}
+                <p class="product-size-note" data-size-label-note{% if marked_sz == blank %} hidden{% endif %}>{% if marked_sz != blank %}{% if request.locale.iso_code contains 'zh' %}尺码提示：您选购的 Pielik {{ current_opt_val }} 码，成衣水洗标标注为 {{ marked_sz }} 码。{% else %}Size note: Your Pielik size {{ current_opt_val }} comes with a garment label marked {{ marked_sz }}.{% endif %}{% endif %}</p>
+              {% endif %}
             </fieldset>
           {% endfor %}
           <span id="SoldOutHint-{{ section.id }}" class="visually-hidden">{{ 'products.product.sold_out' | t }}</span>

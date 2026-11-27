@@ -117,15 +117,32 @@
       return { price, compareAtPrice: hasDiscount ? compareAtPrice : 0, hasDiscount, discountPercent: hasDiscount ? Math.round(((compareAtPrice - price) / compareAtPrice) * 100) : 0 };
     }
   };
+  const freeShipThreshold = Math.round(Number(window.PielikThemeSettings?.cartProgressThreshold ?? 60) * 100 * (window.PielikMoney?.rate || 1));
+  const GARMENT_LABEL_MAP = { XS: 'S', S: 'M', M: 'L', L: 'XL', XL: '2XL', '2XL': '3XL', XXL: '3XL', '3XL': '4XL', XXXL: '4XL', '4XL': '5XL' };
+  function syncSizeLabelNote(variant, current) {
+    const note = root.querySelector('[data-size-label-note]');
+    if (!note) return;
+    const sizeIndex = groups.findIndex((g) => /size/i.test(g.dataset.optionName || ''));
+    if (sizeIndex < 0) { note.hidden = true; return; }
+    const sizeVal = String(variant?.options?.[sizeIndex] || current?.[sizeIndex] || '').trim();
+    const marked = GARMENT_LABEL_MAP[sizeVal.toUpperCase()];
+    if (!marked) { note.hidden = true; note.textContent = ''; return; }
+    note.textContent = isZh
+      ? `尺码提示：您选购的 Pielik ${sizeVal} 码，成衣水洗标标注为 ${marked} 码。`
+      : `Size note: Your Pielik size ${sizeVal} comes with a garment label marked ${marked}.`;
+    note.hidden = false;
+  }
   function syncPrice(variant) {
     const compare = root.querySelector('[data-product-compare]');
     const savings = root.querySelector('[data-product-savings]');
+    const freeShip = root.querySelector('[data-product-free-shipping]');
     const variantPricing = pricing.details(variant);
     root.querySelector('[data-product-price]').textContent = formatMoney(variantPricing.price);
     compare.hidden = !variantPricing.hasDiscount;
     compare.textContent = variantPricing.hasDiscount ? formatMoney(variantPricing.compareAtPrice) : '';
     savings.hidden = !variantPricing.hasDiscount;
     savings.textContent = variantPricing.hasDiscount ? `${copy.save || (isZh ? '立省' : 'Save')} ${variantPricing.discountPercent}%` : '';
+    if (freeShip) freeShip.hidden = !(freeShipThreshold > 0 && variantPricing.price >= freeShipThreshold);
   }
   function getVariantLabel(variant) {
     if (!variant || variant.title === 'Default Title') return '';
@@ -289,6 +306,7 @@
     if (paymentButton) paymentButton.disabled = !variant?.available;
     availability.textContent = variant?.available ? '' : (variant ? (copy.soldOutMsg || (isZh ? '当前所选规格已售罄。' : 'This option is currently sold out.')) : (copy.unavailableMsg || (isZh ? '当前规格组合暂不可选，请更换其他选项。' : 'This combination is not available. Please choose another option.')));
     const current = selectedValues();
+    syncSizeLabelNote(variant, current);
     groups.forEach((group, index) => {
       group.querySelector('[data-option-label]').textContent = tr(current[index] || '');
       group.querySelectorAll('[data-product-option]').forEach((input) => {

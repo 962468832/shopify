@@ -544,6 +544,16 @@
     renderQuickShopSelection();
   }
 
+  const GARMENT_LABEL_MAP = { XS: 'S', S: 'M', M: 'L', L: 'XL', XL: '2XL', '2XL': '3XL', XXL: '3XL', '3XL': '4XL', XXXL: '4XL', '4XL': '5XL' };
+  function formatSizeLabelNote(sizeVal) {
+    const clean = String(sizeVal || '').trim();
+    const marked = GARMENT_LABEL_MAP[clean.toUpperCase()];
+    if (!marked) return '';
+    return isZh
+      ? `尺码提示：您选购的 Pielik ${escapeHtml(clean)} 码，成衣水洗标标注为 ${escapeHtml(marked)} 码。`
+      : `Size note: Your Pielik size ${escapeHtml(clean)} comes with a garment label marked ${escapeHtml(marked)}.`;
+  }
+
   function renderQuickShopSelection() {
     if (!quickShopState || !quickShopBody) return;
     const { product, selected, quantity, lineKey } = quickShopState;
@@ -555,6 +565,7 @@
     const compare = selectedPricing.compareAtPrice;
     const price = selectedPricing.price;
     const savings = selectedPricing.discountPercent;
+    const freeUsShip = progressThreshold > 0 && price >= progressThreshold;
     quickShopBody.innerHTML = `
       <div class="quick-shop-product">
         <div class="quick-shop-product__media">${image ? `<img src="${escapeHtml(image)}" alt="${escapeHtml(product.title)}">` : '<span class="media-placeholder"></span>'}</div>
@@ -562,8 +573,9 @@
           <p class="quick-shop-product__vendor">${escapeHtml(product.vendor || window.PielikShopName || '')}</p>
           <h2 id="QuickShopTitle">${escapeHtml(product.title)}</h2>
           <div class="quick-shop-product__price"><strong>${formatMoney(price)}</strong>${savings ? `<s>${formatMoney(compare)}</s><span class="product-price__save">${escapeHtml(copy.save || 'Save')} ${savings}%</span>` : ''}</div>
-          ${product.options.length && !(product.variants.length === 1 && /^default title$/i.test(product.variants[0].title || '')) ? product.options.map((option, index) => { const name = typeof option === 'string' ? option : option.name; const scopedVariants = index > 0 ? product.variants.filter((v) => v.options.every((val, pos) => pos >= index || val === quickShopState.selected[pos])) : product.variants; return `
-            <fieldset class="quick-option-group"><legend><span>${escapeHtml(copy.select || 'Select')} ${escapeHtml(trOpt(name))}</span>${/size/i.test(name) ? `<button class="size-guide-trigger" type="button" data-size-guide-open aria-haspopup="dialog"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m14.5 4.5 5 5L8 21H3v-5Z"></path><path d="m13 6 5 5M11 8l2 2M8 11l2 2M5 14l2 2"></path></svg>${escapeHtml(copy.sizeGuide || 'Fit & Size Guide')}</button>` : ''}</legend><div>${scopedVariants.map((variant) => variant.options[index]).filter((value, idx, values) => value && values.indexOf(value) === idx).map((value) => optionButton(product, name, value, index)).join('')}</div></fieldset>
+          ${freeUsShip ? `<p class="product-free-shipping"><span aria-hidden="true">✓</span> ${isZh ? '美国包邮' : 'Free US Shipping'}</p>` : ''}
+          ${product.options.length && !(product.variants.length === 1 && /^default title$/i.test(product.variants[0].title || '')) ? product.options.map((option, index) => { const name = typeof option === 'string' ? option : option.name; const isSizeOpt = /size/i.test(name); const sizeNoteHtml = isSizeOpt ? formatSizeLabelNote(quickShopState.selected[index]) : ''; const scopedVariants = index > 0 ? product.variants.filter((v) => v.options.every((val, pos) => pos >= index || val === quickShopState.selected[pos])) : product.variants; return `
+            <fieldset class="quick-option-group"><legend><span>${escapeHtml(copy.select || 'Select')} ${escapeHtml(trOpt(name))}</span>${isSizeOpt ? `<button class="size-guide-trigger" type="button" data-size-guide-open aria-haspopup="dialog"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m14.5 4.5 5 5L8 21H3v-5Z"></path><path d="m13 6 5 5M11 8l2 2M8 11l2 2M5 14l2 2"></path></svg>${escapeHtml(copy.sizeGuide || 'Fit & Size Guide')}</button>` : ''}</legend><div>${scopedVariants.map((variant) => variant.options[index]).filter((value, idx, values) => value && values.indexOf(value) === idx).map((value) => optionButton(product, name, value, index)).join('')}</div>${sizeNoteHtml ? `<p class="product-size-note">${sizeNoteHtml}</p>` : ''}</fieldset>
           `; }).join('') : ''}
           <label class="quick-quantity">${escapeHtml(copy.qty || 'Qty')}<span><button type="button" data-quick-quantity="-1" aria-label="Decrease quantity">−</button><input type="number" min="1" value="${quantity}" data-quick-quantity-input aria-label="Quantity"><button type="button" data-quick-quantity="1" aria-label="Increase quantity">+</button></span></label>
           <div class="quick-shop-product__actions"><button class="button button--dark" type="button" data-quick-submit${variant?.available ? '' : ' disabled'}>${escapeHtml(lineKey ? (copy.updateBag || 'Update bag') : variant?.available ? (copy.addToBag || 'Add to bag') : (copy.soldOut || 'Sold out'))}</button><button class="button button--danger" type="button" data-quick-buy${variant?.available ? '' : ' disabled'}>${escapeHtml(copy.buyNow || 'Buy now')}</button></div>

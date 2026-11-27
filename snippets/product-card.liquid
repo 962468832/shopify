@@ -110,6 +110,10 @@
     {% if rating_value != blank %}<a class="product-card__rating" href="{{ card_url }}#product-reviews" aria-label="{{ rating_value }} out of 5 stars{% if rating_count != blank %}, {{ rating_count }} reviews{% endif %}"><span class="stars" aria-hidden="true">★★★★★</span><b>{{ rating_value }}</b>{% if rating_count != blank %}<span>({{ rating_count }})</span>{% endif %}</a>{% endif %}
     <p class="product-card__subtitle">{% if is_pack5 %}{{ 'products.card.value_5pack' | t }}{% if discount_percent > 0 %} · {{ 'products.product.save' | t }} {{ discount_percent }}%{% endif %}{% else %}{% if card_fabric != blank %}{{ card_fabric }} · {% endif %}{{ card_type_label | strip }}{% endif %}</p>
     <div class="product-card__price">{% render 'price', product: product, variant: card_variant %}</div>
+    {%- assign card_ship_thresh = settings.cart_progress_threshold | default: 60 | times: 100 | times: cart.currency.rate | round -%}
+    {%- if card_ship_thresh > 0 and card_price >= card_ship_thresh -%}
+      <p class="product-card__free-ship"><span aria-hidden="true">✓</span> {% if request.locale.iso_code contains 'zh' %}美国包邮{% else %}Free US Shipping{% endif %}</p>
+    {%- endif -%}
     {% if show_color_options and color_opt_index >= 0 %}
       {%- assign seen_colors = '||' -%}
       {%- assign color_list_str = '' -%}
