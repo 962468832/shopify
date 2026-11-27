@@ -662,16 +662,16 @@
   let sizeGuideTrigger = null;
   let sizeGuideScrollY = 0;
   const sizeGuideRanges = [
-    { size: 'XS', in: [35, 36], cm: [89, 91] },
-    { size: 'S', in: [37, 38], cm: [94, 97] },
-    { size: 'M', in: [39, 40], cm: [99, 102] },
-    { size: 'L', in: [41, 43], cm: [104, 109] },
-    { size: 'XL', in: [44, 47], cm: [112, 119] },
-    { size: '2XL', in: [48, 51], cm: [122, 130] },
-    { size: '3XL', in: [52, 54], cm: [132, 137] },
-    { size: '4XL', in: [55, 57], cm: [140, 145] }
+    { size: 'S', in: [35, 36], cm: [89, 91] },
+    { size: 'M', in: [37, 38], cm: [94, 97] },
+    { size: 'L', in: [39, 40], cm: [99, 102] },
+    { size: 'XL', in: [41, 43], cm: [104, 109] },
+    { size: '2XL', in: [44, 47], cm: [112, 119] },
+    { size: '3XL', in: [48, 51], cm: [122, 130] },
+    { size: '4XL', in: [52, 54], cm: [132, 137] },
+    { size: '5XL', in: [55, 57], cm: [140, 145] }
   ];
-  const sizeAliases = { XS: ['XS'], S: ['S'], M: ['M'], L: ['L'], XL: ['XL'], '2XL': ['2XL', 'XXL'], '3XL': ['3XL', 'XXXL'], '4XL': ['4XL', 'XXXXL'] };
+  const sizeAliases = { S: ['S'], M: ['M'], L: ['L'], XL: ['XL'], '2XL': ['2XL', 'XXL'], '3XL': ['3XL', 'XXXL'], '4XL': ['4XL', 'XXXXL'], '5XL': ['5XL', 'XXXXXL'] };
   let sizeGuideUnit = 'in';
   let sizeGuidePreference = 0;
   let sizeGuideSuggestion = null;
