@@ -1,4 +1,5 @@
-{%- case handle -%}
+{%- assign slug = handle | split: '/' | last -%}
+{%- case slug -%}
   {%- when 'what-to-wear-under-white-riding-breeches' -%}
     <p>无论是日常打浪训练还是正式盛装舞步与障碍赛，白色和浅米色紧身马裤几乎是对贴身内衣最严苛的「照妖镜」：长时间在马鞍上反复起坐，普通内裤厚重的车缝线会在大腿根磨出红印，甚至在白马裤下勒出尴尬痕迹。</p>
     <h2>为什么普通内裤扛不住马术训练？</h2>
