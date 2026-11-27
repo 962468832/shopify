@@ -13,6 +13,9 @@
     "color_paper": "#f8f3ea",
     "color_accent": "#79474d",
     "color_line": "#e5d4bf",
+    "cart_progress_threshold": 60,
+    "cart_progress_label": "Free Shipping",
+    "cart_progress_complete_label": "You've unlocked Free Shipping!",
     "sections": {
       "announcement-bar": {
         "type": "announcement-bar",

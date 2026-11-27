@@ -13,6 +13,43 @@
         {% assign cart_merchandise_discount = cart_merchandise_discount | plus: item_compare_line_price | minus: item.original_line_price %}
       {% endif %}
     {% endfor %}
+    {%- assign ship_thresh_num = settings.cart_progress_threshold | default: 60 -%}
+    {%- if ship_thresh_num > 0 -%}
+      {%- assign ship_thresh_cents = ship_thresh_num | times: 100 -%}
+      {%- assign ship_thresh_str = ship_thresh_cents | money_without_trailing_zeros -%}
+      {%- assign ship_unlocked = false -%}
+      {%- assign ship_pct = cart.total_price | times: 100 | divided_by: ship_thresh_cents -%}
+      {%- if ship_pct > 100 -%}{%- assign ship_pct = 100 -%}{%- endif -%}
+      {%- if cart.total_price >= ship_thresh_cents -%}
+        {%- assign ship_unlocked = true -%}
+      {%- else -%}
+        {%- assign ship_remaining = ship_thresh_cents | minus: cart.total_price | money -%}
+      {%- endif -%}
+      <div class="cart-progress cart-progress--page{% if ship_unlocked %} is-unlocked{% endif %}" data-cart-progress>
+        <p class="cart-progress__headline" data-cart-progress-headline>
+          {%- if ship_unlocked -%}
+            {%- if request.locale.iso_code contains 'zh' -%}已满 {{ ship_thresh_str }}，恭喜解锁<strong>全场包邮！</strong>{%- else -%}You've unlocked <strong>Free Shipping!</strong>{%- endif -%}
+          {%- else -%}
+            {%- if request.locale.iso_code contains 'zh' -%}再差 <strong>{{ ship_remaining }}</strong> 即可享满 {{ ship_thresh_str }} 全场包邮！{%- else -%}You're <strong>{{ ship_remaining }}</strong> away from Free Shipping!{%- endif -%}
+          {%- endif -%}
+        </p>
+        <div class="cart-progress__bar-wrap">
+          <div class="cart-progress__track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{{ ship_pct }}">
+            <span class="cart-progress__fill" data-cart-progress-bar style="width: {{ ship_pct }}%;"></span>
+          </div>
+          <span class="cart-progress__node" data-cart-progress-node aria-hidden="true">
+            <svg viewBox="0 0 16 16" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.5 6.5 11.5 12.5 4.5"/></svg>
+          </span>
+        </div>
+        <div class="cart-progress__scale">
+          <span data-cart-progress-current>{{ cart.total_price | money }}</span>
+          <span class="cart-progress__milestone" data-cart-progress-milestone>
+            <strong>{{ ship_thresh_str }}</strong>
+            <span>{% if request.locale.iso_code contains 'zh' %}全场包邮{% else %}FREE SHIPPING{% endif %}</span>
+          </span>
+        </div>
+      </div>
+    {%- endif -%}
     <form action="{{ routes.cart_url }}" method="post" class="cart-page__form">
       <div class="cart-page__items">
         <div class="cart-page__column-labels" aria-hidden="true"><span>{{ 'cart.product' | t }}</span><span>{{ 'cart.total' | t }}</span></div>
@@ -46,7 +83,7 @@
         <h2>{{ 'cart.order_summary' | t }}</h2>
         <div class="cart-page__summary-row"><span>{{ 'cart.subtotal' | t }} ({{ cart.item_count }} {{ 'cart.items' | t }})</span><strong>{{ cart.items_subtotal_price | money }}</strong></div>
         {% for discount_application in cart.cart_level_discount_applications %}<div class="cart-page__summary-row cart-page__discount"><span>{{ discount_application.title | escape }}</span><strong>−{{ discount_application.total_allocated_amount | money }}</strong></div>{% endfor %}
-        <div class="cart-page__summary-row cart-page__shipping"><span>{{ 'cart.shipping' | t }}</span><span>{{ 'cart.shipping_note' | t }}</span></div>
+        <div class="cart-page__summary-row cart-page__shipping"><span>{{ 'cart.shipping' | t }}</span><span>{% if ship_unlocked %}<strong class="cart-shipping-free">{% if request.locale.iso_code contains 'zh' %}免运费（满 {{ ship_thresh_str }} 包邮）{% else %}FREE{% endif %}</strong>{% else %}{{ 'cart.shipping_note' | t }}{% endif %}</span></div>
         <div class="cart-page__summary-row cart-page__total"><span>{{ 'cart.total' | t }}</span><strong>{{ cart.total_price | money }}</strong></div>
         {% if cart_merchandise_discount > 0 %}<p class="cart-page__savings">{{ 'cart.you_save_sale' | t }} {{ cart_merchandise_discount | money }} {{ 'cart.on_sale_items' | t }}</p>{% endif %}
         <p class="cart-page__tax-note">{{ 'cart.taxes_note' | t }}</p>

@@ -66,8 +66,8 @@
         "type": "number",
         "id": "cart_progress_threshold",
         "label": "Free shipping threshold",
-        "info": "填 0 表示不显示具体差额。",
-        "default": 0
+        "info": "填 0 表示隐藏包邮进度条。",
+        "default": 60
       },
       {
         "type": "text",

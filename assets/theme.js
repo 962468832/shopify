@@ -180,12 +180,29 @@
     return candidates.find((variant) => variant.available) || candidates[0] || null;
   }
 
-  function progressMessage(subtotal) {
-    if (!progressThreshold) return { label: quickShopSettings.cartProgressLabel || 'Unlock free shipping', remaining: '', percent: 0 };
-    const percent = Math.min(100, Math.round((subtotal / progressThreshold) * 100));
-    if (subtotal >= progressThreshold) return { label: quickShopSettings.cartProgressCompleteLabel || 'Free shipping unlocked', remaining: copy.unlocked || 'Unlocked', percent };
-    const diff = formatMoney(progressThreshold - subtotal);
-    return { label: quickShopSettings.cartProgressLabel || 'Unlock free shipping', remaining: isZh ? `还差 ${diff} 即可免运费` : `${diff} ${copy.away || 'away'}`, percent };
+  function progressMessage(totalCents) {
+    const amount = Math.max(0, Number(totalCents || 0));
+    if (!progressThreshold) return { headlineHtml: '', currentText: '', percent: 0, unlocked: false };
+    const percent = Math.min(100, Math.round((amount / progressThreshold) * 100));
+    const threshFormatted = formatMoney(progressThreshold).replace(/\.00$/, '');
+    const currentText = formatMoney(amount);
+    if (amount >= progressThreshold) {
+      const headlineHtml = isZh
+        ? `已满 ${escapeHtml(threshFormatted)}，恭喜解锁<strong>全场包邮！</strong>`
+        : `You've unlocked <strong>Free Shipping!</strong>`;
+      return { headlineHtml, currentText, percent: 100, unlocked: true };
+    }
+    if (amount <= 0) {
+      const headlineHtml = isZh
+        ? `全场满 <strong>${escapeHtml(threshFormatted)}</strong> 即可免费包邮`
+        : `Free Shipping on orders over <strong>${escapeHtml(threshFormatted)}</strong>`;
+      return { headlineHtml, currentText, percent: 0, unlocked: false };
+    }
+    const diff = formatMoney(progressThreshold - amount);
+    const headlineHtml = isZh
+      ? `再差 <strong>${escapeHtml(diff)}</strong> 即可享满 ${escapeHtml(threshFormatted)} 全场包邮！`
+      : `You're <strong>${escapeHtml(diff)}</strong> away from Free Shipping!`;
+    return { headlineHtml, currentText, percent, unlocked: false };
   }
 
   function fallbackCartLinePricing(item) {
@@ -293,17 +310,21 @@
   }
 
   function updateCartProgress(cart) {
-    const progress = qs('[data-cart-progress]');
-    if (!progress) return;
-    const data = progressMessage(cart.items_subtotal_price);
-    progress.hidden = !progressThreshold;
-    const label = qs('[data-cart-progress-label]');
-    if (label) label.textContent = data.label;
-    const remaining = qs('[data-cart-progress-remaining]');
-    if (remaining) remaining.textContent = data.remaining;
-    const bar = qs('[data-cart-progress-bar]');
-    if (bar) bar.style.width = `${data.percent}%`;
-    qs('[data-cart-progress] [role="progressbar"]')?.setAttribute('aria-valuenow', String(data.percent));
+    const widgets = qsa('[data-cart-progress]');
+    if (!widgets.length) return;
+    const totalAmount = typeof cart.total_price === 'number' ? cart.total_price : Number(cart.items_subtotal_price || 0);
+    const data = progressMessage(totalAmount);
+    widgets.forEach((progress) => {
+      progress.hidden = !progressThreshold;
+      progress.classList.toggle('is-unlocked', data.unlocked);
+      const headline = qs('[data-cart-progress-headline]', progress);
+      if (headline) headline.innerHTML = data.headlineHtml;
+      const current = qs('[data-cart-progress-current]', progress);
+      if (current) current.textContent = data.currentText;
+      const bar = qs('[data-cart-progress-bar]', progress);
+      if (bar) bar.style.width = `${data.percent}%`;
+      qs('[role="progressbar"]', progress)?.setAttribute('aria-valuenow', String(data.percent));
+    });
   }
 
   function recommendationCard(product) {
