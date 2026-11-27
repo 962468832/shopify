@@ -45,6 +45,11 @@
                 <p class="home-sport-card__intro">{% render 'i18n', text: block.settings.intro %}</p>
               {% endif %}
 
+              {%- assign has_points = false -%}
+              {%- if block.settings.point1_title != blank or block.settings.point2_title != blank or block.settings.point3_title != blank or block.settings.point4_title != blank -%}
+                {%- assign has_points = true -%}
+              {%- endif -%}
+              {%- if has_points -%}
               <ul class="home-sport-points">
                 {% if block.settings.point1_title != blank %}
                   <li>
@@ -83,9 +88,10 @@
                   </li>
                 {% endif %}
               </ul>
+              {%- endif -%}
 
-              <div class="home-sport-card__footer">
-                {% if block.settings.rec_label != blank %}
+              <div class="home-sport-card__footer{% unless has_points %} home-sport-card__footer--clean{% endunless %}">
+                {% if has_points and block.settings.rec_label != blank %}
                   <span class="home-sport-card__rec-label">{% render 'i18n', text: block.settings.rec_label %}</span>
                 {% endif %}
                 <div class="home-sport-card__actions">

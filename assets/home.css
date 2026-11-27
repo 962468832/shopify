@@ -171,15 +171,16 @@
 .home-sport-card:hover .home-sport-card__media img{transform:scale(1.03)}
 .home-sport-card__badge{position:absolute;top:16px;left:16px;padding:7px 13px;border-radius:999px;background:rgba(48,39,31,.82);backdrop-filter:blur(6px);color:#fff;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase}
 .home-sport-card__body{display:flex;flex-direction:column;flex:1;padding:28px 30px 30px}
-.home-sport-card__body .home-eyebrow{margin-bottom:8px;color:#8a786b}
-.home-sport-card__body h3{font-family:'Plus Jakarta Sans',Arial,sans-serif;font-size:26px;font-weight:500;line-height:1.25;color:#392e28;margin:0}
-.home-sport-card__intro{margin:12px 0 22px;font-size:14.5px;line-height:1.68;color:#6c655f}
+.home-sport-card__body .home-eyebrow{margin-bottom:8px;color:#8f7666;letter-spacing:.14em}
+.home-sport-card__body h3{font-family:var(--heading-font,'Cormorant Garamond'),serif;font-size:clamp(28px,2.4vw,36px);font-weight:500;line-height:1.12;color:#392e28;margin:0}
+.home-sport-card__intro{margin:10px 0 22px;font-size:15px;line-height:1.6;color:#6f5a4e}
 .home-sport-points{list-style:none;margin:0 0 26px;padding:0;display:grid;gap:14px;border-top:1px solid #efe6da;padding-top:20px}
 .home-sport-points li{display:flex;align-items:flex-start;gap:12px}
 .home-sport-points__check{flex:none;width:22px;height:22px;border-radius:50%;background:#f5efe9;color:#392e28;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;margin-top:1px}
 .home-sport-points strong{display:block;font-family:'Plus Jakarta Sans',Arial,sans-serif;font-size:14px;font-weight:600;color:#392e28;line-height:1.35}
 .home-sport-points li>div span{display:block;font-size:13px;line-height:1.55;color:#6e6761;margin-top:2px}
 .home-sport-card__footer{margin-top:auto;padding-top:18px;border-top:1px solid #efe6da;display:flex;flex-direction:column;gap:12px}
+.home-sport-card__footer--clean{padding-top:0;border-top:0}
 .home-sport-card__rec-label{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#8f7666}
 .home-sport-card__actions{display:flex;flex-wrap:wrap;gap:10px}
 .home-sport-pill{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:10px 20px;border-radius:999px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:background-color .2s,color .2s,border-color .2s}
@@ -208,9 +209,11 @@
   .home-sport-shelf__label{display:block;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#392e28;margin:0 0 10px 2px}
   .home-sport-card__media{aspect-ratio:3/4}
   .home-sport-card__badge{top:8px;left:8px;padding:4px 8px;font-size:9px;letter-spacing:.05em}
-  .home-sport-card__body{padding:12px 10px 14px}
-  .home-sport-card__body .home-eyebrow,.home-sport-card__intro,.home-sport-points li>div span,.home-sport-card__rec-label{display:none}
-  .home-sport-card__body h3{font-size:14px;line-height:1.32}
+  .home-sport-card__body{padding:14px 12px 16px}
+  .home-sport-points li>div span,.home-sport-card__rec-label{display:none}
+  .home-sport-card__body .home-eyebrow{font-size:9.5px;margin-bottom:4px;letter-spacing:.1em}
+  .home-sport-card__body h3{font-size:17px;line-height:1.18}
+  .home-sport-card__intro{margin:6px 0 12px;font-size:11.5px;line-height:1.42}
   .home-sport-points{gap:7px;padding-top:10px;margin:10px 0 12px}
   .home-sport-points li{gap:6px;align-items:center}
   .home-sport-points__check{width:16px;height:16px;font-size:9.5px;margin-top:0}
