@@ -238,9 +238,9 @@
         "item0": {
           "type": "lifestyle",
           "settings": {
-            "video": "shopify://files/videos/pielik-lifestyle-work.mp4",
-            "video_url": "https://cdn.shopify.com/videos/c/vp/ed550ed4083147768e18c13aa19f8c71/ed550ed4083147768e18c13aa19f8c71.SD-480p-1.2Mbps-102841483.mp4",
-            "image": "shopify://shop_images/pielik-lifestyle-work.jpg",
+            "video": "shopify://files/videos/pielik-lifestyle-work-v2.mp4",
+            "video_url": "https://cdn.shopify.com/videos/c/vp/af75e365360e4e5f8fc082fbd089a3a4/af75e365360e4e5f8fc082fbd089a3a4.HD-1080p-3.3Mbps-102942804.mp4",
+            "image": "shopify://shop_images/pielik-lifestyle-work-v2.jpg",
             "show_legacy_media": false,
             "label": "Work",
             "title": "Desk to dinner",
@@ -252,9 +252,9 @@
         "item2": {
           "type": "lifestyle",
           "settings": {
-            "video": "shopify://files/videos/pielik-lifestyle-active.mp4",
-            "video_url": "https://cdn.shopify.com/videos/c/vp/008c4e6cf5ff46a0929179fc3b29a1de/008c4e6cf5ff46a0929179fc3b29a1de.SD-480p-1.0Mbps-102841527.mp4",
-            "image": "shopify://shop_images/pielik-lifestyle-active.jpg",
+            "video": "shopify://files/videos/pielik-lifestyle-active-v2.mp4",
+            "video_url": "https://cdn.shopify.com/videos/c/vp/333c320fdd134afdb023ba984274269d/333c320fdd134afdb023ba984274269d.HD-1080p-4.8Mbps-102942805.mp4",
+            "image": "shopify://shop_images/pielik-lifestyle-active-v2.jpg",
             "show_legacy_media": false,
             "label": "Active",
             "title": "Made to move",
@@ -266,9 +266,9 @@
         "item3": {
           "type": "lifestyle",
           "settings": {
-            "video": "shopify://files/videos/pielik-lifestyle-everyday.mp4",
-            "video_url": "https://cdn.shopify.com/videos/c/vp/aab7a32203864568b7b5286aa42ce3d5/aab7a32203864568b7b5286aa42ce3d5.SD-480p-1.0Mbps-102841565.mp4",
-            "image": "shopify://shop_images/pielik-lifestyle-everyday.jpg",
+            "video": "shopify://files/videos/pielik-lifestyle-everyday-v2.mp4",
+            "video_url": "https://cdn.shopify.com/videos/c/vp/43f2eb3a68b04ffcbfab2b09d427be78/43f2eb3a68b04ffcbfab2b09d427be78.HD-1080p-3.3Mbps-102942806.mp4",
+            "image": "shopify://shop_images/pielik-lifestyle-everyday-v2.jpg",
             "show_legacy_media": false,
             "label": "Everyday",
             "title": "Off-duty soft",
