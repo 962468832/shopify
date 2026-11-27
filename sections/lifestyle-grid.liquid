@@ -1,4 +1,4 @@
-<section class="home-section home-lifestyles">
+<section class="home-section home-lifestyles" data-home-carousel>
   <div class="home-container">
     <div class="home-heading">
       <div>
@@ -6,7 +6,7 @@
         <h2>{% render 'i18n', text: section.settings.heading %}</h2>
       </div>
     </div>
-    <div class="home-lifestyle-grid{% if section.blocks.size == 3 %} home-lifestyle-grid--3{% endif %}">
+    <div class="home-lifestyle-grid{% if section.blocks.size == 3 %} home-lifestyle-grid--3{% endif %}" data-home-rail tabindex="0" role="region" aria-label="{% render 'i18n', text: section.settings.heading %}">
       {% for block in section.blocks %}
         {% assign ls_href = block.settings.link | default: routes.all_products_collection_url %}
         <article class="home-lifestyle" {{ block.shopify_attributes }}>
@@ -15,7 +15,7 @@
           {% else %}
             {% render 'home-image', image: block.settings.image, image_url: block.settings.image_url, title: block.settings.title, width: 800, height: 1067 %}
           {% endif %}
-          <a class="home-lifestyle__link" href="{% render 'locale-url', url: ls_href %}">
+          <a class="home-lifestyle__link" href="{% render 'locale-url', url: ls_href %}" draggable="false">
             <p class="home-eyebrow">{% render 'i18n', text: block.settings.label %}</p>
             <h3>{% render 'i18n', text: block.settings.title %}</h3>
             <p>{% render 'i18n', text: block.settings.copy %}</p>

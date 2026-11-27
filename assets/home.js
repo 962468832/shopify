@@ -84,7 +84,7 @@
         if (event.defaultPrevented || event.ctrlKey || event.target.closest('input, textarea, select, [contenteditable="true"]')) return;
         const max = rail.scrollWidth - rail.clientWidth;
         if (max <= 1) return;
-        const lockVerticalWheel = rail.classList.contains('home-product-rail') || rail.classList.contains('home-community-rail') || rail.classList.contains('home-sport-rail') || rail.classList.contains('home-reviews-rail');
+        const lockVerticalWheel = rail.classList.contains('home-product-rail') || rail.classList.contains('home-community-rail') || rail.classList.contains('home-sport-rail') || rail.classList.contains('home-reviews-rail') || rail.classList.contains('home-journal-rail') || rail.classList.contains('home-lifestyle-grid--3');
         // Product and community rails must not turn a normal vertical page scroll into horizontal movement.
         // Keep real horizontal trackpad gestures available by requiring deltaX to dominate.
         if (lockVerticalWheel && Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return;
