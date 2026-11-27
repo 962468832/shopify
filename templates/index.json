@@ -288,52 +288,6 @@
         "heading": "Built for how you actually live."
       }
     },
-    "collections": {
-      "type": "home-collections",
-      "blocks": {
-        "item0": {
-          "type": "collection",
-          "settings": {
-            "image": "shopify://shop_images/pielik-cover-softveil-collection.jpg",
-            "asset_file": "",
-            "show_legacy_media": false,
-            "collection": "softveil-collection",
-            "products": [
-              "softveil-original",
-              "softveil-original-high-rise-hipster-bikini"
-            ],
-            "heading": "Softveil Collection",
-            "description": "Laser-cut, ice-silk essentials led by Softveil Original that disappear under everything.",
-            "button_label": "Shop Softveil",
-            "link": "/collections/softveil-collection"
-          }
-        },
-        "item1": {
-          "type": "collection",
-          "settings": {
-            "image": "shopify://shop_images/pielik-cover-freeform-collection-v2.jpg",
-            "asset_file": "",
-            "show_legacy_media": false,
-            "collection": "freeform-collection",
-            "products": [
-              "freeform-high-cut",
-              "softveil-wave-hipster-bikini"
-            ],
-            "heading": "Freeform & Wave",
-            "description": "Leg-lengthening deep-V high cuts and scalloped wave edges with zero digging or rolling.",
-            "button_label": "Shop Freeform",
-            "link": "/collections/freeform-collection"
-          }
-        }
-      },
-      "block_order": [
-        "item0",
-        "item1"
-      ],
-      "settings": {
-        "heading": "Featured collections"
-      }
-    },
     "community": {
       "type": "community-strip",
       "disabled": true,
@@ -502,7 +456,6 @@
     "trust",
     "sport_spotlight",
     "scenario",
-    "collections",
     "community",
     "reviews",
     "journal"
