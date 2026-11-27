@@ -1,5 +1,5 @@
 {% assign category_collection_handles = 'mid-rise-brief,high-rise,hipster,high-cut' | split: ',' %}
-{% assign category_collection_titles = 'Mid-Rise Briefs,High-Rise,Hipster,High-Cut' | split: ',' %}
+{% assign category_collection_titles = 'Mid-Rise Briefs,High-Rise,Wave Hipster,High-Cut' | split: ',' %}
 {% assign has_active_filter = false %}
 {% for filter in collection.filters %}{% if filter.active_values.size > 0 or filter.min_value.value != blank or filter.max_value.value != blank %}{% assign has_active_filter = true %}{% endif %}{% endfor %}
 {% assign has_non_default_sort = false %}{% if collection.sort_by != blank and collection.sort_by != collection.default_sort_by %}{% assign has_non_default_sort = true %}{% endif %}
